@@ -1,4 +1,5 @@
 ﻿.idea/
+.vscode/
 build/
 out/
 src/target
