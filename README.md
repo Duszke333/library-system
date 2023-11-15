@@ -14,7 +14,7 @@ Project z Javy
 Planujemy stworzyć aplikację, która będzie obsługiwała zarówno czytelników (część CLIENT projektu, będzie umożliwione np. przeglądanie zbiorów, zamawianie), jak i pracowników biblioteki (część EMPLOYEE projektu, będzie umożliwione np. zarządzanie zbiorami).
 
 2. ### Technologie
-    - Backend: **Spring**
+    - Backend: **Java**
     - Frontend: **JavaFX**
     - Baza: **PostgreSQL**
 
