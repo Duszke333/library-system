@@ -19,7 +19,7 @@ Planujemy stworzyć aplikację, która będzie obsługiwała zarówno czytelnik�
     - Baza: **PostgreSQL**
 
 3. ### Podział funkcjonalności
-    #### Piotr jabłoński:
+    #### Piotr Jabłoński:
     - [ ] Możliwość przeglądania katalogu książek, szczegółów dotyczących książek takich jak autor, rok wydania książki, ilość stron, rodzaj okładki, wygrane nagrody… - CLIENT
     - [ ] Filtrowanie podglądu według nazwy, roku, autora… - CLIENT
     - [ ] Możliwe będzie zarządzanie książkami, edycja książek, usuwanie, dodawanie rekordów książek - EMPLOYEE
