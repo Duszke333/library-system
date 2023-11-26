@@ -2,8 +2,6 @@ package pap;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.layout.StackPane;
 import javafx.scene.Scene;
 
@@ -11,12 +9,7 @@ public class App extends Application {
     @Override
     public void start(Stage primaryStage) {
         Button btn = new Button("Dzien dobry");
-        btn.setOnAction(new EventHandler<>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                System.out.println("Dzien dobry");
-            }
-        });
+        btn.setOnAction(actionEvent -> System.out.println("Dzien dobry"));
 
         StackPane root = new StackPane();
         root.getChildren().add(btn);
