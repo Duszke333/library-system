@@ -48,7 +48,8 @@ Planujemy stworzyć aplikację, która będzie obsługiwała zarówno czytelnik�
 
 Zbudowanie bazy danych:
 - w terminalu `docker compose up --build` w lokalizacji pliku docker-compose.yml
-- Powinien utworzyć się folder var z zawartością bazy
+  - jeżeli mamy już zbudowaną bazę to wystarczy `docker compose up`
+- Powinien utworzyć się folder var
 
 Baza będzie dostępna pod adresem `localhost:5432`
 - login: `postgres`
