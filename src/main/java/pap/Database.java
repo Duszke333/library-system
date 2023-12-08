@@ -19,12 +19,31 @@ public class Database {
         SessionFactoryMaker sessionFactoryMaker = new SessionFactoryMaker();
         SessionFactory factory = sessionFactoryMaker.getSessionFactory();
 
+        Scanner scanner = new Scanner(System.in);
+
+        /* Get user */
+        User user = new User();
+        try (Session session = factory.openSession()) {
+            session.beginTransaction();
+            user = session.get(User.class, 1);
+            System.out.println(user.getFirstName());
+            System.out.println(user.getLastName());
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
         /* Modify user */
         try (Session session = factory.openSession()) {
             session.beginTransaction();
-            User user = session.get(User.class, 1);
-            user.setFirstName("John");
-            user.setLastName("Doe");
+
+            System.out.println("Enter new first name: ");
+            String firstName = scanner.nextLine();
+            user.setFirstName(firstName);
+
+            System.out.println("Enter new last name: ");
+            String lastName = scanner.nextLine();
+            user.setLastName(lastName);
 
             session.update(user);
             session.getTransaction().commit();
@@ -32,10 +51,10 @@ public class Database {
             System.out.println(e.getMessage());
         }
 
-        /* Get user */
+        /* Get new user data */
         try (Session session = factory.openSession()) {
             session.beginTransaction();
-            User user = session.get(User.class, 1);
+            user = session.get(User.class, 1);
             System.out.println(user.getFirstName());
             System.out.println(user.getLastName());
             session.getTransaction().commit();
