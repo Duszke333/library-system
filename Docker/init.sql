@@ -40,6 +40,16 @@ create table pap.USERS (
                        Address_ID  integer not null,
                        Date_created    date not null default current_date,
                        Active      bool not null default True,
-                       constraint address_id_fk foreign key (Address_ID) references ADDRESSES (Address_ID)
+                       constraint address_id_fk foreign key (Address_ID) references pap.ADDRESSES (Address_ID)
 );
+
+-- Insert some data
+insert into pap.ADDRESSES (Address_ID, Country, Postal_code, City, Street, House_number, Flat_number)
+values (1, 'Poland', '00-000', 'Warsaw', 'Marszalkowska', '1', '1');
+
+insert into pap.USERS (Account_ID, Login, Password_hash, Password_salt, First_name, Last_name, Email, Address_ID)
+values (1, 'admin', 'admin', 'admin', 'admin', 'admin', 'admin@admin', 1);
+
+insert into pap.BOOKS (Book_ID, ISBN, Title, Author, Genre, Publication_year, Language, Page_count, Publisher, Is_available, Description, Date_added)
+values (1, '978-83-246-8865-8', 'Pan Tadeusz', 'Adam Mickiewicz', 'Poem', 1834, 'Polish', 400, 'Czytelnik', True, 'Pan Tadeusz to epopeja narodowa, napisana przez Adama Mickiewicza w latach 1832-1834 we Francji i w Szwajcarii. Utwór ten jest uważany za ostatni wielki poemat epicki w literaturze polskiej, a zarazem za jedno z największych osiągnięć literatury polskiej.', current_date);
 
