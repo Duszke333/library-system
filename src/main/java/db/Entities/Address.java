@@ -9,7 +9,7 @@ import lombok.*;
 @Setter
 @Entity
 @Table(name = "ADDRESSES", schema = "pap", catalog = "postgres")
-public class Address {
+public class Address implements java.io.Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "address_id", nullable = false)
