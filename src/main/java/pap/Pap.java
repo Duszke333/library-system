@@ -12,7 +12,8 @@ public class Pap extends Application {
     @Override
     public void start(Stage stage) throws IOException {
 //        FXMLLoader fxmlLoader = new FXMLLoader(Pap.class.getResource("create-account.fxml"));
-        FXMLLoader fxmlLoader = new FXMLLoader(Pap.class.getResource("browse-catalog.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Pap.class.getResource("add-book.fxml"));
+//        FXMLLoader fxmlLoader = new FXMLLoader(Pap.class.getResource("browse-catalog.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Hello!");
         stage.setScene(scene);
