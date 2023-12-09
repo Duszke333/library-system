@@ -3,7 +3,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 
-<TableView fx:id="bookCatalog" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="pap.CreateAccount">
+<TableView fx:id="bookCatalog" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="pap.BrowseCatalog">
   <columns>
     <TableColumn minWidth="-1.0" prefWidth="200.0" text="Title" />
     <TableColumn minWidth="-1.0" prefWidth="200.0" text="Author" />

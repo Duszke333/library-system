@@ -59,9 +59,8 @@ public class CreateAccount {
 
         // check if all fields are not empty
         if (name.isEmpty() || surname.isEmpty() || email.isEmpty() || country.isEmpty() || city.isEmpty()
-                || street.isEmpty() || postalCode.isEmpty() || houseNumber.isEmpty() || flatNumber.isEmpty()
+                || street.isEmpty() || postalCode.isEmpty() || houseNumber.isEmpty()
                 || password.isEmpty() || passwordConfirm.isEmpty()) {
-            System.out.println("All fields must be filled!");
             operationStatus.setVisible(true);
             return;
         }
@@ -89,15 +88,19 @@ public class CreateAccount {
             usr.setActive(true);
             usr.setDateCreated(new java.sql.Date(System.currentTimeMillis()));
 
+            // generate password salt
             byte[] salt = new byte[16];
             new SecureRandom().nextBytes(salt);
 
-            MessageDigest md = MessageDigest.getInstance("SHA-512");
-            md.update(salt);
-            byte[] hashedPassword = md.digest(password.getBytes(StandardCharsets.UTF_8));
+            StringBuilder sb = new StringBuilder();
+            for (byte b : salt) {
+                sb.append(String.format("%02x", b));
+            }
+            String stringSalt = sb.toString();
+            usr.setPasswordSalt(stringSalt);
 
-            usr.setPasswordHash(new String(hashedPassword, StandardCharsets.UTF_16));
-            usr.setPasswordSalt(new String(salt, StandardCharsets.UTF_16));
+            String hashedPassword = PasswordHasher.hashPassword(password, stringSalt);
+            usr.setPasswordHash(hashedPassword);
             usr.setAddressId(addr.getAddressId());
 
             new UserDAO().create(usr);
