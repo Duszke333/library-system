@@ -10,8 +10,8 @@ import lombok.*;
 @Entity
 @Table(name = "ADDRESSES", schema = "pap", catalog = "postgres")
 public class Address implements java.io.Serializable{
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "address_id", nullable = false)
     private int addressId;
     @Basic

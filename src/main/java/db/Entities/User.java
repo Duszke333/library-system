@@ -12,13 +12,10 @@ import java.sql.Date;
 @Entity
 @Table(name = "USERS", schema = "pap", catalog = "postgres")
 public class User implements java.io.Serializable{
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "account_id", nullable = false)
     private int accountId;
-    @Basic
-    @Column(name = "login", nullable = false, length = 128)
-    private String login;
     @Basic
     @Column(name = "password_hash", nullable = false, length = 256)
     private String passwordHash;
@@ -54,7 +51,6 @@ public class User implements java.io.Serializable{
         if (accountId != user.accountId) return false;
         if (addressId != user.addressId) return false;
         if (active != user.active) return false;
-        if (login != null ? !login.equals(user.login) : user.login != null) return false;
         if (passwordHash != null ? !passwordHash.equals(user.passwordHash) : user.passwordHash != null) return false;
         if (passwordSalt != null ? !passwordSalt.equals(user.passwordSalt) : user.passwordSalt != null) return false;
         if (firstName != null ? !firstName.equals(user.firstName) : user.firstName != null) return false;
@@ -68,7 +64,6 @@ public class User implements java.io.Serializable{
     @Override
     public int hashCode() {
         int result = accountId;
-        result = 31 * result + (login != null ? login.hashCode() : 0);
         result = 31 * result + (passwordHash != null ? passwordHash.hashCode() : 0);
         result = 31 * result + (passwordSalt != null ? passwordSalt.hashCode() : 0);
         result = 31 * result + (firstName != null ? firstName.hashCode() : 0);

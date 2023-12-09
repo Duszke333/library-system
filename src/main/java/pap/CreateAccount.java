@@ -1,9 +1,19 @@
 package pap;
 
+import db.DAO.AddressDAO;
+import db.DAO.UserDAO;
+import db.Entities.Address;
+import db.Entities.User;
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.util.Arrays;
 
 public class CreateAccount {
     @FXML
@@ -33,7 +43,7 @@ public class CreateAccount {
     @FXML
     private Text operationStatus;
     @FXML
-    protected void creationConfirmed() {
+    protected void creationConfirmed() throws NoSuchAlgorithmException {
         // get all data from inputs
         String name = nameInput.getText();
         String surname = surnameInput.getText();
@@ -60,17 +70,38 @@ public class CreateAccount {
             passUnmached.setVisible(false);
             operationStatus.setFill(javafx.scene.paint.Color.GREEN);
             operationStatus.setText("Account created!");
-            System.out.println("Account created!");
-            System.out.println("Name: " + name);
-            System.out.println("Surname: " + surname);
-            System.out.println("Email: " + email);
-            System.out.println("Country: " + country);
-            System.out.println("City: " + city);
-            System.out.println("Street: " + street);
-            System.out.println("Postal code: " + postalCode);
-            System.out.println("House number: " + houseNumber);
-            System.out.println("Flat number: " + flatNumber);
-            System.out.println("Password: " + password);
+            operationStatus.setVisible(true);
+
+            Address addr = new Address();
+            addr.setCountry(country);
+            addr.setCity(city);
+            addr.setStreet(street);
+            addr.setPostalCode(postalCode);
+            addr.setHouseNumber(houseNumber);
+            addr.setFlatNumber(flatNumber);
+
+            new AddressDAO().create(addr);
+            User usr = new User();
+            usr.setFirstName(name);
+            usr.setLastName(surname);
+            usr.setEmail(email);
+            usr.setAddressId(addr.getAddressId());
+            usr.setActive(true);
+            usr.setDateCreated(new java.sql.Date(System.currentTimeMillis()));
+
+            byte[] salt = new byte[16];
+            new SecureRandom().nextBytes(salt);
+
+            MessageDigest md = MessageDigest.getInstance("SHA-512");
+            md.update(salt);
+            byte[] hashedPassword = md.digest(password.getBytes(StandardCharsets.UTF_8));
+
+            usr.setPasswordHash(new String(hashedPassword, StandardCharsets.UTF_16));
+            usr.setPasswordSalt(new String(salt, StandardCharsets.UTF_16));
+            usr.setAddressId(addr.getAddressId());
+
+            new UserDAO().create(usr);
+
         } else {
             passUnmached.setVisible(true);
             System.out.println("Passwords do not match!");

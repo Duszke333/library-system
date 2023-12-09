@@ -12,8 +12,8 @@ import java.sql.Date;
 @Entity
 @Table(name = "BOOKS", schema = "pap", catalog = "postgres")
 public class Book implements java.io.Serializable{
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "book_id", nullable = false)
     private int bookId;
     @Basic
