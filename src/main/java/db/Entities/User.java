@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.sql.Date;
+import java.util.Objects;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -51,14 +52,12 @@ public class User implements java.io.Serializable{
         if (accountId != user.accountId) return false;
         if (addressId != user.addressId) return false;
         if (active != user.active) return false;
-        if (passwordHash != null ? !passwordHash.equals(user.passwordHash) : user.passwordHash != null) return false;
-        if (passwordSalt != null ? !passwordSalt.equals(user.passwordSalt) : user.passwordSalt != null) return false;
-        if (firstName != null ? !firstName.equals(user.firstName) : user.firstName != null) return false;
-        if (lastName != null ? !lastName.equals(user.lastName) : user.lastName != null) return false;
-        if (email != null ? !email.equals(user.email) : user.email != null) return false;
-        if (dateCreated != null ? !dateCreated.equals(user.dateCreated) : user.dateCreated != null) return false;
-
-        return true;
+        if (!Objects.equals(passwordHash, user.passwordHash)) return false;
+        if (!Objects.equals(passwordSalt, user.passwordSalt)) return false;
+        if (!Objects.equals(firstName, user.firstName)) return false;
+        if (!Objects.equals(lastName, user.lastName)) return false;
+        if (!Objects.equals(email, user.email)) return false;
+        return Objects.equals(dateCreated, user.dateCreated);
     }
 
     @Override

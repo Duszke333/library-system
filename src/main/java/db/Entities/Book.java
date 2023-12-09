@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.sql.Date;
+import java.util.Objects;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -61,16 +62,14 @@ public class Book implements java.io.Serializable{
         if (publicationYear != book.publicationYear) return false;
         if (pageCount != book.pageCount) return false;
         if (isAvailable != book.isAvailable) return false;
-        if (isbn != null ? !isbn.equals(book.isbn) : book.isbn != null) return false;
-        if (title != null ? !title.equals(book.title) : book.title != null) return false;
-        if (author != null ? !author.equals(book.author) : book.author != null) return false;
-        if (genre != null ? !genre.equals(book.genre) : book.genre != null) return false;
-        if (language != null ? !language.equals(book.language) : book.language != null) return false;
-        if (publisher != null ? !publisher.equals(book.publisher) : book.publisher != null) return false;
-        if (description != null ? !description.equals(book.description) : book.description != null) return false;
-        if (dateAdded != null ? !dateAdded.equals(book.dateAdded) : book.dateAdded != null) return false;
-
-        return true;
+        if (!Objects.equals(isbn, book.isbn)) return false;
+        if (!Objects.equals(title, book.title)) return false;
+        if (!Objects.equals(author, book.author)) return false;
+        if (!Objects.equals(genre, book.genre)) return false;
+        if (!Objects.equals(language, book.language)) return false;
+        if (!Objects.equals(publisher, book.publisher)) return false;
+        if (!Objects.equals(description, book.description)) return false;
+        return Objects.equals(dateAdded, book.dateAdded);
     }
 
     @Override
