@@ -13,4 +13,5 @@ public interface BookRepository extends Repository<Book>{
     Book getByDatePublished(String datePublished);
     List<Book> getAllByLanguage(String language);
     List<Book> getAllAvailable();
+    List<Book> getAll();
 }

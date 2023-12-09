@@ -1,11 +1,14 @@
 package db.DAO;
 
 import db.Entities.Book;
+import db.Repository.BookRepository;
 import db.SessionFactoryMaker;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-public class BookDAO implements DAO<Book>{
+import java.util.List;
+
+public class BookDAO implements DAO<Book>, BookRepository {
     SessionFactoryMaker sessionFactoryMaker = new SessionFactoryMaker();
     SessionFactory factory = sessionFactoryMaker.getSessionFactory();
 
@@ -47,5 +50,45 @@ public class BookDAO implements DAO<Book>{
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public Book getById(int id) {
+        return null;
+    }
+
+    public Book getByTitle(String title) {
+        return null;
+    }
+
+    public Book getByISBN(String ISBN) {
+        return null;
+    }
+
+    public Book getByAuthor(String author) {
+        return null;
+    }
+
+    public Book getByGenre(String genre) {
+        return null;
+    }
+
+    public Book getByDateAdded(String dateAdded) {
+        return null;
+    }
+
+    public Book getByDatePublished(String datePublished) {
+        return null;
+    }
+
+    public List<Book> getAllByLanguage(String language) {
+        return null;
+    }
+
+    public List<Book> getAllAvailable() {
+        return null;
+    }
+
+    public List<Book> getAll() {
+        return null;
     }
 }
