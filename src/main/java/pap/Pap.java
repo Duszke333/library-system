@@ -11,12 +11,10 @@ import java.io.IOException;
 public class Pap extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-//        FXMLLoader fxmlLoader = new FXMLLoader(Pap.class.getResource("create-account.fxml"));
-        FXMLLoader fxmlLoader = new FXMLLoader(Pap.class.getResource("browse-catalog.fxml"));
+        var fxmlLoader = new FXMLLoader(getClass().getResource("main-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Hello!");
         stage.setScene(scene);
-        //stage.setMaximized(true);   // subsceny; lepsze guziki; wybór kart?;
         stage.show();
     }
 
