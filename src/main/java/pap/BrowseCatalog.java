@@ -15,7 +15,7 @@ public class BrowseCatalog {
 
     public void initialize() {
         // get all books from database
-        books = new db.DAO.BookDAO().getAll();
+        // cos w stylu book = BookRepository.getAll();
         // set books to table
         bookCatalog.setItems((ObservableList) books);
     }
