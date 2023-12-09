@@ -11,7 +11,7 @@ import java.sql.Date;
 @Setter
 @Entity
 @Table(name = "USERS", schema = "pap", catalog = "postgres")
-public class User {
+public class User implements java.io.Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "account_id", nullable = false)
