@@ -1,9 +1,9 @@
 package pap;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
 
 public class CreateAccount {
     @FXML
@@ -25,14 +25,16 @@ public class CreateAccount {
     @FXML
     private TextField flatNumberInput;
     @FXML
-    private Button confirmAccountCreation;
-    @FXML
     private PasswordField passwordInput;
     @FXML
     private PasswordField passwordConfirmation;
-
+    @FXML
+    private Text passUnmached;
+    @FXML
+    private Text operationStatus;
     @FXML
     protected void creationConfirmed() {
+        // get all data from inputs
         String name = nameInput.getText();
         String surname = surnameInput.getText();
         String email = emailInput.getText();
@@ -43,8 +45,21 @@ public class CreateAccount {
         String houseNumber = houseNumberInput.getText();
         String flatNumber = flatNumberInput.getText();
         String password = passwordInput.getText();
-        String passwordConfirmation = this.passwordConfirmation.getText();
-        if (password.equals(passwordConfirmation)) {
+        String passwordConfirm = passwordConfirmation.getText();
+
+        // check if all fields are not empty
+        if (name.isEmpty() || surname.isEmpty() || email.isEmpty() || country.isEmpty() || city.isEmpty()
+                || street.isEmpty() || postalCode.isEmpty() || houseNumber.isEmpty() || flatNumber.isEmpty()
+                || password.isEmpty() || passwordConfirm.isEmpty()) {
+            System.out.println("All fields must be filled!");
+            operationStatus.setVisible(true);
+            return;
+        }
+
+        if (password.equals(passwordConfirm)) {
+            passUnmached.setVisible(false);
+            operationStatus.setFill(javafx.scene.paint.Color.GREEN);
+            operationStatus.setText("Account created!");
             System.out.println("Account created!");
             System.out.println("Name: " + name);
             System.out.println("Surname: " + surname);
@@ -57,6 +72,7 @@ public class CreateAccount {
             System.out.println("Flat number: " + flatNumber);
             System.out.println("Password: " + password);
         } else {
+            passUnmached.setVisible(true);
             System.out.println("Passwords do not match!");
         }
     }

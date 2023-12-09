@@ -15,7 +15,7 @@ public class Pap extends Application {
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Hello!");
         stage.setScene(scene);
-        stage.setMaximized(true);   // subsceny; lepsze guziki; wybór kart?;
+        //stage.setMaximized(true);   // subsceny; lepsze guziki; wybór kart?;
         stage.show();
     }
 
