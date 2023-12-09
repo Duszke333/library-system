@@ -6,8 +6,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 public class UserDAO implements DAO<User>{
-    SessionFactoryMaker sessionFactoryMaker = new SessionFactoryMaker();
-    SessionFactory factory = sessionFactoryMaker.getSessionFactory();
+    SessionFactory factory = SessionFactoryMaker.getSessionFactory();
 
     public void create(User user) {
         try (Session session = factory.openSession()) {

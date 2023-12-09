@@ -9,8 +9,7 @@ import org.hibernate.SessionFactory;
 import java.util.List;
 
 public class BookDAO implements DAO<Book> {
-    SessionFactoryMaker sessionFactoryMaker = new SessionFactoryMaker();
-    SessionFactory factory = sessionFactoryMaker.getSessionFactory();
+    SessionFactory factory = SessionFactoryMaker.getSessionFactory();
 
     public void create(Book book) {
         try (Session session = factory.openSession()) {
