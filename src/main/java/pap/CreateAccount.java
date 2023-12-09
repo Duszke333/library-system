@@ -96,8 +96,18 @@ public class CreateAccount {
             md.update(salt);
             byte[] hashedPassword = md.digest(password.getBytes(StandardCharsets.UTF_8));
 
-            usr.setPasswordHash(new String(hashedPassword, StandardCharsets.UTF_16));
-            usr.setPasswordSalt(new String(salt, StandardCharsets.UTF_16));
+            StringBuilder sb = new StringBuilder();
+            for (byte b : hashedPassword) {
+                sb.append(String.format("%02x", b));
+            }
+
+            usr.setPasswordHash(sb.toString());
+
+            sb = new StringBuilder();
+            for (byte b : salt) {
+                sb.append(String.format("%02x", b));
+            }
+            usr.setPasswordSalt(sb.toString());
             usr.setAddressId(addr.getAddressId());
 
             new UserDAO().create(usr);
