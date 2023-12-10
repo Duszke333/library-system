@@ -2,14 +2,22 @@ package pap;
 
 import db.DAO.BookDAO;
 import db.Entities.Book;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.Date;
 import java.util.List;
@@ -72,6 +80,7 @@ public class BrowseCatalogController implements Initializable {
 
 
     );
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         title.setCellValueFactory(new PropertyValueFactory<Book, String>("title"));
@@ -89,5 +98,20 @@ public class BrowseCatalogController implements Initializable {
         });
 
         catalog.setItems(list);
+        catalog.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Book>() {
+            @Override
+            public void changed(ObservableValue<? extends Book> observableValue, Book book, Book t1) {
+                try {
+                    Parent root = FXMLLoader.load(getClass().getResource("main-view.fxml"));
+                    Stage stage = (Stage) catalog.getScene().getWindow();
+                    Scene scene = new Scene(root);
+                    stage.setScene(scene);
+                    stage.show();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
+            }
+        });
     }
 }
