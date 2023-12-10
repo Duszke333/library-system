@@ -42,29 +42,6 @@ create table pap.USERS (
                        constraint address_id_fk foreign key (Address_ID) references pap.ADDRESSES (Address_ID)
 );
 
--- create table pap.EMPLOYEES (
---                        Employee_id serial constraint employees_id_pk primary key,
---                        Password_hash   varchar(256) not null,
---                        Password_salt   varchar(256) not null,
---                        First_name varchar(128) not null,
---                        Last_name varchar(128) not null,
---                        Email varchar(128) not null unique constraint email_employees check(Email like '%@%'),
---                        Address_ID integer not null,
---                        Date_created date not null default current_date,
---                        Active bool not null default true,
---                        Role varchar(64) not null,
---                        Branch_id integer not null,
---                        constraint address_id_fk_emp foreign key (Address_id) references pap.ADDRESSES (Address_id),
---                        constraint branch_id_fk_emp foreign key (Branch_id) references pap.BRANCHES (Branch_id)
--- );
-
-create table pap.BRANCHES (
-                              Branch_id serial constraint branches_id_pk primary key,
-                              Branch_name varchar(128) not null,
-                              Address_id integer not null,
-                              constraint address_id_fk_branch foreign key (Address_id) references pap.ADDRESSES (Address_id)
-);
-
 create table pap.EMPLOYEES (
                     Employee_id     serial constraint employees_id_pk primary key,
                     Password_hash   varchar(256) not null,
