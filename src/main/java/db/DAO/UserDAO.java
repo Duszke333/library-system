@@ -4,12 +4,12 @@ import db.Entities.User;
 import db.SessionFactoryMaker;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.NativeQuery;
 
 import java.util.List;
 
 public class UserDAO implements DAO<User>{
-    SessionFactoryMaker sessionFactoryMaker = new SessionFactoryMaker();
-    SessionFactory factory = sessionFactoryMaker.getSessionFactory();
+    SessionFactory factory = SessionFactoryMaker.getSessionFactory();
 
     public void create(User user) {
         try (Session session = factory.openSession()) {
@@ -54,7 +54,7 @@ public class UserDAO implements DAO<User>{
     public List<User> getAll() {
         List<User> users = null;
         try (Session session = factory.openSession()) {
-            users = session.createQuery("from User").list();
+            users = session.createNativeQuery("SELECT * FROM pap.users", User.class).list();
             return users;
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -65,7 +65,7 @@ public class UserDAO implements DAO<User>{
     public List<User> query(String sql) {
         List<User> users = null;
         try (Session session = factory.openSession()) {
-            users = session.createQuery(sql).list();
+            users = session.createNativeQuery(sql, User.class).list();
             return users;
         } catch (Exception e) {
             System.out.println(e.getMessage());

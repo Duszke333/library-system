@@ -3,6 +3,8 @@ package db.Entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Objects;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -10,8 +12,8 @@ import lombok.*;
 @Entity
 @Table(name = "ADDRESSES", schema = "pap", catalog = "postgres")
 public class Address implements java.io.Serializable{
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "address_id", nullable = false)
     private int addressId;
     @Basic
@@ -41,15 +43,13 @@ public class Address implements java.io.Serializable{
         Address addresses = (Address) o;
 
         if (addressId != addresses.addressId) return false;
-        if (country != null ? !country.equals(addresses.country) : addresses.country != null) return false;
-        if (postalCode != null ? !postalCode.equals(addresses.postalCode) : addresses.postalCode != null) return false;
-        if (city != null ? !city.equals(addresses.city) : addresses.city != null) return false;
-        if (street != null ? !street.equals(addresses.street) : addresses.street != null) return false;
-        if (houseNumber != null ? !houseNumber.equals(addresses.houseNumber) : addresses.houseNumber != null)
+        if (!Objects.equals(country, addresses.country)) return false;
+        if (!Objects.equals(postalCode, addresses.postalCode)) return false;
+        if (!Objects.equals(city, addresses.city)) return false;
+        if (!Objects.equals(street, addresses.street)) return false;
+        if (!Objects.equals(houseNumber, addresses.houseNumber))
             return false;
-        if (flatNumber != null ? !flatNumber.equals(addresses.flatNumber) : addresses.flatNumber != null) return false;
-
-        return true;
+        return Objects.equals(flatNumber, addresses.flatNumber);
     }
 
     @Override

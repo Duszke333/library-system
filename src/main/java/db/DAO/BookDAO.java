@@ -54,7 +54,7 @@ public class BookDAO implements DAO<Book> {
     public List<Book> getAll() {
         List<Book> books = null;
         try (Session session = factory.openSession()) {
-            books = session.createQuery("from Book").list();
+            books = session.createNativeQuery("SELECT * FROM pap.books").list();
             return books;
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -65,7 +65,7 @@ public class BookDAO implements DAO<Book> {
     public List<Book> query(String sql) {
         List<Book> books = null;
         try (Session session = factory.openSession()) {
-            books = session.createQuery(sql).list();
+            books = session.createNativeQuery(sql).list();
             return books;
         } catch (Exception e) {
             System.out.println(e.getMessage());

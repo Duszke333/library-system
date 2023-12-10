@@ -35,10 +35,9 @@ public class Database {
         newUser.setFirstName("John");
         newUser.setLastName("Doe");
         newUser.setEmail("user@user");
-        newUser.setLogin("user");
         newUser.setPasswordHash("user");
         newUser.setPasswordSalt("user");
-        newUser.setDateCreated(Date.valueOf("2021-01-01"));
+        newUser.setDateCreated(new Date(System.currentTimeMillis()));
         newUser.setAddressId(1);
         newUser.setActive(true);
         userRepository.create(newUser);
@@ -50,6 +49,16 @@ public class Database {
         /* Get all users */
         System.out.println("All users:");
         for (User u : userRepository.getAll()) {
+            System.out.println(u.getFirstName());
+        }
+
+        User admin = userRepository.getByEmail("admin@admin");
+        admin.setActive(false);
+        userRepository.update(admin);
+
+        /* Get all active users */
+        System.out.println("All active users:");
+        for (User u : userRepository.getAllActive()) {
             System.out.println(u.getFirstName());
         }
     }

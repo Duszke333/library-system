@@ -1,6 +1,6 @@
-
 package pap;
 
+import atlantafx.base.theme.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -11,10 +11,11 @@ import java.io.IOException;
 public class Pap extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Pap.class.getResource("main-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
+        var fxmlLoader = new FXMLLoader(getClass().getResource("main-view.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 920, 640);
         stage.setTitle("Hello!");
         stage.setScene(scene);
+        Application.setUserAgentStylesheet(new PrimerDark().getUserAgentStylesheet());
         stage.show();
     }
 

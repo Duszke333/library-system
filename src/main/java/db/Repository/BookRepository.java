@@ -36,7 +36,7 @@ public class BookRepository implements IBookRepository {
 
     @Override
     public Book getByTitle(String title) {
-        String sql = "SELECT * FROM books WHERE title = '" + title + "'";
+        String sql = "SELECT * FROM pap.books WHERE title = '" + title + "'";
         List<Book> books = bookDAO.query(sql);
         if (books.size() == 0) {
             return null;
@@ -46,7 +46,7 @@ public class BookRepository implements IBookRepository {
 
     @Override
     public Book getByISBN(String ISBN) {
-        String sql = "SELECT * FROM books WHERE ISBN = '" + ISBN + "'";
+        String sql = "SELECT * FROM pap.books WHERE ISBN = '" + ISBN + "'";
         List<Book> books = bookDAO.query(sql);
         if (books.size() == 0) {
             return null;
@@ -56,7 +56,7 @@ public class BookRepository implements IBookRepository {
 
     @Override
     public List<Book> getByAuthor(String author) {
-        String sql = "SELECT * FROM books WHERE author = '" + author + "'";
+        String sql = "SELECT * FROM pap.books WHERE author = '" + author + "'";
         List<Book> books = bookDAO.query(sql);
         if (books.size() == 0) {
             return null;
@@ -66,7 +66,7 @@ public class BookRepository implements IBookRepository {
 
     @Override
     public List<Book> getByGenre(String genre) {
-        String sql = "SELECT * FROM books WHERE genre = '" + genre + "'";
+        String sql = "SELECT * FROM pap.books WHERE genre = '" + genre + "'";
         List<Book> books = bookDAO.query(sql);
         if (books.size() == 0) {
             return null;
@@ -76,7 +76,7 @@ public class BookRepository implements IBookRepository {
 
     @Override
     public List<Book> getByDateAdded(String dateAdded) {
-        String sql = "SELECT * FROM books WHERE date_added = '" + dateAdded + "'";
+        String sql = "SELECT * FROM pap.books WHERE date_added = '" + dateAdded + "'";
         List<Book> books = bookDAO.query(sql);
         if (books.size() == 0) {
             return null;
@@ -86,7 +86,7 @@ public class BookRepository implements IBookRepository {
 
     @Override
     public List<Book> getByDatePublished(String datePublished) {
-        String sql = "SELECT * FROM books WHERE date_published = '" + datePublished + "'";
+        String sql = "SELECT * FROM pap.books WHERE date_published = '" + datePublished + "'";
         List<Book> books = bookDAO.query(sql);
         if (books.size() == 0) {
             return null;
@@ -96,7 +96,7 @@ public class BookRepository implements IBookRepository {
 
     @Override
     public List<Book> getAllByLanguage(String language) {
-        String sql = "SELECT * FROM books WHERE language = '" + language + "'";
+        String sql = "SELECT * FROM pap.books WHERE language = '" + language + "'";
         List<Book> books = bookDAO.query(sql);
         if (books.size() == 0) {
             return null;
@@ -106,7 +106,7 @@ public class BookRepository implements IBookRepository {
 
     @Override
     public List<Book> getAllAvailable() {
-        String sql = "SELECT * FROM books WHERE available = true";
+        String sql = "SELECT * FROM pap.books WHERE available = true";
         List<Book> books = bookDAO.query(sql);
         if (books.size() == 0) {
             return null;

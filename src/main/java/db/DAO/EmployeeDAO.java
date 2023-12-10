@@ -1,74 +1,77 @@
 package db.DAO;
 
-import db.Entities.Address;
+import db.Entities.Employee;
 import db.SessionFactoryMaker;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import java.util.List;
 
-public class AddressDAO implements DAO<Address> {
-    SessionFactory factory = SessionFactoryMaker.getSessionFactory();
+public class EmployeeDAO implements DAO<Employee>{
+    SessionFactoryMaker sessionFactoryMaker = new SessionFactoryMaker();
+    SessionFactory factory = sessionFactoryMaker.getSessionFactory();
 
-    public void create(Address address) {
+    public void create(Employee employee) {
         try (Session session = factory.openSession()) {
             session.beginTransaction();
-            session.save(address);
+            session.save(employee);
             session.getTransaction().commit();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
 
-    public Address read(int id) {
-        Address address = null;
+    public Employee read(int id) {
+        Employee employee = null;
         try (Session session = factory.openSession()) {
-            address = session.get(Address.class, id);
+            employee = session.get(Employee.class, id);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        return address;
+        return employee;
     }
 
-    public void update(Address address) {
+    public void update(Employee employee) {
         try (Session session = factory.openSession()) {
             session.beginTransaction();
-            session.update(address);
+            session.update(employee);
             session.getTransaction().commit();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
 
-    public void delete(Address address) {
+    public void delete(Employee employee) {
         try (Session session = factory.openSession()) {
             session.beginTransaction();
-            session.delete(address);
+            session.delete(employee);
             session.getTransaction().commit();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
 
-    public List<Address> getAll() {
-        List<Address> addresses = null;
+    @Override
+    public List<Employee> getAll() {
+        List<Employee> employees = null;
         try (Session session = factory.openSession()) {
-            addresses = session.createNativeQuery("SELECT * FROM pap.addresses").list();
-            return addresses;
+            employees = session.createNativeQuery("SELECT * FROM employees").list();
+            return employees;
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        return addresses;
+        return employees;
     }
 
-    public List<Address> query(String sql) {
-        List<Address> addresses = null;
+    @Override
+    public List<Employee> query(String sql) {
+        List<Employee> employees = null;
         try (Session session = factory.openSession()) {
-            addresses = session.createNativeQuery(sql).list();
-            return addresses;
+            employees = session.createNativeQuery(sql).list();
+            return employees;
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        return addresses;
+        return employees;
     }
 }

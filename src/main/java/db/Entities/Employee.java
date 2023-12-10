@@ -4,19 +4,18 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.sql.Date;
-import java.util.Objects;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 @Entity
-@Table(name = "USERS", schema = "pap", catalog = "postgres")
-public class User implements java.io.Serializable{
+@Table(name = "EMPLOYEES", schema = "pap", catalog = "postgres")
+public class Employee implements java.io.Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "account_id", nullable = false)
-    private int accountId;
+    @Column(name = "employee_id", nullable = false)
+    private int employeeId;
     @Basic
     @Column(name = "password_hash", nullable = false, length = 256)
     private String passwordHash;
@@ -41,28 +40,41 @@ public class User implements java.io.Serializable{
     @Basic
     @Column(name = "active", nullable = false)
     private boolean active;
+    @Basic
+    @Column(name = "role", nullable = false)
+    private String role;
+    @Basic
+    @Column(name = "branch_id", nullable = false)
+    private int branchId;
+
+
+
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        User user = (User) o;
+        Employee employee = (Employee) o;
 
-        if (accountId != user.accountId) return false;
-        if (addressId != user.addressId) return false;
-        if (active != user.active) return false;
-        if (!Objects.equals(passwordHash, user.passwordHash)) return false;
-        if (!Objects.equals(passwordSalt, user.passwordSalt)) return false;
-        if (!Objects.equals(firstName, user.firstName)) return false;
-        if (!Objects.equals(lastName, user.lastName)) return false;
-        if (!Objects.equals(email, user.email)) return false;
-        return Objects.equals(dateCreated, user.dateCreated);
+        if (employeeId != employee.employeeId) return false;
+        if (addressId != employee.addressId) return false;
+        if (active != employee.active) return false;
+        if (passwordHash != null ? !passwordHash.equals(employee.passwordHash) : employee.passwordHash != null) return false;
+        if (passwordSalt != null ? !passwordSalt.equals(employee.passwordSalt) : employee.passwordSalt != null) return false;
+        if (firstName != null ? !firstName.equals(employee.firstName) : employee.firstName != null) return false;
+        if (lastName != null ? !lastName.equals(employee.lastName) : employee.lastName != null) return false;
+        if (email != null ? !email.equals(employee.email) : employee.email != null) return false;
+        if (dateCreated != null ? !dateCreated.equals(employee.dateCreated) : employee.dateCreated != null) return false;
+        if (role != null ? !role.equals(employee.role) : employee.role != null) return false;
+        if (branchId != employee.branchId) return false;
+        return true;
     }
 
     @Override
     public int hashCode() {
-        int result = accountId;
+        int result = employeeId;
+
         result = 31 * result + (passwordHash != null ? passwordHash.hashCode() : 0);
         result = 31 * result + (passwordSalt != null ? passwordSalt.hashCode() : 0);
         result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
@@ -71,6 +83,9 @@ public class User implements java.io.Serializable{
         result = 31 * result + addressId;
         result = 31 * result + (dateCreated != null ? dateCreated.hashCode() : 0);
         result = 31 * result + (active ? 1 : 0);
+        result = 31 * result + (role != null ? role.hashCode() : 0);
+        result = 31 * result + branchId;
         return result;
     }
+
 }
