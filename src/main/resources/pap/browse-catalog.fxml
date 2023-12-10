@@ -3,15 +3,16 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 
-<TableView fx:id="catalog" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pap.BrowseCatalogController">
+
+<TableView fx:id="bookCatalog" editable="true" tableMenuButtonVisible="true" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pap.BrowseCatalog">
   <columns>
-    <TableColumn fx:id="title" minWidth="-1.0" prefWidth="200.0" text="Title" />
-    <TableColumn fx:id="author" minWidth="-1.0" prefWidth="200.0" text="Author" />
-      <TableColumn fx:id="genre" prefWidth="200.0" text="Genre" />
-      <TableColumn fx:id="publication_year" minWidth="-1.0" prefWidth="100.0" text="Publication year" />
-      <TableColumn fx:id="language" prefWidth="100.0" text="Language" />
-      <TableColumn fx:id="page_count" text="Page count" />
-      <TableColumn fx:id="publisher" prefWidth="200.0" text="Publisher" />
-      <TableColumn fx:id="description" prefWidth="200.0" text="Description" />
+    <TableColumn maxWidth="-1.0" minWidth="-1.0" prefWidth="-1.0" text="Title" />
+    <TableColumn maxWidth="-1.0" minWidth="-1.0" prefWidth="-1.0" text="Author" />
+      <TableColumn maxWidth="-1.0" minWidth="-1.0" prefWidth="-1.0" text="Genre" />
+      <TableColumn maxWidth="-1.0" minWidth="-1.0" prefWidth="-1.0" text="Publication year" />
+      <TableColumn maxWidth="-1.0" minWidth="-1.0" prefWidth="-1.0" text="Language" />
+      <TableColumn maxWidth="-1.0" minWidth="-1.0" prefWidth="-1.0" text="Page count" />
+      <TableColumn maxWidth="-1.0" minWidth="-1.0" prefWidth="-1.0" text="Publisher" />
+      <TableColumn maxWidth="-1.0" minWidth="-1.0" prefWidth="-1.0" text="Description" />
   </columns>
 </TableView>
