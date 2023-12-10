@@ -1,7 +1,7 @@
 package pap.accounts;
 
-import db.DAO.EmployeeDAO;
 import db.Entities.Employee;
+import db.Repository.EmployeeRepository;
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -66,12 +66,14 @@ public class EmployeeCreateAccount {
 
         emp.setUsername(employeeUsername);
         emp.setRole(role);
+        emp.setDateCreated(new java.sql.Date(System.currentTimeMillis()));
+        emp.setUserID(uid);
 
         //TODO
         // zdobywanie branch id po nazwie, na razie sztywne 1
         emp.setBranchId(1);
 
-        new EmployeeDAO().create(emp);
+        new EmployeeRepository().create(emp);
         operationStatus.setText("Account created!");
         operationStatus.setFill(javafx.scene.paint.Color.GREEN);
         operationStatus.setVisible(true);
