@@ -2,6 +2,7 @@ package db.Repository;
 
 import db.DAO.BookDAO;
 import db.Entities.Book;
+import db.Repository.Interface.IBookRepository;
 
 import java.util.List;
 

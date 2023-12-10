@@ -6,10 +6,11 @@ import db.DAO.EmployeeDAO;
 import db.Entities.Address;
 import db.Entities.Branch;
 import db.Entities.Employee;
+import db.Repository.Interface.IBranchRepository;
 
 import java.util.List;
 
-public class BranchRepository implements IBranchRepository{
+public class BranchRepository implements IBranchRepository {
     BranchDAO branchDAO = new BranchDAO();
     EmployeeDAO employeeDAO = new EmployeeDAO();
     AddressDAO addressDAO = new AddressDAO();

@@ -4,11 +4,11 @@ import db.DAO.AddressDAO;
 import db.DAO.UserDAO;
 import db.Entities.Address;
 import db.Entities.User;
-import jakarta.persistence.EntityManager;
+import db.Repository.Interface.IAddressRepository;
 
 import java.util.List;
 
-public class AddressRepository implements IAddressRepository{
+public class AddressRepository implements IAddressRepository {
     private UserDAO userDAO = new UserDAO();
     private AddressDAO addressDAO = new AddressDAO();
 

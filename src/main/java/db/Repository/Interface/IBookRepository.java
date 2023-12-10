@@ -1,4 +1,4 @@
-package db.Repository;
+package db.Repository.Interface;
 
 import db.Entities.Book;
 

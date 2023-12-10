@@ -2,10 +2,11 @@ package db.Repository;
 
 import db.Entities.User;
 import db.DAO.UserDAO;
+import db.Repository.Interface.IUserRepository;
 
 import java.util.List;
 
-public class UserRepository implements IUserRepository{
+public class UserRepository implements IUserRepository {
     UserDAO userDAO = new UserDAO();
     @Override
     public List<User> getAll() {

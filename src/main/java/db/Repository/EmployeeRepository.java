@@ -3,11 +3,11 @@ package db.Repository;
 import db.DAO.EmployeeDAO;
 import db.Entities.Branch;
 import db.Entities.Employee;
-import lombok.Data;
+import db.Repository.Interface.IEmployeeRepository;
 
 import java.util.List;
 
-public class EmployeeRepository implements IEmployeeRepository{
+public class EmployeeRepository implements IEmployeeRepository {
     EmployeeDAO employeeDAO = new EmployeeDAO();
 
     @Override
