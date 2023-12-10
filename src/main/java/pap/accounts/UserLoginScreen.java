@@ -24,30 +24,45 @@ public class UserLoginScreen {
         String email = loginEmail.getText();
         String password = loginPassword.getText();
 
+        int id = tryLogin(email, password);
+
+        switch (id) {
+            case -2:
+                loginStatus.setText("All fields must be filled!");
+                loginStatus.setVisible(true);
+                break;
+            case -1:
+                loginStatus.setText("Wrong email or password!");
+                loginStatus.setVisible(true);
+                break;
+            default:
+                loginStatus.setText("Logged in!");
+                loginStatus.setFill(javafx.scene.paint.Color.GREEN);
+                loginStatus.setVisible(true);
+                System.out.println("Zalogowano");
+                break;
+        }
+    }
+
+    public static int tryLogin(String email, String password) {
         if (email.isEmpty() || password.isEmpty()) {
-            loginStatus.setVisible(true);
-            return;
+            return -2;
         }
 
         // bedzie po mailu, na razie test czy dziala
         User usr = new UserDAO().read(3);
         if (usr == null) {
             System.out.println("NO USER");
-            loginStatus.setVisible(true);
-            return;
+            return -1;
         }
 
         String salt = usr.getPasswordSalt();
         String hashedPassword = usr.getPasswordHash();
 
         if (hashedPassword.equals(PasswordHasher.hashPassword(password, salt))) {
-            loginStatus.setText("Logged in!");
-            loginStatus.setFill(javafx.scene.paint.Color.GREEN);
-            loginStatus.setVisible(true);
-            System.out.println("Zalogowano");
+            return usr.getAccountId();
         } else {
-            System.out.println("FAIL");
-            loginStatus.setVisible(true);
+            return -1;
         }
     }
 }

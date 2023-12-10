@@ -86,14 +86,7 @@ public class UserCreateAccount {
             usr.setDateCreated(new java.sql.Date(System.currentTimeMillis()));
 
             // generate password salt
-            byte[] salt = new byte[16];
-            new SecureRandom().nextBytes(salt);
-
-            StringBuilder sb = new StringBuilder();
-            for (byte b : salt) {
-                sb.append(String.format("%02x", b));
-            }
-            String stringSalt = sb.toString();
+            String stringSalt = PasswordHasher.generateSalt();
             usr.setPasswordSalt(stringSalt);
 
             String hashedPassword = PasswordHasher.hashPassword(password, stringSalt);
