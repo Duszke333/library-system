@@ -1,4 +1,4 @@
-package pap;
+package pap.accounts;
 
 import db.DAO.AddressDAO;
 import db.DAO.UserDAO;
@@ -9,13 +9,10 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.util.Arrays;
 
-public class CreateAccount {
+public class UserCreateAccount {
     @FXML
     private TextField nameInput;
     @FXML
@@ -43,7 +40,7 @@ public class CreateAccount {
     @FXML
     private Text operationStatus;
     @FXML
-    protected void creationConfirmed() throws NoSuchAlgorithmException {
+    protected void creationConfirmed() {
         // get all data from inputs
         String name = nameInput.getText();
         String surname = surnameInput.getText();
@@ -89,18 +86,11 @@ public class CreateAccount {
             usr.setDateCreated(new java.sql.Date(System.currentTimeMillis()));
 
             // generate password salt
-            byte[] salt = new byte[16];
-            new SecureRandom().nextBytes(salt);
-
-            StringBuilder sb = new StringBuilder();
-            for (byte b : salt) {
-                sb.append(String.format("%02x", b));
-            }
-            String stringSalt = sb.toString();
+            String stringSalt = PasswordHasher.generateSalt();
             usr.setPasswordSalt(stringSalt);
 
-            //String hashedPassword = PasswordHasher.hashPassword(password, stringSalt);
-            //usr.setPasswordHash(hashedPassword);
+            String hashedPassword = PasswordHasher.hashPassword(password, stringSalt);
+            usr.setPasswordHash(hashedPassword);
             usr.setAddressId(addr.getAddressId());
 
             new UserDAO().create(usr);

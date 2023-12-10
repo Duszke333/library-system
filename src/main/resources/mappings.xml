@@ -5,4 +5,5 @@
     <entity class="db.Entities.Address"/>
     <entity class="db.Entities.Book"/>
     <entity class="db.Entities.User"/>
+    <entity class="db.Entities.Employee"/>
 </entity-mappings>
