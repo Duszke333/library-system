@@ -39,7 +39,7 @@ public class MainViewController {
     private static final Parent accountCreationPage;
     static {
         try {
-            accountCreationPage = new FXMLLoader(MainViewController.class.getResource("create-account.fxml")).load();
+            accountCreationPage = new FXMLLoader(MainViewController.class.getResource("user-create-account.fxml")).load();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

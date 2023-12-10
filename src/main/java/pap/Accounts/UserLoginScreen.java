@@ -1,4 +1,4 @@
-package pap;
+package pap.Accounts;
 
 import db.DAO.UserDAO;
 import db.Entities.User;
@@ -8,7 +8,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 
-public class LoginScreen {
+public class UserLoginScreen {
     @FXML
     private TextField loginEmail;
     @FXML

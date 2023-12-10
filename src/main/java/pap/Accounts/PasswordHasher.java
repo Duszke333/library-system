@@ -1,4 +1,4 @@
-package pap;
+package pap.Accounts;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
