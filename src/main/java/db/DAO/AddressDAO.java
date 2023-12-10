@@ -5,6 +5,8 @@ import db.SessionFactoryMaker;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
+import java.util.List;
+
 public class AddressDAO implements DAO<Address> {
     SessionFactoryMaker sessionFactoryMaker = new SessionFactoryMaker();
     SessionFactory factory = sessionFactoryMaker.getSessionFactory();
@@ -47,5 +49,27 @@ public class AddressDAO implements DAO<Address> {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public List<Address> getAll() {
+        List<Address> addresses = null;
+        try (Session session = factory.openSession()) {
+            addresses = session.createQuery("from Address").list();
+            return addresses;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return addresses;
+    }
+
+    public List<Address> query(String sql) {
+        List<Address> addresses = null;
+        try (Session session = factory.openSession()) {
+            addresses = session.createQuery(sql).list();
+            return addresses;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return addresses;
     }
 }

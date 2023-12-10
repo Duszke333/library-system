@@ -5,6 +5,8 @@ import db.SessionFactoryMaker;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
+import java.util.List;
+
 public class UserDAO implements DAO<User>{
     SessionFactoryMaker sessionFactoryMaker = new SessionFactoryMaker();
     SessionFactory factory = sessionFactoryMaker.getSessionFactory();
@@ -47,5 +49,27 @@ public class UserDAO implements DAO<User>{
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public List<User> getAll() {
+        List<User> users = null;
+        try (Session session = factory.openSession()) {
+            users = session.createQuery("from User").list();
+            return users;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return users;
+    }
+
+    public List<User> query(String sql) {
+        List<User> users = null;
+        try (Session session = factory.openSession()) {
+            users = session.createQuery(sql).list();
+            return users;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return users;
     }
 }

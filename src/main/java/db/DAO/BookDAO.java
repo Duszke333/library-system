@@ -5,7 +5,9 @@ import db.SessionFactoryMaker;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-public class BookDAO implements DAO<Book>{
+import java.util.List;
+
+public class BookDAO implements DAO<Book> {
     SessionFactoryMaker sessionFactoryMaker = new SessionFactoryMaker();
     SessionFactory factory = sessionFactoryMaker.getSessionFactory();
 
@@ -47,5 +49,27 @@ public class BookDAO implements DAO<Book>{
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public List<Book> getAll() {
+        List<Book> books = null;
+        try (Session session = factory.openSession()) {
+            books = session.createQuery("from Book").list();
+            return books;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return books;
+    }
+
+    public List<Book> query(String sql) {
+        List<Book> books = null;
+        try (Session session = factory.openSession()) {
+            books = session.createQuery(sql).list();
+            return books;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return books;
     }
 }
