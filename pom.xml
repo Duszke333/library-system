@@ -13,8 +13,20 @@
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+    
+    <repositories>
+        <repository>
+            <id>jpro - sandec repository</id>
+            <url>https://sandec.jfrog.io/artifactory/repo/</url>
+        </repository>
+    </repositories>
 
     <dependencies>
+        <dependency>
+            <groupId>one.jpro.platform</groupId>
+            <artifactId>jpro-mdfx</artifactId>
+            <version>0.2.7-SNAPSHOT</version>
+        </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
@@ -52,6 +64,11 @@
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
             <version>21-ea+24</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.mkpaz</groupId>
+            <artifactId>atlantafx-base</artifactId>
+            <version>2.0.1</version>
         </dependency>
     </dependencies>
 

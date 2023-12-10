@@ -6,12 +6,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
-import javafx.scene.text.TextFlow;
+import javafx.scene.text.Text;
 
-import java.awt.*;
+import java.awt.Desktop;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -30,9 +30,11 @@ public class MainViewController {
     @FXML
     private MenuItem menuQuit;
     @FXML
-    private TextFlow textFlowWelcomeMsg;
+    private Text textMainView;
     @FXML
     private Pane contentPane;
+    @FXML
+    private ScrollPane scrollPane;
     
     private static final String REPO_URL = "https://gitlab-stud.elka.pw.edu.pl/papuga/pap2023z-z17";
     
@@ -55,12 +57,14 @@ public class MainViewController {
     }
 
     public void initialize() throws IOException {
-        var welcomeMsg = new TextArea(Files.readString(Path.of("README.md")));
-        welcomeMsg.setPrefSize(textFlowWelcomeMsg.getPrefWidth(), textFlowWelcomeMsg.getPrefHeight());
-        welcomeMsg.setFont(Font.font(20));
-        textFlowWelcomeMsg.getChildren().add(welcomeMsg);
+        var welcomeMsg = Files.readString(Path.of("README.md"));
+        textMainView.setText(welcomeMsg);
+        textMainView.setFont(Font.font(20));
+        scrollPane.widthProperty().addListener(o -> {
+            textMainView.setWrappingWidth(scrollPane.getWidth());
+        });
         
-        buttonBack.setOnAction(e -> contentPane.getChildren().setAll(textFlowWelcomeMsg));
+        buttonBack.setOnAction(e -> contentPane.getChildren().setAll(scrollPane));
         buttonAccounts.setOnAction(e -> contentPane.getChildren().setAll(accountCreationPage));
         buttonCatalogue.setOnAction(e -> contentPane.getChildren().setAll(cataloguepage));
         menuGotoRepo.setOnAction(e -> {
