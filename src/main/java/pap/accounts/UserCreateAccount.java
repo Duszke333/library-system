@@ -40,7 +40,7 @@ public class UserCreateAccount {
     @FXML
     private Text operationStatus;
     @FXML
-    protected void creationConfirmed() throws NoSuchAlgorithmException {
+    protected void creationConfirmed() {
         // get all data from inputs
         String name = nameInput.getText();
         String surname = surnameInput.getText();
@@ -89,8 +89,8 @@ public class UserCreateAccount {
             String stringSalt = PasswordHasher.generateSalt();
             usr.setPasswordSalt(stringSalt);
 
-            //String hashedPassword = PasswordHasher.hashPassword(password, stringSalt);
-            //usr.setPasswordHash(hashedPassword);
+            String hashedPassword = PasswordHasher.hashPassword(password, stringSalt);
+            usr.setPasswordHash(hashedPassword);
             usr.setAddressId(addr.getAddressId());
 
             new UserDAO().create(usr);

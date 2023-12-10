@@ -2,6 +2,7 @@ package pap.accounts;
 
 import db.DAO.UserDAO;
 import db.Entities.User;
+import db.Repository.UserRepository;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
@@ -49,8 +50,7 @@ public class UserLoginScreen {
             return -2;
         }
 
-        // bedzie po mailu, na razie test czy dziala
-        User usr = new UserDAO().read(3);
+        User usr = new UserRepository().getByEmail(email);
         if (usr == null) {
             System.out.println("NO USER");
             return -1;
