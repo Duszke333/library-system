@@ -82,6 +82,11 @@ public class BrowseCatalogController implements Initializable {
         page_count.setCellValueFactory(new PropertyValueFactory<Book, Integer>("pageCount"));
         publication_year.setCellValueFactory(new PropertyValueFactory<Book, Date>("publicationYear"));
         publisher.setCellValueFactory(new PropertyValueFactory<Book, String>("publisher"));
+        catalog.widthProperty().addListener(o -> {
+            catalog.getColumns().forEach(column -> {
+                column.setMinWidth(catalog.getWidth() / catalog.getColumns().size());
+            });
+        });
 
         catalog.setItems(list);
     }
