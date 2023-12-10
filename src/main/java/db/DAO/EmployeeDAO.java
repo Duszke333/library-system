@@ -5,6 +5,8 @@ import db.SessionFactoryMaker;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
+import java.util.List;
+
 public class EmployeeDAO implements DAO<Employee>{
     SessionFactoryMaker sessionFactoryMaker = new SessionFactoryMaker();
     SessionFactory factory = sessionFactoryMaker.getSessionFactory();
@@ -47,5 +49,29 @@ public class EmployeeDAO implements DAO<Employee>{
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    @Override
+    public List<Employee> getAll() {
+        List<Employee> employees = null;
+        try (Session session = factory.openSession()) {
+            employees = session.createNativeQuery("SELECT * FROM employees").list();
+            return employees;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return employees;
+    }
+
+    @Override
+    public List<Employee> query(String sql) {
+        List<Employee> employees = null;
+        try (Session session = factory.openSession()) {
+            employees = session.createNativeQuery(sql).list();
+            return employees;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return employees;
     }
 }

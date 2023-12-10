@@ -89,8 +89,8 @@ public class UserCreateAccount {
             String stringSalt = PasswordHasher.generateSalt();
             usr.setPasswordSalt(stringSalt);
 
-            String hashedPassword = PasswordHasher.hashPassword(password, stringSalt);
-            usr.setPasswordHash(hashedPassword);
+            //String hashedPassword = PasswordHasher.hashPassword(password, stringSalt);
+            //usr.setPasswordHash(hashedPassword);
             usr.setAddressId(addr.getAddressId());
 
             new UserDAO().create(usr);

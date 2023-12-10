@@ -1,17 +1,15 @@
 package db.DAO;
 
 import db.Entities.Book;
-import db.Repository.BookRepository;
 import db.SessionFactoryMaker;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.query.Query;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class BookDAO implements DAO<Book> {
-    SessionFactory factory = SessionFactoryMaker.getSessionFactory();
+    SessionFactoryMaker sessionFactoryMaker = new SessionFactoryMaker();
+    SessionFactory factory = sessionFactoryMaker.getSessionFactory();
 
     public void create(Book book) {
         try (Session session = factory.openSession()) {
@@ -32,18 +30,6 @@ public class BookDAO implements DAO<Book> {
         }
         return book;
     }
-    public List<Book> getAll() {
-        List<Book> books = new ArrayList<>();
-//        try (Session session = factory.openSession()) {
-//            Query<Book> query = session.createQuery("from Book ",Book.class );
-//            books = query.list();
-//        } catch (Exception e) {
-//            System.out.println(e.getMessage());
-//        }
-        return books;
-    }
-
-
 
     public void update(Book book) {
         try (Session session = factory.openSession()) {
@@ -63,5 +49,27 @@ public class BookDAO implements DAO<Book> {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public List<Book> getAll() {
+        List<Book> books = null;
+        try (Session session = factory.openSession()) {
+            books = session.createNativeQuery("SELECT * FROM pap.books").list();
+            return books;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return books;
+    }
+
+    public List<Book> query(String sql) {
+        List<Book> books = null;
+        try (Session session = factory.openSession()) {
+            books = session.createNativeQuery(sql).list();
+            return books;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return books;
     }
 }
