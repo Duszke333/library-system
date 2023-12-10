@@ -35,27 +35,39 @@ create table pap.USERS (
                        Password_salt   varchar(256) not null,
                        First_name  varchar(128) not null,
                        Last_name   varchar(128) not null,
-                       Email       varchar(128) not null constraint email_ape check(Email like '%@%'),
+                       Email       varchar(128) not null unique constraint email_ape check(Email like '%@%'),
                        Address_ID  integer not null,
                        Date_created    date not null default current_date,
                        Active      bool not null default True,
                        constraint address_id_fk foreign key (Address_ID) references pap.ADDRESSES (Address_ID)
 );
 
+-- create table pap.EMPLOYEES (
+--                        Employee_id serial constraint employees_id_pk primary key,
+--                        Password_hash   varchar(256) not null,
+--                        Password_salt   varchar(256) not null,
+--                        First_name varchar(128) not null,
+--                        Last_name varchar(128) not null,
+--                        Email varchar(128) not null unique constraint email_employees check(Email like '%@%'),
+--                        Address_ID integer not null,
+--                        Date_created date not null default current_date,
+--                        Active bool not null default true,
+--                        Role varchar(64) not null,
+--                        Branch_id integer not null,
+--                        constraint address_id_fk_emp foreign key (Address_id) references pap.ADDRESSES (Address_id),
+--                        constraint branch_id_fk_emp foreign key (Branch_id) references pap.BRANCHES (Branch_id)
+-- );
+
 create table pap.EMPLOYEES (
-                       Employee_id serial constraint employees_id_pk primary key,
-                       Password_hash   varchar(256) not null,
-                       Password_salt   varchar(256) not null,
-                       First_name varchar(128) not null,
-                       Last_name varchar(128) not null,
-                       Email varchar(128) not null constraint email_employees check(Email like '%@%'),
-                       Address_ID integer not null,
-                       Date_created date not null default current_date,
-                       Active bool not null default true,
-                       Role varchar(64) not null,
-                       Branch_id integer not null,
-                       constraint address_id_fk_emp foreign key (Address_id) references pap.ADDRESSES (Address_id),
-                       constraint branch_id_fk_emp foreign key (Branch_id) references pap.BRANCHES (Branch_id)
+                    Employee_id     serial constraint employees_id_pk primary key,
+                    Password_hash   varchar(256) not null,
+                    Password_salt   varchar(256) not null,
+                    Username        varchar(128) not null unique,
+                    User_ID         integer not null unique constraint user_id_fk_emp references pap.USERS (Account_ID),
+                    Role            varchar(64) not null,
+                    Branch_id       integer not null constraint branch_id_fk_emp references pap.BRANCHES (Branch_id),
+                    Active          bool not null default True,
+                    Date_created    date not null default current_date
 );
 
 create table pap.BRANCHES (
@@ -73,3 +85,6 @@ values ('admin', 'admin', 'admin', 'admin', 'admin@admin', 1);
 
 insert into pap.BOOKS (ISBN, Title, Author, Genre, Publication_year, Language, Page_count, Publisher, Is_available, Description, Date_added)
 values ('978-83-246-8865-8', 'Pan Tadeusz', 'Adam Mickiewicz', 'Poem', 1834, 'Polish', 400, 'Czytelnik', True, 'Pan Tadeusz to epopeja narodowa, napisana przez Adama Mickiewicza w latach 1832-1834 we Francji i w Szwajcarii. Utwór ten jest uważany za ostatni wielki poemat epicki w literaturze polskiej, a zarazem za jedno z największych osiągnięć literatury polskiej.', current_date);
+
+insert into pap.BRANCHES (Branch_name, Address_id)
+values ('Marszałkowski branch', 1);
