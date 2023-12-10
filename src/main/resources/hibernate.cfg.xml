@@ -25,6 +25,11 @@
             postgres
         </property>
 
+        <property name="hibernate.transaction.jta.platform">
+            org.hibernate.engine.transaction.jta.platform.internal.JBossAppServerJtaPlatform
+        </property>
+
+
         <mapping resource="mappings.xml" />
 
     </session-factory>

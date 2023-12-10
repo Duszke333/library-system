@@ -1,64 +1,48 @@
 package db.DAO;
 
-import db.Entities.Book;
-import db.Repository.BookRepository;
+import db.Entities.Employee;
 import db.SessionFactoryMaker;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.query.Query;
 
-import java.util.ArrayList;
-import java.util.List;
+public class EmployeeDAO implements DAO<Employee>{
+    SessionFactoryMaker sessionFactoryMaker = new SessionFactoryMaker();
+    SessionFactory factory = sessionFactoryMaker.getSessionFactory();
 
-public class BookDAO implements DAO<Book> {
-    SessionFactory factory = SessionFactoryMaker.getSessionFactory();
-
-    public void create(Book book) {
+    public void create(Employee employee) {
         try (Session session = factory.openSession()) {
             session.beginTransaction();
-            session.save(book);
+            session.save(employee);
             session.getTransaction().commit();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
 
-    public Book read(int id) {
-        Book book = null;
+    public Employee read(int id) {
+        Employee employee = null;
         try (Session session = factory.openSession()) {
-            book = session.get(Book.class, id);
+            employee = session.get(Employee.class, id);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        return book;
-    }
-    public List<Book> getAll() {
-        List<Book> books = new ArrayList<>();
-//        try (Session session = factory.openSession()) {
-//            Query<Book> query = session.createQuery("from Book ",Book.class );
-//            books = query.list();
-//        } catch (Exception e) {
-//            System.out.println(e.getMessage());
-//        }
-        return books;
+        return employee;
     }
 
-
-
-    public void update(Book book) {
+    public void update(Employee employee) {
         try (Session session = factory.openSession()) {
             session.beginTransaction();
-            session.update(book);
+            session.update(employee);
             session.getTransaction().commit();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
 
-    public void delete(Book book) {
+    public void delete(Employee employee) {
         try (Session session = factory.openSession()) {
             session.beginTransaction();
-            session.delete(book);
+            session.delete(employee);
             session.getTransaction().commit();
         } catch (Exception e) {
             System.out.println(e.getMessage());
