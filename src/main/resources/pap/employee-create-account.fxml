@@ -5,95 +5,100 @@
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pap.Accounts.EmployeeCreateAccount">
-   <center>
-      <VBox alignment="CENTER" BorderPane.alignment="CENTER">
-         <Separator maxHeight="1.7976931348623157E308" orientation="VERTICAL" visible="false" />
-         <TextField fx:id="nameInput" prefHeight="25.0" prefWidth="565.0" promptText="Name" />
-         <Separator maxHeight="1.7976931348623157E308" orientation="VERTICAL" visible="false" />
-         <TextField fx:id="surnameInput" prefHeight="25.0" prefWidth="565.0" promptText="Surname" />
-         <Separator maxHeight="1.7976931348623157E308" orientation="VERTICAL" visible="false" />
-         <TextField fx:id="emailInput" prefHeight="25.0" prefWidth="565.0" promptText="Email" />
-         <Separator maxHeight="1.7976931348623157E308" orientation="VERTICAL" visible="false" />
-         <PasswordField fx:id="passwordInput" prefHeight="25.0" prefWidth="565.0" promptText="Password" />
-         <Separator maxHeight="1.7976931348623157E308" orientation="VERTICAL" visible="false" />
-         <PasswordField fx:id="passwordConfirmation" prefHeight="25.0" prefWidth="565.0" promptText="Repeat password" />
-         <Text fx:id="passUnmached" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="Passwords are not matching!" underline="true" visible="false">
-            <VBox.margin>
-               <Insets />
-            </VBox.margin>
-         </Text>
-         <Separator maxHeight="1.7976931348623157E308" orientation="VERTICAL" visible="false" />
-         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Address information" textAlignment="CENTER" wrappingWidth="564.8586883544922">
-            <font>
-               <Font size="18.0" />
-            </font>
-            <VBox.margin>
-               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-            </VBox.margin>
-         </Text>
-         <Separator maxHeight="1.7976931348623157E308" orientation="VERTICAL" visible="false" />
-         <TextField fx:id="countryInput" prefHeight="25.0" prefWidth="565.0" promptText="Country" />
-         <Separator maxHeight="1.7976931348623157E308" orientation="VERTICAL" visible="false" />
-         <TextField fx:id="cityInput" prefHeight="25.0" prefWidth="394.0" promptText="City" />
-         <Separator maxHeight="1.7976931348623157E308" orientation="VERTICAL" visible="false" />
-         <TextField fx:id="postalCodeInput" promptText="Postal code" />
-         <Separator maxHeight="1.7976931348623157E308" orientation="VERTICAL" visible="false" />
-         <TextField fx:id="streetInput" prefHeight="25.0" prefWidth="331.0" promptText="Street" />
-         <Separator maxHeight="1.7976931348623157E308" orientation="VERTICAL" visible="false" />
-         <TextField fx:id="houseNumberInput" prefHeight="25.0" prefWidth="114.0" promptText="House number" />
-         <Separator maxHeight="1.7976931348623157E308" orientation="VERTICAL" visible="false" />
-         <TextField fx:id="flatNumberInput" prefHeight="25.0" prefWidth="103.0" promptText="Flat number" />
-         <Separator maxHeight="1.7976931348623157E308" orientation="VERTICAL" visible="false" />
-         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Additional information">
-            <VBox.margin>
-               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-            </VBox.margin>
-            <font>
-               <Font size="18.0" />
-            </font>
-         </Text>
-         <Separator orientation="VERTICAL" visible="false" />
-         <TextField fx:id="roleInput" promptText="Role" />
-         <Separator orientation="VERTICAL" visible="false" />
-         <TextField fx:id="branchNameInput" promptText="Branch name" />
-         <Separator orientation="VERTICAL" visible="false" />
-      </VBox>
-   </center>
-   <top>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Basic information" textAlignment="CENTER" wrappingWidth="562.9999542236328" BorderPane.alignment="CENTER">
+<VBox alignment="CENTER" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pap.accounts.EmployeeCreateAccount">
+   <children>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="User account information" textAlignment="CENTER">
+         <font>
+            <Font size="18.0" />
+         </font>
+         <VBox.margin>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </VBox.margin>
+      </Text>
+      <Separator maxHeight="1.7976931348623157E308" orientation="VERTICAL" visible="false" />
+      <TextField fx:id="userEmailInput" prefHeight="25.0" prefWidth="565.0" promptText="Email">
+         <VBox.margin>
+            <Insets left="10.0" right="10.0" />
+         </VBox.margin></TextField>
+      <Separator maxHeight="1.7976931348623157E308" orientation="VERTICAL" visible="false" />
+      <PasswordField fx:id="userPasswordInput" promptText="Password">
+         <VBox.margin>
+            <Insets left="10.0" right="10.0" />
+         </VBox.margin>
+      </PasswordField>
+      <Separator orientation="VERTICAL" visible="false" />
+      <Button mnemonicParsing="false" text="Don't have an user account? Create it now!">
+         <VBox.margin>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </VBox.margin>
+      </Button>
+      <Separator orientation="VERTICAL" visible="false" />
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Create your employee account" textAlignment="CENTER" wrappingWidth="564.8586883544922">
+         <font>
+            <Font size="18.0" />
+         </font>
+         <VBox.margin>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </VBox.margin>
+      </Text>
+      <Separator maxHeight="1.7976931348623157E308" orientation="VERTICAL" visible="false" />
+      <TextField fx:id="employeeUsernameInput" prefHeight="25.0" prefWidth="565.0" promptText="Username">
+         <VBox.margin>
+            <Insets left="10.0" right="10.0" />
+         </VBox.margin></TextField>
+      <Separator maxHeight="1.7976931348623157E308" orientation="VERTICAL" visible="false" />
+      <PasswordField fx:id="employeePasswordInput" prefHeight="25.0" prefWidth="565.0" promptText="Password">
+         <VBox.margin>
+            <Insets left="10.0" right="10.0" />
+         </VBox.margin></PasswordField>
+      <Separator maxHeight="1.7976931348623157E308" orientation="VERTICAL" visible="false" />
+      <PasswordField fx:id="employeePasswordConfirmation" prefHeight="25.0" prefWidth="565.0" promptText="Repeat password">
+         <VBox.margin>
+            <Insets left="10.0" right="10.0" />
+         </VBox.margin></PasswordField>
+      <Text fx:id="passUnmached" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="Passwords are not matching!" underline="true" visible="false">
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+      </Text>
+      <Separator maxHeight="1.7976931348623157E308" orientation="VERTICAL" visible="false" />
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Job information">
          <font>
             <Font size="18.0" />
          </font>
       </Text>
-   </top>
-   <opaqueInsets>
-      <Insets />
-   </opaqueInsets>
-   <padding>
-      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-   </padding>
-   <bottom>
-      <HBox alignment="CENTER_LEFT" BorderPane.alignment="CENTER">
-         <Button mnemonicParsing="false" onAction="#creationConfirmed" text="Create account">
-            <HBox.margin>
-               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-            </HBox.margin>
-         </Button>
-         <Text fx:id="operationStatus" fill="#fd0000" strokeType="OUTSIDE" strokeWidth="0.0" text="All fields except Flat number must be filled!" visible="false" wrappingWidth="350.803466796875">
-            <HBox.margin>
-               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-            </HBox.margin>
-            <font>
-               <Font size="18.0" />
-            </font>
-         </Text>
+      <Separator maxHeight="1.7976931348623157E308" orientation="VERTICAL" visible="false" />
+      <TextField fx:id="roleInput" prefHeight="25.0" prefWidth="565.0" promptText="Role">
+         <VBox.margin>
+            <Insets left="10.0" right="10.0" />
+         </VBox.margin></TextField>
+      <Separator maxHeight="1.7976931348623157E308" orientation="VERTICAL" visible="false" />
+      <TextField fx:id="branchNameInput" prefHeight="25.0" prefWidth="394.0" promptText="Branch name">
+         <VBox.margin>
+            <Insets left="10.0" right="10.0" />
+         </VBox.margin></TextField>
+      <Separator maxHeight="1.7976931348623157E308" orientation="VERTICAL" visible="false" />
+      <HBox alignment="CENTER_LEFT">
+         <VBox.margin>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </VBox.margin>
+         <children>
+            <Button mnemonicParsing="false" onAction="#createEmployeeAccountPressed" text="Create account">
+               <HBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </HBox.margin>
+            </Button>
+            <Text fx:id="operationStatus" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="All fields must be filled!" textAlignment="CENTER" visible="false">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+         </children>
       </HBox>
-   </bottom>
-</BorderPane>
+   </children>
+</VBox>
