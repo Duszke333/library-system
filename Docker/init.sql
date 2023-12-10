@@ -54,6 +54,13 @@ create table pap.EMPLOYEES (
                     Date_created    date not null default current_date
 );
 
+create table pap.BRANCHES (
+                    Branch_id       serial constraint branches_id_pk primary key,
+                    Branch_name     varchar(128) not null,
+                    Address_id      integer not null constraint address_id_fk_branch references pap.ADDRESSES (Address_id)
+);
+
+
 -- Insert some data
 insert into pap.ADDRESSES (Country, Postal_code, City, Street, House_number, Flat_number)
 values ('Poland', '00-000', 'Warsaw', 'Marszalkowska', '1', '1');
