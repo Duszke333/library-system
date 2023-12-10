@@ -33,6 +33,8 @@ public class BookRepository implements IBookRepository {
         return bookDAO.getAll();
     }
 
+    public Book[] getAllBookType(){return bookDAO.getAllBookType();}
+
 
     @Override
     public Book getByTitle(String title) {
