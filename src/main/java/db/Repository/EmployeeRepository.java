@@ -1,6 +1,7 @@
 package db.Repository;
 
 import db.DAO.EmployeeDAO;
+import db.Entities.Branch;
 import db.Entities.Employee;
 import lombok.Data;
 
@@ -12,6 +13,11 @@ public class EmployeeRepository implements IEmployeeRepository{
     @Override
     public List<Employee> getByBranchId(int branchId) {
         String sql = "SELECT * FROM pap.employees WHERE branch_id = " + branchId;
+        return employeeDAO.query(sql);
+    }
+
+    public List<Employee> getByBranch(Branch branch) {
+        String sql = "SELECT * FROM pap.employees WHERE branch_id = " + branch.getBranchId();
         return employeeDAO.query(sql);
     }
 
