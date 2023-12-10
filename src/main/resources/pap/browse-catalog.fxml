@@ -3,16 +3,16 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 
-
-<TableView fx:id="bookCatalog" editable="true" tableMenuButtonVisible="true" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pap.BrowseCatalog">
+<TableView fx:id="bookCatalog" editable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" tableMenuButtonVisible="true" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pap.BrowseCatalog">
   <columns>
-    <TableColumn maxWidth="-1.0" minWidth="-1.0" prefWidth="-1.0" text="Title" />
-    <TableColumn maxWidth="-1.0" minWidth="-1.0" prefWidth="-1.0" text="Author" />
-      <TableColumn maxWidth="-1.0" minWidth="-1.0" prefWidth="-1.0" text="Genre" />
-      <TableColumn maxWidth="-1.0" minWidth="-1.0" prefWidth="-1.0" text="Publication year" />
-      <TableColumn maxWidth="-1.0" minWidth="-1.0" prefWidth="-1.0" text="Language" />
-      <TableColumn maxWidth="-1.0" minWidth="-1.0" prefWidth="-1.0" text="Page count" />
-      <TableColumn maxWidth="-1.0" minWidth="-1.0" prefWidth="-1.0" text="Publisher" />
-      <TableColumn maxWidth="-1.0" minWidth="-1.0" prefWidth="-1.0" text="Description" />
+    <TableColumn fx:id="bookTitle" maxWidth="-1.0" minWidth="-1.0" prefWidth="-1.0" text="Title" />
+    <TableColumn fx:id="bookAuthor" maxWidth="-1.0" minWidth="-1.0" prefWidth="-1.0" text="Author" />
+      <TableColumn fx:id="bookISBN" maxWidth="-1.0" minWidth="-1.0" prefWidth="-1.0" text="ISBN" />
+      <TableColumn fx:id="bookGenre" maxWidth="-1.0" minWidth="-1.0" prefWidth="-1.0" text="Genre" />
+      <TableColumn fx:id="bookPublicationYear" maxWidth="-1.0" minWidth="-1.0" prefWidth="-1.0" text="Publication year" />
+      <TableColumn fx:id="bookLanguage" maxWidth="-1.0" minWidth="-1.0" prefWidth="-1.0" text="Language" />
+      <TableColumn fx:id="bookPageCount" maxWidth="-1.0" minWidth="-1.0" prefWidth="-1.0" text="Page count" />
+      <TableColumn fx:id="bookPublisher" maxWidth="-1.0" minWidth="-1.0" prefWidth="-1.0" text="Publisher" />
+      <TableColumn fx:id="bookDescription" maxWidth="-1.0" minWidth="-1.0" prefWidth="-1.0" text="Description" />
   </columns>
 </TableView>
