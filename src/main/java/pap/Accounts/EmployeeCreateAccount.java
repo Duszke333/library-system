@@ -1,4 +1,4 @@
-package pap;
+package pap.Accounts;
 
 import db.DAO.AddressDAO;
 import db.DAO.UserDAO;
@@ -9,13 +9,10 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.util.Arrays;
 
-public class CreateAccount {
+public class EmployeeCreateAccount {
     @FXML
     private TextField nameInput;
     @FXML
@@ -42,6 +39,8 @@ public class CreateAccount {
     private Text passUnmached;
     @FXML
     private Text operationStatus;
+//    @FXML
+//    private TextField
     @FXML
     protected void creationConfirmed() throws NoSuchAlgorithmException {
         // get all data from inputs
