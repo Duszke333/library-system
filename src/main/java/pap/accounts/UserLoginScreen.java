@@ -1,4 +1,4 @@
-package pap.Accounts;
+package pap.accounts;
 
 import db.DAO.UserDAO;
 import db.Entities.User;

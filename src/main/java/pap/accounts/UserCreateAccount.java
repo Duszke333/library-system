@@ -1,4 +1,4 @@
-package pap.Accounts;
+package pap.accounts;
 
 import db.DAO.AddressDAO;
 import db.DAO.UserDAO;
