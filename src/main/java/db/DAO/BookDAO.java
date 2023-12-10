@@ -51,6 +51,19 @@ public class BookDAO implements DAO<Book> {
         }
     }
 
+    public Book[] getAllBookType() {
+        List<Book> booksList = null;
+        try (Session session = factory.openSession()) {
+            booksList = session.createNativeQuery("SELECT * FROM pap.books", Book.class).list();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        Book[] booksArray = new Book[booksList.size()];
+        booksArray = booksList.toArray(booksArray);
+
+        return booksArray;
+    }
+
     public List<Book> getAll() {
         List<Book> books = null;
         try (Session session = factory.openSession()) {
@@ -61,6 +74,7 @@ public class BookDAO implements DAO<Book> {
         }
         return books;
     }
+
 
     public List<Book> query(String sql) {
         List<Book> books = null;
