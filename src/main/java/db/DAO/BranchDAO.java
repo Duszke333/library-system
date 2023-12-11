@@ -1,89 +1,81 @@
 package db.DAO;
 
-import db.Entities.Book;
+import db.Entities.Branch;
 import db.SessionFactoryMaker;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import java.util.List;
 
-public class BookDAO implements DAO<Book> {
+public class BranchDAO implements DAO<Branch>{
     SessionFactoryMaker sessionFactoryMaker = new SessionFactoryMaker();
     SessionFactory factory = sessionFactoryMaker.getSessionFactory();
 
-    public void create(Book book) {
+    @Override
+    public void create(Branch branch) {
         try (Session session = factory.openSession()) {
             session.beginTransaction();
-            session.save(book);
+            session.save(branch);
             session.getTransaction().commit();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
 
-    public Book read(int id) {
-        Book book = null;
+    @Override
+    public Branch read(int id) {
+        Branch branch = null;
         try (Session session = factory.openSession()) {
-            book = session.get(Book.class, id);
+            branch = session.get(Branch.class, id);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        return book;
+        return branch;
     }
 
-    public void update(Book book) {
+    @Override
+    public void update(Branch branch) {
         try (Session session = factory.openSession()) {
             session.beginTransaction();
-            session.update(book);
+            session.update(branch);
             session.getTransaction().commit();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
 
-    public void delete(Book book) {
+    @Override
+    public void delete(Branch branch) {
         try (Session session = factory.openSession()) {
             session.beginTransaction();
-            session.delete(book);
+            session.delete(branch);
             session.getTransaction().commit();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
 
-    public Book[] getAllBookType() {
-        List<Book> booksList = null;
+    @Override
+    public List<Branch> getAll() {
+        List<Branch> branches = null;
         try (Session session = factory.openSession()) {
-            booksList = session.createNativeQuery("SELECT * FROM pap.books", Book.class).list();
+            branches = session.createNativeQuery("SELECT * FROM branches").list();
+            return branches;
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        Book[] booksArray = new Book[booksList.size()];
-        booksArray = booksList.toArray(booksArray);
-
-        return booksArray;
+        return branches;
     }
 
-    public List<Book> getAll() {
-        List<Book> books = null;
+    @Override
+    public List<Branch> query(String sql) {
+        List<Branch> branches = null;
         try (Session session = factory.openSession()) {
-            books = session.createNativeQuery("SELECT * FROM pap.books").list();
-            return books;
+            branches = session.createNativeQuery(sql).list();
+            return branches;
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        return books;
-    }
-
-
-    public List<Book> query(String sql) {
-        List<Book> books = null;
-        try (Session session = factory.openSession()) {
-            books = session.createNativeQuery(sql).list();
-            return books;
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-        return books;
+        return branches;
     }
 }
