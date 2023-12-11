@@ -16,6 +16,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import javafx.scene.input.MouseEvent;
 
 import java.io.IOException;
 import java.net.URL;
@@ -51,14 +52,55 @@ public class BrowseCatalogController implements Initializable {
 
     @FXML
     private TableColumn<Book, String> title;
+
+    Integer index;
+    Integer choosenBookID;
+    @FXML
+    public void getItem(MouseEvent event) {
+        index = catalog.getSelectionModel().getSelectedIndex();
+        choosenBookID = catalog.getSelectionModel().getSelectedItem().getBookId();
+        if(index <= -1){
+            return;
+        }
+        Book choosenBook = new BookDAO().read(choosenBookID);
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("book-view.fxml"));
+            Parent root;
+            root = loader.load();
+            Stage stage;
+            BookViewController bookViewController = loader.getController();
+            bookViewController.setBook(choosenBook);
+            bookViewController.displayTitle(choosenBook.getTitle());
+            bookViewController.displayAuthor(choosenBook.getAuthor());
+            bookViewController.displayGenre(choosenBook.getGenre());
+            bookViewController.displayPublicationYear(choosenBook.getPublicationYear());
+            bookViewController.displayLanguage(choosenBook.getLanguage());
+            bookViewController.displayPageCount(choosenBook.getPageCount());
+            bookViewController.displayPublisher(choosenBook.getPublisher());
+            bookViewController.displayDescription(choosenBook.getDescription());
+            bookViewController.displayAvailability(choosenBook.isAvailable());
+            bookViewController.displayDateAdded(choosenBook.getDateAdded());
+            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+
     private Book test(){
         BookDAO dao = new BookDAO();
         Book book = new Book();
+        
         book.setAuthor("Author");
         book.setIsbn("123");
         book.setGenre("genre");
         book.setLanguage("pl");
-        book.setTitle("title");
+        book.setTitle("to jest tytul ksiazki");
         book.setDateAdded(java.sql.Date.valueOf("2023-12-12"));
         book.setDescription("1234");
         book.setPublisher("publisher");
@@ -68,7 +110,7 @@ public class BrowseCatalogController implements Initializable {
         book.setBookId(2);
 
         dao.create(book);
-        return dao.read(book.getBookId());
+        return dao.read(2);
     }
 
     ObservableList<Book> list = FXCollections.observableArrayList(
@@ -98,20 +140,21 @@ public class BrowseCatalogController implements Initializable {
         });
 
         catalog.setItems(list);
-        catalog.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Book>() {
-            @Override
-            public void changed(ObservableValue<? extends Book> observableValue, Book book, Book t1) {
-                try {
-                    Parent root = FXMLLoader.load(getClass().getResource("main-view.fxml"));
-                    Stage stage = (Stage) catalog.getScene().getWindow();
-                    Scene scene = new Scene(root);
-                    stage.setScene(scene);
-                    stage.show();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-
-            }
-        });
+        //catalog.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Book>() {
+//            @Override
+//            public void changed(ObservableValue<? extends Book> observableValue, Book book, Book t1) {
+//                try {
+//                    Parent root = FXMLLoader.load(getClass().getResource("main-view.fxml"));
+//                    Stage stage = (Stage) catalog.getScene().getWindow();
+//                    Scene scene = new Scene(root);
+//                    stage.setScene(scene);
+//                    stage.show();
+//                } catch (IOException e) {
+//                    throw new RuntimeException(e);
+//                }
+//
+//            }
+//        });
     }
+
 }
