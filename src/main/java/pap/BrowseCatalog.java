@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+@Deprecated(since = "11.12.23 10:55", forRemoval = true)
 public class BrowseCatalog implements Initializable {
     @FXML
     private TableView<Book> bookCatalog;

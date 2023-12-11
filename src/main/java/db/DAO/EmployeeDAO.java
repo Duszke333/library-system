@@ -67,11 +67,12 @@ public class EmployeeDAO implements DAO<Employee>{
     public List<Employee> query(String sql) {
         List<Employee> employees = null;
         try (Session session = factory.openSession()) {
-            employees = session.createNativeQuery(sql).list();
+            employees = session.createNativeQuery(sql, Employee.class).list();
             return employees;
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
         return employees;
     }
+
 }
