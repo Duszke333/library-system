@@ -53,21 +53,19 @@ public class BrowseCatalogController implements Initializable {
     @FXML
     private TableColumn<Book, String> title;
 
-    Integer index;
-    Integer choosenBookID;
+
     @FXML
     public void getItem(MouseEvent event) {
-        index = catalog.getSelectionModel().getSelectedIndex();
-        choosenBookID = catalog.getSelectionModel().getSelectedItem().getBookId();
+        int index = catalog.getSelectionModel().getSelectedIndex();
+        int chosenBookID = catalog.getSelectionModel().getSelectedItem().getBookId();
         if(index <= -1){
             return;
         }
-        Book choosenBook = new BookDAO().read(choosenBookID);
+        Book choosenBook = new BookDAO().read(chosenBookID);
 
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("book-view.fxml"));
-            Parent root;
-            root = loader.load();
+            Parent root = loader.load();
             Stage stage;
             BookViewController bookViewController = loader.getController();
             bookViewController.setBook(choosenBook);
