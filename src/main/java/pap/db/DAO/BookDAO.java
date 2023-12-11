@@ -50,6 +50,7 @@ public class BookDAO implements DAO<Book> {
         }
     }
 
+    @Deprecated (since = "getAll works fine now.", forRemoval = true)
     public Book[] getAllBookType() {
         List<Book> booksList = List.of();
         try (Session session = factory.openSession()) {

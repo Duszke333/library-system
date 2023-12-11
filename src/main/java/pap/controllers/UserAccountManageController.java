@@ -141,7 +141,6 @@ public class UserAccountManageController implements Initializable {
     protected void deactivationConfirmed() {
         deactivationStatus.setFill(javafx.scene.paint.Color.RED);
         deactivationStatus.setText("Account deactivated.");
-        deactivationStatus.setVisible(true);
         deactivationButton.setDisable(false);
         confirmDeactivation.setVisible(false);
         cancelDeactivation.setVisible(false);
