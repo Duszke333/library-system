@@ -10,7 +10,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @Entity
-@Table(name = "ADDRESSES", schema = "view", catalog = "postgres")
+@Table(name = "ADDRESSES", schema = "pap", catalog = "postgres")
 public class Address implements java.io.Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

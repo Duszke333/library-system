@@ -2,6 +2,7 @@ package pap.db.Repository;
 
 import pap.db.DAO.BookDAO;
 import pap.db.Entities.Book;
+import pap.db.Repository.Interface.IBookRepository;
 
 import java.util.List;
 
@@ -32,9 +33,6 @@ public class BookRepository implements IBookRepository {
     public List<Book> getAll() {
         return bookDAO.getAll();
     }
-
-    @Deprecated (since = "getAll works fine now.", forRemoval = true)
-    public Book[] getAllBookType(){return bookDAO.getAllBookType();}
 
 
     @Override

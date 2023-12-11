@@ -9,7 +9,7 @@ import lombok.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "BRANCHES", schema = "view", catalog = "postgres")
+@Table(name = "BRANCHES", schema = "pap", catalog = "postgres")
 public class Branch implements java.io.Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -2,10 +2,11 @@ package pap.db.Repository;
 
 import pap.db.Entities.User;
 import pap.db.DAO.UserDAO;
+import pap.db.Repository.Interface.IUserRepository;
 
 import java.util.List;
 
-public class UserRepository implements IUserRepository{
+public class UserRepository implements IUserRepository {
     UserDAO userDAO = new UserDAO();
     @Override
     public List<User> getAll() {

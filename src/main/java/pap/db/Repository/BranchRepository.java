@@ -6,10 +6,11 @@ import pap.db.DAO.EmployeeDAO;
 import pap.db.Entities.Address;
 import pap.db.Entities.Branch;
 import pap.db.Entities.Employee;
+import pap.db.Repository.Interface.IBranchRepository;
 
 import java.util.List;
 
-public class BranchRepository implements IBranchRepository{
+public class BranchRepository implements IBranchRepository {
     BranchDAO branchDAO = new BranchDAO();
     EmployeeDAO employeeDAO = new EmployeeDAO();
     AddressDAO addressDAO = new AddressDAO();

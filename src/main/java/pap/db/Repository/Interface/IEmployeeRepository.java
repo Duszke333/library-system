@@ -1,7 +1,8 @@
-package pap.db.Repository;
+package pap.db.Repository.Interface;
 
 import pap.db.Entities.Branch;
 import pap.db.Entities.Employee;
+
 
 import java.util.List;
 

@@ -1,4 +1,5 @@
-package pap.db.Repository;
+package pap.db.Repository.Interface;
+
 
 import java.util.List;
 

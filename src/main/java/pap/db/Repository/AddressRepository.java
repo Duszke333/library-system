@@ -4,10 +4,11 @@ import pap.db.DAO.AddressDAO;
 import pap.db.DAO.UserDAO;
 import pap.db.Entities.Address;
 import pap.db.Entities.User;
+import pap.db.Repository.Interface.IAddressRepository;
 
 import java.util.List;
 
-public class AddressRepository implements IAddressRepository{
+public class AddressRepository implements IAddressRepository {
     private UserDAO userDAO = new UserDAO();
     private AddressDAO addressDAO = new AddressDAO();
 

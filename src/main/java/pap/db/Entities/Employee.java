@@ -11,7 +11,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @Entity
-@Table(name = "EMPLOYEES", schema = "view", catalog = "postgres")
+@Table(name = "EMPLOYEES", schema = "pap", catalog = "postgres")
 public class Employee implements java.io.Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -10,7 +10,7 @@ public class SessionFactoryMaker {
         if (sessionFactory == null) {
             try {
                 Configuration configuration = new Configuration();
-                configuration.configure("pap/db/hibernate.cfg.xml");
+                configuration.configure("hibernate.cfg.xml");
                 sessionFactory = configuration.buildSessionFactory();
             } catch (Exception e) {
                 e.printStackTrace();

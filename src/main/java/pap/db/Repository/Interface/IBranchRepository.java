@@ -1,4 +1,4 @@
-package pap.db.Repository;
+package pap.db.Repository.Interface;
 
 import pap.db.Entities.Address;
 import pap.db.Entities.Branch;
