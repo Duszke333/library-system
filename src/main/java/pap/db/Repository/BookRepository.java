@@ -33,6 +33,7 @@ public class BookRepository implements IBookRepository {
         return bookDAO.getAll();
     }
 
+    @Deprecated (since = "getAll works fine now.", forRemoval = true)
     public Book[] getAllBookType(){return bookDAO.getAllBookType();}
 
 
