@@ -83,6 +83,7 @@ public class BookManagerController implements Initializable {
         book.setLanguage(language);
         book.setPageCount(pages);
         book.setPublisher(publisher);
+        if (description.isEmpty()) description = "Description will be added soon.";
         book.setDescription(description);
 
         new BookRepository().update(book);
@@ -96,7 +97,6 @@ public class BookManagerController implements Initializable {
         deletionStatus.setFill(javafx.scene.paint.Color.WHITE);
         deletionStatus.setText("Are you sure you want to delete this book?");
         deletionStatus.setVisible(true);
-        deletionButton.setDisable(true);
         confirmDeletion.setVisible(true);
         cancelDeletion.setVisible(true);
     }
