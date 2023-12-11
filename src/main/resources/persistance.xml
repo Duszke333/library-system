@@ -8,10 +8,10 @@
   </persistence-unit>
     <persistence-unit name="pap">
       <mapping-file>mappings.xml</mapping-file>
-      <class>db.Entities.Address</class>
-      <class>db.Entities.Book</class>
-      <class>db.Entities.User</class>
-      <class>db.Entities.Employee</class>
+      <class>pap.db.Entities.Address</class>
+      <class>pap.db.Entities.Book</class>
+      <class>pap.db.Entities.User</class>
+      <class>pap.db.Entities.Employee</class>
       <properties>
         <property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5432/pap"/>
         <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
