@@ -17,7 +17,7 @@
             <RowConstraints minHeight="10.0" vgrow="ALWAYS" />
          </rowConstraints>
          <children>
-            <TableView fx:id="catalog" tableMenuButtonVisible="true" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+            <TableView fx:id="catalog" onMouseClicked="#getItem" tableMenuButtonVisible="true" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
                 <columns>
                   <TableColumn fx:id="title" minWidth="-1.0" prefWidth="200.0" text="Title" />
                   <TableColumn fx:id="author" minWidth="-1.0" prefWidth="200.0" text="Author" />
