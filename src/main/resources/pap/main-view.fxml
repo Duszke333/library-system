@@ -76,7 +76,7 @@
                </rowConstraints>
                <children>
                   <Button fx:id="buttonBack" alignment="TOP_LEFT" mnemonicParsing="false" text="Back to main menu" />
-                <Button fx:id="buttonAccounts" mnemonicParsing="false" text="Accounts" GridPane.columnIndex="1" />
+                <Button fx:id="buttonLoginPage" mnemonicParsing="false" text="Login Page" GridPane.columnIndex="1" />
                   <Button fx:id="buttonCatalogue" mnemonicParsing="false" text="Catalogue" GridPane.columnIndex="2" />
                </children>
                <padding>

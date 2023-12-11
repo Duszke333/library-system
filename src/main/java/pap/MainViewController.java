@@ -22,7 +22,7 @@ public class MainViewController {
     @FXML
     private Button buttonBack;
     @FXML
-    private Button buttonAccounts;
+    private Button buttonLoginPage;
     @FXML
     private Button buttonCatalogue;
     @FXML
@@ -32,16 +32,16 @@ public class MainViewController {
     @FXML
     private Text textMainView;
     @FXML
-    private Pane contentPane;
+    public Pane contentPane;
     @FXML
     private ScrollPane scrollPane;
     
     private static final String REPO_URL = "https://gitlab-stud.elka.pw.edu.pl/papuga/pap2023z-z17";
     
-    private static final Parent accountCreationPage;
+    private static final Parent userLoginPage;
     static {
         try {
-            accountCreationPage = new FXMLLoader(MainViewController.class.getResource("user-create-account.fxml")).load();
+            userLoginPage = new FXMLLoader(MainViewController.class.getResource("user-login-screen.fxml")).load();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -65,7 +65,7 @@ public class MainViewController {
         });
         
         buttonBack.setOnAction(e -> contentPane.getChildren().setAll(scrollPane));
-        buttonAccounts.setOnAction(e -> contentPane.getChildren().setAll(accountCreationPage));
+        buttonLoginPage.setOnAction(e -> contentPane.getChildren().setAll(userLoginPage));
         buttonCatalogue.setOnAction(e -> contentPane.getChildren().setAll(cataloguepage));
         menuGotoRepo.setOnAction(e -> {
             try {
