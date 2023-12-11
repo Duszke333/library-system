@@ -1,4 +1,4 @@
-package pap.controllers;
+package pap;
 
 
 import pap.db.Entities.Book;
@@ -6,13 +6,22 @@ import pap.db.Repository.BookRepository;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
+import javafx.scene.input.MouseEvent;
 
+import java.io.IOException;
 import java.net.URL;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.ResourceBundle;
 
 public class BrowseCatalogController implements Initializable {
 
@@ -44,6 +53,41 @@ public class BrowseCatalogController implements Initializable {
     private TableColumn<Book, String> title;
 
 
+    @FXML
+    public void getItem(MouseEvent event) {
+        int index = catalog.getSelectionModel().getSelectedIndex();
+        int chosenBookID = catalog.getSelectionModel().getSelectedItem().getBookId();
+        if(index <= -1){
+            return;
+        }
+        Book choosenBook = new BookDAO().read(chosenBookID);
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("book-view.fxml"));
+            Parent root = loader.load();
+            Stage stage;
+            BookViewController bookViewController = loader.getController();
+            bookViewController.setBook(choosenBook);
+            bookViewController.displayTitle(choosenBook.getTitle());
+            bookViewController.displayAuthor(choosenBook.getAuthor());
+            bookViewController.displayGenre(choosenBook.getGenre());
+            bookViewController.displayPublicationYear(choosenBook.getPublicationYear());
+            bookViewController.displayLanguage(choosenBook.getLanguage());
+            bookViewController.displayPageCount(choosenBook.getPageCount());
+            bookViewController.displayPublisher(choosenBook.getPublisher());
+            bookViewController.displayDescription(choosenBook.getDescription());
+            bookViewController.displayAvailability(choosenBook.isAvailable());
+            bookViewController.displayDateAdded(choosenBook.getDateAdded());
+            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         catalog.widthProperty().addListener(o -> {
@@ -51,7 +95,7 @@ public class BrowseCatalogController implements Initializable {
                 column.setMinWidth(catalog.getWidth() / catalog.getColumns().size());
             });
         });
-        
+
         ObservableList<Book> list = FXCollections.observableArrayList(new BookRepository().getAll());
 
         title.setCellValueFactory(new PropertyValueFactory<Book, String>("title"));
@@ -62,6 +106,12 @@ public class BrowseCatalogController implements Initializable {
         page_count.setCellValueFactory(new PropertyValueFactory<Book, Integer>("pageCount"));
         publication_year.setCellValueFactory(new PropertyValueFactory<Book, Date>("publicationYear"));
         publisher.setCellValueFactory(new PropertyValueFactory<Book, String>("publisher"));
+        catalog.widthProperty().addListener(o -> {
+            catalog.getColumns().forEach(column -> {
+                column.setMinWidth(catalog.getWidth() / catalog.getColumns().size());
+            });
+        });
+
         catalog.setItems(list);
     }
 }
