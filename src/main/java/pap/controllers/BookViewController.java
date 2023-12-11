@@ -1,5 +1,6 @@
 package pap.controllers;
 
+import javafx.scene.control.TextArea;
 import pap.db.Entities.Book;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -28,7 +29,7 @@ public class BookViewController {
     @FXML
     Label publisherLabel;
     @FXML
-    Label descriptionLabel;
+    TextArea descriptionLabel;
     @FXML
     Label isAvailableLabel;
 
