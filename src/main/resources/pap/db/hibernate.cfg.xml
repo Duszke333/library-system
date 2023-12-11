@@ -30,7 +30,7 @@
         </property>
 
 
-        <mapping resource="pap/db/mappings.xmlxml" />
+        <mapping resource="pap/db/mappings.xml" />
 
     </session-factory>
 </hibernate-configuration>
