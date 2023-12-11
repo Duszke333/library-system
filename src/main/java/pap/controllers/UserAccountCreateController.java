@@ -42,10 +42,11 @@ public class UserAccountCreateController {
 
     @FXML
     private void alreadyAccountButtonPressed() {
-        GlobalController.getParent().contentPane.getChildren().setAll(userLoginPage);
+        GlobalController.setContentPane(userLoginPage);
     }
+    
     @FXML
-    private void creationConfirmed() {
+    private void createAccountButtonPressed() {
         // get all data from inputs
         String name = nameInput.getText();
         String surname = surnameInput.getText();
@@ -67,42 +68,41 @@ public class UserAccountCreateController {
             return;
         }
 
-        if (password.equals(passwordConfirm)) {
-            passUnmached.setVisible(false);
-            operationStatus.setFill(javafx.scene.paint.Color.GREEN);
-            operationStatus.setText("Account created!");
-            operationStatus.setVisible(true);
-
-            Address addr = new Address();
-            addr.setCountry(country);
-            addr.setCity(city);
-            addr.setStreet(street);
-            addr.setPostalCode(postalCode);
-            addr.setHouseNumber(houseNumber);
-            addr.setFlatNumber(flatNumber);
-
-            new AddressDAO().create(addr);
-            User usr = new User();
-            usr.setFirstName(name);
-            usr.setLastName(surname);
-            usr.setEmail(email);
-            usr.setAddressId(addr.getAddressId());
-            usr.setActive(true);
-            usr.setDateCreated(new java.sql.Date(System.currentTimeMillis()));
-
-            // generate password salt
-            String stringSalt = PasswordHasher.generateSalt();
-            usr.setPasswordSalt(stringSalt);
-
-            String hashedPassword = PasswordHasher.hashPassword(password, stringSalt);
-            usr.setPasswordHash(hashedPassword);
-            usr.setAddressId(addr.getAddressId());
-
-            new UserDAO().create(usr);
-
-        } else {
+        if (!password.equals(passwordConfirm)) {
             passUnmached.setVisible(true);
-            System.out.println("Passwords do not match!");
+            return;
         }
+        
+        passUnmached.setVisible(false);
+        operationStatus.setFill(javafx.scene.paint.Color.GREEN);
+        operationStatus.setText("Account created!");
+        operationStatus.setVisible(true);
+
+        Address addr = new Address();
+        addr.setCountry(country);
+        addr.setCity(city);
+        addr.setStreet(street);
+        addr.setPostalCode(postalCode);
+        addr.setHouseNumber(houseNumber);
+        addr.setFlatNumber(flatNumber);
+
+        new AddressDAO().create(addr);
+        User usr = new User();
+        usr.setFirstName(name);
+        usr.setLastName(surname);
+        usr.setEmail(email);
+        usr.setAddressId(addr.getAddressId());
+        usr.setActive(true);
+        usr.setDateCreated(new java.sql.Date(System.currentTimeMillis()));
+
+        // generate password salt
+        String stringSalt = PasswordHasher.generateSalt();
+        usr.setPasswordSalt(stringSalt);
+
+        String hashedPassword = PasswordHasher.hashPassword(password, stringSalt);
+        usr.setPasswordHash(hashedPassword);
+        usr.setAddressId(addr.getAddressId());
+
+        new UserDAO().create(usr);
     }
 }

@@ -6,6 +6,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import pap.helpers.Login;
 
 import java.awt.*;
 import java.io.IOException;
@@ -38,7 +39,11 @@ public class MainViewController {
     
     @FXML
     private void buttonLoginPagePressed() {
-        contentPane.getChildren().setAll(userLoginPage);
+        if (Login.getUserLoggedIn().isEmpty()) {
+            contentPane.getChildren().setAll(userLoginPage);
+        } else {
+            contentPane.getChildren().setAll(userManagepage);
+        }
     }
     
     @FXML

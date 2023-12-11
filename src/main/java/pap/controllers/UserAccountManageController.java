@@ -10,9 +10,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import pap.helpers.LoadedPages;
+import pap.helpers.Login;
 import pap.helpers.PasswordHasher;
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class UserAccountManageController implements Initializable {
@@ -48,6 +51,12 @@ public class UserAccountManageController implements Initializable {
     private Button confirmDeactivation;
     @FXML
     private Button cancelDeactivation;
+    
+    @FXML
+    protected void signOutButtonPressed() {
+        Login.setUserLoggedIn(Optional.empty());
+        GlobalController.setContentPane(LoadedPages.userLoginPage);
+    }
 
     @FXML
     protected void changePassword() {
