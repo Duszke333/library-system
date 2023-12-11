@@ -2,34 +2,18 @@
 
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pap.BrowseCatalogController">
-   <children>
-      <GridPane>
-         <columnConstraints>
-            <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints minHeight="10.0" vgrow="ALWAYS" />
-         </rowConstraints>
-         <children>
-            <TableView fx:id="catalog" onMouseClicked="#getItem" tableMenuButtonVisible="true" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
-                <columns>
-                  <TableColumn fx:id="title" minWidth="-1.0" prefWidth="200.0" text="Title" />
-                  <TableColumn fx:id="author" minWidth="-1.0" prefWidth="200.0" text="Author" />
-                  <TableColumn fx:id="genre" prefWidth="200.0" text="Genre" />
-                  <TableColumn fx:id="publication_year" minWidth="-1.0" prefWidth="100.0" text="Publication year" />
-                  <TableColumn fx:id="language" prefWidth="100.0" text="Language" />
-                  <TableColumn fx:id="page_count" text="Page count" />
-                  <TableColumn fx:id="publisher" prefWidth="200.0" text="Publisher" />
-                  <TableColumn fx:id="description" prefWidth="200.0" text="Description" />
-                </columns>
-              </TableView>
-         </children>
-      </GridPane>
-   </children>
-</AnchorPane>
+
+<TableView fx:id="catalog" tableMenuButtonVisible="true" onMouseClicked="#getItem" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pap.controllers.BrowseCatalogController">
+    <columns>
+        <TableColumn fx:id="title" maxWidth="-1.0" minWidth="-1.0" prefWidth="-1.0" text="Title" />
+        <TableColumn fx:id="author" maxWidth="-1.0" minWidth="-1.0" prefWidth="-1.0" text="Author" />
+        <TableColumn fx:id="genre" maxWidth="-1.0" prefWidth="-1.0" text="Genre" />
+        <TableColumn fx:id="publication_year" maxWidth="-1.0" minWidth="-1.0" prefWidth="-1.0" text="Publication year" />
+        <TableColumn fx:id="language" maxWidth="-1.0" prefWidth="-1.0" text="Language" />
+        <TableColumn fx:id="page_count" maxWidth="-1.0" prefWidth="-1.0" text="Page count" />
+        <TableColumn fx:id="publisher" maxWidth="-1.0" prefWidth="-1.0" text="Publisher" />
+        <TableColumn fx:id="description" maxWidth="-1.0" prefWidth="-1.0" text="Description" />
+    </columns>
+</TableView>
+

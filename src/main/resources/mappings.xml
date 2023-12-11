@@ -2,8 +2,8 @@
 <entity-mappings xmlns="https://jakarta.ee/xml/ns/persistence/orm"
                  version="3.0">
 
-    <entity class="db.Entities.Address"/>
-    <entity class="db.Entities.Book"/>
-    <entity class="db.Entities.User"/>
-    <entity class="db.Entities.Employee"/>
+    <entity class="pap.db.Entities.Address"/>
+    <entity class="pap.db.Entities.Book"/>
+    <entity class="pap.db.Entities.User"/>
+    <entity class="pap.db.Entities.Employee"/>
 </entity-mappings>
