@@ -1,13 +1,15 @@
 package pap.controllers;
 
-import pap.db.Entities.User;
-import pap.db.Repository.UserRepository;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
-import pap.helpers.PasswordHasher;
+
+import java.util.Optional;
+
+import static pap.helpers.LoadedPages.createAccountPage;
+import static pap.helpers.LoadedPages.userManagepage;
+import static pap.helpers.Login.*;
 
 public class UserLoginScreenController {
     @FXML
@@ -15,54 +17,40 @@ public class UserLoginScreenController {
     @FXML
     private PasswordField loginPassword;
     @FXML
-    private Button createAccountButton;
-    @FXML
     private Text loginStatus;
 
     @FXML
-    protected void loginPressed() {
-        // get login and password from inputs
-        String email = loginEmail.getText();
-        String password = loginPassword.getText();
-
-        int id = tryLogin(email, password);
-
-        switch (id) {
-            case -2:
-                loginStatus.setText("All fields must be filled!");
-                loginStatus.setVisible(true);
-                break;
-            case -1:
-                loginStatus.setText("Wrong email or password!");
-                loginStatus.setVisible(true);
-                break;
-            default:
-                loginStatus.setText("Logged in!");
-                loginStatus.setFill(javafx.scene.paint.Color.GREEN);
-                loginStatus.setVisible(true);
-                System.out.println("Zalogowano");
-                break;
-        }
+    private void createAccountButtonPressed() {
+        loginEmail.clear();
+        loginPassword.clear();
+        GlobalController.setContentPane(createAccountPage);
     }
 
-    public static int tryLogin(String email, String password) {
-        if (email.isEmpty() || password.isEmpty()) {
-            return -2;
+    @FXML
+    private void loginButtonPressed() {
+        String email = loginEmail.getText().strip();
+        String password = loginPassword.getText().strip();
+//        System.out.printf("%s\t%s\n", email, password);
+        
+        var id = tryLogin(email, password);
+        if (id == LoginTry.EmptyCredentials) {
+            loginStatus.setText("All fields must be filled");
+            loginStatus.setVisible(true);
         }
-
-        User usr = new UserRepository().getByEmail(email);
-        if (usr == null) {
-            System.out.println("NO USER");
-            return -1;
+        else if (id == LoginTry.IncorrectPassword) {
+            loginStatus.setText("Wrong password");
+            loginStatus.setVisible(true);
         }
-
-        String salt = usr.getPasswordSalt();
-        String hashedPassword = usr.getPasswordHash();
-
-        if (hashedPassword.equals(PasswordHasher.hashPassword(password, salt))) {
-            return usr.getAccountId();
-        } else {
-            return -1;
+        else if (id == LoginTry.NoUser) {
+            loginStatus.setText("No such user in database");
+            loginStatus.setVisible(true);
+        }
+        else {
+            setUserLoggedIn(Optional.of(id));
+            loginEmail.clear();
+            loginPassword.clear();
+            loginStatus.setVisible(false);
+            GlobalController.setContentPane(userManagepage);
         }
     }
 }

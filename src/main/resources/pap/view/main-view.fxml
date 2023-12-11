@@ -54,12 +54,12 @@
               <menus>
                   <Menu mnemonicParsing="false" text="File">
                     <items>
-                        <MenuItem fx:id="menuQuit" mnemonicParsing="false" text="Quit" />
+                        <MenuItem fx:id="menuQuit" onAction="#menuQuitPressed" mnemonicParsing="false" text="Quit" />
                     </items>
                   </Menu>
                 <Menu mnemonicParsing="false" text="Help">
                   <items>
-                    <MenuItem fx:id="menuGotoRepo" mnemonicParsing="false" text="Go to repo" />
+                    <MenuItem fx:id="menuGotoRepo" onAction="#menuGotoRepoPressed" mnemonicParsing="false" text="Go to repo" />
                   </items>
                 </Menu>
               </menus>
@@ -75,9 +75,9 @@
                   <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <Button fx:id="buttonBack" alignment="TOP_LEFT" mnemonicParsing="false" text="Back to main menu" />
-                <Button fx:id="buttonLoginPage" mnemonicParsing="false" text="Login Page" GridPane.columnIndex="1" />
-                  <Button fx:id="buttonCatalogue" mnemonicParsing="false" text="Catalogue" GridPane.columnIndex="2" />
+                  <Button fx:id="buttonBack" onAction="#buttonBackPressed" alignment="TOP_LEFT" mnemonicParsing="false" text="Back to main menu" />
+                <Button fx:id="buttonLoginPage" onAction="#buttonLoginPagePressed" mnemonicParsing="false" text="Login Page" GridPane.columnIndex="1" />
+                  <Button fx:id="buttonCatalogue" onAction="#buttonCataloguePressed" mnemonicParsing="false" text="Catalogue" GridPane.columnIndex="2" />
                </children>
                <padding>
                   <Insets bottom="12.0" left="25.0" right="25.0" top="12.0" />
@@ -87,6 +87,7 @@
       </VBox>
    </top>
    <center>
+       <fx:include fx:id="userLoginScreen" source="user-login-screen.fxml"/>
       <StackPane fx:id="contentPane">
          <children>
             <ScrollPane fx:id="scrollPane">

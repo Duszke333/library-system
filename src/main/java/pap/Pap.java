@@ -1,5 +1,5 @@
-package pap;
 
+package pap;
 import atlantafx.base.theme.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

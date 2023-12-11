@@ -1,21 +1,23 @@
-package pap;
+package pap.controllers;
 
 
+
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import pap.Pap;
 import pap.controllers.BookViewController;
 import pap.db.Entities.Book;
 import pap.db.Repository.BookRepository;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.Stage;
 import javafx.scene.input.MouseEvent;
 
 import java.io.IOException;
@@ -53,6 +55,7 @@ public class BrowseCatalogController implements Initializable {
     private TableColumn<Book, String> title;
 
 
+
     @FXML
     public void getItem(MouseEvent event) {
         int index = catalog.getSelectionModel().getSelectedIndex();
@@ -63,7 +66,7 @@ public class BrowseCatalogController implements Initializable {
         Book choosenBook = new BookRepository().getById(chosenBookID);
 
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("view/book-view.fxml"));
+            FXMLLoader loader = new FXMLLoader(Pap.class.getResource("view/book-view.fxml"));
             Parent root = loader.load();
             Stage stage;
             BookViewController bookViewController = loader.getController();
@@ -106,12 +109,6 @@ public class BrowseCatalogController implements Initializable {
         page_count.setCellValueFactory(new PropertyValueFactory<Book, Integer>("pageCount"));
         publication_year.setCellValueFactory(new PropertyValueFactory<Book, Date>("publicationYear"));
         publisher.setCellValueFactory(new PropertyValueFactory<Book, String>("publisher"));
-        catalog.widthProperty().addListener(o -> {
-            catalog.getColumns().forEach(column -> {
-                column.setMinWidth(catalog.getWidth() / catalog.getColumns().size());
-            });
-        });
-
         catalog.setItems(list);
     }
 }
