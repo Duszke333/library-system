@@ -1,6 +1,6 @@
-package pap;
+package pap.controllers;
 
-import db.Entities.Book;
+import pap.db.Entities.Book;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
