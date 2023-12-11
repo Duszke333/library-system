@@ -1,6 +1,7 @@
 package pap;
 
 
+import pap.controllers.BookViewController;
 import pap.db.Entities.Book;
 import pap.db.Repository.BookRepository;
 import javafx.collections.FXCollections;
@@ -20,7 +21,6 @@ import javafx.scene.input.MouseEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Date;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class BrowseCatalogController implements Initializable {
@@ -60,10 +60,10 @@ public class BrowseCatalogController implements Initializable {
         if(index <= -1){
             return;
         }
-        Book choosenBook = new BookDAO().read(chosenBookID);
+        Book choosenBook = new BookRepository().getById(chosenBookID);
 
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("book-view.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("view/book-view.fxml"));
             Parent root = loader.load();
             Stage stage;
             BookViewController bookViewController = loader.getController();
