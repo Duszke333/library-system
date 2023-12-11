@@ -82,3 +82,16 @@ values ('Marszałkowski branch', 1);
 insert into pap.EMPLOYEES (Password_hash, Password_salt, Username, User_ID, Role, Branch_id)
 values ('c2e847491a99c68cea3e2ed60cad9413523109efbefd094eb90bd234e0beb3106d5fa5fd9487d611d65eccdb6fe343e7daf04f47d8c07a664654002934c0ea1c',
         '96e3648d17c9399392a7d7256f7e1270', 'bozenawiacek', 1, 'Manager', 1);
+
+-- more books
+insert into pap.BOOKS (ISBN, Title, Author, Genre, Publication_year, Language, Page_count, Publisher, Is_available, Description, Date_added)
+values ('978-83-654-5889-6', 'Dziady Cz. II', 'Adam Mickiewicz', 'Poem', 1823, 'Polish', 48, 'Czytelnik', True, 'Dziady część II to dramat romantyczny Adama Mickiewicza, napisany w latach 1822-1832. Utwór ten jest uważany za jedno z największych osiągnięć literatury polskiej.', current_date);
+
+insert into pap.BOOKS (ISBN, Title, Author, Genre, Publication_year, Language, Page_count, Publisher, Is_available, Description, Date_added)
+values ('978-83-788-7627-4', 'Dziady Cz. III', 'Adam Mickiewicz', 'Poem', 1832, 'Polish', 288, 'Czytelnik', True, 'Dziady część III to dramat romantyczny Adama Mickiewicza, napisany w latach 1822-1832. Utwór ten jest uważany za jedno z największych osiągnięć literatury polskiej.', current_date);
+
+insert into pap.BOOKS (ISBN, Title, Author, Genre, Publication_year, Language, Page_count, Publisher, Is_available, Description, Date_added)
+values ('978-83-953-8621-3', 'Dziady Cz. IV', 'Adam Mickiewicz', 'Poem', 1823, 'Polish', 80, 'Czytelnik', True, 'Dziady część IV to dramat romantyczny Adama Mickiewicza, napisany w latach 1822-1832. Utwór ten jest uważany za jedno z największych osiągnięć literatury polskiej.', current_date);
+
+insert into pap.BOOKS (ISBN, Title, Author, Genre, Publication_year, Language, Page_count, Publisher, Is_available, Description, Date_added)
+values ('978-83-280-9529-8', '1984', 'George Orwell', 'Dystopia', 1949, 'English', 384, 'Secker & Warburg', True, '1984 to antyutopia George’a Orwella, napisana w latach 1947-1948 i wydana w 1949 roku. Utwór ten jest uważany za jedno z największych osiągnięć literatury światowej.', current_date);
