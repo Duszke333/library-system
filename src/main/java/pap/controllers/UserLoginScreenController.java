@@ -40,7 +40,6 @@ public class UserLoginScreenController {
                 loginStatus.setText("Logged in!");
                 loginStatus.setFill(javafx.scene.paint.Color.GREEN);
                 loginStatus.setVisible(true);
-                System.out.println("Zalogowano");
                 break;
         }
     }
@@ -52,7 +51,6 @@ public class UserLoginScreenController {
 
         User usr = new UserRepository().getByEmail(email);
         if (usr == null) {
-            System.out.println("NO USER");
             return -1;
         }
 
