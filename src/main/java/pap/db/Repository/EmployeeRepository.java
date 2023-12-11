@@ -11,30 +11,30 @@ public class EmployeeRepository implements IEmployeeRepository{
 
     @Override
     public List<Employee> getByBranchId(int branchId) {
-        String sql = "SELECT * FROM view.employees WHERE branch_id = " + branchId;
+        String sql = "SELECT * FROM pap.employees WHERE branch_id = " + branchId;
         return employeeDAO.query(sql);
     }
 
     public List<Employee> getByBranch(Branch branch) {
-        String sql = "SELECT * FROM view.employees WHERE branch_id = " + branch.getBranchId();
+        String sql = "SELECT * FROM pap.employees WHERE branch_id = " + branch.getBranchId();
         return employeeDAO.query(sql);
     }
 
     @Override
     public List<Employee> getAllActive() {
-        String sql = "SELECT * FROM view.employees WHERE active = true";
+        String sql = "SELECT * FROM pap.employees WHERE active = true";
         return employeeDAO.query(sql);
     }
 
     @Override
     public List<Employee> getAllInactive() {
-        String sql = "SELECT * FROM view.employees WHERE active = false";
+        String sql = "SELECT * FROM pap.employees WHERE active = false";
         return employeeDAO.query(sql);
     }
 
     @Override
     public List<Employee> getByRole(String role) {
-        String sql = "SELECT * FROM view.employees WHERE role = '" + role + "'";
+        String sql = "SELECT * FROM pap.employees WHERE role = '" + role + "'";
         return employeeDAO.query(sql);
     }
 
@@ -65,7 +65,7 @@ public class EmployeeRepository implements IEmployeeRepository{
 
     @Override
     public Employee getByEmail(String email) {
-        String sql = "SELECT * FROM view.employees WHERE email = '" + email + "'";
+        String sql = "SELECT * FROM pap.employees WHERE email = '" + email + "'";
         List<Employee> employees = employeeDAO.query(sql);
         if (employees.size() == 0) {
             return null;
@@ -75,7 +75,7 @@ public class EmployeeRepository implements IEmployeeRepository{
 
     @Override
     public Employee getByUsername(String username) {
-        String sql = "SELECT * FROM view.employees WHERE username = '" + username + "'";
+        String sql = "SELECT * FROM pap.employees WHERE username = '" + username + "'";
         List<Employee> employees = employeeDAO.query(sql);
         if (employees.size() == 0) {
             return null;

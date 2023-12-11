@@ -34,7 +34,7 @@ public class UserRepository implements IUserRepository{
 
     @Override
     public User getByEmail(String email) {
-        String sql = "SELECT * FROM view.users WHERE email = '" + email + "'";
+        String sql = "SELECT * FROM pap.users WHERE email = '" + email + "'";
         List<User> users = userDAO.query(sql);
         if (users.size() == 0) {
             return null;
@@ -44,7 +44,7 @@ public class UserRepository implements IUserRepository{
 
     @Override
     public User getByUsername(String username) {
-        String sql = "SELECT * FROM view.users WHERE username = '" + username + "'";
+        String sql = "SELECT * FROM pap.users WHERE username = '" + username + "'";
         List<User> users = userDAO.query(sql);
         if (users.size() == 0) {
             return null;
@@ -54,13 +54,13 @@ public class UserRepository implements IUserRepository{
 
     @Override
     public List<User> getAllActive() {
-        String sql = "SELECT * FROM view.users WHERE active = true";
+        String sql = "SELECT * FROM pap.users WHERE active = true";
         return userDAO.query(sql);
     }
 
     @Override
     public List<User> getAllInactive() {
-        String sql = "SELECT * FROM view.users WHERE active = false";
+        String sql = "SELECT * FROM pap.users WHERE active = false";
         return userDAO.query(sql);
     }
 }

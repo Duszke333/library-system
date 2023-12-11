@@ -29,13 +29,13 @@ public class BranchRepository implements IBranchRepository{
 
     @Override
     public Branch getByAddressId(int addressId) {
-        String sql = "SELECT * FROM view.branches WHERE address_id = " + addressId;
+        String sql = "SELECT * FROM pap.branches WHERE address_id = " + addressId;
         return branchDAO.query(sql).get(0);
     }
 
     @Override
     public Branch getByAddress(Address address) {
-        String sql = "SELECT * FROM view.branches WHERE address_id = " + address.getAddressId();
+        String sql = "SELECT * FROM pap.branches WHERE address_id = " + address.getAddressId();
         return branchDAO.query(sql).get(0);
     }
 
