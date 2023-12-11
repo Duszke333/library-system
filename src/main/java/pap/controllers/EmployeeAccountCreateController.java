@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import static pap.helpers.Login.*;
 import pap.helpers.PasswordHasher;
 
 public class EmployeeAccountCreateController {
@@ -45,8 +46,8 @@ public class EmployeeAccountCreateController {
             return;
         }
 
-        int uid = UserLoginScreenController.tryLogin(userEmail, userPassword);
-        if (uid == -1) {
+        int uid = tryLogin(userEmail, userPassword);
+        if (uid == LoginTry.IncorrectPassword) {
             operationStatus.setText("Wrong user email or password!");
             return;
         }
