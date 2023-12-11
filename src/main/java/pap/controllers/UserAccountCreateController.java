@@ -10,6 +10,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import pap.helpers.PasswordHasher;
 
+import static pap.helpers.LoadedPages.userLoginPage;
+
 public class UserAccountCreateController {
     @FXML
     private TextField nameInput;
@@ -37,8 +39,13 @@ public class UserAccountCreateController {
     private Text passUnmached;
     @FXML
     private Text operationStatus;
+
     @FXML
-    protected void creationConfirmed() {
+    private void alreadyAccountButtonPressed() {
+        GlobalController.getParent().contentPane.getChildren().setAll(userLoginPage);
+    }
+    @FXML
+    private void creationConfirmed() {
         // get all data from inputs
         String name = nameInput.getText();
         String surname = surnameInput.getText();

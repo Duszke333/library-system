@@ -1,13 +1,14 @@
 package pap.controllers;
 
-import pap.db.Entities.User;
-import pap.db.Repository.UserRepository;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import pap.db.Entities.User;
+import pap.db.Repository.UserRepository;
 import pap.helpers.PasswordHasher;
+
+import static pap.helpers.LoadedPages.*;
 
 public class UserLoginScreenController {
     @FXML
@@ -15,12 +16,15 @@ public class UserLoginScreenController {
     @FXML
     private PasswordField loginPassword;
     @FXML
-    private Button createAccountButton;
-    @FXML
     private Text loginStatus;
 
     @FXML
-    protected void loginPressed() {
+    private void createAccountButtonPressed() {
+        GlobalController.getParent().contentPane.getChildren().setAll(createAccountPage);
+    }
+
+    @FXML
+    private void loginPressed() {
         // get login and password from inputs
         String email = loginEmail.getText();
         String password = loginPassword.getText();
