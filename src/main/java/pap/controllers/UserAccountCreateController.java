@@ -10,7 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import pap.helpers.PasswordHasher;
 
-import static pap.helpers.LoadedPages.userLoginPage;
+import static pap.helpers.LoadedPages.loginPage;
 
 public class UserAccountCreateController {
     @FXML
@@ -42,7 +42,7 @@ public class UserAccountCreateController {
 
     @FXML
     private void alreadyAccountButtonPressed() {
-        GlobalController.setContentPane(userLoginPage);
+        GlobalController.setContentPane(loginPage);
     }
     
     @FXML

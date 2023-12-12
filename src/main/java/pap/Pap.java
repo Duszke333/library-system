@@ -11,6 +11,7 @@ import java.io.IOException;
 public class Pap extends Application {
     private static final int MIN_WIDTH = 1080;
     private static final int MIN_HEIGHT = 820;
+    
     @Override
     public void start(Stage stage) throws IOException {
         var fxmlLoader = new FXMLLoader(getClass().getResource("view/main-view.fxml"));

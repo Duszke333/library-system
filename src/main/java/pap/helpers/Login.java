@@ -22,6 +22,12 @@ public class Login {
         public static int IncorrectPassword = -3;
     }
     
+    public enum LoginType { User, Employee }
+    
+    // public static tryLogin(LoginType loginType, Pair<String, String> credentials)
+    //
+    // public static tryLoginUser(String email, String password)
+    // public static tryLoginEmployee(String username, String password)
     public static int tryLogin(String email, String password) {
         if (email.isBlank() || password.isBlank()) {
             return LoginTry.EmptyCredentials;

@@ -8,7 +8,7 @@ import javafx.scene.text.Text;
 import java.util.Optional;
 
 import static pap.helpers.LoadedPages.createAccountPage;
-import static pap.helpers.LoadedPages.userManagepage;
+import static pap.helpers.LoadedPages.userManagePage;
 import static pap.helpers.Login.*;
 
 public class UserLoginScreenController {
@@ -50,7 +50,7 @@ public class UserLoginScreenController {
             loginEmail.clear();
             loginPassword.clear();
             loginStatus.setVisible(false);
-            GlobalController.setContentPane(userManagepage);
+            GlobalController.setContentPane(userManagePage);
         }
     }
 }

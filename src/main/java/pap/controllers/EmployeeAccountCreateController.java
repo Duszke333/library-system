@@ -7,6 +7,8 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import static pap.helpers.Login.*;
+
+import pap.helpers.LoadedPages;
 import pap.helpers.PasswordHasher;
 
 public class EmployeeAccountCreateController {
@@ -27,7 +29,12 @@ public class EmployeeAccountCreateController {
     @FXML
     private Text operationStatus;
     @FXML
-    private Text passUnmached;
+    private Text passUnmatched;
+    
+    @FXML
+    protected void createUserButtonPressed() {
+        GlobalController.setContentPane(LoadedPages.createAccountPage);
+    }
 
     @FXML
     protected void createEmployeeAccountPressed() {
@@ -53,10 +60,10 @@ public class EmployeeAccountCreateController {
         }
 
         if (!employeePassword.equals(employeePasswordConf)) {
-            passUnmached.setVisible(true);
+            passUnmatched.setVisible(true);
             return;
         }
-        passUnmached.setVisible(false);
+        passUnmatched.setVisible(false);
 
         Employee emp = new Employee();
 

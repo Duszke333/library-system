@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import pap.helpers.LoadedPages;
 import pap.helpers.PasswordHasher;
 
 public class EmployeeLoginScreenController {
@@ -15,9 +16,16 @@ public class EmployeeLoginScreenController {
     private PasswordField loginPassword;
     @FXML
     private Text loginStatus;
+    
+    @FXML
+    protected void createAccountButtonPressed() {
+        loginUsername.clear();
+        loginPassword.clear();
+        GlobalController.setContentPane(LoadedPages.employeeManagePage);
+    }
 
     @FXML
-    protected void handleLoginButtonAction() {
+    protected void loginButtonPressed() {
         String username = loginUsername.getText();
         String password = loginPassword.getText();
         if (username.isEmpty() || password.isEmpty()) {

@@ -39,11 +39,7 @@ public class MainViewController {
     
     @FXML
     private void buttonLoginPagePressed() {
-        if (Login.getUserLoggedIn().isEmpty()) {
-            contentPane.getChildren().setAll(userLoginPage);
-        } else {
-            contentPane.getChildren().setAll(userManagepage);
-        }
+        contentPane.getChildren().setAll(loginPage);
     }
     
     @FXML
@@ -53,7 +49,7 @@ public class MainViewController {
     
     @FXML
     private void buttonCataloguePressed() {
-        contentPane.getChildren().setAll(cataloguepage);
+        contentPane.getChildren().setAll(cataloguePage);
     }
     
     @FXML
