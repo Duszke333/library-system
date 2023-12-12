@@ -52,13 +52,6 @@ public class UserAccountManageController implements UpdatableController, Initial
     private Button confirmDeactivation;
     @FXML
     private Button cancelDeactivation;
-    
-    @FXML
-    protected void signOutButtonPressed() {
-        Login.setUserLoggedIn(Optional.empty());
-        GlobalController.switchVisibleContent(LoadedPages.loginScreenController, LoadedPages.loginScreen);
-    }
-
     @FXML
     protected void changePassword() {
         passUnmatched.setFill(javafx.scene.paint.Color.RED);

@@ -1,4 +1,90 @@
 package pap.controllers;
 
-public class EmployeeDashboardController {
+import javafx.application.Platform;
+import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.ListView;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import pap.db.Repository.EmployeeRepository;
+import pap.helpers.LoadedPages;
+import pap.helpers.Login;
+
+import java.util.List;
+import java.util.Optional;
+
+public class EmployeeDashboardController implements UpdatableController {
+    @FXML
+    private ListView<Button> employeeActions;
+    @FXML
+    private Text loginInfo;
+    @FXML
+    private VBox contentPane;
+    
+    @FXML
+    private void initialize() {
+        var signOutItem = new Button("Sign Out");
+        signOutItem.setOnAction(e -> {
+            Login.setEmployeeLoggedIn(Optional.empty());
+            GlobalController.switchVisibleContent(LoadedPages.loginScreenController, LoadedPages.loginScreen);
+        });
+
+        var deactivateAccountItem = new Button("Deactivate account");
+        deactivateAccountItem.setOnAction(e -> {
+            Alert alert = new Alert(
+                    Alert.AlertType.CONFIRMATION,
+                    "Are you positive?",
+                    ButtonType.YES,
+                    ButtonType.NO,
+                    ButtonType.CANCEL
+            );
+            var result = alert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.YES) {
+                Platform.exit();
+            }
+        });
+
+        var manageItem = new Button("Manage account settings");
+        manageItem.setOnAction(e -> GlobalController.switchVisibleContent(LoadedPages.userAccountManageController, LoadedPages.userAccountManage));
+        
+        var manageCatalogueItem = new Button("Manage book catalogue");
+        manageCatalogueItem.setOnAction(e -> GlobalController.switchVisibleContent(LoadedPages.manageCatalogController, LoadedPages.manageCatalog));
+        
+        var bookCreatorItem = new Button("Add new books");
+        bookCreatorItem.setOnAction(e -> GlobalController.switchVisibleContent(LoadedPages.bookCreatorController, LoadedPages.bookCreator));
+        
+        var createEmployeeAccountsItem = new Button("Create new employee acounts");
+        createEmployeeAccountsItem.setOnAction(e -> GlobalController.switchVisibleContent(LoadedPages.employeeAccountCreateController, LoadedPages.employeeAccountCreate));
+
+        employeeActions.getItems().setAll(List.of(
+                manageCatalogueItem,
+                bookCreatorItem,
+                manageItem,
+                createEmployeeAccountsItem,
+                deactivateAccountItem,
+                signOutItem
+        ));
+    }
+    
+    @Override
+    public void update() {
+        var empl = new EmployeeRepository().getById(Login.getEmployeeLoggedIn().get());
+        loginInfo.setWrappingWidth(contentPane.getWidth());
+        loginInfo.setFont(Font.font(20));
+        loginInfo.setText(String.format(
+                """
+                Currently logged in as (ID: %d) Username: %s \n Role: %s
+                Account Info:\s
+
+                Active: %s
+                Created in %s
+                """,
+                empl.getEmployeeId(), empl.getUsername(), empl.getRole(),
+                empl.isActive(),
+                empl.getDateCreated()
+        ));
+    }
 }

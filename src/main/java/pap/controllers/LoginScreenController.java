@@ -10,7 +10,6 @@ public class LoginScreenController implements UpdatableController {
     private EmployeeLoginScreenController employeeLoginScreenController;
     @Override
     public void update() {
-        System.out.println("Update");
         userLoginScreenController.update();
         employeeLoginScreenController.update();
     }

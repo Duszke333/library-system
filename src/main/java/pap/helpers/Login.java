@@ -31,10 +31,6 @@ public class Login {
         public static int IncorrectPassword = -3;
     }
     
-    public static void resetToken() {
-        userLoggedIn = Optional.empty();
-    }
-    
     public static int tryLoginUser(String email, String password) {
         if (email.isBlank() || password.isBlank()) {
             return LoginTry.EmptyCredentials;

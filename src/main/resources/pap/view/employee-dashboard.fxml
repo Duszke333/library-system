@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-
-<SplitPane dividerPositions="0.5" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<SplitPane dividerPositions="0.5" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pap.controllers.EmployeeDashboardController">
    <items>
       <ListView fx:id="employeeActions" />
-      <VBox alignment="TOP_CENTER">
+      <VBox fx:id="contentPane" alignment="TOP_CENTER">
          <children>
-            <Text id="loginInfo" fx:id="loginInfo" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="52.98307228088379" />
+            <ScrollPane>
+               <content>
+                  <Text fx:id="loginInfo" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="52.98307228088379" />
+               </content>
+            </ScrollPane>
          </children>
       </VBox>
    </items>
