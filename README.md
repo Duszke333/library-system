@@ -20,8 +20,8 @@ Planujemy stworzyć aplikację, która będzie obsługiwała zarówno czytelnik�
 
 3. ### Podział funkcjonalności
     #### Piotr Jabłoński:
-    - [X] Możliwość przeglądania katalogu książek, szczegółów dotyczących książek takich jak autor, rok wydania książki, ilość stron, rodzaj okładki, wygrane nagrody… - CLIENT
-    - [X] Filtrowanie podglądu według nazwy, roku, autora… - CLIENT
+    - [ ] Możliwość przeglądania katalogu książek, szczegółów dotyczących książek takich jak autor, rok wydania książki, ilość stron, rodzaj okładki, wygrane nagrody… - CLIENT
+    - [ ] Filtrowanie podglądu według nazwy, roku, autora… - CLIENT
     - [ ] Możliwe będzie zarządzanie książkami, edycja książek, usuwanie, dodawanie rekordów książek - EMPLOYEE
     - [ ] Tworzenie kolejki wypożyczeń, ustawienie ogólnego limitu, konkretny limit per książka - EMPLOYEE
     - [ ] Sposób wyświetlania książek: Okładka/Szczegółowy opis z detalami - CLIENT
@@ -38,7 +38,7 @@ Planujemy stworzyć aplikację, która będzie obsługiwała zarówno czytelnik�
     - [ ] Możliwość uregulowania kar za przekroczenie terminu oddania książki - CLIENT
     - [ ] Możliwość przedłużenia wypożyczenia, najwyżej jeden raz, jeżeli klient do tej pory się uregulował z wypożyczeniami, i nie ma oczekujących na wypożyczenie - CLIENT
     #### Paweł Wysocki:
-    - [X] Stworzenie konta bibliotecznego, usunięcie go lub jego edycja - CLIENT
+    - [ ] Stworzenie konta bibliotecznego, usunięcie go lub jego edycja - CLIENT
     - [ ] Podgląd wypożyczonych obecnie pozycji - CLIENT
     - [ ] Możliwość tworzenia listy pozycji, które chce się przeczytać - CLIENT
     - [ ] Możliwość oceniania wypożyczonych książek - CLIENT
