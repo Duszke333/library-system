@@ -15,4 +15,6 @@ public interface IEmployeeRepository extends IRepository<Employee>{
     Employee getById(int id);
     Employee getByEmail(String email);
     Employee getByUsername(String username);
+
+    Employee getByUserID(int userID);
  }

@@ -83,4 +83,14 @@ public class EmployeeRepository implements IEmployeeRepository {
         }
         return employees.get(0);
     }
+
+    @Override
+    public Employee getByUserID(int userID) {
+        String sql = "SELECT * FROM pap.employees WHERE user_id = '" + userID + "'";
+        List<Employee> employees = employeeDAO.query(sql);
+        if (employees.size() == 0) {
+            return null;
+        }
+        return employees.get(0);
+    }
 }

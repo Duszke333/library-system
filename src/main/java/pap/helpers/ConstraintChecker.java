@@ -2,8 +2,9 @@ package pap.helpers;
 
 import pap.db.Entities.Address;
 import pap.db.Entities.Book;
+import pap.db.Entities.Employee;
 import pap.db.Entities.User;
-import pap.db.Repository.BookRepository;
+import pap.db.Repository.EmployeeRepository;
 import pap.db.Repository.UserRepository;
 
 import java.time.Year;
@@ -56,6 +57,19 @@ public class ConstraintChecker {
         if (user.getEmail().length() >= 64) return UserErrors.EMAIL_TOO_LONG.ordinal();
         if (!user.getEmail().matches(".*@.*\\..*")) return UserErrors.EMAIL_INVALID.ordinal();
         if (userRepo.getByEmail(user.getEmail()) != null) return UserErrors.EMAIL_ALREADY_USED.ordinal();
+        return -1;
+    }
+
+    public enum EmployeeErrors {
+        USERNAME_TOO_LONG, ROLE_TOO_LONG,
+        USERNAME_ALREADY_USED, USER_ACCOUNT_ALREADY_IN_USE
+    }
+
+    public static int checkEmployee(Employee emp, EmployeeRepository empRepo) {
+        if (emp.getUsername().length() >= 128) return EmployeeErrors.USERNAME_TOO_LONG.ordinal();
+        if (emp.getRole().length() >= 64) return EmployeeErrors.ROLE_TOO_LONG.ordinal();
+        if (empRepo.getByUsername(emp.getUsername()) != null) return EmployeeErrors.USERNAME_ALREADY_USED.ordinal();
+        if (empRepo.getByUserID(emp.getUserID()) != null) return EmployeeErrors.USER_ACCOUNT_ALREADY_IN_USE.ordinal();
         return -1;
     }
 }
