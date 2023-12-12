@@ -1,11 +1,27 @@
 package db.Repository;
 
+import pap.db.Repository.Interface.IRepository;
+
 import java.util.List;
 
-public interface Repository<T> {
-    List<T> getAll();
-    T getById(int id);
-    void create(T entity);
-    void update(T entity);
-    void delete(T entity);
+public abstract class Repository<T> implements IRepository<T> {
+    public List<T> getAll() {
+        return null;
+    }
+
+    public T getById(int id) {
+        return null;
+    }
+
+    public void create(T entity) {
+
+    }
+
+    public void update(T entity) {
+
+    }
+
+    public void delete(T entity) {
+
+    }
 }
