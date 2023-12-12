@@ -4,17 +4,15 @@ import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
-import pap.db.DAO.AddressDAO;
-import pap.db.DAO.UserDAO;
 import pap.db.Entities.Address;
 import pap.db.Entities.User;
-import pap.helpers.AccountManager;
+import pap.db.Repository.AddressRepository;
+import pap.db.Repository.UserRepository;
 import pap.helpers.ConstraintChecker;
 import pap.helpers.LoadedPages;
 import pap.helpers.PasswordHasher;
 
 import java.util.Arrays;
-import java.util.concurrent.Executors;
 
 
 public class UserAccountCreateController implements Updateable {
@@ -93,7 +91,7 @@ public class UserAccountCreateController implements Updateable {
             operationStatus.setVisible(true);
             return;
         }
-        new AddressDAO().create(addr);
+        new AddressRepository().create(addr);
 
         User usr = new User();
         usr.setFirstName(name);
@@ -110,9 +108,14 @@ public class UserAccountCreateController implements Updateable {
         usr.setPasswordHash(hashedPassword);
         usr.setAddressId(addr.getAddressId());
 
-
-
-        new UserDAO().create(usr);
+        UserRepository userRepo = new UserRepository();
+        error = ConstraintChecker.checkUser(usr, userRepo);
+        if (error != -1) {
+            operationStatus.setText("Error: " + ConstraintChecker.UserErrors.values()[error].toString());
+            operationStatus.setVisible(true);
+            return;
+        }
+        userRepo.create(usr);
 
         operationStatus.setFill(javafx.scene.paint.Color.GREEN);
         operationStatus.setText("Account created!");

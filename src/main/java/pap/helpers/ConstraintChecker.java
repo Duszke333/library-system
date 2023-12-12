@@ -4,6 +4,7 @@ import pap.db.Entities.Address;
 import pap.db.Entities.Book;
 import pap.db.Entities.User;
 import pap.db.Repository.BookRepository;
+import pap.db.Repository.UserRepository;
 
 import java.time.Year;
 
@@ -41,6 +42,20 @@ public class ConstraintChecker {
         if (address.getStreet().length() >= 64) return AddressErrors.STREET_TOO_LONG.ordinal();
         if (address.getHouseNumber().length() >= 16) return AddressErrors.HOUSE_NUMBER_TOO_LONG.ordinal();
         if (address.getFlatNumber().length() >= 16) return AddressErrors.FLAT_NUMBER_TOO_LONG.ordinal();
+        return -1;
+    }
+
+    public enum UserErrors {
+        NAME_TOO_LONG, SURNAME_TOO_LONG, EMAIL_TOO_LONG,
+        EMAIL_ALREADY_USED, EMAIL_INVALID
+    }
+
+    public static int checkUser(User user, UserRepository userRepo) {
+        if (user.getFirstName().length() >= 64) return UserErrors.NAME_TOO_LONG.ordinal();
+        if (user.getLastName().length() >= 64) return UserErrors.SURNAME_TOO_LONG.ordinal();
+        if (user.getEmail().length() >= 64) return UserErrors.EMAIL_TOO_LONG.ordinal();
+        if (!user.getEmail().matches(".*@.*\\..*")) return UserErrors.EMAIL_INVALID.ordinal();
+        if (userRepo.getByEmail(user.getEmail()) != null) return UserErrors.EMAIL_ALREADY_USED.ordinal();
         return -1;
     }
 }
