@@ -41,6 +41,12 @@ public class BranchRepository implements IBranchRepository {
     }
 
     @Override
+    public Branch getByBranchName(String name) {
+        String sql = "SELECT * FROM pap.branches WHERE name = " + name;
+        return branchDAO.query(sql).get(0);
+    }
+
+    @Override
     public List<Branch> getAll() {
         return branchDAO.getAll();
     }
