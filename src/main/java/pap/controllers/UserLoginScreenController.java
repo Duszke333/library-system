@@ -4,11 +4,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import pap.helpers.LoadedPages;
 
 import java.util.Optional;
 
-import static pap.helpers.LoadedPages.createAccountPage;
-import static pap.helpers.LoadedPages.userManagepage;
+import static pap.helpers.LoadedPages.userCreateAccountPage;
 import static pap.helpers.Login.*;
 
 public class UserLoginScreenController implements Updateable {
@@ -23,7 +23,7 @@ public class UserLoginScreenController implements Updateable {
     private void createAccountButtonPressed() {
         loginEmail.clear();
         loginPassword.clear();
-        GlobalController.setContentPane(createAccountPage);
+        GlobalController.setContentPane(userCreateAccountPage);
     }
 
     @FXML
@@ -46,7 +46,7 @@ public class UserLoginScreenController implements Updateable {
         }
         else {
             setUserLoggedIn(Optional.of(id));
-            GlobalController.setContentPane(userManagepage);
+            GlobalController.setContentPane(LoadedPages.userManagePage);
         }
     }
 

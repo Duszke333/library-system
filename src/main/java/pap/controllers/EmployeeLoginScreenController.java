@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import pap.helpers.LoadedPages;
 import pap.helpers.Login;
 
 import static pap.helpers.Login.*;
@@ -15,9 +16,14 @@ public class EmployeeLoginScreenController implements Updateable {
     private PasswordField loginPassword;
     @FXML
     private Text loginStatus;
+    
+    @FXML
+    protected void createAccountButtonPressed() {
+        GlobalController.setContentPane(LoadedPages.employeeManagePage);
+    }
 
     @FXML
-    protected void handleLoginButtonAction() {
+    protected void loginButtonPressed() {
         String username = loginUsername.getText();
         String password = loginPassword.getText();
 

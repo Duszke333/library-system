@@ -1,7 +1,9 @@
 package pap.helpers;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.Data;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 import pap.db.Entities.Employee;
 import pap.db.Entities.User;
@@ -15,6 +17,7 @@ public class Login {
     
     @Getter
     @Setter
+    @NonNull
     private static Optional<Integer> userLoggedIn = Optional.empty();
     
     @Data

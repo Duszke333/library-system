@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.StackPane?>
+
+<StackPane xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <TabPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="User Login">
+            <content>
+                  <StackPane>
+                     <children>
+                        <fx:include source="user-login-screen.fxml" />
+                     </children>
+                  </StackPane>
+            </content>
+          </Tab>
+          <Tab text="Employee Login">
+            <content>
+                  <StackPane>
+                     <children>
+                        <fx:include source="employee-login-screen.fxml" />
+                     </children>
+                  </StackPane>
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</StackPane>
