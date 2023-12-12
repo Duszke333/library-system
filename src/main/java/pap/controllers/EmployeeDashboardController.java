@@ -1,4 +1,4 @@
-﻿package pap.controllers;
+package pap.controllers;
 
 public class EmployeeDashboardController {
 }
