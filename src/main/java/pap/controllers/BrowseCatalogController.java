@@ -108,5 +108,7 @@ public class BrowseCatalogController implements Updateable, Initializable {
                 column.setMinWidth(catalog.getWidth() / catalog.getColumns().size());
             });
         });
+        
+        update();
     }
 }
