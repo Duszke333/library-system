@@ -6,4 +6,5 @@
     <entity class="pap.db.Entities.Book"/>
     <entity class="pap.db.Entities.User"/>
     <entity class="pap.db.Entities.Employee"/>
+    <entity class="pap.db.Entities.Branch"/>
 </entity-mappings>

@@ -1,6 +1,8 @@
 package pap.controllers;
 
+import pap.db.Entities.Branch;
 import pap.db.Entities.Employee;
+import pap.db.Repository.BranchRepository;
 import pap.db.Repository.EmployeeRepository;
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
@@ -53,6 +55,7 @@ public class EmployeeAccountCreateController {
         }
 
         if (!employeePassword.equals(employeePasswordConf)) {
+            passUnmached.setText("Passwords do not match!");
             passUnmached.setVisible(true);
             return;
         }
@@ -71,9 +74,14 @@ public class EmployeeAccountCreateController {
         emp.setDateCreated(new java.sql.Date(System.currentTimeMillis()));
         emp.setUserID(uid);
 
-        //TODO
-        // zdobywanie branch id po nazwie, na razie sztywne 1
-        emp.setBranchId(1);
+        Branch br = new BranchRepository().getByBranchName(branch);
+        if (br == null) {
+            operationStatus.setText("Branch under given name not found!");
+            operationStatus.setVisible(true);
+            return;
+        }
+
+        emp.setBranchId(br.getBranchId());
 
         new EmployeeRepository().create(emp);
         operationStatus.setText("Account created!");
