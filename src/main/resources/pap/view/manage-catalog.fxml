@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+
+
+<TableView fx:id="catalog" tableMenuButtonVisible="true" onMouseClicked="#manageItem" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pap.controllers.ManageCatalogController">
+  <columns>
+    <TableColumn fx:id="title" maxWidth="-1.0" minWidth="-1.0" prefWidth="-1.0" text="Title" />
+    <TableColumn fx:id="author" maxWidth="-1.0" minWidth="-1.0" prefWidth="-1.0" text="Author" />
+    <TableColumn fx:id="genre" maxWidth="-1.0" prefWidth="-1.0" text="Genre" />
+    <TableColumn fx:id="publication_year" maxWidth="-1.0" minWidth="-1.0" prefWidth="-1.0" text="Publication year" />
+    <TableColumn fx:id="language" maxWidth="-1.0" prefWidth="-1.0" text="Language" />
+    <TableColumn fx:id="page_count" maxWidth="-1.0" prefWidth="-1.0" text="Page count" />
+    <TableColumn fx:id="publisher" maxWidth="-1.0" prefWidth="-1.0" text="Publisher" />
+    <TableColumn fx:id="description" maxWidth="-1.0" prefWidth="-1.0" text="Description" />
+  </columns>
+</TableView>
