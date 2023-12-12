@@ -10,6 +10,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import pap.helpers.PasswordHasher;
 
+import java.util.Arrays;
+
 import static pap.helpers.LoadedPages.userLoginPage;
 
 public class UserAccountCreateController implements Updateable {
@@ -102,21 +104,14 @@ public class UserAccountCreateController implements Updateable {
         String hashedPassword = PasswordHasher.hashPassword(password, stringSalt);
         usr.setPasswordHash(hashedPassword);
         usr.setAddressId(addr.getAddressId());
-
         new UserDAO().create(usr);
     }
 
     @Override
     public void update() {
-        nameInput.clear();
-        surnameInput.clear();
-        emailInput.clear();
-        countryInput.clear();
-        cityInput.clear();
-        streetInput.clear();
-        postalCodeInput.clear();
-        houseNumberInput.clear();
-        flatNumberInput.clear();
+        for (TextField textField : Arrays.asList(nameInput, surnameInput, emailInput, countryInput, cityInput, streetInput, postalCodeInput, houseNumberInput, flatNumberInput)) {
+            textField.clear();
+        }
         passwordInput.clear();
         passwordConfirmation.clear();
         passUnmached.setVisible(false);

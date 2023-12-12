@@ -35,9 +35,7 @@ public class MainViewController {
         var welcomeMsg = Files.readString(Path.of("README.md"));
         textMainView.setText(welcomeMsg);
         textMainView.setFont(Font.font(20));
-        scrollPane.widthProperty().addListener(o -> {
-            textMainView.setWrappingWidth(scrollPane.getWidth());
-        });
+        scrollPane.widthProperty().addListener(o -> textMainView.setWrappingWidth(scrollPane.getWidth()));
     }
     
     @FXML

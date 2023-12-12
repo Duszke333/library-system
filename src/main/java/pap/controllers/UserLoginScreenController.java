@@ -30,9 +30,8 @@ public class UserLoginScreenController implements Updateable {
     private void loginButtonPressed() {
         String email = loginEmail.getText().strip();
         String password = loginPassword.getText().strip();
-//        System.out.printf("%s\t%s\n", email, password);
         
-        var id = tryLogin(email, password);
+        var id = tryLoginUser(email, password);
         if (id == LoginTry.EmptyCredentials) {
             loginStatus.setText("All fields must be filled");
             loginStatus.setVisible(true);

@@ -5,9 +5,11 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import pap.db.SessionFactoryMaker;
 import lombok.Getter;
 
 import java.io.IOException;
+import java.util.concurrent.CompletableFuture;
 
 public class Pap extends Application {
     private static final int MIN_WIDTH = 1080;
@@ -28,6 +30,7 @@ public class Pap extends Application {
     }
 
     public static void main(String[] args) {
+        CompletableFuture.runAsync(SessionFactoryMaker::getSessionFactory);
         launch();
     }
 }

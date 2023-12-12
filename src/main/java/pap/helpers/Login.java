@@ -3,7 +3,9 @@ package pap.helpers;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import pap.db.Entities.Employee;
 import pap.db.Entities.User;
+import pap.db.Repository.EmployeeRepository;
 import pap.db.Repository.UserRepository;
 
 import java.util.Optional;
@@ -22,7 +24,7 @@ public class Login {
         public static int IncorrectPassword = -3;
     }
     
-    public static int tryLogin(String email, String password) {
+    public static int tryLoginUser(String email, String password) {
         if (email.isBlank() || password.isBlank()) {
             return LoginTry.EmptyCredentials;
         }
@@ -39,5 +41,24 @@ public class Login {
         }
         
         return user.getAccountId();
+    }
+
+    public static int tryLoginEmployee(String username, String password) {
+        if (username.isBlank() || password.isBlank()) {
+            return LoginTry.EmptyCredentials;
+        }
+
+        Employee emp = new EmployeeRepository().getByUsername(username);
+        if (emp == null) {
+            return LoginTry.NoUser;
+        }
+
+        String salt = emp.getPasswordSalt();
+        String hashedPassword = emp.getPasswordHash();
+        if (!hashedPassword.equals(PasswordHasher.hashPassword(password, salt))) {
+            return LoginTry.IncorrectPassword;
+        }
+
+        return emp.getEmployeeId();
     }
 }
