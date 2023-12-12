@@ -19,8 +19,6 @@ public class EmployeeLoginScreenController implements Updateable {
     
     @FXML
     protected void createAccountButtonPressed() {
-        loginUsername.clear();
-        loginPassword.clear();
         GlobalController.setContentPane(LoadedPages.employeeManagePage);
     }
 

@@ -1,17 +1,14 @@
 package pap.controllers;
 
-import pap.db.DAO.AddressDAO;
-import pap.db.DAO.UserDAO;
-import pap.db.Entities.Address;
-import pap.db.Entities.User;
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import pap.helpers.AccountManager;
 import pap.helpers.LoadedPages;
-import pap.helpers.PasswordHasher;
 
 import java.util.Arrays;
+import java.util.concurrent.Executors;
 
 
 public class UserAccountCreateController implements Updateable {
@@ -38,7 +35,7 @@ public class UserAccountCreateController implements Updateable {
     @FXML
     private PasswordField passwordConfirmation;
     @FXML
-    private Text passUnmached;
+    private Text passUnmatched;
     @FXML
     private Text operationStatus;
 
@@ -49,62 +46,11 @@ public class UserAccountCreateController implements Updateable {
     
     @FXML
     private void createAccountButtonPressed() {
-        // get all data from inputs
-        String name = nameInput.getText();
-        String surname = surnameInput.getText();
-        String email = emailInput.getText();
-        String country = countryInput.getText();
-        String city = cityInput.getText();
-        String street = streetInput.getText();
-        String postalCode = postalCodeInput.getText();
-        String houseNumber = houseNumberInput.getText();
-        String flatNumber = flatNumberInput.getText();
-        String password = passwordInput.getText();
-        String passwordConfirm = passwordConfirmation.getText();
-
-        // check if all fields are not empty
-        if (name.isEmpty() || surname.isEmpty() || email.isEmpty() || country.isEmpty() || city.isEmpty()
-                || street.isEmpty() || postalCode.isEmpty() || houseNumber.isEmpty()
-                || password.isEmpty() || passwordConfirm.isEmpty()) {
-            operationStatus.setVisible(true);
-            return;
-        }
-
-        if (!password.equals(passwordConfirm)) {
-            passUnmached.setVisible(true);
-            return;
-        }
-        
-        passUnmached.setVisible(false);
-        operationStatus.setFill(javafx.scene.paint.Color.GREEN);
-        operationStatus.setText("Account created!");
-        operationStatus.setVisible(true);
-
-        Address addr = new Address();
-        addr.setCountry(country);
-        addr.setCity(city);
-        addr.setStreet(street);
-        addr.setPostalCode(postalCode);
-        addr.setHouseNumber(houseNumber);
-        addr.setFlatNumber(flatNumber);
-
-        new AddressDAO().create(addr);
-        User usr = new User();
-        usr.setFirstName(name);
-        usr.setLastName(surname);
-        usr.setEmail(email);
-        usr.setAddressId(addr.getAddressId());
-        usr.setActive(true);
-        usr.setDateCreated(new java.sql.Date(System.currentTimeMillis()));
-
-        // generate password salt
-        String stringSalt = PasswordHasher.generateSalt();
-        usr.setPasswordSalt(stringSalt);
-
-        String hashedPassword = PasswordHasher.hashPassword(password, stringSalt);
-        usr.setPasswordHash(hashedPassword);
-        usr.setAddressId(addr.getAddressId());
-        new UserDAO().create(usr);
+        AccountManager.createAccount(
+                nameInput, surnameInput, emailInput, countryInput, cityInput,
+                streetInput, postalCodeInput, houseNumberInput, flatNumberInput,
+                passwordInput, passwordConfirmation, passUnmatched, operationStatus
+        );
     }
 
     @Override
@@ -114,7 +60,7 @@ public class UserAccountCreateController implements Updateable {
         }
         passwordInput.clear();
         passwordConfirmation.clear();
-        passUnmached.setVisible(false);
+        passUnmatched.setVisible(false);
         operationStatus.setVisible(false);
         operationStatus.setFill(javafx.scene.paint.Color.RED);
     }

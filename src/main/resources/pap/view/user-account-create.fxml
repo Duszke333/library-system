@@ -45,7 +45,7 @@
             <Insets />
          </VBox.margin>
       </PasswordField>
-      <Text fx:id="passUnmached" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="Passwords are not matching!" underline="true" visible="false">
+      <Text fx:id="passUnmatched" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="Passwords are not matching!" underline="true" visible="false">
          <VBox.margin>
             <Insets />
          </VBox.margin>

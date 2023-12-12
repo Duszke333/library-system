@@ -6,7 +6,6 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import pap.helpers.Login;
 
 import java.awt.*;
 import java.io.IOException;
@@ -15,7 +14,8 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import static pap.helpers.LoadedPages.*;
+import static pap.helpers.LoadedPages.cataloguePage;
+import static pap.helpers.LoadedPages.loginPage;
 
 public class MainViewController {
     @FXML

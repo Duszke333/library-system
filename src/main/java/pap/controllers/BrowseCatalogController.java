@@ -1,24 +1,21 @@
 package pap.controllers;
 
-
-
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-import pap.Pap;
-import pap.controllers.BookViewController;
-import pap.db.Entities.Book;
-import pap.db.Repository.BookRepository;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
+import pap.Pap;
+import pap.db.Entities.Book;
+import pap.db.Repository.BookRepository;
 
 import java.io.IOException;
 import java.net.URL;
@@ -26,36 +23,25 @@ import java.util.Date;
 import java.util.ResourceBundle;
 
 public class BrowseCatalogController implements Updateable, Initializable {
-
     @FXML
     private TableColumn<Book, String> author;
-
     @FXML
     private TableView<Book> catalog;
-
     @FXML
     private TableColumn<Book, String> description;
-
     @FXML
     private TableColumn<Book, String> genre;
-
     @FXML
     private TableColumn<Book, String> language;
-
     @FXML
     private TableColumn<Book, Integer> page_count;
-
     @FXML
     private TableColumn<Book, Date> publication_year;
-
     @FXML
     private TableColumn<Book, String> publisher;
-
     @FXML
     private TableColumn<Book, String> title;
-
-
-
+    
     @FXML
     public void getItem(MouseEvent event) {
         int index = catalog.getSelectionModel().getSelectedIndex();
@@ -93,12 +79,6 @@ public class BrowseCatalogController implements Updateable, Initializable {
 
     @Override
     public void update() {
-        catalog.widthProperty().addListener(o -> {
-            catalog.getColumns().forEach(column -> {
-                column.setMinWidth(catalog.getWidth() / catalog.getColumns().size());
-            });
-        });
-
         ObservableList<Book> list = FXCollections.observableArrayList(new BookRepository().getAll());
 
         title.setCellValueFactory(new PropertyValueFactory<Book, String>("title"));
@@ -114,6 +94,10 @@ public class BrowseCatalogController implements Updateable, Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        update();
+        catalog.widthProperty().addListener(o -> {
+            catalog.getColumns().forEach(column -> {
+                column.setMinWidth(catalog.getWidth() / catalog.getColumns().size());
+            });
+        });
     }
 }
