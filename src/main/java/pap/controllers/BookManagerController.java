@@ -9,6 +9,7 @@ import javafx.scene.text.Text;
 import pap.db.Entities.Book;
 import pap.db.Repository.BookRepository;
 import pap.helpers.ConstraintChecker;
+import pap.helpers.LoadedPages;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -105,6 +106,7 @@ public class BookManagerController implements Updateable, Initializable {
         deletionStatus.setFill(javafx.scene.paint.Color.WHITE);
         deletionStatus.setText("Are you sure you want to delete this book?");
         deletionStatus.setVisible(true);
+        deletionButton.setDisable(true);
         confirmDeletion.setVisible(true);
         cancelDeletion.setVisible(true);
     }
@@ -113,7 +115,6 @@ public class BookManagerController implements Updateable, Initializable {
     protected void deletionConfirmed() {
         deletionStatus.setFill(javafx.scene.paint.Color.RED);
         deletionStatus.setText("Book deleted.");
-        deletionButton.setDisable(false);
         confirmDeletion.setVisible(false);
         cancelDeletion.setVisible(false);
         new BookRepository().delete(book);
@@ -128,10 +129,15 @@ public class BookManagerController implements Updateable, Initializable {
         cancelDeletion.setVisible(false);
     }
 
+    @FXML
+    protected void goBack() {
+        // TODO: Change pane accordingly
+        GlobalController.setContentPane(LoadedPages.cataloguePage);
+    }
     @Override
     public void update() {
         // TODO: Book by ID
-        book = new BookRepository().getById(6);
+        book = new BookRepository().getById(ManageCatalogController.chosenBookID);
         isbnInput.setText(book.getIsbn());
         titleInput.setText(book.getTitle());
         authorInput.setText(book.getAuthor());
