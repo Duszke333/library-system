@@ -11,7 +11,7 @@ import static pap.helpers.LoadedPages.createAccountPage;
 import static pap.helpers.LoadedPages.userManagepage;
 import static pap.helpers.Login.*;
 
-public class UserLoginScreenController {
+public class UserLoginScreenController implements Updateable {
     @FXML
     private TextField loginEmail;
     @FXML
@@ -47,10 +47,14 @@ public class UserLoginScreenController {
         }
         else {
             setUserLoggedIn(Optional.of(id));
-            loginEmail.clear();
-            loginPassword.clear();
-            loginStatus.setVisible(false);
             GlobalController.setContentPane(userManagepage);
         }
+    }
+
+    @Override
+    public void update() {
+        loginEmail.clear();
+        loginPassword.clear();
+        loginStatus.setVisible(false);
     }
 }

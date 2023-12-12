@@ -16,9 +16,10 @@ import pap.helpers.PasswordHasher;
 
 import java.net.URL;
 import java.util.Optional;
+import java.util.OptionalInt;
 import java.util.ResourceBundle;
 
-public class UserAccountManageController implements Initializable {
+public class UserAccountManageController implements Updateable, Initializable {
     private User user;
     private Address address;
     @FXML
@@ -168,9 +169,8 @@ public class UserAccountManageController implements Initializable {
     }
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        // TODO: id will be passed from previous screen
-        user = new UserRepository().getById(1);
+    public void update() {
+        user = new UserRepository().getById(Login.getUserLoggedIn().orElse(1));
         address = new AddressRepository().getById(user.getAddressId());
         countryInput.setText(address.getCountry());
         cityInput.setText(address.getCity());
@@ -178,5 +178,10 @@ public class UserAccountManageController implements Initializable {
         postalCodeInput.setText(address.getPostalCode());
         houseNumberInput.setText(address.getHouseNumber());
         flatNumberInput.setText(address.getFlatNumber());
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        update();
     }
 }

@@ -12,7 +12,7 @@ import pap.db.Repository.BookRepository;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class BookManagerController implements Initializable {
+public class BookManagerController implements Updateable, Initializable {
     private Book book;
     @FXML
     private TextField isbnInput;
@@ -121,7 +121,7 @@ public class BookManagerController implements Initializable {
     }
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    public void update() {
         // TODO: Book by ID
         book = new BookRepository().getById(6);
         isbnInput.setText(book.getIsbn());
@@ -135,5 +135,10 @@ public class BookManagerController implements Initializable {
         descriptionInput.setText(book.getDescription());
 
         // TODO: Add cover image and status fields to the form
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        update();
     }
 }

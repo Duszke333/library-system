@@ -1,6 +1,8 @@
 package pap.controllers;
 
+import pap.db.Entities.Branch;
 import pap.db.Entities.Employee;
+import pap.db.Repository.BranchRepository;
 import pap.db.Repository.EmployeeRepository;
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
@@ -9,7 +11,7 @@ import javafx.scene.text.Text;
 import static pap.helpers.Login.*;
 import pap.helpers.PasswordHasher;
 
-public class EmployeeAccountCreateController {
+public class EmployeeAccountCreateController implements Updateable {
     @FXML
     private TextField userEmailInput;
     @FXML
@@ -49,10 +51,12 @@ public class EmployeeAccountCreateController {
         int uid = tryLogin(userEmail, userPassword);
         if (uid == LoginTry.IncorrectPassword) {
             operationStatus.setText("Wrong user email or password!");
+            operationStatus.setVisible(true);
             return;
         }
 
         if (!employeePassword.equals(employeePasswordConf)) {
+            passUnmached.setText("Passwords do not match!");
             passUnmached.setVisible(true);
             return;
         }
@@ -71,13 +75,32 @@ public class EmployeeAccountCreateController {
         emp.setDateCreated(new java.sql.Date(System.currentTimeMillis()));
         emp.setUserID(uid);
 
-        //TODO
-        // zdobywanie branch id po nazwie, na razie sztywne 1
-        emp.setBranchId(1);
+        Branch br = new BranchRepository().getByBranchName(branch);
+        if (br == null) {
+            operationStatus.setText("Branch under given name not found!");
+            operationStatus.setVisible(true);
+            return;
+        }
+
+        emp.setBranchId(br.getBranchId());
 
         new EmployeeRepository().create(emp);
         operationStatus.setText("Account created!");
         operationStatus.setFill(javafx.scene.paint.Color.GREEN);
         operationStatus.setVisible(true);
+    }
+
+    @Override
+    public void update() {
+        userEmailInput.clear();
+        userPasswordInput.clear();
+        employeeUsernameInput.clear();
+        employeePasswordInput.clear();
+        employeePasswordConfirmation.clear();
+        roleInput.clear();
+        branchNameInput.clear();
+        operationStatus.setVisible(false);
+        operationStatus.setFill(javafx.scene.paint.Color.RED);
+        passUnmached.setVisible(false);
     }
 }
