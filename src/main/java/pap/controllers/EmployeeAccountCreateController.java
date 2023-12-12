@@ -48,7 +48,7 @@ public class EmployeeAccountCreateController implements Updateable {
             return;
         }
 
-        int uid = tryLogin(userEmail, userPassword);
+        int uid = tryLoginUser(userEmail, userPassword);
         if (uid == LoginTry.IncorrectPassword) {
             operationStatus.setText("Wrong user email or password!");
             operationStatus.setVisible(true);

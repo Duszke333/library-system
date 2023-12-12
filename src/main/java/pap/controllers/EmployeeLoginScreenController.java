@@ -1,12 +1,12 @@
 package pap.controllers;
 
-import pap.db.Entities.Employee;
-import pap.db.Repository.EmployeeRepository;
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
-import pap.helpers.PasswordHasher;
+import pap.helpers.Login;
+
+import static pap.helpers.Login.*;
 
 public class EmployeeLoginScreenController implements Updateable {
     @FXML
@@ -20,32 +20,25 @@ public class EmployeeLoginScreenController implements Updateable {
     protected void handleLoginButtonAction() {
         String username = loginUsername.getText();
         String password = loginPassword.getText();
-        if (username.isEmpty() || password.isEmpty()) {
-            loginStatus.setText("All fields must be filled!");
+
+        var id = tryLoginEmployee(username, password);
+        if (id == Login.LoginTry.EmptyCredentials) {
+            loginStatus.setText("All fields must be filled");
             loginStatus.setVisible(true);
-            return;
         }
-
-        Employee employee = new EmployeeRepository().getByUsername(username);
-
-        if (employee == null) {
-            loginStatus.setText("Wrong username or password!");
+        else if (id == Login.LoginTry.IncorrectPassword) {
+            loginStatus.setText("Wrong password");
             loginStatus.setVisible(true);
-            return;
         }
-
-        String salt = employee.getPasswordSalt();
-        String hashedPassword = employee.getPasswordHash();
-        String hashedInput = PasswordHasher.hashPassword(password, salt);
-        if (!hashedPassword.equals(hashedInput)) {
-            loginStatus.setText("Wrong username or password!");
+        else if (id == Login.LoginTry.NoUser) {
+            loginStatus.setText("No such user in database");
             loginStatus.setVisible(true);
-            return;
         }
-
-        loginStatus.setText("Logged in!");
-        loginStatus.setFill(javafx.scene.paint.Color.GREEN);
-        loginStatus.setVisible(true);
+        else {
+            // TODO: make missing fields and panels
+//            setEmployeeLoggedIn(Optional.of(id));
+//            GlobalController.setContentPane(employeeManagepage);
+        }
     }
 
     @Override
