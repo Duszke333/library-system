@@ -1,11 +1,12 @@
 package pap.controllers;
 
-import pap.db.DAO.BookDAO;
 import pap.db.Entities.Book;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import pap.db.Repository.BookRepository;
+import pap.helpers.ConstraintChecker;
 
 public class BookCreatorController implements UpdatableController {
     @FXML
@@ -67,6 +68,7 @@ public class BookCreatorController implements UpdatableController {
         book.setLanguage(language);
         book.setPageCount(pageCount);
         book.setPublisher(publisher);
+        if (description.isEmpty()) description = "Description will be added soon.";
         book.setDescription(description);
         book.setDateAdded(new java.sql.Date(System.currentTimeMillis()));
 
@@ -74,7 +76,14 @@ public class BookCreatorController implements UpdatableController {
         book.setStatus("Available");
         book.setCover("resources/images/default_cover.png");
 
-        new BookDAO().create(book);
+        BookRepository bookRepo = new BookRepository();
+        int error = ConstraintChecker.checkBook(book);
+        if (error != -1) {
+            statusMessage.setText("Error: " + ConstraintChecker.BookErrors.values()[error].toString());
+            statusMessage.setVisible(true);
+            return;
+        }
+        bookRepo.create(book);
         statusMessage.setText("Book added!");
         statusMessage.setFill(javafx.scene.paint.Color.GREEN);
         statusMessage.setVisible(true);

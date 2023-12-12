@@ -8,6 +8,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import pap.db.Entities.Book;
 import pap.db.Repository.BookRepository;
+import pap.helpers.ConstraintChecker;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -64,8 +65,8 @@ public class BookManagerController implements UpdatableController, Initializable
             return;
         }
 
-        Integer year = null;
-        Integer pages = null;
+        Integer year;
+        Integer pages;
         try {
             year = Integer.parseInt(publicationYear);
             pages = Integer.parseInt(pageCount);
@@ -86,7 +87,14 @@ public class BookManagerController implements UpdatableController, Initializable
         if (description.isEmpty()) description = "Description will be added soon.";
         book.setDescription(description);
 
-        new BookRepository().update(book);
+        BookRepository bookRepo = new BookRepository();
+        int error = ConstraintChecker.checkBook(book);
+        if (error != -1) {
+            updateStatus.setText("Error: " + ConstraintChecker.BookErrors.values()[error].toString());
+            updateStatus.setVisible(true);
+            return;
+        }
+        bookRepo.update(book);
         updateStatus.setText("Book updated successfully!");
         updateStatus.setFill(javafx.scene.paint.Color.GREEN);
         updateStatus.setVisible(true);

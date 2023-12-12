@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import pap.helpers.ConstraintChecker;
 import pap.helpers.LoadedPages;
 import pap.helpers.Login;
 import pap.helpers.PasswordHasher;
@@ -128,6 +129,13 @@ public class UserAccountManageController implements UpdatableController, Initial
         address.setPostalCode(postalCode);
         address.setHouseNumber(houseNumber);
         address.setFlatNumber(flatNumber);
+
+        int error = ConstraintChecker.checkAddress(address);
+        if (error != -1) {
+            updateStatus.setText("Error: " + ConstraintChecker.AddressErrors.values()[error].toString());
+            updateStatus.setVisible(true);
+            return;
+        }
 
         new AddressRepository().update(address);
 

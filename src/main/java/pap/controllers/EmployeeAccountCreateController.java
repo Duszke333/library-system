@@ -10,6 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import static pap.helpers.Login.*;
 
+import pap.helpers.ConstraintChecker;
 import pap.helpers.LoadedPages;
 import pap.helpers.PasswordHasher;
 
@@ -91,7 +92,14 @@ public class EmployeeAccountCreateController implements UpdatableController {
 
         emp.setBranchId(br.getBranchId());
 
-        new EmployeeRepository().create(emp);
+        EmployeeRepository empRepo = new EmployeeRepository();
+        int error = ConstraintChecker.checkEmployee(emp, empRepo);
+        if (error != -1) {
+            operationStatus.setText("Error: " + ConstraintChecker.EmployeeErrors.values()[error].toString());
+            operationStatus.setVisible(true);
+            return;
+        }
+        empRepo.create(emp);
         operationStatus.setText("Account created!");
         operationStatus.setFill(javafx.scene.paint.Color.GREEN);
         operationStatus.setVisible(true);
