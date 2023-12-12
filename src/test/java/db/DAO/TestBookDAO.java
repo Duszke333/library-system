@@ -1,6 +1,7 @@
 package db.DAO;
 
 import db.TestSessionFactoryMaker;
+import db.HelperMethods;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.junit.After;
@@ -15,37 +16,14 @@ import java.util.List;
 public class TestBookDAO {
     private SessionFactory factory = TestSessionFactoryMaker.getSessionFactory();
 
-    private int getId(Book book) {
-        int id;
-        try (Session session = factory.openSession()) {
-            session.beginTransaction();
-            List<Book> books = session.createNativeQuery("SELECT * FROM pap.books WHERE isbn = '" + book.getIsbn() + "'", Book.class).list();
-            if (books.isEmpty()) {
-                return -1;
-            }
-            id = books.get(0).getBookId();
-            session.getTransaction().commit();
-        }
-        return id;
-    }
-
     @Before
     public void setup() {
-
-        try (Session session = factory.openSession()) {
-            session.beginTransaction();
-            session.createNativeQuery("TRUNCATE TABLE pap.BOOKS CASCADE").executeUpdate();
-            session.getTransaction().commit();
-        }
+        HelperMethods.clearTable("BOOKS");
     }
 
     @After
     public void teardown() {
-        try (Session session = factory.openSession()) {
-            session.beginTransaction();
-            session.createNativeQuery("TRUNCATE TABLE pap.BOOKS CASCADE").executeUpdate();
-            session.getTransaction().commit();
-        }
+        HelperMethods.clearTable("BOOKS");
     }
 
     @Test
@@ -67,7 +45,7 @@ public class TestBookDAO {
 
         bookDAO.create(book);
 
-        Book newBook = bookDAO.read(this.getId(book));
+        Book newBook = bookDAO.read(HelperMethods.getId(book));
         Assertions.assertEquals(book.getTitle(), newBook.getTitle());
         Assertions.assertEquals(book.getAuthor(), newBook.getAuthor());
     }
@@ -94,7 +72,7 @@ public class TestBookDAO {
         book.setTitle("Test2");
         bookDAO.update(book);
 
-        Book newBook = bookDAO.read(this.getId(book));
+        Book newBook = bookDAO.read(HelperMethods.getId(book));
         Assertions.assertEquals(book.getTitle(), newBook.getTitle());
     }
 
@@ -119,7 +97,7 @@ public class TestBookDAO {
 
         bookDAO.delete(book);
 
-        Book newBook = bookDAO.read(this.getId(book));
+        Book newBook = bookDAO.read(HelperMethods.getId(book));
         Assertions.assertNull(newBook);
     }
 }

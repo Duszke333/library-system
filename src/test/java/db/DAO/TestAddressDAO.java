@@ -1,5 +1,6 @@
 package db.DAO;
 
+import db.HelperMethods;
 import db.TestSessionFactoryMaker;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -15,24 +16,6 @@ import java.util.List;
 
 public class TestAddressDAO {
     private SessionFactory factory = TestSessionFactoryMaker.getSessionFactory();
-
-    private int getId(Address address) {
-        int id;
-        try (Session session = factory.openSession()) {
-            session.beginTransaction();
-            List<Address> addresses = session.createNativeQuery(
-                    "SELECT * FROM pap.addresses " +
-                            "WHERE street = '" + address.getStreet() + "'" +
-                            "AND flat_number = '" + address.getFlatNumber() + "' AND house_number = '" + address.getHouseNumber() + "'"
-                    , Address.class).list();
-            if (addresses.isEmpty()) {
-                return -1;
-            }
-            id = addresses.get(0).getAddressId();
-            session.getTransaction().commit();
-        }
-        return id;
-    }
 
     @Before
     public void setup() {
@@ -71,7 +54,7 @@ public class TestAddressDAO {
 
         addressDAO.create(address);
 
-        Assertions.assertEquals(getId(address), address.getAddressId());
+        Assertions.assertEquals(HelperMethods.getId(address), address.getAddressId());
     }
 
     @Test
@@ -91,7 +74,7 @@ public class TestAddressDAO {
         address.setStreet("Test2");
         addressDAO.update(address);
 
-        Assertions.assertEquals(addressDAO.read(getId(address)).getStreet(), address.getStreet());
+        Assertions.assertEquals(addressDAO.read(HelperMethods.getId(address)).getStreet(), address.getStreet());
     }
 
     @Test
@@ -110,6 +93,6 @@ public class TestAddressDAO {
 
         addressDAO.delete(address);
 
-        Assertions.assertNull(addressDAO.read(getId(address)));
+        Assertions.assertNull(addressDAO.read(HelperMethods.getId(address)));
     }
 }
