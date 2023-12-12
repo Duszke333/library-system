@@ -1,5 +1,5 @@
 package pap.controllers;
 
-public interface Updateable {
+public interface UpdatableController {
     void update();
 }

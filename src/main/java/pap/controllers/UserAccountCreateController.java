@@ -15,7 +15,7 @@ import pap.helpers.PasswordHasher;
 import java.util.Arrays;
 
 
-public class UserAccountCreateController implements Updateable {
+public class UserAccountCreateController implements UpdatableController {
     @FXML
     private TextField nameInput;
     @FXML
@@ -45,7 +45,7 @@ public class UserAccountCreateController implements Updateable {
 
     @FXML
     private void alreadyAccountButtonPressed() {
-        GlobalController.setContentPane(LoadedPages.loginPage);
+        GlobalController.switchVisibleContent(LoadedPages.loginScreenController, LoadedPages.loginScreen);
     }
     
     @FXML

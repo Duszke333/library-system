@@ -8,7 +8,7 @@ import javafx.scene.text.Text;
 import pap.db.Repository.BookRepository;
 import pap.helpers.ConstraintChecker;
 
-public class BookCreatorController implements Updateable {
+public class BookCreatorController implements UpdatableController {
     @FXML
     private TextField bookISBN;
     @FXML
