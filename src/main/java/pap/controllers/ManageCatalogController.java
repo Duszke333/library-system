@@ -19,7 +19,7 @@ import java.net.URL;
 import java.util.Date;
 import java.util.ResourceBundle;
 
-public class ManageCatalogController implements Updateable, Initializable {
+public class ManageCatalogController implements UpdatableController, Initializable {
     public static Integer chosenBookID;
     @FXML
     private TableColumn<Book, String> author;
@@ -47,6 +47,7 @@ public class ManageCatalogController implements Updateable, Initializable {
         if(index <= -1){
             return;
         }
+        // TODO: CORRECT THIS
         FXMLLoader managePage = new FXMLLoader(Pap.class.getResource("view/book-manager.fxml"));
         Parent page = managePage.load();
         GlobalController.setContentPane(page);
