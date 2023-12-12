@@ -52,10 +52,15 @@ public class BrowseCatalogController implements Updateable, Initializable {
         Book choosenBook = new BookRepository().getById(chosenBookID);
 
         try {
-            FXMLLoader loader = new FXMLLoader(Pap.class.getResource("view/book-view.fxml"));
-            Parent root = loader.load();
-            Stage stage;
-            BookViewController bookViewController = loader.getController();
+            FXMLLoader mainLoader = new FXMLLoader(Pap.class.getResource("view/main-view.fxml"));
+            Parent mainRoot = mainLoader.load();
+            MainViewController mainViewController = mainLoader.getController();
+
+            FXMLLoader bookLoader = new FXMLLoader(Pap.class.getResource("view/book-view.fxml"));
+            Parent bookRoot = bookLoader.load();
+            BookViewController bookViewController = bookLoader.getController();
+
+            bookViewController.setBook(choosenBook);
             bookViewController.setBook(choosenBook);
             bookViewController.displayTitle(choosenBook.getTitle());
             bookViewController.displayAuthor(choosenBook.getAuthor());
@@ -67,15 +72,19 @@ public class BrowseCatalogController implements Updateable, Initializable {
             bookViewController.displayDescription(choosenBook.getDescription());
             bookViewController.displayAvailability(choosenBook.getStatus());
             bookViewController.displayDateAdded(choosenBook.getDateAdded());
-            stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
+
+            mainViewController.setContentPane(bookRoot);
+
+            Stage stage = Pap.getStage();
+            Scene mainScene = new Scene(mainRoot);
+            stage.setScene(mainScene);
             stage.show();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
     }
+
 
     @Override
     public void update() {

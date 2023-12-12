@@ -2,10 +2,12 @@ package pap.controllers;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import lombok.Getter;
 
 import java.awt.*;
 import java.io.IOException;
@@ -20,6 +22,7 @@ import static pap.helpers.LoadedPages.loginPage;
 public class MainViewController {
     @FXML
     private Text textMainView;
+    @Getter
     @FXML
     public Pane contentPane;
     @FXML
@@ -57,6 +60,11 @@ public class MainViewController {
         } catch (IOException | URISyntaxException ex) {
             throw new RuntimeException(ex);
         }
+    }
+
+    public void setContentPane(Node node) {
+        contentPane.getChildren().clear();
+        contentPane.getChildren().setAll(node);
     }
     
     @FXML
