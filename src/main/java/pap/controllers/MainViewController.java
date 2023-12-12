@@ -9,6 +9,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import lombok.Getter;
 import pap.helpers.LoadedPages;
+import pap.helpers.Login;
 
 import java.awt.*;
 import java.io.IOException;
@@ -41,6 +42,15 @@ public class MainViewController {
     
     @FXML
     private void buttonLoginPagePressed() {
+        if (Login.getUserLoggedIn().isPresent()) {
+            GlobalController.switchVisibleContent(LoadedPages.userDashboardController, LoadedPages.userDashboard);
+            return;
+        } 
+        else if (Login.getEmployeeLoggedIn().isPresent()) {
+            GlobalController.switchVisibleContent(LoadedPages.employeeDashboardController, LoadedPages.employeeDashboard);
+            return;
+        }
+        
         GlobalController.switchVisibleContent(LoadedPages.loginScreenController, loginScreen);
     }
     

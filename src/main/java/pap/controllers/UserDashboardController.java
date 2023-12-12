@@ -11,6 +11,7 @@ import pap.helpers.LoadedPages;
 import pap.helpers.Login;
 
 import java.util.List;
+import java.util.Optional;
 
 public class UserDashboardController implements UpdatableController {
     @FXML
@@ -24,8 +25,8 @@ public class UserDashboardController implements UpdatableController {
     private void initialize() {
         var signOutItem = new Button("Sign Out");
         signOutItem.setOnAction(e -> {
+            Login.setUserLoggedIn(Optional.empty());
             GlobalController.switchVisibleContent(LoadedPages.loginScreenController, LoadedPages.loginScreen);
-            Login.resetToken();
         });
         
         var deactivateAccountItem = new Button("Deactivate account");

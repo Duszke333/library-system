@@ -14,6 +14,7 @@ import pap.helpers.LoadedPages;
 import pap.helpers.Login;
 
 import java.util.List;
+import java.util.Optional;
 
 public class EmployeeDashboardController implements UpdatableController {
     @FXML
@@ -27,8 +28,8 @@ public class EmployeeDashboardController implements UpdatableController {
     private void initialize() {
         var signOutItem = new Button("Sign Out");
         signOutItem.setOnAction(e -> {
+            Login.setEmployeeLoggedIn(Optional.empty());
             GlobalController.switchVisibleContent(LoadedPages.loginScreenController, LoadedPages.loginScreen);
-            Login.resetToken();
         });
 
         var deactivateAccountItem = new Button("Deactivate account");
@@ -48,9 +49,21 @@ public class EmployeeDashboardController implements UpdatableController {
 
         var manageItem = new Button("Manage account settings");
         manageItem.setOnAction(e -> GlobalController.switchVisibleContent(LoadedPages.userAccountManageController, LoadedPages.userAccountManage));
+        
+        var manageCatalogueItem = new Button("Manage book catalogue");
+        manageCatalogueItem.setOnAction(e -> GlobalController.switchVisibleContent(LoadedPages.manageCatalogController, LoadedPages.manageCatalog));
+        
+        var bookCreatorItem = new Button("Add new books");
+        bookCreatorItem.setOnAction(e -> GlobalController.switchVisibleContent(LoadedPages.bookCreatorController, LoadedPages.bookCreator));
+        
+        var createEmployeeAccountsItem = new Button("Create new employee acounts");
+        createEmployeeAccountsItem.setOnAction(e -> GlobalController.switchVisibleContent(LoadedPages.employeeAccountCreateController, LoadedPages.employeeAccountCreate));
 
         employeeActions.getItems().setAll(List.of(
+                manageCatalogueItem,
+                bookCreatorItem,
                 manageItem,
+                createEmployeeAccountsItem,
                 deactivateAccountItem,
                 signOutItem
         ));
@@ -58,7 +71,7 @@ public class EmployeeDashboardController implements UpdatableController {
     
     @Override
     public void update() {
-        var empl = new EmployeeRepository().getById(Login.getUserLoggedIn().get());
+        var empl = new EmployeeRepository().getById(Login.getEmployeeLoggedIn().get());
         loginInfo.setWrappingWidth(contentPane.getWidth());
         loginInfo.setFont(Font.font(20));
         loginInfo.setText(String.format(

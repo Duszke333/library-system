@@ -13,6 +13,7 @@ import javafx.scene.input.MouseEvent;
 import pap.Pap;
 import pap.db.Entities.Book;
 import pap.db.Repository.BookRepository;
+import pap.helpers.LoadedPages;
 
 import java.io.IOException;
 import java.net.URL;
@@ -20,7 +21,7 @@ import java.util.Date;
 import java.util.ResourceBundle;
 
 public class ManageCatalogController implements UpdatableController, Initializable {
-    public static Integer chosenBookID;
+    public static Integer chosenBookID = 1;
     @FXML
     private TableColumn<Book, String> author;
     @FXML
@@ -47,10 +48,7 @@ public class ManageCatalogController implements UpdatableController, Initializab
         if(index <= -1){
             return;
         }
-        // TODO: CORRECT THIS
-        FXMLLoader managePage = new FXMLLoader(Pap.class.getResource("view/book-manager.fxml"));
-        Parent page = managePage.load();
-        GlobalController.setContentPane(page);
+        GlobalController.switchVisibleContent(LoadedPages.bookManagerController, LoadedPages.bookManager);
     }
 
     @Override

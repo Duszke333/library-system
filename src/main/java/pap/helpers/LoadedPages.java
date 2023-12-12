@@ -23,6 +23,8 @@ public class LoadedPages {
     public static final UpdatableController bookViewController;
     public static final Parent browseCatalog;
     public static final UpdatableController browseCatalogController;
+    public static final Parent manageCatalog;
+    public static final UpdatableController manageCatalogController;
     public static final Parent employeeAccountCreate;
     public static final UpdatableController employeeAccountCreateController;
     public static final Parent employeeLoginScreen;
@@ -64,6 +66,10 @@ public class LoadedPages {
             var browseCatalogLoader = new FXMLLoader(Pap.class.getResource("view/browse-catalog.fxml"));
             browseCatalog = browseCatalogLoader.load();
             browseCatalogController = browseCatalogLoader.getController();
+
+            var manageCatalogLoader = new FXMLLoader(Pap.class.getResource("view/manage-catalog.fxml"));
+            manageCatalog = manageCatalogLoader.load();
+            manageCatalogController = manageCatalogLoader.getController();
 
             var employeeAccountCreateLoader = new FXMLLoader(Pap.class.getResource("view/employee-account-create.fxml"));
             employeeAccountCreate = employeeAccountCreateLoader.load();

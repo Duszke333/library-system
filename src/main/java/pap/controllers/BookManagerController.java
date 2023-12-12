@@ -131,9 +131,9 @@ public class BookManagerController implements UpdatableController, Initializable
 
     @FXML
     protected void goBack() {
-        // TODO: Change pane accordingly
-        GlobalController.setContentPane(LoadedPages.cataloguePage);
+        GlobalController.switchVisibleContent(LoadedPages.manageCatalogController, LoadedPages.manageCatalog);
     }
+    
     @Override
     public void update() {
         // TODO: Book by ID
