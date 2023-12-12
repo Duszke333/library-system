@@ -79,8 +79,8 @@ public class BookViewController {
         descriptionLabel.setText("Opis: " + description);
     }
 
-    public void displayAvailability(boolean isAvailable) {
-        isAvailableLabel.setText("Dostępność: " + (isAvailable ? "Dostępna" : "Niedostępna"));
+    public void displayAvailability(String status) {
+        isAvailableLabel.setText("Dostępność: " + status);
     }
 
     public void displayDateAdded(Date dateAdded) {
@@ -90,15 +90,15 @@ public class BookViewController {
 
 
     public void orderButtonClicked(MouseEvent mouseEvent){
-        if(book.isAvailable()){
-            //#TODO
-            //#zamawianie ksiazki
-            orderButton.setStyle("-fx-background-color: #00ff00;");
-            orderLabel.setText("Ksiazka wypozyczona");
-        }else {
-            orderButton.setStyle("-fx-background-color: #ffff00;");
-            orderLabel.setText("Ksiazka aktualnie jest wypozyczona. Jestes x w kolejce");
-        }
+//        if(book.isAvailable()){
+//            //#TODO
+//            //#zamawianie ksiazki
+//            orderButton.setStyle("-fx-background-color: #00ff00;");
+//            orderLabel.setText("Ksiazka wypozyczona");
+//        }else {
+//            orderButton.setStyle("-fx-background-color: #ffff00;");
+//            orderLabel.setText("Ksiazka aktualnie jest wypozyczona. Jestes x w kolejce");
+//        }
 
     }
 }

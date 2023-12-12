@@ -41,6 +41,9 @@ public class User implements java.io.Serializable{
     @Basic
     @Column(name = "active", nullable = false)
     private boolean active;
+    @Basic
+    @Column(name = "has_unpaid_penalty", nullable = false)
+    private boolean hasUnpaidPenalty;
 
     @Override
     public boolean equals(Object o) {

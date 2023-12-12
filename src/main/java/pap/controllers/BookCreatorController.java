@@ -70,6 +70,10 @@ public class BookCreatorController {
         book.setDescription(description);
         book.setDateAdded(new java.sql.Date(System.currentTimeMillis()));
 
+        // TODO: Add cover image and status fields to the form
+        book.setStatus("Available");
+        book.setCover("resources/images/default_cover.png");
+
         new BookDAO().create(book);
         statusMessage.setText("Book added!");
         statusMessage.setFill(javafx.scene.paint.Color.GREEN);
