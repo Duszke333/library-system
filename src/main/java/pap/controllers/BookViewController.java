@@ -1,5 +1,6 @@
 package pap.controllers;
 
+import javafx.scene.control.TextArea;
 import pap.db.Entities.Book;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -28,7 +29,7 @@ public class BookViewController {
     @FXML
     Label publisherLabel;
     @FXML
-    Label descriptionLabel;
+    TextArea descriptionLabel;
     @FXML
     Label isAvailableLabel;
 
@@ -46,45 +47,47 @@ public class BookViewController {
 
 
 
-    public void displayTitle(String title){
-        titleLabel.setText(title);
+    public void displayTitle(String title) {
+        titleLabel.setText("Tytuł: " + title);
     }
+
     public void displayAuthor(String author) {
-        authorLabel.setText(author);
+        authorLabel.setText("Autor: " + author);
     }
 
     public void displayGenre(String genre) {
-        genreLabel.setText(genre);
+        genreLabel.setText("Gatunek: " + genre);
     }
 
     public void displayPublicationYear(int publicationYear) {
-        publicationYearLabel.setText(String.valueOf(publicationYear));
+        publicationYearLabel.setText("Rok publikacji: " + publicationYear);
     }
 
     public void displayLanguage(String language) {
-        languageLabel.setText(language);
+        languageLabel.setText("Język: " + language);
     }
 
     public void displayPageCount(int pageCount) {
-        pageCountLabel.setText(String.valueOf(pageCount));
+        pageCountLabel.setText("Liczba stron: " + pageCount);
     }
 
     public void displayPublisher(String publisher) {
-        publisherLabel.setText(publisher);
+        publisherLabel.setText("Wydawca: " + publisher);
     }
 
     public void displayDescription(String description) {
-        descriptionLabel.setText(description);
+        descriptionLabel.setText("Opis: " + description);
     }
 
     public void displayAvailability(boolean isAvailable) {
-        isAvailableLabel.setText(isAvailable ? "Available" : "Not Available");
+        isAvailableLabel.setText("Dostępność: " + (isAvailable ? "Dostępna" : "Niedostępna"));
     }
 
     public void displayDateAdded(Date dateAdded) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
-        dateAddedLabel.setText(dateFormat.format(dateAdded));
+        dateAddedLabel.setText("Data dodania: " + dateFormat.format(dateAdded));
     }
+
 
     public void orderButtonClicked(MouseEvent mouseEvent){
         if(book.isAvailable()){
