@@ -9,9 +9,9 @@
 <SplitPane dividerPositions="0.5" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pap.controllers.UserDashboardController">
    <items>
       <ListView fx:id="userActions" />
-      <VBox alignment="TOP_CENTER">
+      <VBox fx:id="contentPane" alignment="TOP_CENTER">
          <children>
-            <Text id="loginInfo" strokeType="OUTSIDE" strokeWidth="0.0" text="" wrappingWidth="52.98307228088379" />
+            <Text fx:id="loginInfo" strokeType="OUTSIDE" strokeWidth="0.0" text="REPLACEME" wrappingWidth="100" />
          </children>
       </VBox>
    </items>

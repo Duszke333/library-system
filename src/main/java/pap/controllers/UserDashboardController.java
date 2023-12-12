@@ -3,6 +3,7 @@ package pap.controllers;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import pap.db.Repository.UserRepository;
@@ -16,6 +17,9 @@ public class UserDashboardController implements UpdatableController {
     private ListView<Button> userActions;
     @FXML
     private Text loginInfo;
+    @FXML
+    private VBox contentPane;
+    
     @FXML
     private void initialize() {
         var signOutItem = new Button("Sign Out");
@@ -51,13 +55,10 @@ public class UserDashboardController implements UpdatableController {
 
     @Override
     public void update() {
-        if (loginInfo == null) {
-            return;
-        }
-        
         var user = new UserRepository().getById(Login.getUserLoggedIn().get());
-        loginInfo.setFont(Font.font(40));
-        loginInfo = new Text(String.format(
+        loginInfo.setWrappingWidth(contentPane.getWidth());
+        loginInfo.setFont(Font.font(20));
+        loginInfo.setText(String.format(
                 """
                 Currently logged in as (ID: %d) %s %s
                 Account Info:\s
