@@ -4,14 +4,14 @@ import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import pap.helpers.LoadedPages;
 
 import java.util.Optional;
 
-import static pap.helpers.LoadedPages.createAccountPage;
-import static pap.helpers.LoadedPages.userManagePage;
+import static pap.helpers.LoadedPages.userCreateAccountPage;
 import static pap.helpers.Login.*;
 
-public class UserLoginScreenController {
+public class UserLoginScreenController implements Updateable {
     @FXML
     private TextField loginEmail;
     @FXML
@@ -23,16 +23,15 @@ public class UserLoginScreenController {
     private void createAccountButtonPressed() {
         loginEmail.clear();
         loginPassword.clear();
-        GlobalController.setContentPane(createAccountPage);
+        GlobalController.setContentPane(userCreateAccountPage);
     }
 
     @FXML
     private void loginButtonPressed() {
         String email = loginEmail.getText().strip();
         String password = loginPassword.getText().strip();
-//        System.out.printf("%s\t%s\n", email, password);
         
-        var id = tryLogin(email, password);
+        var id = tryLoginUser(email, password);
         if (id == LoginTry.EmptyCredentials) {
             loginStatus.setText("All fields must be filled");
             loginStatus.setVisible(true);
@@ -47,10 +46,14 @@ public class UserLoginScreenController {
         }
         else {
             setUserLoggedIn(Optional.of(id));
-            loginEmail.clear();
-            loginPassword.clear();
-            loginStatus.setVisible(false);
-            GlobalController.setContentPane(userManagePage);
+            GlobalController.setContentPane(LoadedPages.userManagePage);
         }
+    }
+
+    @Override
+    public void update() {
+        loginEmail.clear();
+        loginPassword.clear();
+        loginStatus.setVisible(false);
     }
 }

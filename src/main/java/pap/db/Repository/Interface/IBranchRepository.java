@@ -9,4 +9,5 @@ public interface IBranchRepository extends IRepository<Branch>{
     Branch getByEmployee(Employee employee);
     Branch getByAddressId(int addressId);
     Branch getByAddress(Address address);
+    Branch getByBranchName(String name);
 }

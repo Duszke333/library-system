@@ -19,6 +19,7 @@ public class GlobalController {
         if (parent == null) {
             throw new RuntimeException("Cannot set contentPane of null Object");
         }
+//        elements.update();    TODO: RESLOVE THIS
         parent.contentPane.getChildren().setAll(elements);
     }
 }

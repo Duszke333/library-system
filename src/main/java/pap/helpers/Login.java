@@ -1,9 +1,13 @@
 package pap.helpers;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.Data;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
+import pap.db.Entities.Employee;
 import pap.db.Entities.User;
+import pap.db.Repository.EmployeeRepository;
 import pap.db.Repository.UserRepository;
 
 import java.util.Optional;
@@ -13,6 +17,7 @@ public class Login {
     
     @Getter
     @Setter
+    @NonNull
     private static Optional<Integer> userLoggedIn = Optional.empty();
     
     @Data
@@ -22,13 +27,7 @@ public class Login {
         public static int IncorrectPassword = -3;
     }
     
-    public enum LoginType { User, Employee }
-    
-    // public static tryLogin(LoginType loginType, Pair<String, String> credentials)
-    //
-    // public static tryLoginUser(String email, String password)
-    // public static tryLoginEmployee(String username, String password)
-    public static int tryLogin(String email, String password) {
+    public static int tryLoginUser(String email, String password) {
         if (email.isBlank() || password.isBlank()) {
             return LoginTry.EmptyCredentials;
         }
@@ -45,5 +44,24 @@ public class Login {
         }
         
         return user.getAccountId();
+    }
+
+    public static int tryLoginEmployee(String username, String password) {
+        if (username.isBlank() || password.isBlank()) {
+            return LoginTry.EmptyCredentials;
+        }
+
+        Employee emp = new EmployeeRepository().getByUsername(username);
+        if (emp == null) {
+            return LoginTry.NoUser;
+        }
+
+        String salt = emp.getPasswordSalt();
+        String hashedPassword = emp.getPasswordHash();
+        if (!hashedPassword.equals(PasswordHasher.hashPassword(password, salt))) {
+            return LoginTry.IncorrectPassword;
+        }
+
+        return emp.getEmployeeId();
     }
 }

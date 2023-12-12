@@ -70,7 +70,7 @@ public class BranchDAO implements DAO<Branch>{
     public List<Branch> query(String sql) {
         List<Branch> branches = null;
         try (Session session = factory.openSession()) {
-            branches = session.createNativeQuery(sql).list();
+            branches = session.createNativeQuery(sql, Branch.class).list();
             return branches;
         } catch (Exception e) {
             System.out.println(e.getMessage());

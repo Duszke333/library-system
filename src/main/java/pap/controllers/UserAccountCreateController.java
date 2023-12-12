@@ -8,11 +8,13 @@ import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import pap.helpers.LoadedPages;
 import pap.helpers.PasswordHasher;
 
-import static pap.helpers.LoadedPages.loginPage;
+import java.util.Arrays;
 
-public class UserAccountCreateController {
+
+public class UserAccountCreateController implements Updateable {
     @FXML
     private TextField nameInput;
     @FXML
@@ -42,7 +44,7 @@ public class UserAccountCreateController {
 
     @FXML
     private void alreadyAccountButtonPressed() {
-        GlobalController.setContentPane(loginPage);
+        GlobalController.setContentPane(LoadedPages.loginPage);
     }
     
     @FXML
@@ -102,7 +104,18 @@ public class UserAccountCreateController {
         String hashedPassword = PasswordHasher.hashPassword(password, stringSalt);
         usr.setPasswordHash(hashedPassword);
         usr.setAddressId(addr.getAddressId());
-
         new UserDAO().create(usr);
+    }
+
+    @Override
+    public void update() {
+        for (TextField textField : Arrays.asList(nameInput, surnameInput, emailInput, countryInput, cityInput, streetInput, postalCodeInput, houseNumberInput, flatNumberInput)) {
+            textField.clear();
+        }
+        passwordInput.clear();
+        passwordConfirmation.clear();
+        passUnmached.setVisible(false);
+        operationStatus.setVisible(false);
+        operationStatus.setFill(javafx.scene.paint.Color.RED);
     }
 }

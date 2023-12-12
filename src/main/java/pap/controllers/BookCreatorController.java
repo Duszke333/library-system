@@ -7,7 +7,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 
-public class BookCreatorController {
+public class BookCreatorController implements Updateable {
     @FXML
     private TextField bookISBN;
     @FXML
@@ -70,9 +70,27 @@ public class BookCreatorController {
         book.setDescription(description);
         book.setDateAdded(new java.sql.Date(System.currentTimeMillis()));
 
+        // TODO: Add cover image and status fields to the form
+        book.setStatus("Available");
+        book.setCover("resources/images/default_cover.png");
+
         new BookDAO().create(book);
         statusMessage.setText("Book added!");
         statusMessage.setFill(javafx.scene.paint.Color.GREEN);
         statusMessage.setVisible(true);
+    }
+
+    @Override
+    public void update() {
+        statusMessage.setVisible(false);
+        bookISBN.clear();
+        bookTitle.clear();
+        bookAuthor.clear();
+        bookGenre.clear();
+        bookPublicationYear.clear();
+        bookLanguage.clear();
+        bookPageCount.clear();
+        bookPublisher.clear();
+        bookDescription.clear();
     }
 }

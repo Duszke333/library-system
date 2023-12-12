@@ -25,7 +25,7 @@ import java.net.URL;
 import java.util.Date;
 import java.util.ResourceBundle;
 
-public class BrowseCatalogController implements Initializable {
+public class BrowseCatalogController implements Updateable, Initializable {
 
     @FXML
     private TableColumn<Book, String> author;
@@ -79,7 +79,7 @@ public class BrowseCatalogController implements Initializable {
             bookViewController.displayPageCount(choosenBook.getPageCount());
             bookViewController.displayPublisher(choosenBook.getPublisher());
             bookViewController.displayDescription(choosenBook.getDescription());
-            bookViewController.displayAvailability(choosenBook.isAvailable());
+            bookViewController.displayAvailability(choosenBook.getStatus());
             bookViewController.displayDateAdded(choosenBook.getDateAdded());
             stage = (Stage)((Node)event.getSource()).getScene().getWindow();
             Scene scene = new Scene(root);
@@ -92,7 +92,7 @@ public class BrowseCatalogController implements Initializable {
     }
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    public void update() {
         catalog.widthProperty().addListener(o -> {
             catalog.getColumns().forEach(column -> {
                 column.setMinWidth(catalog.getWidth() / catalog.getColumns().size());
@@ -110,5 +110,10 @@ public class BrowseCatalogController implements Initializable {
         publication_year.setCellValueFactory(new PropertyValueFactory<Book, Date>("publicationYear"));
         publisher.setCellValueFactory(new PropertyValueFactory<Book, String>("publisher"));
         catalog.setItems(list);
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        update();
     }
 }
