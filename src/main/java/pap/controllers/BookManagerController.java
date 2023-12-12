@@ -65,8 +65,8 @@ public class BookManagerController implements Updateable, Initializable {
             return;
         }
 
-        Integer year = null;
-        Integer pages = null;
+        Integer year;
+        Integer pages;
         try {
             year = Integer.parseInt(publicationYear);
             pages = Integer.parseInt(pageCount);

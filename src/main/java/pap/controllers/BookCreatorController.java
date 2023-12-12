@@ -1,6 +1,5 @@
 package pap.controllers;
 
-import pap.db.DAO.BookDAO;
 import pap.db.Entities.Book;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
