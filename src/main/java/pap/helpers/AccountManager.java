@@ -10,6 +10,7 @@ import pap.db.Entities.User;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+@Deprecated(since = "0.1.0", forRemoval = true)
 public class AccountManager {
     private AccountManager() {}
     
@@ -55,6 +56,13 @@ public class AccountManager {
             addr.setPostalCode(postalCode);
             addr.setHouseNumber(houseNumber);
             addr.setFlatNumber(flatNumber);
+
+            int error = ConstraintChecker.checkAddress(addr);
+            if (error != -1) {
+                operationStatus.setText("Error: " + ConstraintChecker.AddressErrors.values()[error].toString());
+                operationStatus.setVisible(true);
+                return null;
+            }
 
             new AddressDAO().create(addr);
             User usr = new User();
