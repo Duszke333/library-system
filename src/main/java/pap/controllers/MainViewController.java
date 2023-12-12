@@ -8,6 +8,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import lombok.Getter;
+import pap.helpers.LoadedPages;
 
 import java.awt.*;
 import java.io.IOException;
@@ -16,8 +17,8 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import static pap.helpers.LoadedPages.cataloguePage;
-import static pap.helpers.LoadedPages.loginPage;
+import static pap.helpers.LoadedPages.browseCatalog;
+import static pap.helpers.LoadedPages.loginScreen;
 
 public class MainViewController {
     @FXML
@@ -40,7 +41,7 @@ public class MainViewController {
     
     @FXML
     private void buttonLoginPagePressed() {
-        contentPane.getChildren().setAll(loginPage);
+        GlobalController.switchVisibleContent(LoadedPages.loginScreenController, loginScreen);
     }
     
     @FXML
@@ -50,7 +51,7 @@ public class MainViewController {
     
     @FXML
     private void buttonCataloguePressed() {
-        contentPane.getChildren().setAll(cataloguePage);
+        GlobalController.switchVisibleContent(LoadedPages.browseCatalogController, browseCatalog);
     }
     
     @FXML

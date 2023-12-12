@@ -5,7 +5,6 @@
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
@@ -83,36 +82,6 @@
                   <Font size="18.0" />
                </font>
             </Text>
-         </children>
-      </HBox>
-      <HBox nodeOrientation="LEFT_TO_RIGHT" spacing="24.0">
-         <children>
-            <Button fx:id="deactivationButton" mnemonicParsing="false" onAction="#deactivateAccount" text="Deactivate account" textFill="RED" />
-            <Text fx:id="deactivationStatus" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="Are you sure? Please confirm." visible="false">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Text>
-            <Region HBox.hgrow="ALWAYS" />
-            <HBox alignment="CENTER_RIGHT" spacing="24.0">
-               <children>
-                  <Button fx:id="confirmDeactivation" mnemonicParsing="false" onAction="#deactivationConfirmed" prefWidth="60.0" text="Yes" textAlignment="CENTER" textFill="RED" visible="false">
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                  </Button>
-                  <Button fx:id="cancelDeactivation" layoutX="73.0" layoutY="13.0" mnemonicParsing="false" onAction="#deactivationCanceled" prefWidth="60.0" text="No" textAlignment="CENTER" textFill="LIME" visible="false">
-                     <HBox.margin>
-                        <Insets />
-                     </HBox.margin>
-                  </Button>
-               </children>
-            </HBox>
-         </children>
-      </HBox>
-      <HBox>
-         <children>
-            <Button fx:id="buttonSignOut" mnemonicParsing="false" onAction="#signOutButtonPressed" text="Sign Out" />
          </children>
       </HBox>
    </children>

@@ -14,7 +14,7 @@ import pap.helpers.ConstraintChecker;
 import pap.helpers.LoadedPages;
 import pap.helpers.PasswordHasher;
 
-public class EmployeeAccountCreateController implements Updateable {
+public class EmployeeAccountCreateController implements UpdatableController {
     @FXML
     private TextField userEmailInput;
     @FXML
@@ -36,7 +36,7 @@ public class EmployeeAccountCreateController implements Updateable {
     
     @FXML
     protected void createUserButtonPressed() {
-        GlobalController.setContentPane(LoadedPages.userCreateAccountPage);
+        GlobalController.switchVisibleContent(LoadedPages.userAccountCreateController, LoadedPages.userAccountCreate);
     }
 
     @FXML

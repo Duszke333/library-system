@@ -1,6 +1,5 @@
 package pap.helpers;
 
-import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NonNull;
@@ -19,12 +18,21 @@ public class Login {
     @Setter
     @NonNull
     private static Optional<Integer> userLoggedIn = Optional.empty();
+
+    @Getter
+    @Setter
+    @NonNull
+    private static Optional<Integer> employeeLoggedIn = Optional.empty();
     
     @Data
     public static class LoginTry {
         public static int EmptyCredentials = -1;
         public static int NoUser = -2;
         public static int IncorrectPassword = -3;
+    }
+    
+    public static void resetToken() {
+        userLoggedIn = Optional.empty();
     }
     
     public static int tryLoginUser(String email, String password) {

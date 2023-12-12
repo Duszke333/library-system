@@ -7,9 +7,11 @@ import javafx.scene.text.Text;
 import pap.helpers.LoadedPages;
 import pap.helpers.Login;
 
+import java.util.Optional;
+
 import static pap.helpers.Login.*;
 
-public class EmployeeLoginScreenController implements Updateable {
+public class EmployeeLoginScreenController implements UpdatableController {
     @FXML
     private TextField loginUsername;
     @FXML
@@ -19,7 +21,7 @@ public class EmployeeLoginScreenController implements Updateable {
     
     @FXML
     protected void createAccountButtonPressed() {
-        GlobalController.setContentPane(LoadedPages.employeeManagePage);
+        GlobalController.switchVisibleContent(LoadedPages.employeeAccountCreateController, LoadedPages.employeeAccountCreate);
     }
 
     @FXML
@@ -41,9 +43,8 @@ public class EmployeeLoginScreenController implements Updateable {
             loginStatus.setVisible(true);
         }
         else {
-            // TODO: make missing fields and panels
-//            setEmployeeLoggedIn(Optional.of(id));
-//            GlobalController.setContentPane(employeeManagepage);
+            setEmployeeLoggedIn(Optional.of(id));
+            GlobalController.switchVisibleContent(LoadedPages.employeeDashboardController, LoadedPages.employeeDashboard);
         }
     }
 
