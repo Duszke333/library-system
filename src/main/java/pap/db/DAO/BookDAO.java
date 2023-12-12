@@ -8,7 +8,15 @@ import org.hibernate.SessionFactory;
 import java.util.List;
 
 public class BookDAO implements DAO<Book> {
-    SessionFactory factory = SessionFactoryMaker.getSessionFactory();
+    private SessionFactory factory;
+
+    public BookDAO() {
+        factory = SessionFactoryMaker.getSessionFactory();
+    }
+
+    public BookDAO(SessionFactory factory) {
+        this.factory = factory;
+    }
 
     public void create(Book book) {
         try (Session session = factory.openSession()) {

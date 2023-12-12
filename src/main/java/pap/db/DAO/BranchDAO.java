@@ -8,8 +8,15 @@ import org.hibernate.SessionFactory;
 import java.util.List;
 
 public class BranchDAO implements DAO<Branch>{
-    SessionFactory factory = SessionFactoryMaker.getSessionFactory();
+    private SessionFactory factory;
 
+    public BranchDAO() {
+        factory = SessionFactoryMaker.getSessionFactory();
+    }
+
+    public BranchDAO(SessionFactory factory) {
+        this.factory = factory;
+    }
     @Override
     public void create(Branch branch) {
         try (Session session = factory.openSession()) {

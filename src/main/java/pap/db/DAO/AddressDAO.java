@@ -8,7 +8,15 @@ import org.hibernate.SessionFactory;
 import java.util.List;
 
 public class AddressDAO implements DAO<Address> {
-    SessionFactory factory = SessionFactoryMaker.getSessionFactory();
+    private SessionFactory factory;
+
+    public AddressDAO() {
+        factory = SessionFactoryMaker.getSessionFactory();
+    }
+
+    public AddressDAO(SessionFactory factory) {
+        this.factory = factory;
+    }
 
     public void create(Address address) {
         try (Session session = factory.openSession()) {

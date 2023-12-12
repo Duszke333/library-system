@@ -8,7 +8,15 @@ import org.hibernate.SessionFactory;
 import java.util.List;
 
 public class UserDAO implements DAO<User>{
-    SessionFactory factory = SessionFactoryMaker.getSessionFactory();
+    private SessionFactory factory;
+
+    public UserDAO() {
+        factory = SessionFactoryMaker.getSessionFactory();
+    }
+
+    public UserDAO(SessionFactory factory) {
+        this.factory = factory;
+    }
 
     public void create(User user) {
         try (Session session = factory.openSession()) {
