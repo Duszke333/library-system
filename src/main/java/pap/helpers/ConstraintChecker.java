@@ -17,12 +17,12 @@ public class ConstraintChecker {
     }
 
     public static int checkBook(Book book) {
-        if (book.getIsbn().length() >= 32) return BookErrors.ISBN_TOO_LONG.ordinal();
-        if (book.getTitle().length() >= 128) return BookErrors.TITLE_TOO_LONG.ordinal();
-        if (book.getAuthor().length() >= 128) return BookErrors.AUTHOR_TOO_LONG.ordinal();
-        if (book.getGenre().length() >= 128) return BookErrors.GENRE_TOO_LONG.ordinal();
-        if (book.getPublisher().length() >= 128) return BookErrors.PUBLISHER_TOO_LONG.ordinal();
-        if (book.getLanguage().length() >= 128) return BookErrors.LANGUAGE_TOO_LONG.ordinal();
+        if (book.getIsbn().length() > 32) return BookErrors.ISBN_TOO_LONG.ordinal();
+        if (book.getTitle().length() > 128) return BookErrors.TITLE_TOO_LONG.ordinal();
+        if (book.getAuthor().length() > 128) return BookErrors.AUTHOR_TOO_LONG.ordinal();
+        if (book.getGenre().length() > 128) return BookErrors.GENRE_TOO_LONG.ordinal();
+        if (book.getPublisher().length() > 128) return BookErrors.PUBLISHER_TOO_LONG.ordinal();
+        if (book.getLanguage().length() > 128) return BookErrors.LANGUAGE_TOO_LONG.ordinal();
         if (!book.getStatus().equals("Available") && !book.getStatus().equals("Unavailable") && !book.getStatus().equals("Reserved")) {
             return BookErrors.WRONG_STATUS.ordinal();
         }
@@ -37,12 +37,12 @@ public class ConstraintChecker {
     }
 
     public static int checkAddress(Address address) {
-        if (address.getCountry().length() >= 64) return AddressErrors.COUNTRY_TOO_LONG.ordinal();
-        if (address.getPostalCode().length() >= 16) return AddressErrors.POSTAL_CODE_TOO_LONG.ordinal();
-        if (address.getCity().length() >= 64) return AddressErrors.CITY_TOO_LONG.ordinal();
-        if (address.getStreet().length() >= 64) return AddressErrors.STREET_TOO_LONG.ordinal();
-        if (address.getHouseNumber().length() >= 16) return AddressErrors.HOUSE_NUMBER_TOO_LONG.ordinal();
-        if (address.getFlatNumber().length() >= 16) return AddressErrors.FLAT_NUMBER_TOO_LONG.ordinal();
+        if (address.getCountry().length() > 64) return AddressErrors.COUNTRY_TOO_LONG.ordinal();
+        if (address.getPostalCode().length() > 16) return AddressErrors.POSTAL_CODE_TOO_LONG.ordinal();
+        if (address.getCity().length() > 64) return AddressErrors.CITY_TOO_LONG.ordinal();
+        if (address.getStreet().length() > 64) return AddressErrors.STREET_TOO_LONG.ordinal();
+        if (address.getHouseNumber().length() > 16) return AddressErrors.HOUSE_NUMBER_TOO_LONG.ordinal();
+        if (address.getFlatNumber().length() > 16) return AddressErrors.FLAT_NUMBER_TOO_LONG.ordinal();
         return -1;
     }
 
@@ -52,9 +52,9 @@ public class ConstraintChecker {
     }
 
     public static int checkUser(User user, UserRepository userRepo) {
-        if (user.getFirstName().length() >= 64) return UserErrors.NAME_TOO_LONG.ordinal();
-        if (user.getLastName().length() >= 64) return UserErrors.SURNAME_TOO_LONG.ordinal();
-        if (user.getEmail().length() >= 64) return UserErrors.EMAIL_TOO_LONG.ordinal();
+        if (user.getFirstName().length() > 64) return UserErrors.NAME_TOO_LONG.ordinal();
+        if (user.getLastName().length() > 64) return UserErrors.SURNAME_TOO_LONG.ordinal();
+        if (user.getEmail().length() > 64) return UserErrors.EMAIL_TOO_LONG.ordinal();
         if (!user.getEmail().matches(".*@.*\\..*")) return UserErrors.EMAIL_INVALID.ordinal();
         if (userRepo.getByEmail(user.getEmail()) != null) return UserErrors.EMAIL_ALREADY_USED.ordinal();
         return -1;
@@ -66,8 +66,8 @@ public class ConstraintChecker {
     }
 
     public static int checkEmployee(Employee emp, EmployeeRepository empRepo) {
-        if (emp.getUsername().length() >= 128) return EmployeeErrors.USERNAME_TOO_LONG.ordinal();
-        if (emp.getRole().length() >= 64) return EmployeeErrors.ROLE_TOO_LONG.ordinal();
+        if (emp.getUsername().length() > 128) return EmployeeErrors.USERNAME_TOO_LONG.ordinal();
+        if (emp.getRole().length() > 64) return EmployeeErrors.ROLE_TOO_LONG.ordinal();
         if (empRepo.getByUsername(emp.getUsername()) != null) return EmployeeErrors.USERNAME_ALREADY_USED.ordinal();
         if (empRepo.getByUserID(emp.getUserID()) != null) return EmployeeErrors.USER_ACCOUNT_ALREADY_IN_USE.ordinal();
         return -1;
