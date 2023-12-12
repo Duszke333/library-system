@@ -8,7 +8,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import pap.helpers.PasswordHasher;
 
-public class EmployeeLoginScreenController {
+public class EmployeeLoginScreenController implements Updateable {
     @FXML
     private TextField loginUsername;
     @FXML
@@ -46,5 +46,13 @@ public class EmployeeLoginScreenController {
         loginStatus.setText("Logged in!");
         loginStatus.setFill(javafx.scene.paint.Color.GREEN);
         loginStatus.setVisible(true);
+    }
+
+    @Override
+    public void update() {
+        loginUsername.clear();
+        loginPassword.clear();
+        loginStatus.setVisible(false);
+        loginStatus.setFill(javafx.scene.paint.Color.RED);
     }
 }

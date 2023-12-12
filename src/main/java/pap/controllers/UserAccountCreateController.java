@@ -12,7 +12,7 @@ import pap.helpers.PasswordHasher;
 
 import static pap.helpers.LoadedPages.userLoginPage;
 
-public class UserAccountCreateController {
+public class UserAccountCreateController implements Updateable {
     @FXML
     private TextField nameInput;
     @FXML
@@ -104,5 +104,23 @@ public class UserAccountCreateController {
         usr.setAddressId(addr.getAddressId());
 
         new UserDAO().create(usr);
+    }
+
+    @Override
+    public void update() {
+        nameInput.clear();
+        surnameInput.clear();
+        emailInput.clear();
+        countryInput.clear();
+        cityInput.clear();
+        streetInput.clear();
+        postalCodeInput.clear();
+        houseNumberInput.clear();
+        flatNumberInput.clear();
+        passwordInput.clear();
+        passwordConfirmation.clear();
+        passUnmached.setVisible(false);
+        operationStatus.setVisible(false);
+        operationStatus.setFill(javafx.scene.paint.Color.RED);
     }
 }

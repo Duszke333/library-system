@@ -11,7 +11,7 @@ import javafx.scene.text.Text;
 import static pap.helpers.Login.*;
 import pap.helpers.PasswordHasher;
 
-public class EmployeeAccountCreateController {
+public class EmployeeAccountCreateController implements Updateable {
     @FXML
     private TextField userEmailInput;
     @FXML
@@ -51,6 +51,7 @@ public class EmployeeAccountCreateController {
         int uid = tryLogin(userEmail, userPassword);
         if (uid == LoginTry.IncorrectPassword) {
             operationStatus.setText("Wrong user email or password!");
+            operationStatus.setVisible(true);
             return;
         }
 
@@ -87,5 +88,19 @@ public class EmployeeAccountCreateController {
         operationStatus.setText("Account created!");
         operationStatus.setFill(javafx.scene.paint.Color.GREEN);
         operationStatus.setVisible(true);
+    }
+
+    @Override
+    public void update() {
+        userEmailInput.clear();
+        userPasswordInput.clear();
+        employeeUsernameInput.clear();
+        employeePasswordInput.clear();
+        employeePasswordConfirmation.clear();
+        roleInput.clear();
+        branchNameInput.clear();
+        operationStatus.setVisible(false);
+        operationStatus.setFill(javafx.scene.paint.Color.RED);
+        passUnmached.setVisible(false);
     }
 }
