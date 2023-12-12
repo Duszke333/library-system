@@ -55,7 +55,7 @@ public class UserAccountManageController implements UpdatableController, Initial
     @FXML
     protected void signOutButtonPressed() {
         Login.setUserLoggedIn(Optional.empty());
-        GlobalController.switchVisibleContent(this, LoadedPages.loginPage);
+        GlobalController.switchVisibleContent(LoadedPages.loginScreenController, LoadedPages.loginScreen);
     }
 
     @FXML

@@ -8,7 +8,6 @@ import pap.helpers.LoadedPages;
 
 import java.util.Optional;
 
-import static pap.helpers.LoadedPages.userCreateAccountPage;
 import static pap.helpers.Login.*;
 
 public class UserLoginScreenController implements UpdatableController {
@@ -23,7 +22,7 @@ public class UserLoginScreenController implements UpdatableController {
     private void createAccountButtonPressed() {
         loginEmail.clear();
         loginPassword.clear();
-        GlobalController.switchVisibleContent(this, userCreateAccountPage);
+        GlobalController.switchVisibleContent(LoadedPages.userAccountCreateController, LoadedPages.userAccountCreate);
     }
 
     @FXML
@@ -46,7 +45,7 @@ public class UserLoginScreenController implements UpdatableController {
         }
         else {
             setUserLoggedIn(Optional.of(id));
-            GlobalController.switchVisibleContent(this, LoadedPages.userManagePage);
+            GlobalController.switchVisibleContent(LoadedPages.userDashboardController, LoadedPages.userDashboard);
         }
     }
 

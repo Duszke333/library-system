@@ -6,15 +6,15 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
+import javafx.util.Pair;
 import pap.Pap;
 import pap.db.Entities.Book;
 import pap.db.Repository.BookRepository;
+import pap.helpers.LoadedPages;
 
 import java.io.IOException;
 import java.net.URL;
@@ -51,10 +51,6 @@ public class BrowseCatalogController implements UpdatableController, Initializab
         Book choosenBook = new BookRepository().getById(chosenBookID);
 
         try {
-            FXMLLoader mainLoader = new FXMLLoader(Pap.class.getResource("view/main-view.fxml"));
-            Parent mainRoot = mainLoader.load();
-            MainViewController mainViewController = mainLoader.getController();
-
             FXMLLoader bookLoader = new FXMLLoader(Pap.class.getResource("view/book-view.fxml"));
             Parent bookRoot = bookLoader.load();
             BookViewController bookViewController = bookLoader.getController();
@@ -72,16 +68,10 @@ public class BrowseCatalogController implements UpdatableController, Initializab
             bookViewController.displayAvailability(choosenBook.getStatus());
             bookViewController.displayDateAdded(choosenBook.getDateAdded());
 
-            mainViewController.setContentPane(bookRoot);
-
-            Stage stage = Pap.getStage();
-            Scene mainScene = new Scene(mainRoot);
-            stage.setScene(mainScene);
-            stage.show();
+            GlobalController.switchVisibleContent(LoadedPages.bookViewController, bookRoot);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
     }
 
 

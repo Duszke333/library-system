@@ -13,7 +13,7 @@ import javafx.scene.input.MouseEvent;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class BookViewController {
+public class BookViewController implements UpdatableController {
     @FXML
     Label titleLabel;
     @FXML
@@ -99,6 +99,9 @@ public class BookViewController {
 //            orderButton.setStyle("-fx-background-color: #ffff00;");
 //            orderLabel.setText("Ksiazka aktualnie jest wypozyczona. Jestes x w kolejce");
 //        }
+    }
 
+    @Override
+    public void update() {
     }
 }

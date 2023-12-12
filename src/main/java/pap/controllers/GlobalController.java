@@ -4,8 +4,6 @@ import javafx.scene.Parent;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Objects;
-
 public class GlobalController {
     private GlobalController() {}
     
@@ -18,12 +16,12 @@ public class GlobalController {
      * elements are prepped and empty.
      * @param elements of type javafx.scene.Node
      */
-    public static void switchVisibleContent(UpdatableController caller, Parent... elements) {
+    public static void switchVisibleContent(UpdatableController receiver, Parent... elements) {
         if (parent == null) {
             throw new NullPointerException("MainView cannot be null");
         }
         
-        caller.update();
         parent.contentPane.getChildren().setAll(elements);
+        receiver.update();
     }
 }
