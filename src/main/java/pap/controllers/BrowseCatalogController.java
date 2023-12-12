@@ -79,7 +79,7 @@ public class BrowseCatalogController implements Initializable {
             bookViewController.displayPageCount(choosenBook.getPageCount());
             bookViewController.displayPublisher(choosenBook.getPublisher());
             bookViewController.displayDescription(choosenBook.getDescription());
-            bookViewController.displayAvailability(choosenBook.isAvailable());
+            bookViewController.displayAvailability(choosenBook.getStatus());
             bookViewController.displayDateAdded(choosenBook.getDateAdded());
             stage = (Stage)((Node)event.getSource()).getScene().getWindow();
             Scene scene = new Scene(root);

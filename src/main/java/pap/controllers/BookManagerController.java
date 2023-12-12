@@ -133,5 +133,7 @@ public class BookManagerController implements Initializable {
         pageCountInput.setText(String.valueOf(book.getPageCount()));
         publisherInput.setText(book.getPublisher());
         descriptionInput.setText(book.getDescription());
+
+        // TODO: Add cover image and status fields to the form
     }
 }
