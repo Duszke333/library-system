@@ -9,7 +9,7 @@ import pap.helpers.Login;
 
 import static pap.helpers.Login.*;
 
-public class EmployeeLoginScreenController implements Updateable {
+public class EmployeeLoginScreenController implements UpdatableController {
     @FXML
     private TextField loginUsername;
     @FXML
@@ -19,7 +19,7 @@ public class EmployeeLoginScreenController implements Updateable {
     
     @FXML
     protected void createAccountButtonPressed() {
-        GlobalController.setContentPane(LoadedPages.employeeManagePage);
+        GlobalController.switchVisibleContent(this, LoadedPages.employeeManagePage);
     }
 
     @FXML

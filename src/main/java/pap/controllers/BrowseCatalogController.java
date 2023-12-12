@@ -5,7 +5,6 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
@@ -22,7 +21,7 @@ import java.net.URL;
 import java.util.Date;
 import java.util.ResourceBundle;
 
-public class BrowseCatalogController implements Updateable, Initializable {
+public class BrowseCatalogController implements UpdatableController, Initializable {
     @FXML
     private TableColumn<Book, String> author;
     @FXML

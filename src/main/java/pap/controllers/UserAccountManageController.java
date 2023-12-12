@@ -18,7 +18,7 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
-public class UserAccountManageController implements Updateable, Initializable {
+public class UserAccountManageController implements UpdatableController, Initializable {
     private User user;
     private Address address;
     @FXML
@@ -55,7 +55,7 @@ public class UserAccountManageController implements Updateable, Initializable {
     @FXML
     protected void signOutButtonPressed() {
         Login.setUserLoggedIn(Optional.empty());
-        GlobalController.setContentPane(LoadedPages.loginPage);
+        GlobalController.switchVisibleContent(this, LoadedPages.loginPage);
     }
 
     @FXML

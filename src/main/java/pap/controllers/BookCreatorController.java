@@ -7,7 +7,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 
-public class BookCreatorController implements Updateable {
+public class BookCreatorController implements UpdatableController {
     @FXML
     private TextField bookISBN;
     @FXML

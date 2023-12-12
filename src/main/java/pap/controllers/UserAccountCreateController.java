@@ -8,10 +8,9 @@ import pap.helpers.AccountManager;
 import pap.helpers.LoadedPages;
 
 import java.util.Arrays;
-import java.util.concurrent.Executors;
 
 
-public class UserAccountCreateController implements Updateable {
+public class UserAccountCreateController implements UpdatableController {
     @FXML
     private TextField nameInput;
     @FXML
@@ -41,7 +40,7 @@ public class UserAccountCreateController implements Updateable {
 
     @FXML
     private void alreadyAccountButtonPressed() {
-        GlobalController.setContentPane(LoadedPages.loginPage);
+        GlobalController.switchVisibleContent(this, LoadedPages.loginPage);
     }
     
     @FXML

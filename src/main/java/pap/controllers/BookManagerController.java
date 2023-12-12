@@ -12,7 +12,7 @@ import pap.db.Repository.BookRepository;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class BookManagerController implements Updateable, Initializable {
+public class BookManagerController implements UpdatableController, Initializable {
     private Book book;
     @FXML
     private TextField isbnInput;
