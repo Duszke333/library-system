@@ -3,7 +3,7 @@ Project z Javy
 
 # Instalacja w środowisku linuksowym:
 Aby uruchomić aplikację należy mieć zainstalowane następujące programy:
-- OpenJDK17 (przykłowa instrukcja: https://linux.how2shout.com/steps-to-install-openjdk-17-ubuntu-linux-such-as-22-04-or-20-04/)
+- Java JDK17, proponowana liberica17 Bellsoft lub OracleJDK, gdyż te mają wbudowany komponent JavaFX (przykłowa instrukcja: https://linux.how2shout.com/steps-to-install-openjdk-17-ubuntu-linux-such-as-22-04-or-20-04/)
 - Maven (przykładowa instrukcja: https://phoenixnap.com/kb/install-maven-on-ubuntu)
 - Docker (przykładowa instalacja: https://docs.docker.com/engine/install/ubuntu/)
 - JavaFX (przykładowa instalacja: https://openjfx.io/openjfx-docs/)
