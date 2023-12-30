@@ -2,8 +2,8 @@ package pap.helpers;
 
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
-import pap.db.DAO.AddressDAO;
-import pap.db.DAO.UserDAO;
+import pap.db.DAO.EntityDAO.AddressDAO;
+import pap.db.DAO.EntityDAO.UserDAO;
 import pap.db.Entities.Address;
 import pap.db.Entities.User;
 

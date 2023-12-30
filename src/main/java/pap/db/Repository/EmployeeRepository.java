@@ -1,6 +1,6 @@
 package pap.db.Repository;
 
-import pap.db.DAO.EmployeeDAO;
+import pap.db.DAO.EntityDAO.EmployeeDAO;
 import pap.db.Entities.Branch;
 import pap.db.Entities.Employee;
 import pap.db.Repository.Interface.IEmployeeRepository;

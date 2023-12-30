@@ -7,4 +7,110 @@
     <entity class="pap.db.Entities.User"/>
     <entity class="pap.db.Entities.Employee"/>
     <entity class="pap.db.Entities.Branch"/>
+    <entity class="pap.db.Entities.BookGrade">
+        <table name="book_grades" schema="pap" catalog="pap"/>
+        <attributes>
+            <id name="gradeId">
+                <column name="grade_id"/>
+            </id>
+            <basic name="bookId">
+                <column name="book_id"/>
+            </basic>
+            <basic name="userId">
+                <column name="user_id"/>
+            </basic>
+            <basic name="grade">
+                <column name="grade"/>
+            </basic>
+            <basic name="dateAdded">
+                <column name="date_added"/>
+            </basic>
+        </attributes>
+    </entity>
+    <entity class="pap.db.Entities.BookRental">
+        <table name="book_rentals" schema="pap" catalog="pap"/>
+        <attributes>
+            <id name="rentalId">
+                <column name="rental_id"/>
+            </id>
+            <basic name="bookId">
+                <column name="book_id"/>
+            </basic>
+            <basic name="userId">
+                <column name="user_id"/>
+            </basic>
+            <basic name="dateRented">
+                <column name="date_rented"/>
+            </basic>
+            <basic name="dateToReturn">
+                <column name="date_to_return"/>
+            </basic>
+            <basic name="dateReturned">
+                <column name="date_returned"/>
+            </basic>
+        </attributes>
+    </entity>
+    <entity class="pap.db.Entities.Penalty">
+        <table name="penalties" schema="pap" catalog="pap"/>
+        <attributes>
+            <id name="penaltyId">
+                <column name="penalty_id"/>
+            </id>
+            <basic name="userId">
+                <column name="user_id"/>
+            </basic>
+            <basic name="rentalId">
+                <column name="rental_id"/>
+            </basic>
+            <basic name="dateAdded">
+                <column name="date_added"/>
+            </basic>
+            <basic name="datePaid">
+                <column name="date_paid"/>
+            </basic>
+            <basic name="amount">
+                <column name="amount"/>
+            </basic>
+            <basic name="cause">
+                <column name="cause"/>
+            </basic>
+        </attributes>
+    </entity>
+    <entity class="pap.db.Entities.ReadList">
+        <table name="read_list" schema="pap" catalog="pap"/>
+        <attributes>
+            <id name="readListId">
+                <column name="read_list_id"/>
+            </id>
+            <basic name="userId">
+                <column name="user_id"/>
+            </basic>
+            <basic name="bookId">
+                <column name="book_id"/>
+            </basic>
+            <basic name="dateAdded">
+                <column name="date_added"/>
+            </basic>
+        </attributes>
+    </entity>
+    <entity class="pap.db.Entities.RentingQueue">
+        <table name="renting_queue" schema="pap" catalog="pap"/>
+        <attributes>
+            <id name="queueId">
+                <column name="queue_id"/>
+            </id>
+            <basic name="bookId">
+                <column name="book_id"/>
+            </basic>
+            <basic name="userId">
+                <column name="user_id"/>
+            </basic>
+            <basic name="dateToRent">
+                <column name="date_to_rent"/>
+            </basic>
+            <basic name="dateToReturn">
+                <column name="date_to_return"/>
+            </basic>
+        </attributes>
+    </entity>
 </entity-mappings>

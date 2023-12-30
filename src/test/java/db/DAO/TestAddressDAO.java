@@ -8,10 +8,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
-import pap.db.DAO.AddressDAO;
+import pap.db.DAO.EntityDAO.AddressDAO;
 import pap.db.Entities.Address;
-
-import java.util.List;
 
 
 public class TestAddressDAO {

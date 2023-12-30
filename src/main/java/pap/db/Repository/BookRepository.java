@@ -1,6 +1,6 @@
 package pap.db.Repository;
 
-import pap.db.DAO.BookDAO;
+import pap.db.DAO.EntityDAO.BookDAO;
 import pap.db.Entities.Book;
 import pap.db.Repository.Interface.IBookRepository;
 

@@ -1,87 +1,86 @@
 package pap.db.DAO;
 
-import pap.db.Entities.Branch;
-import pap.db.SessionFactoryMaker;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import pap.db.Entities.Branch;
+import pap.db.SessionFactoryMaker;
 
 import java.util.List;
 
-public class BranchDAO implements DAO<Branch>{
-    private SessionFactory factory;
+public class GenericDAO<T> implements DAO<T>{
+    private final Class<T> type;
+    private final SessionFactory factory;
+    private final String tableName;
 
-    public BranchDAO() {
+    public GenericDAO(Class<T> type, String tableName) {
+        this.type = type;
+        this.tableName = tableName;
         factory = SessionFactoryMaker.getSessionFactory();
     }
 
-    public BranchDAO(SessionFactory factory) {
+    public GenericDAO(Class<T> type, String tableName, SessionFactory factory) {
+        this.type = type;
+        this.tableName = tableName;
         this.factory = factory;
     }
-    @Override
-    public void create(Branch branch) {
+
+    public void create(T t) {
         try (Session session = factory.openSession()) {
             session.beginTransaction();
-            session.save(branch);
+            session.save(t);
             session.getTransaction().commit();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
 
-    @Override
-    public Branch read(int id) {
-        Branch branch = null;
+    public T read(int id) {
+        T t = null;
         try (Session session = factory.openSession()) {
-            branch = session.get(Branch.class, id);
+            t = session.get(type, id);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        return branch;
+        return t;
     }
 
-    @Override
-    public void update(Branch branch) {
+    public void update(T t) {
         try (Session session = factory.openSession()) {
             session.beginTransaction();
-            session.update(branch);
+            session.update(t);
             session.getTransaction().commit();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
 
-    @Override
-    public void delete(Branch branch) {
+    public void delete(T t) {
         try (Session session = factory.openSession()) {
             session.beginTransaction();
-            session.delete(branch);
+            session.delete(t);
             session.getTransaction().commit();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
 
-    @Override
-    public List<Branch> getAll() {
-        List<Branch> branches = null;
+    public List<T> getAll() {
+        List<T> list = null;
         try (Session session = factory.openSession()) {
-            branches = session.createNativeQuery("SELECT * FROM pap.branches", Branch.class).list();
-            return branches;
+            list = session.createNativeQuery("SELECT * FROM " + tableName, type).list();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        return branches;
+        return list;
     }
 
-    @Override
-    public List<Branch> query(String sql) {
-        List<Branch> branches = null;
+    public List<T> query(String query) {
+        List<T> list = null;
         try (Session session = factory.openSession()) {
-            branches = session.createNativeQuery(sql, Branch.class).list();
-            return branches;
+            list = session.createNativeQuery(query, type).list();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        return branches;
+        return list;
     }
 }

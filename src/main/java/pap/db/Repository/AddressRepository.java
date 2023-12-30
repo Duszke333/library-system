@@ -1,7 +1,7 @@
 package pap.db.Repository;
 
-import pap.db.DAO.AddressDAO;
-import pap.db.DAO.UserDAO;
+import pap.db.DAO.EntityDAO.AddressDAO;
+import pap.db.DAO.EntityDAO.UserDAO;
 import pap.db.Entities.Address;
 import pap.db.Entities.User;
 import pap.db.Repository.Interface.IAddressRepository;

@@ -2,16 +2,13 @@ package db.DAO;
 
 import db.TestSessionFactoryMaker;
 import db.HelperMethods;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
-import pap.db.DAO.BookDAO;
+import pap.db.DAO.EntityDAO.BookDAO;
 import pap.db.Entities.Book;
-
-import java.util.List;
 
 public class TestBookDAO {
     private SessionFactory factory = TestSessionFactoryMaker.getSessionFactory();

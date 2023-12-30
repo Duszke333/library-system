@@ -33,7 +33,7 @@ public class TestDatabase {
         User newUser = new User();
         newUser.setFirstName("John");
         newUser.setLastName("Doe");
-        newUser.setEmail("user@user");
+        newUser.setEmail("user@user.user");
         newUser.setPasswordHash("user");
         newUser.setPasswordSalt("user");
         newUser.setDateCreated(new Date(System.currentTimeMillis()));
@@ -51,7 +51,7 @@ public class TestDatabase {
             System.out.println(u.getFirstName());
         }
 
-        User admin = userRepository.getByEmail("admin@admin");
+        User admin = userRepository.getByEmail("admin@admin.admin");
         admin.setActive(false);
         userRepository.update(admin);
 

@@ -9,28 +9,26 @@
             org.hibernate.dialect.PostgreSQLDialect
         </property>
 
-        <property name = "hibernate.connection.driver_class">
-            org.postgresql.Driver
-        </property>
+        <property name = "hibernate.connection.driver_class">org.postgresql.Driver</property>
 
-        <property name = "hibernate.connection.url">
-            jdbc:postgresql://localhost:5432/pap
-        </property>
+        <property name = "hibernate.connection.url">jdbc:postgresql://localhost:5432/pap</property>
 
-        <property name = "hibernate.connection.username">
-            postgres
-        </property>
+        <property name = "hibernate.connection.username">postgres</property>
 
-        <property name = "hibernate.connection.password">
-            postgres
-        </property>
+        <property name = "hibernate.connection.password">postgres</property>
 
         <property name="hibernate.transaction.jta.platform">
             org.hibernate.engine.transaction.jta.platform.internal.JBossAppServerJtaPlatform
         </property>
 
 
+        <!-- Konfiguracja mapowania -->
         <mapping resource="mappings.xml" />
+        <mapping class="pap.db.Entities.BookGrade"/>
+        <mapping class="pap.db.Entities.BookRental"/>
+        <mapping class="pap.db.Entities.Penalty"/>
+        <mapping class="pap.db.Entities.ReadList"/>
+        <mapping class="pap.db.Entities.RentingQueue"/>
 
     </session-factory>
 </hibernate-configuration>

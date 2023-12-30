@@ -2,18 +2,15 @@ package db.DAO;
 
 import db.HelperMethods;
 import db.TestSessionFactoryMaker;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
-import pap.db.DAO.AddressDAO;
-import pap.db.DAO.UserDAO;
+import pap.db.DAO.EntityDAO.AddressDAO;
+import pap.db.DAO.EntityDAO.UserDAO;
 import pap.db.Entities.Address;
 import pap.db.Entities.User;
-
-import java.util.List;
 
 public class TestUserDAO {
     private SessionFactory factory = TestSessionFactoryMaker.getSessionFactory();

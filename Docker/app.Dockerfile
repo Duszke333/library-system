@@ -1,12 +1,12 @@
-FROM openjdk:17-jdk-slim as builder
+FROM openjdk:17-jdk-slim AS builder
 ENV HOME=/home/app
 
+RUN apt-get update && apt-get install -y maven
 RUN mkdir -p $HOME
 WORKDIR $HOME
 ADD . $HOME
 
-RUN apt-get update && apt-get install -y maven
-RUN mvn clean install
+RUN mvn clean -e install
 RUN mvn clean package
 
 FROM openjdk:17-jdk-slim

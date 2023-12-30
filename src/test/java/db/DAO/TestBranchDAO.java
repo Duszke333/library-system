@@ -2,18 +2,15 @@ package db.DAO;
 
 import db.HelperMethods;
 import db.TestSessionFactoryMaker;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
-import pap.db.DAO.AddressDAO;
-import pap.db.DAO.BranchDAO;
+import pap.db.DAO.EntityDAO.AddressDAO;
+import pap.db.DAO.EntityDAO.BranchDAO;
 import pap.db.Entities.Address;
 import pap.db.Entities.Branch;
-
-import java.util.List;
 
 
 public class TestBranchDAO {

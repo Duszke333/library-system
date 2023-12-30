@@ -1,8 +1,8 @@
 package pap.db.Repository;
 
-import pap.db.DAO.AddressDAO;
-import pap.db.DAO.BranchDAO;
-import pap.db.DAO.EmployeeDAO;
+import pap.db.DAO.EntityDAO.AddressDAO;
+import pap.db.DAO.EntityDAO.BranchDAO;
+import pap.db.DAO.EntityDAO.EmployeeDAO;
 import pap.db.Entities.Address;
 import pap.db.Entities.Branch;
 import pap.db.Entities.Employee;
