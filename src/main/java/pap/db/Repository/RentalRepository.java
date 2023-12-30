@@ -43,7 +43,7 @@ public class RentalRepository implements IRentalRepository {
 
     @Override
     public Penalty getPenaltyById(int id) {
-        penaltyDAO.read(id);
+        return penaltyDAO.read(id);
     }
 
     @Override
