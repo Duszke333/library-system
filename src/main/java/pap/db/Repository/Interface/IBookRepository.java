@@ -1,6 +1,8 @@
 package pap.db.Repository.Interface;
 
 import pap.db.Entities.Book;
+import pap.db.Entities.BookGrade;
+import pap.db.Entities.ReadList;
 
 import java.util.List;
 
@@ -13,4 +15,15 @@ public interface IBookRepository extends IRepository<Book> {
     List<Book> getByDatePublished(String datePublished);
     List<Book> getAllByLanguage(String language);
     List<Book> getAllAvailable();
+    BookGrade getBookGrade(int bookId);
+    List<BookGrade> getAllBookGrades();
+    List<BookGrade> getBookGradesByUser(int userId);
+    void updateBookGrade(BookGrade bookGrade);
+    void addBookGrade(BookGrade bookGrade);
+    void deleteBookGrade(BookGrade bookGrade);
+    List<ReadList> getReadListByUser(int userId);
+    List<ReadList> getReadListByBook(int bookId);
+    void addReadList(ReadList readList);
+    void deleteReadList(ReadList readList);
+    void updateReadList(ReadList readList);
 }

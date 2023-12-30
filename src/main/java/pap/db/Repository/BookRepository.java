@@ -1,13 +1,20 @@
 package pap.db.Repository;
 
 import pap.db.DAO.EntityDAO.BookDAO;
+import pap.db.DAO.EntityDAO.BookGradeDAO;
+import pap.db.DAO.EntityDAO.BookRentalDAO;
+import pap.db.DAO.EntityDAO.ReadListDAO;
 import pap.db.Entities.Book;
+import pap.db.Entities.BookGrade;
+import pap.db.Entities.ReadList;
 import pap.db.Repository.Interface.IBookRepository;
 
 import java.util.List;
 
 public class BookRepository implements IBookRepository {
     private BookDAO bookDAO = new BookDAO();
+    private BookGradeDAO bookGradeDAO = new BookGradeDAO();
+    private ReadListDAO readListDAO = new ReadListDAO();
 
     @Override
     public Book getById(int id) {
@@ -113,5 +120,80 @@ public class BookRepository implements IBookRepository {
             return null;
         }
         return books;
+    }
+
+    @Override
+    public BookGrade getBookGrade(int bookId) {
+        String sql = "SELECT * FROM pap.book_grades WHERE book_id = " + bookId;
+        List<BookGrade> bookGrades = bookGradeDAO.query(sql);
+        if (bookGrades.size() == 0) {
+            return null;
+        }
+        return bookGrades.get(0);
+    }
+
+    @Override
+    public List<BookGrade> getAllBookGrades() {
+        return bookGradeDAO.getAll();
+    }
+
+    @Override
+    public List<BookGrade> getBookGradesByUser(int userId) {
+        String sql = "SELECT * FROM pap.book_grades WHERE user_id = " + userId;
+        List<BookGrade> bookGrades = bookGradeDAO.query(sql);
+        if (bookGrades.size() == 0) {
+            return null;
+        }
+        return bookGrades;
+    }
+
+    @Override
+    public void updateBookGrade(BookGrade bookGrade) {
+        bookGradeDAO.update(bookGrade);
+    }
+
+    @Override
+    public void addBookGrade(BookGrade bookGrade) {
+        bookGradeDAO.create(bookGrade);
+    }
+
+    @Override
+    public void deleteBookGrade(BookGrade bookGrade) {
+        bookGradeDAO.delete(bookGrade);
+    }
+
+    @Override
+    public List<ReadList> getReadListByUser(int userId) {
+        String sql = "SELECT * FROM pap.read_lists WHERE user_id = " + userId;
+        List<ReadList> readLists = readListDAO.query(sql);
+        if (readLists.size() == 0) {
+            return null;
+        }
+        return readLists;
+    }
+
+    @Override
+    public List<ReadList> getReadListByBook(int bookId) {
+        String sql = "SELECT * FROM pap.read_lists WHERE book_id = " + bookId;
+        List<ReadList> readLists = readListDAO.query(sql);
+        if (readLists.size() == 0) {
+            return null;
+        }
+        return readLists;
+    }
+
+    @Override
+    public void addReadList(ReadList readList) {
+        readListDAO.create(readList);
+    }
+
+    @Override
+    public void deleteReadList(ReadList readList) {
+        readListDAO.delete(readList);
+    }
+
+    @Override
+    public void updateReadList(ReadList readList) {
+        readListDAO.update(readList);
     }
 }
