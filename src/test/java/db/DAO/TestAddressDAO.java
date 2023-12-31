@@ -1,6 +1,7 @@
 package db.DAO;
 
 import db.HelperMethods;
+import db.RandomEntityGenerator;
 import db.TestSessionFactoryMaker;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -12,85 +13,42 @@ import pap.db.DAO.EntityDAO.AddressDAO;
 import pap.db.Entities.Address;
 
 
-public class TestAddressDAO {
-    private SessionFactory factory = TestSessionFactoryMaker.getSessionFactory();
-
-    @Before
-    public void setup() {
-
-        try (Session session = factory.openSession()) {
-            session.beginTransaction();
-            session.createNativeQuery("TRUNCATE TABLE pap.ADDRESSES CASCADE").executeUpdate();
-            session.getTransaction().commit();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+public class TestAddressDAO extends TestGenericDAO<Address, AddressDAO>{
+    @Override
+    protected Address createEntity() {
+        return RandomEntityGenerator.generateAddress();
     }
 
-    @After
-    public void teardown() {
-        try (Session session = factory.openSession()) {
-            session.beginTransaction();
-            session.createNativeQuery("TRUNCATE TABLE pap.ADDRESSES CASCADE").executeUpdate();
-            session.getTransaction().commit();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+    @Override
+    protected AddressDAO createDAO(SessionFactory factory) {
+        return new AddressDAO(factory);
     }
 
     @Test
     public void create() {
-        AddressDAO addressDAO = new AddressDAO(factory);
-
-        Address address = new Address();
-        address.setStreet("Test");
-        address.setCountry("Test");
-        address.setCity("Test");
-        address.setPostalCode("Test");
-        address.setHouseNumber("1");
-        address.setFlatNumber("1");
-
+        AddressDAO addressDAO = createDAO(factory);
+        Address address = createEntity();
         addressDAO.create(address);
-
         Assertions.assertEquals(HelperMethods.getId(address), address.getAddressId());
     }
 
     @Test
     public void update() {
-        AddressDAO addressDAO = new AddressDAO(factory);
-
-        Address address = new Address();
-        address.setStreet("Test");
-        address.setCountry("Test");
-        address.setCity("Test");
-        address.setPostalCode("Test");
-        address.setHouseNumber("1");
-        address.setFlatNumber("1");
-
+        AddressDAO addressDAO = createDAO(factory);
+        Address address = createEntity();
         addressDAO.create(address);
-
-        address.setStreet("Test2");
+        address.setCity("Test2");
         addressDAO.update(address);
-
-        Assertions.assertEquals(addressDAO.read(HelperMethods.getId(address)).getStreet(), address.getStreet());
+        Address newAddress = addressDAO.read(HelperMethods.getId(address));
+        Assertions.assertEquals(address.getCity(), newAddress.getCity());
     }
 
     @Test
     public void delete() {
-        AddressDAO addressDAO = new AddressDAO(factory);
-
-        Address address = new Address();
-        address.setStreet("Test");
-        address.setCountry("Test");
-        address.setCity("Test");
-        address.setPostalCode("Test");
-        address.setHouseNumber("1");
-        address.setFlatNumber("1");
-
+        AddressDAO addressDAO = createDAO(factory);
+        Address address = createEntity();
         addressDAO.create(address);
-
         addressDAO.delete(address);
-
         Assertions.assertNull(addressDAO.read(HelperMethods.getId(address)));
     }
 }

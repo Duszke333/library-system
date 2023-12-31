@@ -2,6 +2,7 @@ package db.DAO;
 
 
 import db.HelperMethods;
+import db.RandomEntityGenerator;
 import db.TestSessionFactoryMaker;
 import org.hibernate.SessionFactory;
 import org.junit.After;
@@ -17,172 +18,54 @@ import pap.db.Entities.Branch;
 import pap.db.Entities.Employee;
 import pap.db.Entities.User;
 
-public class TestEmployeeDAO {
-    private SessionFactory factory = TestSessionFactoryMaker.getSessionFactory();
+public class TestEmployeeDAO extends TestGenericDAO<Employee, EmployeeDAO>{
 
-    @Before
-    public void setup() {
-        HelperMethods.clearTable("EMPLOYEES");
+    private AddressDAO addressDAO = new AddressDAO(factory);
+    private UserDAO userDAO = new UserDAO(factory);
+    private BranchDAO branchDAO = new BranchDAO(factory);
+
+    @Override
+    protected Employee createEntity() {
+        Address address = RandomEntityGenerator.generateAddress();
+        addressDAO.create(address);
+        User user = RandomEntityGenerator.generateUser(address);
+        userDAO.create(user);
+        Branch branch = RandomEntityGenerator.generateBranch(address);
+        branchDAO.create(branch);
+        Employee employee = RandomEntityGenerator.generateEmployee(user, branch);
+        return employee;
     }
 
-    @After
-    public void teardown() {
-        HelperMethods.clearTable("EMPLOYEES");
+    @Override
+    protected EmployeeDAO createDAO(SessionFactory factory) {
+        return new EmployeeDAO(factory);
     }
 
     @Test
     public void create() {
-        EmployeeDAO employeeDAO = new EmployeeDAO(factory);
-        AddressDAO addressDAO = new AddressDAO(factory);
-        UserDAO userDAO = new UserDAO(factory);
-        BranchDAO branchDAO = new BranchDAO(factory);
-
-        Address address = new Address();
-        address.setStreet("Test");
-        address.setCountry("Test");
-        address.setCity("Test");
-        address.setPostalCode("Test");
-        address.setHouseNumber("1");
-        address.setFlatNumber("1");
-
-        addressDAO.create(address);
-
-        Branch branch = new Branch();
-        branch.setName("Test");
-        branch.setAddressId(HelperMethods.getId(address));
-        branchDAO.create(branch);
-
-        branchDAO.delete(branch);
-
-        User user = new User();
-        user.setFirstName("Test");
-        user.setLastName("Test");
-        user.setEmail("test@test");
-        user.setPasswordHash("test");
-        user.setPasswordSalt("test");
-        user.setDateCreated(new java.sql.Date(System.currentTimeMillis()));
-        user.setActive(true);
-        user.setHasUnpaidPenalty(false);
-        user.setAddressId(HelperMethods.getId(address));
-
-        userDAO.create(user);
-
-        Employee employee = new Employee();
-        employee.setUsername("Test");
-        employee.setPasswordHash("Test");
-        employee.setUserID(HelperMethods.getId(user));
-        employee.setRole("Test");
-        employee.setBranchId(HelperMethods.getId(branch));
-        employee.setActive(true);
-
+        EmployeeDAO employeeDAO = createDAO(factory);
+        Employee employee = createEntity();
         employeeDAO.create(employee);
-
-        Employee newEmployee = employeeDAO.read(HelperMethods.getId(employee));
-        Assertions.assertEquals(HelperMethods.getId(employee), newEmployee.getEmployeeId());
+        Assertions.assertEquals(HelperMethods.getId(employee), employee.getEmployeeId());
     }
 
     @Test
     public void update() {
-        EmployeeDAO employeeDAO = new EmployeeDAO(factory);
-        AddressDAO addressDAO = new AddressDAO(factory);
-        UserDAO userDAO = new UserDAO(factory);
-        BranchDAO branchDAO = new BranchDAO(factory);
-
-        Address address = new Address();
-        address.setStreet("Test");
-        address.setCountry("Test");
-        address.setCity("Test");
-        address.setPostalCode("Test");
-        address.setHouseNumber("1");
-        address.setFlatNumber("1");
-
-        addressDAO.create(address);
-
-        Branch branch = new Branch();
-        branch.setName("Test");
-        branch.setAddressId(HelperMethods.getId(address));
-        branchDAO.create(branch);
-
-        branchDAO.delete(branch);
-
-        User user = new User();
-        user.setFirstName("Test");
-        user.setLastName("Test");
-        user.setEmail("test@test");
-        user.setPasswordHash("test");
-        user.setPasswordSalt("test");
-        user.setDateCreated(new java.sql.Date(System.currentTimeMillis()));
-        user.setActive(true);
-        user.setHasUnpaidPenalty(false);
-        user.setAddressId(HelperMethods.getId(address));
-
-        userDAO.create(user);
-
-        Employee employee = new Employee();
-        employee.setUsername("Test");
-        employee.setPasswordHash("Test");
-        employee.setUserID(HelperMethods.getId(user));
-        employee.setRole("Test");
-        employee.setBranchId(HelperMethods.getId(branch));
-        employee.setActive(true);
-
+        EmployeeDAO employeeDAO = createDAO(factory);
+        Employee employee = createEntity();
         employeeDAO.create(employee);
-
+        employee.setUsername("Test2");
+        employeeDAO.update(employee);
         Employee newEmployee = employeeDAO.read(HelperMethods.getId(employee));
-        newEmployee.setUsername("Test2");
-        employeeDAO.update(newEmployee);
-        Assertions.assertEquals("Test2", employeeDAO.read(HelperMethods.getId(newEmployee)).getUsername());
+        Assertions.assertEquals(employee.getUsername(), newEmployee.getUsername());
     }
 
     @Test
     public void delete() {
-        EmployeeDAO employeeDAO = new EmployeeDAO(factory);
-        AddressDAO addressDAO = new AddressDAO(factory);
-        UserDAO userDAO = new UserDAO(factory);
-        BranchDAO branchDAO = new BranchDAO(factory);
-
-        Address address = new Address();
-        address.setStreet("Test");
-        address.setCountry("Test");
-        address.setCity("Test");
-        address.setPostalCode("Test");
-        address.setHouseNumber("1");
-        address.setFlatNumber("1");
-
-        addressDAO.create(address);
-
-        Branch branch = new Branch();
-        branch.setName("Test");
-        branch.setAddressId(HelperMethods.getId(address));
-        branchDAO.create(branch);
-
-        branchDAO.delete(branch);
-
-        User user = new User();
-        user.setFirstName("Test");
-        user.setLastName("Test");
-        user.setEmail("test@test");
-        user.setPasswordHash("test");
-        user.setPasswordSalt("test");
-        user.setDateCreated(new java.sql.Date(System.currentTimeMillis()));
-        user.setActive(true);
-        user.setHasUnpaidPenalty(false);
-        user.setAddressId(HelperMethods.getId(address));
-
-        userDAO.create(user);
-
-        Employee employee = new Employee();
-        employee.setUsername("Test");
-        employee.setPasswordHash("Test");
-        employee.setUserID(HelperMethods.getId(user));
-        employee.setRole("Test");
-        employee.setBranchId(HelperMethods.getId(branch));
-        employee.setActive(true);
-
+        EmployeeDAO employeeDAO = createDAO(factory);
+        Employee employee = createEntity();
         employeeDAO.create(employee);
-
         employeeDAO.delete(employee);
-
         Assertions.assertNull(employeeDAO.read(HelperMethods.getId(employee)));
     }
 }

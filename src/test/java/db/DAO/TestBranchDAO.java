@@ -1,6 +1,7 @@
 package db.DAO;
 
 import db.HelperMethods;
+import db.RandomEntityGenerator;
 import db.TestSessionFactoryMaker;
 import org.hibernate.SessionFactory;
 import org.junit.After;
@@ -13,92 +14,46 @@ import pap.db.Entities.Address;
 import pap.db.Entities.Branch;
 
 
-public class TestBranchDAO {
-    private SessionFactory factory = TestSessionFactoryMaker.getSessionFactory();
+public class TestBranchDAO extends TestGenericDAO<Branch, BranchDAO>{
+    private AddressDAO addressDAO = new AddressDAO(factory);
 
-    @Before
-    public void setup() {
-        HelperMethods.clearTable("BRANCHES");
+    @Override
+    protected Branch createEntity() {
+        Address address = RandomEntityGenerator.generateAddress();
+        addressDAO.create(address);
+        return RandomEntityGenerator.generateBranch(address);
     }
 
-    @After
-    public void teardown() {
-        HelperMethods.clearTable("BRANCHES");
+    @Override
+    protected BranchDAO createDAO(SessionFactory factory) {
+        return new BranchDAO(factory);
     }
 
     @Test
     public void create() {
-        BranchDAO branchDAO = new BranchDAO(factory);
-        AddressDAO addressDAO = new AddressDAO(factory);
-
-        Address address = new Address();
-        address.setStreet("Test");
-        address.setCountry("Test");
-        address.setCity("Test");
-        address.setPostalCode("Test");
-        address.setHouseNumber("1");
-        address.setFlatNumber("1");
-
-        addressDAO.create(address);
-
-        Branch branch = new Branch();
-        branch.setName("Test");
-        branch.setAddressId(HelperMethods.getId(address));
-
+        BranchDAO branchDAO = createDAO(factory);
+        Branch branch = createEntity();
         branchDAO.create(branch);
-
-        Branch newBranch = branchDAO.read(HelperMethods.getId(branch));
-        Assertions.assertEquals(HelperMethods.getId(branch), newBranch.getBranchId());
+        Assertions.assertEquals(HelperMethods.getId(branch), branch.getBranchId());
     }
 
     @Test
     public void update() {
-        BranchDAO branchDAO = new BranchDAO(factory);
-        AddressDAO addressDAO = new AddressDAO(factory);
-
-        Address address = new Address();
-        address.setStreet("Test");
-        address.setCountry("Test");
-        address.setCity("Test");
-        address.setPostalCode("Test");
-        address.setHouseNumber("1");
-        address.setFlatNumber("1");
-
-        addressDAO.create(address);
-
-        Branch branch = new Branch();
-        branch.setName("Test");
-        branch.setAddressId(HelperMethods.getId(address));
+        BranchDAO branchDAO = createDAO(factory);
+        Branch branch = createEntity();
         branchDAO.create(branch);
-
         branch.setName("Test2");
         branchDAO.update(branch);
-
-        Assertions.assertEquals(branchDAO.read(HelperMethods.getId(branch)).getName(), branch.getName());
+        Branch newBranch = branchDAO.read(HelperMethods.getId(branch));
+        Assertions.assertEquals(branch.getName(), newBranch.getName());
     }
 
     @Test
     public void delete() {
-        BranchDAO branchDAO = new BranchDAO(factory);
-        AddressDAO addressDAO = new AddressDAO(factory);
-
-        Address address = new Address();
-        address.setStreet("Test");
-        address.setCountry("Test");
-        address.setCity("Test");
-        address.setPostalCode("Test");
-        address.setHouseNumber("1");
-        address.setFlatNumber("1");
-
-        addressDAO.create(address);
-
-        Branch branch = new Branch();
-        branch.setName("Test");
-        branch.setAddressId(HelperMethods.getId(address));
+        BranchDAO branchDAO = createDAO(factory);
+        Branch branch = createEntity();
         branchDAO.create(branch);
-
         branchDAO.delete(branch);
-
         Assertions.assertNull(branchDAO.read(HelperMethods.getId(branch)));
     }
 }

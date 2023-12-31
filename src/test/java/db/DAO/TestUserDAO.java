@@ -1,6 +1,7 @@
 package db.DAO;
 
 import db.HelperMethods;
+import db.RandomEntityGenerator;
 import db.TestSessionFactoryMaker;
 import org.hibernate.SessionFactory;
 import org.junit.After;
@@ -12,118 +13,48 @@ import pap.db.DAO.EntityDAO.UserDAO;
 import pap.db.Entities.Address;
 import pap.db.Entities.User;
 
-public class TestUserDAO {
-    private SessionFactory factory = TestSessionFactoryMaker.getSessionFactory();
+public class TestUserDAO extends TestGenericDAO<User, UserDAO>{
 
-    @Before
-    public void setup() {
-        HelperMethods.clearTable("USERS");
+    private AddressDAO addressDAO = new AddressDAO(factory);
+
+    @Override
+    protected User createEntity() {
+        Address address = RandomEntityGenerator.generateAddress();
+        addressDAO.create(address);
+        User user = RandomEntityGenerator.generateUser(address);
+        return user;
     }
 
-    @After
-    public void teardown() {
-        HelperMethods.clearTable("USERS");
+    @Override
+    protected UserDAO createDAO(SessionFactory factory) {
+        return new UserDAO(factory);
     }
 
     @Test
     public void create() {
-        UserDAO userDAO = new UserDAO(factory);
-        AddressDAO addressDAO = new AddressDAO(factory);
-
-        Address address = new Address();
-        address.setStreet("Test");
-        address.setCountry("Test");
-        address.setCity("Test");
-        address.setPostalCode("Test");
-        address.setHouseNumber("1");
-        address.setFlatNumber("1");
-
-        addressDAO.create(address);
-
-        User user = new User();
-        user.setFirstName("Test");
-        user.setLastName("Test");
-        user.setEmail("test@test");
-        user.setPasswordHash("test");
-        user.setPasswordSalt("test");
-        user.setDateCreated(new java.sql.Date(System.currentTimeMillis()));
-        user.setActive(true);
-        user.setHasUnpaidPenalty(false);
-        user.setAddressId(HelperMethods.getId(address));
-
+        UserDAO userDAO = createDAO(factory);
+        User user = createEntity();
         userDAO.create(user);
-
-        User newUser = userDAO.read(HelperMethods.getId(user));
-        Assertions.assertEquals(user.getFirstName(), newUser.getFirstName());
-        Assertions.assertEquals(user.getLastName(), newUser.getLastName());
+        Assertions.assertEquals(HelperMethods.getId(user), user.getAccountId());
     }
 
     @Test
     public void update() {
-        UserDAO userDAO = new UserDAO(factory);
-        AddressDAO addressDAO = new AddressDAO(factory);
-
-        Address address = new Address();
-        address.setStreet("Test");
-        address.setCountry("Test");
-        address.setCity("Test");
-        address.setPostalCode("Test");
-        address.setHouseNumber("1");
-        address.setFlatNumber("1");
-
-        addressDAO.create(address);
-
-        User user = new User();
-        user.setFirstName("Test");
-        user.setLastName("Test");
-        user.setEmail("test@test");
-        user.setPasswordHash("test");
-        user.setPasswordSalt("test");
-        user.setDateCreated(new java.sql.Date(System.currentTimeMillis()));
-        user.setActive(true);
-        user.setHasUnpaidPenalty(false);
-        user.setAddressId(HelperMethods.getId(address));
-
+        UserDAO userDAO = createDAO(factory);
+        User user = createEntity();
         userDAO.create(user);
-
         user.setFirstName("Test2");
         userDAO.update(user);
-
         User newUser = userDAO.read(HelperMethods.getId(user));
         Assertions.assertEquals(user.getFirstName(), newUser.getFirstName());
     }
 
     @Test
     public void delete() {
-        UserDAO userDAO = new UserDAO(factory);
-        AddressDAO addressDAO = new AddressDAO(factory);
-
-        Address address = new Address();
-        address.setStreet("Test");
-        address.setCountry("Test");
-        address.setCity("Test");
-        address.setPostalCode("Test");
-        address.setHouseNumber("1");
-        address.setFlatNumber("1");
-
-        addressDAO.create(address);
-
-        User user = new User();
-        user.setFirstName("Test");
-        user.setLastName("Test");
-        user.setEmail("test@test");
-        user.setPasswordHash("test");
-        user.setPasswordSalt("test");
-        user.setDateCreated(new java.sql.Date(System.currentTimeMillis()));
-        user.setActive(true);
-        user.setHasUnpaidPenalty(false);
-        user.setAddressId(HelperMethods.getId(address));
-
+        UserDAO userDAO = createDAO(factory);
+        User user = createEntity();
         userDAO.create(user);
-
         userDAO.delete(user);
-
-        User newUser = userDAO.read(HelperMethods.getId(user));
-        Assertions.assertNull(newUser);
+        Assertions.assertNull(userDAO.read(HelperMethods.getId(user)));
     }
 }

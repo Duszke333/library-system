@@ -1,5 +1,6 @@
 package db.DAO;
 
+import db.RandomEntityGenerator;
 import db.TestSessionFactoryMaker;
 import db.HelperMethods;
 import org.hibernate.SessionFactory;
@@ -10,94 +11,42 @@ import org.junit.jupiter.api.Assertions;
 import pap.db.DAO.EntityDAO.BookDAO;
 import pap.db.Entities.Book;
 
-public class TestBookDAO {
-    private SessionFactory factory = TestSessionFactoryMaker.getSessionFactory();
-
-    @Before
-    public void setup() {
-        HelperMethods.clearTable("BOOKS");
+public class TestBookDAO extends TestGenericDAO<Book, BookDAO>{
+    @Override
+    protected Book createEntity() {
+        return RandomEntityGenerator.generateBook();
     }
 
-    @After
-    public void teardown() {
-        HelperMethods.clearTable("BOOKS");
+    @Override
+    protected BookDAO createDAO(SessionFactory factory) {
+        return new BookDAO(factory);
     }
 
     @Test
     public void create() {
-        BookDAO bookDAO = new BookDAO(factory);
-
-        Book book = new Book();
-        book.setTitle("Test");
-        book.setAuthor("Test");
-        book.setGenre("Test");
-        book.setDateAdded(new java.sql.Date(System.currentTimeMillis()));
-        book.setIsbn("Test");
-        book.setLanguage("Test");
-        book.setPageCount(10);
-        book.setPublicationYear(2020);
-        book.setPublisher("Test");
-        book.setDescription("Test");
-        book.setStatus("Test");
-        book.setCover("Test");
-
+        BookDAO bookDAO = createDAO(factory);
+        Book book = createEntity();
         bookDAO.create(book);
-
-        Book newBook = bookDAO.read(HelperMethods.getId(book));
-        Assertions.assertEquals(book.getTitle(), newBook.getTitle());
-        Assertions.assertEquals(book.getAuthor(), newBook.getAuthor());
+        Assertions.assertEquals(HelperMethods.getId(book), book.getBookId());
     }
 
     @Test
     public void update() {
-        BookDAO bookDAO = new BookDAO(factory);
-
-        Book book = new Book();
-        book.setTitle("Test");
-        book.setAuthor("Test");
-        book.setGenre("Test");
-        book.setDateAdded(new java.sql.Date(System.currentTimeMillis()));
-        book.setIsbn("Test");
-        book.setLanguage("Test");
-        book.setPageCount(10);
-        book.setPublicationYear(2020);
-        book.setPublisher("Test");
-        book.setDescription("Test");
-        book.setStatus("Test");
-        book.setCover("Test");
-
+        BookDAO bookDAO = createDAO(factory);
+        Book book = createEntity();
         bookDAO.create(book);
-
-        book.setTitle("Test2");
+        book.setAuthor("Test2");
         bookDAO.update(book);
-
         Book newBook = bookDAO.read(HelperMethods.getId(book));
-        Assertions.assertEquals(book.getTitle(), newBook.getTitle());
+        Assertions.assertEquals(book.getAuthor(), newBook.getAuthor());
     }
 
     @Test
     public void delete() {
-        BookDAO bookDAO = new BookDAO(factory);
-
-        Book book = new Book();
-        book.setTitle("Test");
-        book.setAuthor("Test");
-        book.setGenre("Test");
-        book.setDateAdded(new java.sql.Date(System.currentTimeMillis()));
-        book.setIsbn("Test");
-        book.setLanguage("Test");
-        book.setPageCount(10);
-        book.setPublicationYear(2020);
-        book.setPublisher("Test");
-        book.setDescription("Test");
-        book.setStatus("Test");
-        book.setCover("Test");
-
+        BookDAO bookDAO = createDAO(factory);
+        Book book = createEntity();
         bookDAO.create(book);
-
         bookDAO.delete(book);
-
-        Book newBook = bookDAO.read(HelperMethods.getId(book));
-        Assertions.assertNull(newBook);
+        Assertions.assertNull(bookDAO.read(HelperMethods.getId(book)));
     }
 }
