@@ -54,6 +54,13 @@ public class Book implements java.io.Serializable{
     @Column(name = "cover", nullable = false, length = 256)
     private String cover;
 
+    @Data
+    public static class BookStatus {
+        public static String Available = "Available";
+        public static String Unavailable = "Unavailable";
+        public static String Reserved = "Reserved";
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

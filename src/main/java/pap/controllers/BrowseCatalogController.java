@@ -40,9 +40,12 @@ public class BrowseCatalogController implements UpdatableController, Initializab
     private TableColumn<Book, String> publisher;
     @FXML
     private TableColumn<Book, String> title;
-    
+
     @FXML
     public void getItem(MouseEvent event) {
+        if (catalog.getSelectionModel().getSelectedItem() == null) {
+            return;
+        }
         int index = catalog.getSelectionModel().getSelectedIndex();
         int chosenBookID = catalog.getSelectionModel().getSelectedItem().getBookId();
         if(index <= -1){
@@ -77,6 +80,8 @@ public class BrowseCatalogController implements UpdatableController, Initializab
 
     @Override
     public void update() {
+        catalog.getSelectionModel().clearSelection();
+
         ObservableList<Book> list = FXCollections.observableArrayList(new BookRepository().getAll());
 
         title.setCellValueFactory(new PropertyValueFactory<Book, String>("title"));
