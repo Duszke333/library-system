@@ -33,6 +33,8 @@ public class LoadedPages {
     public static final UpdatableController userAccountCreateController;
     public static final Parent userAccountManage;
     public static final UpdatableController userAccountManageController;
+    public static final Parent employeePasswordChange;
+    public static final UpdatableController employeePasswordChangeController;
     
     static {
         try {
@@ -86,6 +88,10 @@ public class LoadedPages {
             var userAccountManageLoader = new FXMLLoader(Pap.class.getResource("view/user-account-manage.fxml"));
             userAccountManage = userAccountManageLoader.load();
             userAccountManageController = userAccountManageLoader.getController();
+            
+            var employeePasswordChangeLoader = new FXMLLoader(Pap.class.getResource("view/employee-password-change.fxml"));
+            employeePasswordChange = employeePasswordChangeLoader.load();
+            employeePasswordChangeController = employeePasswordChangeLoader.getController();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

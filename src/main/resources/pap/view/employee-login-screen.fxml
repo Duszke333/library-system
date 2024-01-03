@@ -40,7 +40,6 @@
                </font>
             </Text>
             <Region layoutX="79.0" layoutY="10.0" HBox.hgrow="ALWAYS" />
-            <Button fx:id="createAccountButton" onAction="#createAccountButtonPressed" alignment="BOTTOM_RIGHT" mnemonicParsing="false" nodeOrientation="LEFT_TO_RIGHT" text="Create account" HBox.hgrow="ALWAYS" />
          </children>
       </HBox>
    </children>

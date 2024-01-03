@@ -23,7 +23,7 @@ public class EmployeeDashboardController implements UpdatableController {
     private Text loginInfo;
     @FXML
     private VBox contentPane;
-    
+
     @FXML
     private void initialize() {
         var signOutItem = new Button("Sign Out");
@@ -47,28 +47,28 @@ public class EmployeeDashboardController implements UpdatableController {
             }
         });
 
-        var manageItem = new Button("Manage account settings");
-        manageItem.setOnAction(e -> GlobalController.switchVisibleContent(LoadedPages.userAccountManageController, LoadedPages.userAccountManage));
-        
+        var changePassItem = new Button("Change password");
+        changePassItem.setOnAction(e -> GlobalController.switchVisibleContent(LoadedPages.employeePasswordChangeController, LoadedPages.employeePasswordChange));
+
         var manageCatalogueItem = new Button("Manage book catalogue");
         manageCatalogueItem.setOnAction(e -> GlobalController.switchVisibleContent(LoadedPages.manageCatalogController, LoadedPages.manageCatalog));
-        
+
         var bookCreatorItem = new Button("Add new books");
         bookCreatorItem.setOnAction(e -> GlobalController.switchVisibleContent(LoadedPages.bookCreatorController, LoadedPages.bookCreator));
-        
-        var createEmployeeAccountsItem = new Button("Create new employee acounts");
+
+        var createEmployeeAccountsItem = new Button("Create new employee accounts");
         createEmployeeAccountsItem.setOnAction(e -> GlobalController.switchVisibleContent(LoadedPages.employeeAccountCreateController, LoadedPages.employeeAccountCreate));
 
         employeeActions.getItems().setAll(List.of(
                 manageCatalogueItem,
                 bookCreatorItem,
-                manageItem,
+                changePassItem,
                 createEmployeeAccountsItem,
                 deactivateAccountItem,
                 signOutItem
         ));
     }
-    
+
     @Override
     public void update() {
         var empl = new EmployeeRepository().getById(Login.getEmployeeLoggedIn().get());
@@ -76,12 +76,12 @@ public class EmployeeDashboardController implements UpdatableController {
         loginInfo.setFont(Font.font(20));
         loginInfo.setText(String.format(
                 """
-                Currently logged in as (ID: %d) Username: %s \n Role: %s
-                Account Info:\s
+                        Currently logged in as (ID: %d) Username: %s \n Role: %s
+                        Account Info:\s
 
-                Active: %s
-                Created in %s
-                """,
+                        Active: %s
+                        Created in %s
+                        """,
                 empl.getEmployeeId(), empl.getUsername(), empl.getRole(),
                 empl.isActive(),
                 empl.getDateCreated()

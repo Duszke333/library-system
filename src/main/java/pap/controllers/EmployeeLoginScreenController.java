@@ -18,11 +18,6 @@ public class EmployeeLoginScreenController implements UpdatableController {
     private PasswordField loginPassword;
     @FXML
     private Text loginStatus;
-    
-    @FXML
-    protected void createAccountButtonPressed() {
-        GlobalController.switchVisibleContent(LoadedPages.employeeAccountCreateController, LoadedPages.employeeAccountCreate);
-    }
 
     @FXML
     protected void loginButtonPressed() {
