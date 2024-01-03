@@ -93,6 +93,10 @@ public class BrowseCatalogController implements UpdatableController, Initializab
         publication_year.setCellValueFactory(new PropertyValueFactory<Book, Date>("publicationYear"));
         publisher.setCellValueFactory(new PropertyValueFactory<Book, String>("publisher"));
         catalog.setItems(list);
+
+        title.setSortType(TableColumn.SortType.ASCENDING);
+        catalog.getSortOrder().add(title);
+        catalog.sort();
     }
 
     @Override
