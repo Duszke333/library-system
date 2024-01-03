@@ -8,6 +8,9 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import pap.db.Entities.Book;
+import pap.db.Repository.BookRepository;
+import pap.helpers.BookViewLoader;
 import pap.helpers.Login;
 import pap.helpers.RentalRecord;
 
@@ -30,7 +33,17 @@ public class BrowseRentalController implements UpdatableController, Initializabl
 
     @FXML
     public void getItem(MouseEvent event) {
-        System.out.println("Clicked");
+        if (rentalCatalog.getSelectionModel().getSelectedItem() == null) {
+            return;
+        }
+        int index = rentalCatalog.getSelectionModel().getSelectedIndex();
+        if(index <= -1){
+            return;
+        }
+        int chosenBookID = rentalCatalog.getSelectionModel().getSelectedItem().getBookId();
+        Book choosenBook = new BookRepository().getById(chosenBookID);
+
+        BookViewLoader.load(choosenBook);
     }
     @Override
     public void update() {
@@ -46,8 +59,8 @@ public class BrowseRentalController implements UpdatableController, Initializabl
 
         rentalCatalog.setItems(records);
 
-        bookTitle.setSortType(TableColumn.SortType.ASCENDING);
-        rentalCatalog.getSortOrder().add(bookTitle);
+        dateToReturn.setSortType(TableColumn.SortType.ASCENDING);
+        rentalCatalog.getSortOrder().add(dateToReturn);
         rentalCatalog.sort();
     }
 

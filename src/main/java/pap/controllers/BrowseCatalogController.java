@@ -3,20 +3,16 @@ package pap.controllers;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
-import javafx.util.Pair;
-import pap.Pap;
+
 import pap.db.Entities.Book;
 import pap.db.Repository.BookRepository;
-import pap.helpers.LoadedPages;
+import pap.helpers.BookViewLoader;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.Date;
 import java.util.ResourceBundle;
@@ -47,34 +43,13 @@ public class BrowseCatalogController implements UpdatableController, Initializab
             return;
         }
         int index = catalog.getSelectionModel().getSelectedIndex();
-        int chosenBookID = catalog.getSelectionModel().getSelectedItem().getBookId();
         if(index <= -1){
             return;
         }
+        int chosenBookID = catalog.getSelectionModel().getSelectedItem().getBookId();
         Book choosenBook = new BookRepository().getById(chosenBookID);
 
-        try {
-            FXMLLoader bookLoader = new FXMLLoader(Pap.class.getResource("view/book-view.fxml"));
-            Parent bookRoot = bookLoader.load();
-            BookViewController bookViewController = bookLoader.getController();
-
-            bookViewController.setBook(choosenBook);
-            bookViewController.setBook(choosenBook);
-            bookViewController.displayTitle(choosenBook.getTitle());
-            bookViewController.displayAuthor(choosenBook.getAuthor());
-            bookViewController.displayGenre(choosenBook.getGenre());
-            bookViewController.displayPublicationYear(choosenBook.getPublicationYear());
-            bookViewController.displayLanguage(choosenBook.getLanguage());
-            bookViewController.displayPageCount(choosenBook.getPageCount());
-            bookViewController.displayPublisher(choosenBook.getPublisher());
-            bookViewController.displayDescription(choosenBook.getDescription());
-            bookViewController.displayAvailability(choosenBook.getStatus());
-            bookViewController.displayDateAdded(choosenBook.getDateAdded());
-
-            GlobalController.switchVisibleContent(LoadedPages.bookViewController, bookRoot);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        BookViewLoader.load(choosenBook);
     }
 
 
