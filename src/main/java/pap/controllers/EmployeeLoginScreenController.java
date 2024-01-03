@@ -5,7 +5,6 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import pap.helpers.LoadedPages;
-import pap.helpers.Login;
 
 import java.util.Optional;
 
@@ -25,16 +24,20 @@ public class EmployeeLoginScreenController implements UpdatableController {
         String password = loginPassword.getText();
 
         var id = tryLoginEmployee(username, password);
-        if (id == Login.LoginTry.EmptyCredentials) {
+        if (id == LoginTry.EmptyCredentials) {
             loginStatus.setText("All fields must be filled");
             loginStatus.setVisible(true);
         }
-        else if (id == Login.LoginTry.IncorrectPassword) {
+        else if (id == LoginTry.IncorrectPassword) {
             loginStatus.setText("Wrong password");
             loginStatus.setVisible(true);
         }
-        else if (id == Login.LoginTry.NoUser) {
+        else if (id == LoginTry.NoUser) {
             loginStatus.setText("No such user in database");
+            loginStatus.setVisible(true);
+        }
+        else if (id == LoginTry.Deactivated) {
+            loginStatus.setText("This account is deactivated");
             loginStatus.setVisible(true);
         }
         else {

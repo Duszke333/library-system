@@ -129,6 +129,11 @@ insert into pap.USERS (Password_hash, Password_salt, First_name, Last_name, Emai
 values ('6bac816d909c11c50e83ef7cf13fe8eaeca1e9b832728ed43b6f7bc2dddac7a4130d55382299914301230a6e3016cb3c98b7b594c0f27ea93ba8e7ef6c08509d',
         '36ed02a4341da3f2e3c47af1b365431c', 'Bożena', 'Wiącek', 'bozenka33@poczta.onet.pl', 3);
 
+-- This account is deactivated, so you cannot log in with it
+-- Credentials: deactivated@deactivated.deactivated, user
+insert into pap.USERS (Password_hash, Password_salt, First_name, Last_name, Email, Address_ID, Active)
+values ('7eb3a4cc3e9527219291dbb4fdd9c26041e0498135b6087276f7708d29e397c3fbf155c4c5a670803f035f7c82dcad325182859ba0e06fc6b76be48e972c6ffa',
+        '96702cb6850a3dfdc8b08363d805a88d', 'deactivated', 'deactivated', 'deactivated@deactivated.deactivated', 3, False);
 --------------------- BOOKS ---------------------
 -- Bible
 insert into pap.BOOKS (ISBN, Title, Author, Genre, Publication_year, Language, Page_count, Publisher, Status, Description, Date_added)
@@ -173,6 +178,12 @@ values ('f14b30de13f52db28ba5312cef37a02f007d006ed732ff8e445d97ec4726cec91e9e281
 insert into pap.EMPLOYEES (Password_hash, Password_salt, Username, User_ID, Role, Branch_id)
 values ('c2e847491a99c68cea3e2ed60cad9413523109efbefd094eb90bd234e0beb3106d5fa5fd9487d611d65eccdb6fe343e7daf04f47d8c07a664654002934c0ea1c',
         '96e3648d17c9399392a7d7256f7e1270', 'bozenawiacek', 2, 'Manager', 2);
+
+-- This account is deactivated, so you cannot log in with it
+-- Credentials: deactivated, admin
+insert into pap.EMPLOYEES (Password_hash, Password_salt, Username, User_ID, Role, Branch_id, Active)
+values ('f14b30de13f52db28ba5312cef37a02f007d006ed732ff8e445d97ec4726cec91e9e28136c18724c4b989e831e4817f77707a65d741ec88ff7ffad3e6a91a89c',
+        'f8f4b608a4f6a5c03d603ef03079830d', 'deactivated', 3, 'Deactivated', 1, False);
 
 --------------------- Book grades ---------------------
 -- Bible

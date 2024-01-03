@@ -43,6 +43,10 @@ public class UserLoginScreenController implements UpdatableController {
             loginStatus.setText("No such user in database");
             loginStatus.setVisible(true);
         }
+        else if (id == LoginTry.Deactivated) {
+            loginStatus.setText("This account is deactivated, please create a new one");
+            loginStatus.setVisible(true);
+        }
         else {
             setUserLoggedIn(Optional.of(id));
             GlobalController.switchVisibleContent(LoadedPages.userDashboardController, LoadedPages.userDashboard);
