@@ -42,7 +42,6 @@ public class Parameters {
             var output = new FileOutputStream(writePath);
             prop.store(output, null);
             output.close();
-            System.out.println("Parameters saved "+prop);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
