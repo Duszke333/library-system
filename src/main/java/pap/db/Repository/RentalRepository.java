@@ -17,6 +17,11 @@ public class RentalRepository implements IRentalRepository {
     private RentingQueueDAO rentingQueueDAO = new RentingQueueDAO();
 
     @Override
+    public List<BookRental> getRentalsByUserId(int id) {
+        String sql = "SELECT * FROM pap.book_rentals WHERE user_id = " + id;
+        return bookRentalDAO.query(sql);
+    }
+    @Override
     public List<BookRental> getAll() {
         return bookRentalDAO.getAll();
     }
