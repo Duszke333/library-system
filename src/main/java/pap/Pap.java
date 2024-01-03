@@ -18,6 +18,7 @@ public class Pap extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         new Thread(SessionFactoryMaker::getSessionFactory).start();
+        new Thread(pap.helpers.Parameters::readParameters).start();
         var fxmlLoader = new FXMLLoader(getClass().getResource("view/main-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), MIN_WIDTH, MIN_HEIGHT);
         Pap.stage = stage;
