@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<VBox alignment="CENTER" spacing="10.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pap.controllers.EmployeeManageParametersController">
+   <children>
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Update maximum queue length and penalty values" textAlignment="CENTER" wrappingWidth="564.8586883544922">
+         <font>
+            <Font size="18.0" />
+         </font>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+      </Text>
+      <TextField fx:id="maxQueueLengthInput" prefHeight="25.0" prefWidth="565.0" promptText="Max queue length">
+         <VBox.margin>
+            <Insets />
+         </VBox.margin></TextField>
+      <HBox spacing="24.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Max queue length" textAlignment="CENTER" />
+         </children>
+         <VBox.margin>
+            <Insets top="-10.0" />
+         </VBox.margin>
+      </HBox>
+      <TextField fx:id="dailyPenaltyInput" prefHeight="25.0" prefWidth="394.0" promptText="Daily penalty">
+         <VBox.margin>
+            <Insets />
+         </VBox.margin></TextField>
+      <HBox spacing="24.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Daily penalty" textAlignment="CENTER" />
+         </children>
+         <VBox.margin>
+            <Insets top="-10.0" />
+         </VBox.margin>
+      </HBox>
+      <TextField fx:id="bookDamagePenaltyInput" promptText="Book damage penalty">
+         <VBox.margin>
+            <Insets />
+         </VBox.margin></TextField>
+      <HBox spacing="24.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Book damage penalty" textAlignment="CENTER" />
+         </children>
+         <VBox.margin>
+            <Insets top="-10.0" />
+         </VBox.margin>
+      </HBox>
+      <HBox spacing="24.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#updateParameters" text="Update values" />
+            <Text fx:id="updateStatus" fill="RED" strokeType="OUTSIDE" strokeWidth="0.0" text="All fields must be filled!" textAlignment="CENTER" visible="false">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+         </children>
+      </HBox>
+   </children>
+   <padding>
+      <Insets bottom="12.0" left="12.0" right="12.0" top="12.0" />
+   </padding>
+</VBox>
