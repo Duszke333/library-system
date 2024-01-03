@@ -1,6 +1,5 @@
 package pap.controllers;
 
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -9,6 +8,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import pap.db.Entities.Employee;
 import pap.db.Repository.EmployeeRepository;
 import pap.helpers.LoadedPages;
 import pap.helpers.Login;
@@ -43,7 +43,14 @@ public class EmployeeDashboardController implements UpdatableController {
             );
             var result = alert.showAndWait();
             if (result.isPresent() && result.get() == ButtonType.YES) {
-                Platform.exit();
+//                Platform.exit();
+                // Set to inactive and logout
+                EmployeeRepository repo = new EmployeeRepository();
+                Employee emp = repo.getById(Login.getEmployeeLoggedIn().get());
+                emp.setActive(false);
+                repo.update(emp);
+                Login.setEmployeeLoggedIn(Optional.empty());
+                GlobalController.switchVisibleContent(LoadedPages.loginScreenController, LoadedPages.loginScreen);
             }
         });
 

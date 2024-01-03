@@ -29,6 +29,7 @@ public class Login {
         public static int EmptyCredentials = -1;
         public static int NoUser = -2;
         public static int IncorrectPassword = -3;
+        public static int Deactivated = -4;
     }
     
     public static int tryLoginUser(String email, String password) {
@@ -45,6 +46,10 @@ public class Login {
         String hashedPassword = user.getPasswordHash();
         if (!hashedPassword.equals(PasswordHasher.hashPassword(password, salt))) {
             return LoginTry.IncorrectPassword;
+        }
+
+        if (!user.isActive()) {
+            return LoginTry.Deactivated;
         }
         
         return user.getAccountId();
@@ -64,6 +69,10 @@ public class Login {
         String hashedPassword = emp.getPasswordHash();
         if (!hashedPassword.equals(PasswordHasher.hashPassword(password, salt))) {
             return LoginTry.IncorrectPassword;
+        }
+
+        if (!emp.isActive()) {
+            return LoginTry.Deactivated;
         }
 
         return emp.getEmployeeId();
