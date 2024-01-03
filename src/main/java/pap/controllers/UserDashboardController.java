@@ -47,8 +47,16 @@ public class UserDashboardController implements UpdatableController {
         var manageItem = new Button("Manage account settings");
         manageItem.setOnAction(e -> GlobalController.switchVisibleContent(LoadedPages.userAccountManageController, LoadedPages.userAccountManage));
         
+        var browseRentalItem = new Button("Browse rented books");
+        browseRentalItem.setOnAction(e -> GlobalController.switchVisibleContent(LoadedPages.browseRentalController, LoadedPages.browseRental));
+
+        var browseHistoryItem = new Button("Browse renting history"); 
+        browseHistoryItem.setOnAction(e -> GlobalController.switchVisibleContent(LoadedPages.browseHistoryController, LoadedPages.browseHistory));
+        
         userActions.getItems().setAll(List.of(
                 manageItem,
+                browseRentalItem,
+                browseHistoryItem,
                 deactivateAccountItem,
                 signOutItem
         ));

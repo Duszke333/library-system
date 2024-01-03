@@ -35,6 +35,12 @@ public class LoadedPages {
     public static final UpdatableController userAccountManageController;
     public static final Parent employeePasswordChange;
     public static final UpdatableController employeePasswordChangeController;
+    public static final Parent browseRental;
+    public static final UpdatableController browseRentalController;
+    public static final Parent browseHistory;
+    public static final UpdatableController browseHistoryController;
+    public static final Parent employeeManageParameters;
+    public static final UpdatableController employeeManageParametersController;
     
     static {
         try {
@@ -92,6 +98,18 @@ public class LoadedPages {
             var employeePasswordChangeLoader = new FXMLLoader(Pap.class.getResource("view/employee-password-change.fxml"));
             employeePasswordChange = employeePasswordChangeLoader.load();
             employeePasswordChangeController = employeePasswordChangeLoader.getController();
+            
+            var browseRentalLoader = new FXMLLoader(Pap.class.getResource("view/browse-rental.fxml"));
+            browseRental = browseRentalLoader.load();
+            browseRentalController = browseRentalLoader.getController();
+            
+            var browseHistoryLoader = new FXMLLoader(Pap.class.getResource("view/browse-renting-history.fxml"));
+            browseHistory = browseHistoryLoader.load();
+            browseHistoryController = browseHistoryLoader.getController();
+            
+            var manageParametersLoader = new FXMLLoader(Pap.class.getResource("view/employee-manage-parameters.fxml"));
+            employeeManageParameters = manageParametersLoader.load();
+            employeeManageParametersController = manageParametersLoader.getController();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

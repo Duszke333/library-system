@@ -15,6 +15,7 @@ public class Pap extends Application {
     private static final int MIN_HEIGHT = 820;
     @Getter
     private static Stage stage;
+    
     @Override
     public void start(Stage stage) throws IOException {
         new Thread(SessionFactoryMaker::getSessionFactory).start();
