@@ -7,9 +7,15 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Button;
 import lombok.Setter;
 
+import static pap.db.Entities.Book.*;
 
 
 import javafx.scene.input.MouseEvent;
+import pap.db.Entities.BookRental;
+import pap.db.Repository.BookRepository;
+import pap.db.Repository.RentalRepository;
+import pap.helpers.Login;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -90,15 +96,29 @@ public class BookViewController implements UpdatableController {
 
 
     public void orderButtonClicked(MouseEvent mouseEvent){
-//        if(book.isAvailable()){
-//            //#TODO
-//            //#zamawianie ksiazki
-//            orderButton.setStyle("-fx-background-color: #00ff00;");
-//            orderLabel.setText("Ksiazka wypozyczona");
-//        }else {
+        if(book.getStatus().equals(Book.BookStatus.Available)){
+            int logged = 0;
+            try {
+                logged = Login.getUserLoggedIn().get();
+            } catch (Exception e) {
+                orderLabel.setText("Musisz być zalogowany, aby wypożyczyć książkę");
+                return;
+            }
+            book.setStatus(BookStatus.Unavailable);
+            new BookRepository().update(book);
+            BookRental rent = new BookRental();
+            rent.setBookId(book.getBookId());
+            rent.setUserId(logged);
+            rent.setDateRented(new java.sql.Date(System.currentTimeMillis()));
+            var returnDate = new java.sql.Date(System.currentTimeMillis());
+            returnDate.setMonth(returnDate.getMonth() + 1);
+            rent.setDateToReturn(returnDate);
+            new RentalRepository().create(rent);
+            orderLabel.setText("Book rented successfully!");
+        }else {
 //            orderButton.setStyle("-fx-background-color: #ffff00;");
-//            orderLabel.setText("Ksiazka aktualnie jest wypozyczona. Jestes x w kolejce");
-//        }
+            orderLabel.setText("Ksiazka aktualnie jest wypozyczona. Jestes x w kolejce");
+        }
     }
 
     @Override
