@@ -29,6 +29,7 @@
         <mapping class="pap.db.Entities.Penalty"/>
         <mapping class="pap.db.Entities.ReadList"/>
         <mapping class="pap.db.Entities.RentingQueue"/>
+        <mapping class="pap.db.Entities.BookWishList"/>
 
     </session-factory>
 </hibernate-configuration>
