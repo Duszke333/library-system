@@ -12,12 +12,15 @@ import static pap.db.Entities.Book.*;
 
 import javafx.scene.input.MouseEvent;
 import pap.db.Entities.BookRental;
+import pap.db.Entities.BookWishList;
 import pap.db.Repository.BookRepository;
 import pap.db.Repository.RentalRepository;
+import pap.db.Repository.WishRepository;
 import pap.helpers.Login;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 public class BookViewController implements UpdatableController {
     @FXML
@@ -45,12 +48,17 @@ public class BookViewController implements UpdatableController {
     @FXML
     Label orderLabel;
 
+    @FXML
+    Label wishLabel;
+
     @Setter
     Book book;
 
     @FXML
     Button orderButton;
 
+    @FXML
+    Button wishButton;
 
 
     public void displayTitle(String title) {
@@ -89,6 +97,18 @@ public class BookViewController implements UpdatableController {
         isAvailableLabel.setText("Dostępność: " + status);
     }
 
+    public void displayWishStatus() {
+        int logged = 0;
+        try {
+            logged = Login.getUserLoggedIn().get();
+        } catch (Exception e) {
+            return;
+        }
+        if(!(new WishRepository().getWishListByUserAndBook(logged, book.getBookId()).isEmpty())){
+            wishButton.setText("Remove from wish list");
+        }
+    }
+
     public void displayDateAdded(Date dateAdded) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
         dateAddedLabel.setText("Data dodania: " + dateFormat.format(dateAdded));
@@ -118,6 +138,32 @@ public class BookViewController implements UpdatableController {
         }else {
 //            orderButton.setStyle("-fx-background-color: #ffff00;");
             orderLabel.setText("Ksiazka aktualnie jest wypozyczona. Jestes x w kolejce");
+        }
+    }
+
+    public void wishButtonClicked(MouseEvent mouseEvent){
+        int logged = 0;
+        try {
+            logged = Login.getUserLoggedIn().get();
+        } catch (Exception e) {
+            wishLabel.setText("Musisz być zalogowany, aby dodać do listy życzeń");
+            return;
+        }
+        BookWishList wish = new BookWishList();
+        WishRepository wish_repo = new WishRepository();
+        List<BookWishList> wishListByUserAndBook = wish_repo.getWishListByUserAndBook(logged, book.getBookId());
+        if (wishListByUserAndBook.isEmpty()) {
+            wish.setBookId(book.getBookId());
+            wish.setUserId(logged);
+            wish.setDateAdded(new java.sql.Date(System.currentTimeMillis()));
+            new WishRepository().create(wish);
+            wishButton.setText("Remove from wish list");
+            wishLabel.setText("Book added to wish list successfully!");
+        }else{
+            BookWishList wish_to_delete = wishListByUserAndBook.get(0);
+            new WishRepository().delete(wish_to_delete);
+            wishLabel.setText("Book removed from wish list successfully");
+            wishButton.setText("Add book to wish list");
         }
     }
 
