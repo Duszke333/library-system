@@ -31,31 +31,28 @@ Planujemy stworzyć aplikację, która będzie obsługiwała zarówno czytelnik�
     - Frontend: **JavaFX**
     - Baza: **PostgreSQL**
 
-3. ### Podział funkcjonalności
-    #### Piotr Jabłoński:
-    - [ ] Możliwość przeglądania katalogu książek, szczegółów dotyczących książek takich jak autor, rok wydania książki, ilość stron, rodzaj okładki, wygrane nagrody… - CLIENT
-    - [ ] Filtrowanie podglądu według nazwy, roku, autora… - CLIENT
-    - [ ] Możliwe będzie zarządzanie książkami, edycja książek, usuwanie, dodawanie rekordów książek - EMPLOYEE
-    - [ ] Tworzenie kolejki wypożyczeń, ustawienie ogólnego limitu, konkretny limit per książka - EMPLOYEE
-    - [ ] Sposób wyświetlania książek: Okładka/Szczegółowy opis z detalami - CLIENT
-    #### Jakub Kośla:
-    - [ ] Statystyka wypożyczeń (najczęściej wypożyczane książki w danym okresie czasu) - CLIENT
-    - [ ] Będzie możliwe również sprawdzenie historii wypożyczeń konkretnych książek - EMPLOYEE
-    - [ ] Dla każdego użytkownika dostępna będzie historia wypożyczeń m. in. z możliwością sortowania wg długości wypożyczenia - CLIENT
-    - [ ] Sprawdzanie stanu książek (czy i do kiedy są wypożyczone/zarezerwowane / dostępne do wypożyczenia) - EMPLOYEE
-    - [ ] Podgląd pracowników, innych placówek naszej biblioteki - CLIENT
-    #### Bruno Sienkiewicz:
-    - [ ] Definiowanie kary za przekroczenie limitu oddania książki do biblioteki - EMPLOYEE
-    - [ ] Zarządzanie kontami członkowskimi (m. in. blokada w przypadku przekroczenia terminu wypożyczenia) - EMPLOYEE
-    - [ ] Możliwe będzie zamówienie książki, tj. w przypadku, gdy książka nie będzie dostępna, możliwe będzie wyrażenie chęci wypożyczenia i dopisania się do kolejki wypożyczeń - CLIENT
-    - [ ] Możliwość uregulowania kar za przekroczenie terminu oddania książki - CLIENT
-    - [ ] Możliwość przedłużenia wypożyczenia, najwyżej jeden raz, jeżeli klient do tej pory się uregulował z wypożyczeniami, i nie ma oczekujących na wypożyczenie - CLIENT
-    #### Paweł Wysocki:
-    - [ ] Stworzenie konta bibliotecznego, usunięcie go lub jego edycja - CLIENT
-    - [ ] Podgląd wypożyczonych obecnie pozycji - CLIENT
-    - [ ] Możliwość tworzenia listy pozycji, które chce się przeczytać - CLIENT
-    - [ ] Możliwość oceniania wypożyczonych książek - CLIENT
-    - [ ] Możliwość zgłoszenia uszkodzenia lub zgubienia książki - CLIENT
+3. ### Funkcjonalności
+- [X] Możliwość przeglądania katalogu książek, szczegółów dotyczących książek takich jak autor, rok wydania książki, ilość stron, rodzaj okładki, wygrane nagrody… - CLIENT
+- [X] Filtrowanie podglądu według nazwy, roku, autora… - CLIENT
+- [X] Zarządzanie książkami, edycja książek, usuwanie, dodawanie rekordów książek - EMPLOYEE
+- [ ] Tworzenie kolejki wypożyczeń, ustawienie ogólnego limitu, konkretny limit per książka - EMPLOYEE
+- [X] Wyświetlanie książek: Okładka/Szczegółowy opis z detalami – użytkownik z poziomu katalogu książek ma możliwość wybrania interesującej go książki oraz sprawdzanie dodatkowych informacji o niej – ISBN, status, data dodania, szczegółowy opis - CLIENT
+- [X] Stworzenie konta pracowniczego, dezaktywacja lub jego edycja
+- [ ] Statystyka wypożyczeń (najczęściej wypożyczane książki w danym okresie czasu) - CLIENT
+- [X] Sprawdzenie historii wypożyczeń konkretnych książek - EMPLOYEE
+- [X] Dla każdego użytkownika dostępna będzie historia wypożyczeń m. in. z możliwością sortowania wg długości wypożyczenia - CLIENT
+- [ ] Sprawdzanie stanu książek (czy i do kiedy są wypożyczone/zarezerwowane / dostępne do wypożyczenia) - EMPLOYEE
+- [ ] Podgląd pracowników, innych placówek naszej biblioteki - CLIENT
+- [X] Definiowanie kary za przekroczenie limitu oddania książki do biblioteki - EMPLOYEE
+- [ ] Zarządzanie kontami członkowskimi (m. in. blokada w przypadku przekroczenia terminu wypożyczenia) - EMPLOYEE
+- [ ] Możliwe będzie zamówienie książki, tj. w przypadku, gdy książka nie będzie dostępna, możliwe będzie wyrażenie chęci wypożyczenia i dopisania się do kolejki wypożyczeń - CLIENT
+- [ ] Możliwość uregulowania kar za przekroczenie terminu oddania książki - CLIENT
+- [ ] Możliwość przedłużenia wypożyczenia, najwyżej jeden raz, jeżeli klient do tej pory się uregulował z wypożyczeniami, i nie ma oczekujących na wypożyczenie - CLIENT
+- [X] Stworzenie konta bibliotecznego, usunięcie go lub jego edycja - CLIENT
+- [X] Podgląd wypożyczonych obecnie pozycji - CLIENT
+- [ ] Możliwość tworzenia listy pozycji, które chce się przeczytać - CLIENT
+- [ ] Możliwość oceniania wypożyczonych książek - CLIENT
+- [ ] Możliwość zgłoszenia uszkodzenia lub zgubienia książki - CLIENT
 
 ## Baza danych
 
