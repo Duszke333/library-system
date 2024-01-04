@@ -19,10 +19,11 @@
       <Label fx:id="publisherLabel" layoutX="58.0" layoutY="277.0" text="PUBLISHER" AnchorPane.leftAnchor="50.0" />
       <Label fx:id="isAvailableLabel" layoutX="59.0" layoutY="311.0" text="AVAILABLE" AnchorPane.leftAnchor="50.0" />
       <Label fx:id="dateAddedLabel" layoutX="58.0" layoutY="342.0" text="DATE ADDED" AnchorPane.leftAnchor="50.0" />
+      <Label fx:id="grade" layoutX="50.0" layoutY="374.0" text="AVERAGE GRADE" />
       <Button fx:id="orderButton" layoutX="385.0" layoutY="90.0" mnemonicParsing="false" onMouseClicked="#orderButtonClicked" text="ORDER" />
       <Label fx:id="orderLabel" layoutX="355.0" layoutY="126.0" />
       <TextArea fx:id="descriptionLabel" editable="false" layoutX="312.0" layoutY="160.0" prefHeight="200.0" prefWidth="200.0" wrapText="true" />
-      <VBox alignment="CENTER" layoutX="47.0" layoutY="392.0" prefHeight="91.0" prefWidth="215.0">
+      <VBox alignment="CENTER" layoutX="47.0" layoutY="411.0" prefHeight="91.0" prefWidth="215.0">
          <children>
             <Text fx:id="gradeText" strokeType="OUTSIDE" strokeWidth="0.0" text="Your grade: 1.0" />
             <Slider fx:id="gradeSlider" blockIncrement="0.5" majorTickUnit="1.0" max="5.0" min="1.0" minorTickCount="1" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="1.0" />
