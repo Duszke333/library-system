@@ -22,6 +22,11 @@ public class RentalRepository extends GenericRepository<BookRental> implements I
     }
 
     @Override
+    public List<BookRental> getRentalsByBookId(int id) {
+        String sql = "SELECT * FROM pap.book_rentals WHERE book_id = " + id;
+        return bookRentalDAO.query(sql);
+    }
+    @Override
     public List<BookRental> getRentalsByUserId(int id) {
         String sql = "SELECT * FROM pap.book_rentals WHERE user_id = " + id;
         return bookRentalDAO.query(sql);
