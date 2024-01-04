@@ -18,7 +18,7 @@ public class BranchRecord {
         this.branchId = branch.getBranchId();
         this.name = branch.getName();
         Address address = new AddressRepository().getById(branch.getAddressId());
-        if (address.getFlatNumber() != null) {
+        if (!address.getFlatNumber().isEmpty()) {
             this.address = address.getCountry() + ", " + address.getCity() + "(" + address.getPostalCode() + "), " + address.getStreet() + " " + address.getHouseNumber() + "/" + address.getFlatNumber();
         } else {
             this.address = address.getCountry() + ", " + address.getCity() + "(" + address.getPostalCode() + "), " + address.getStreet() + " " + address.getHouseNumber();
