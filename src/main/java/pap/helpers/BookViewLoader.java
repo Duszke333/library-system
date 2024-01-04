@@ -28,6 +28,7 @@ public class BookViewLoader {
             bookViewController.displayDescription(chosenBook.getDescription());
             bookViewController.displayAvailability(chosenBook.getStatus());
             bookViewController.displayDateAdded(chosenBook.getDateAdded());
+            bookViewController.displayWishStatus();
 
             GlobalController.switchVisibleContent(LoadedPages.bookViewController, bookRoot);
         } catch (IOException e) {
