@@ -39,6 +39,8 @@ public class LoadedPages {
     public static final UpdatableController browseRentalController;
     public static final Parent browseHistory;
     public static final UpdatableController browseHistoryController;
+    public static final Parent browseWishList;
+    public static final UpdatableController browseWishListController;
     public static final Parent employeeManageParameters;
     public static final UpdatableController employeeManageParametersController;
     
@@ -106,6 +108,10 @@ public class LoadedPages {
             var browseHistoryLoader = new FXMLLoader(Pap.class.getResource("view/browse-renting-history.fxml"));
             browseHistory = browseHistoryLoader.load();
             browseHistoryController = browseHistoryLoader.getController();
+
+            var browseWishListLoader = new FXMLLoader(Pap.class.getResource("view/browse-wish-list.fxml"));
+            browseWishList = browseWishListLoader.load();
+            browseWishListController = browseWishListLoader.getController();
             
             var manageParametersLoader = new FXMLLoader(Pap.class.getResource("view/employee-manage-parameters.fxml"));
             employeeManageParameters = manageParametersLoader.load();
