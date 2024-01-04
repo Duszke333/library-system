@@ -7,6 +7,7 @@ import pap.db.Entities.RentingQueue;
 import java.util.List;
 
 public interface IRentalRepository extends IRepository<BookRental> {
+    List<BookRental> getRentalsByBookId(int id);
     List<BookRental> getRentalsByUserId(int id);
     Penalty getPenaltyById(int id);
     List<Penalty> getAllPenalties();
