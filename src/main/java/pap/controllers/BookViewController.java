@@ -125,13 +125,13 @@ public class BookViewController implements UpdatableController, Initializable {
     }
 
     public void displayWishStatus() {
-        int logged = 0;
-        try {
-            logged = Login.getUserLoggedIn().get();
-        } catch (Exception e) {
+        int uid = Login.getUserLoggedIn().orElse(-1);
+        wishLabel.setText("");
+        wishButton.setText("Add book to wish list");
+        if (uid == -1){
             return;
         }
-        if(!(new WishRepository().getWishListByUserAndBook(logged, book.getBookId()).isEmpty())){
+        if(!(new WishRepository().getWishListByUserAndBook(uid, book.getBookId()).isEmpty())){
             wishButton.setText("Remove from wish list");
         }
     }
@@ -234,19 +234,18 @@ public class BookViewController implements UpdatableController, Initializable {
     }
 
     public void wishButtonClicked(MouseEvent mouseEvent){
-        int logged = 0;
-        try {
-            logged = Login.getUserLoggedIn().get();
-        } catch (Exception e) {
+        int uid = Login.getUserLoggedIn().orElse(-1);
+        if (uid == -1){
+            wishButton.setText("Add book to wish list");
             wishLabel.setText("Musisz być zalogowany, aby dodać do listy życzeń");
             return;
         }
         BookWishList wish = new BookWishList();
         WishRepository wish_repo = new WishRepository();
-        List<BookWishList> wishListByUserAndBook = wish_repo.getWishListByUserAndBook(logged, book.getBookId());
+        List<BookWishList> wishListByUserAndBook = wish_repo.getWishListByUserAndBook(uid, book.getBookId());
         if (wishListByUserAndBook.isEmpty()) {
             wish.setBookId(book.getBookId());
-            wish.setUserId(logged);
+            wish.setUserId(uid);
             wish.setDateAdded(new java.sql.Date(System.currentTimeMillis()));
             new WishRepository().create(wish);
             wishButton.setText("Remove from wish list");
@@ -263,6 +262,7 @@ public class BookViewController implements UpdatableController, Initializable {
     public void update() {
         updateDisplay();
         updateGrading();
+        displayWishStatus();
     }
 
     @Override
