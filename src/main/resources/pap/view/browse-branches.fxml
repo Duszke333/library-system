@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+
+<TableView fx:id="branchCatalog" onMouseClicked="#getItem" tableMenuButtonVisible="true" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pap.controllers.BrowseBranchesController">
+  <columns>
+    <TableColumn fx:id="name" maxWidth="-1.0" prefWidth="-1.0" text="Branch name" />
+    <TableColumn fx:id="address" maxWidth="-1.0" minWidth="-1.0" prefWidth="-1.0" text="Branch address" />
+  </columns>
+</TableView>
