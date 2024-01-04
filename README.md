@@ -42,7 +42,7 @@ Planujemy stworzyć aplikację, która będzie obsługiwała zarówno czytelnik�
 - [X] Sprawdzenie historii wypożyczeń konkretnych książek - EMPLOYEE
 - [X] Dla każdego użytkownika dostępna będzie historia wypożyczeń m. in. z możliwością sortowania wg długości wypożyczenia - CLIENT
 - [ ] Sprawdzanie stanu książek (czy i do kiedy są wypożyczone/zarezerwowane / dostępne do wypożyczenia) - EMPLOYEE
-- [ ] Podgląd pracowników, innych placówek naszej biblioteki - CLIENT
+- [X] Podgląd pracowników, innych placówek naszej biblioteki - CLIENT
 - [X] Definiowanie kary za przekroczenie limitu oddania książki do biblioteki - EMPLOYEE
 - [ ] Zarządzanie kontami członkowskimi (m. in. blokada w przypadku przekroczenia terminu wypożyczenia) - EMPLOYEE
 - [ ] Możliwe będzie zamówienie książki, tj. w przypadku, gdy książka nie będzie dostępna, możliwe będzie wyrażenie chęci wypożyczenia i dopisania się do kolejki wypożyczeń - CLIENT
