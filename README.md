@@ -51,7 +51,7 @@ Planujemy stworzyć aplikację, która będzie obsługiwała zarówno czytelnik�
 - [X] Stworzenie konta bibliotecznego, usunięcie go lub jego edycja - CLIENT
 - [X] Podgląd wypożyczonych obecnie pozycji - CLIENT
 - [ ] Możliwość tworzenia listy pozycji, które chce się przeczytać - CLIENT
-- [ ] Możliwość oceniania wypożyczonych książek - CLIENT
+- [X] Możliwość oceniania wypożyczonych książek - CLIENT
 - [ ] Możliwość zgłoszenia uszkodzenia lub zgubienia książki - CLIENT
 
 ## Baza danych
