@@ -43,6 +43,10 @@ public class LoadedPages {
     public static final UpdatableController employeeManageParametersController;
     public static final Parent browseBookHistory;
     public static final UpdatableController browseBookHistoryController;
+    public static final Parent browseBranches;
+    public static final UpdatableController browseBranchesController;
+    public static final Parent browseBranchEmployees;
+    public static final UpdatableController browseBranchEmployeesController;
     
     static {
         try {
@@ -116,6 +120,14 @@ public class LoadedPages {
             var browseBookHistoryLoader = new FXMLLoader(Pap.class.getResource("view/browse-book-history.fxml"));
             browseBookHistory = browseBookHistoryLoader.load();
             browseBookHistoryController = browseBookHistoryLoader.getController();
+
+            var browseBranchesLoader = new FXMLLoader(Pap.class.getResource("view/browse-branches.fxml"));
+            browseBranches = browseBranchesLoader.load();
+            browseBranchesController = browseBranchesLoader.getController();
+
+            var browseBranchEmployeesLoader = new FXMLLoader(Pap.class.getResource("view/browse-branch-employees.fxml"));
+            browseBranchEmployees = browseBranchEmployeesLoader.load();
+            browseBranchEmployeesController = browseBranchEmployeesLoader.getController();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

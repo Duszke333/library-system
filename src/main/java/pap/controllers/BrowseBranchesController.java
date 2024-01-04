@@ -8,12 +8,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
-import pap.db.Entities.Book;
-import pap.db.Repository.BookRepository;
 import pap.helpers.BranchRecord;
 import pap.helpers.LoadedPages;
-import pap.helpers.Login;
-import pap.helpers.RentalRecord;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -28,7 +24,17 @@ public class BrowseBranchesController implements UpdatableController, Initializa
 
     @FXML
     public void getItem(MouseEvent event) {
+        if (branchCatalog.getSelectionModel().getSelectedItem() == null) {
+            return;
+        }
+        int index = branchCatalog.getSelectionModel().getSelectedIndex();
+        if(index <= -1){
+            return;
+        }
+        int chosenBranchID = branchCatalog.getSelectionModel().getSelectedItem().getBranchId();
 
+        BrowseBranchEmployeesController.setBranchId(chosenBranchID);
+        GlobalController.switchVisibleContent(LoadedPages.browseBranchEmployeesController, LoadedPages.browseBranchEmployees);
     }
     @Override
     public void update() {
