@@ -17,14 +17,17 @@ import static pap.db.Entities.Book.*;
 import javafx.scene.input.MouseEvent;
 import pap.db.Entities.BookGrade;
 import pap.db.Entities.BookRental;
+import pap.db.Entities.BookWishList;
 import pap.db.Repository.BookRepository;
 import pap.db.Repository.RentalRepository;
+import pap.db.Repository.WishRepository;
 import pap.helpers.Login;
 
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ResourceBundle;
+import java.util.List;
 
 public class BookViewController implements UpdatableController, Initializable {
     @FXML
@@ -53,6 +56,9 @@ public class BookViewController implements UpdatableController, Initializable {
     @FXML
     Label orderLabel;
 
+    @FXML
+    Label wishLabel;
+
     @Setter
     static Book book = new Book(0, "isbn", "title", "author", "genre", 0, "language", 0, "publisher", BookStatus.Available, "description", new java.sql.Date(System.currentTimeMillis()), "cover");
 
@@ -64,6 +70,8 @@ public class BookViewController implements UpdatableController, Initializable {
 
     @FXML
     Slider gradeSlider;
+    @FXML
+    Button wishButton;
 
     @FXML
     Button gradeButton;
@@ -116,7 +124,18 @@ public class BookViewController implements UpdatableController, Initializable {
         isAvailableLabel.setText("Dostępność: " + status);
     }
 
-    @Deprecated
+    public void displayWishStatus() {
+        int uid = Login.getUserLoggedIn().orElse(-1);
+        wishLabel.setText("");
+        wishButton.setText("Add book to wish list");
+        if (uid == -1){
+            return;
+        }
+        if(!(new WishRepository().getWishListByUserAndBook(uid, book.getBookId()).isEmpty())){
+            wishButton.setText("Remove from wish list");
+        }
+    }
+
     public void displayDateAdded(Date dateAdded) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
         dateAddedLabel.setText("Data dodania: " + dateFormat.format(dateAdded));
@@ -214,10 +233,36 @@ public class BookViewController implements UpdatableController, Initializable {
         gradeText.setText("Your grade: 1.0");
     }
 
+    public void wishButtonClicked(MouseEvent mouseEvent){
+        int uid = Login.getUserLoggedIn().orElse(-1);
+        if (uid == -1){
+            wishButton.setText("Add book to wish list");
+            wishLabel.setText("Musisz być zalogowany, aby dodać do listy życzeń");
+            return;
+        }
+        BookWishList wish = new BookWishList();
+        WishRepository wish_repo = new WishRepository();
+        List<BookWishList> wishListByUserAndBook = wish_repo.getWishListByUserAndBook(uid, book.getBookId());
+        if (wishListByUserAndBook.isEmpty()) {
+            wish.setBookId(book.getBookId());
+            wish.setUserId(uid);
+            wish.setDateAdded(new java.sql.Date(System.currentTimeMillis()));
+            new WishRepository().create(wish);
+            wishButton.setText("Remove from wish list");
+            wishLabel.setText("Book added to wish list successfully!");
+        }else{
+            BookWishList wish_to_delete = wishListByUserAndBook.get(0);
+            new WishRepository().delete(wish_to_delete);
+            wishLabel.setText("Book removed from wish list successfully");
+            wishButton.setText("Add book to wish list");
+        }
+    }
+
     @Override
     public void update() {
         updateDisplay();
         updateGrading();
+        displayWishStatus();
     }
 
     @Override

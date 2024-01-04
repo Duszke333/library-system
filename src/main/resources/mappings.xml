@@ -12,4 +12,5 @@
     <entity class="pap.db.Entities.Penalty"/>
     <entity class="pap.db.Entities.ReadList"/>
     <entity class="pap.db.Entities.RentingQueue"/>
+    <entity class="pap.db.Entities.BookWishList"/>
 </entity-mappings>

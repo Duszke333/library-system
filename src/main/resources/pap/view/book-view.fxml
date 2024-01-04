@@ -31,5 +31,7 @@
             <Text fx:id="gradeStatus" strokeType="OUTSIDE" strokeWidth="0.0" text="You must be logged in to do that!" />
          </children>
       </VBox>
+      <Button fx:id="wishButton" layoutX="470.0" layoutY="31.0" mnemonicParsing="false" onMouseClicked="#wishButtonClicked" text="Add to wish list" />
+      <Label fx:id="wishLabel" layoutX="420.0" layoutY="65.0" />
    </children>
 </AnchorPane>
