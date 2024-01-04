@@ -15,9 +15,9 @@ import java.sql.Date;
 @Setter
 @Table(name = "book_grades", schema = "pap", catalog = "pap")
 public class BookGrade {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @Column(name = "grade_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "grade_id", nullable = false)
     private int gradeId;
     @Basic
     @Column(name = "book_id")
@@ -27,7 +27,7 @@ public class BookGrade {
     private int userId;
     @Basic
     @Column(name = "grade")
-    private int grade;
+    private double grade;
     @Basic
     @Column(name = "date_added")
     private Date dateAdded;
