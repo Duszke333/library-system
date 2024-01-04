@@ -50,6 +50,8 @@ public class UserAccountCreateController implements UpdatableController {
     
     @FXML
     private void createAccountButtonPressed() {
+        operationStatus.setFill(javafx.scene.paint.Color.RED);
+
         String name = nameInput.getText();
         String surname = surnameInput.getText();
         String email = emailInput.getText();
