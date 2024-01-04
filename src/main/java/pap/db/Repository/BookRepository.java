@@ -1,9 +1,11 @@
 package pap.db.Repository;
 
+import javafx.util.Pair;
 import pap.db.DAO.EntityDAO.BookDAO;
 import pap.db.DAO.EntityDAO.BookGradeDAO;
 import pap.db.DAO.EntityDAO.BookRentalDAO;
 import pap.db.DAO.EntityDAO.ReadListDAO;
+import pap.db.DAO.GenericDAO;
 import pap.db.Entities.Book;
 import pap.db.Entities.BookGrade;
 import pap.db.Entities.ReadList;
@@ -11,36 +13,14 @@ import pap.db.Repository.Interface.IBookRepository;
 
 import java.util.List;
 
-public class BookRepository implements IBookRepository {
+public class BookRepository extends GenericRepository<Book> implements IBookRepository {
     private BookDAO bookDAO = new BookDAO();
     private BookGradeDAO bookGradeDAO = new BookGradeDAO();
     private ReadListDAO readListDAO = new ReadListDAO();
 
-    @Override
-    public Book getById(int id) {
-        return bookDAO.read(id);
+    public BookRepository() {
+        super(Book.class, new BookDAO());
     }
-
-    @Override
-    public void create(Book entity) {
-        bookDAO.create(entity);
-    }
-
-    @Override
-    public void update(Book entity) {
-        bookDAO.update(entity);
-    }
-
-    @Override
-    public void delete(Book entity) {
-        bookDAO.delete(entity);
-    }
-
-    @Override
-    public List<Book> getAll() {
-        return bookDAO.getAll();
-    }
-
 
     @Override
     public Book getByTitle(String title) {
@@ -123,8 +103,8 @@ public class BookRepository implements IBookRepository {
     }
 
     @Override
-    public BookGrade getBookGrade(int bookId) {
-        String sql = "SELECT * FROM pap.book_grades WHERE book_id = " + bookId;
+    public BookGrade getBookGrade(int gradeId) {
+        String sql = "SELECT * FROM pap.book_grades WHERE grade_id = " + gradeId;
         List<BookGrade> bookGrades = bookGradeDAO.query(sql);
         if (bookGrades.size() == 0) {
             return null;
@@ -147,6 +127,37 @@ public class BookRepository implements IBookRepository {
         return bookGrades;
     }
 
+    public List<BookGrade> getBookGradesByBook(int bookId) {
+        String sql = "SELECT * FROM pap.book_grades WHERE book_id = " + bookId;
+        List<BookGrade> bookGrades = bookGradeDAO.query(sql);
+        if (bookGrades.size() == 0) {
+            return null;
+        }
+        return bookGrades;
+    }
+
+    public Pair<Integer, Double> getBookGradeCountAndAverageGrade(int bookId) {
+        List<BookGrade> bookGrades = getBookGradesByBook(bookId);
+        if (bookGrades == null) {
+            return null;
+        }
+        int count = bookGrades.size();
+        double sum = 0;
+        for (BookGrade bookGrade : bookGrades) {
+            sum += bookGrade.getGrade();
+        }
+        return new Pair<Integer, Double>(count, Math.round(sum * 100 / count) / 100.0);
+    }
+    @Override
+    public BookGrade getThisBookGradeByUser(int bookId, int userId) {
+        String sql = "SELECT * FROM pap.book_grades WHERE user_id = " + userId + " AND book_id = " + bookId;
+        List<BookGrade> bookGrades = bookGradeDAO.query(sql);
+        if (bookGrades.size() == 0) {
+            return null;
+        }
+        return bookGrades.get(0);
+    }
+
     @Override
     public void updateBookGrade(BookGrade bookGrade) {
         bookGradeDAO.update(bookGrade);
@@ -160,6 +171,16 @@ public class BookRepository implements IBookRepository {
     @Override
     public void deleteBookGrade(BookGrade bookGrade) {
         bookGradeDAO.delete(bookGrade);
+    }
+
+    @Override
+    public ReadList getReadList(int readListId) {
+        String sql = "SELECT * FROM pap.read_lists WHERE read_list_id = " + readListId;
+        List<ReadList> readLists = readListDAO.query(sql);
+        if (readLists.size() == 0) {
+            return null;
+        }
+        return readLists.get(0);
     }
 
     @Override

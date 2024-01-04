@@ -1,14 +1,19 @@
 package pap.db.Repository;
 
 import pap.db.DAO.EntityDAO.EmployeeDAO;
+import pap.db.DAO.GenericDAO;
 import pap.db.Entities.Branch;
 import pap.db.Entities.Employee;
 import pap.db.Repository.Interface.IEmployeeRepository;
 
 import java.util.List;
 
-public class EmployeeRepository implements IEmployeeRepository {
+public class EmployeeRepository extends GenericRepository<Employee> implements IEmployeeRepository {
     EmployeeDAO employeeDAO = new EmployeeDAO();
+
+    public EmployeeRepository() {
+        super(Employee.class, new EmployeeDAO());
+    }
 
     @Override
     public List<Employee> getByBranchId(int branchId) {
@@ -37,31 +42,6 @@ public class EmployeeRepository implements IEmployeeRepository {
     public List<Employee> getByRole(String role) {
         String sql = "SELECT * FROM pap.employees WHERE role = '" + role + "'";
         return employeeDAO.query(sql);
-    }
-
-    @Override
-    public List<Employee> getAll() {
-        return employeeDAO.getAll();
-    }
-
-    @Override
-    public Employee getById(int id) {
-        return employeeDAO.read(id);
-    }
-
-    @Override
-    public void create(Employee entity) {
-        employeeDAO.create(entity);
-    }
-
-    @Override
-    public void update(Employee entity) {
-        employeeDAO.update(entity);
-    }
-
-    @Override
-    public void delete(Employee entity) {
-        employeeDAO.delete(entity);
     }
 
     @Override

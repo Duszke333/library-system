@@ -4,6 +4,7 @@ import pap.db.DAO.EntityDAO.BookRentalDAO;
 import pap.db.DAO.EntityDAO.PenaltyDAO;
 import pap.db.DAO.EntityDAO.ReadListDAO;
 import pap.db.DAO.EntityDAO.RentingQueueDAO;
+import pap.db.DAO.GenericDAO;
 import pap.db.Entities.BookRental;
 import pap.db.Entities.Penalty;
 import pap.db.Entities.RentingQueue;
@@ -11,39 +12,24 @@ import pap.db.Repository.Interface.IRentalRepository;
 
 import java.util.List;
 
-public class RentalRepository implements IRentalRepository {
+public class RentalRepository extends GenericRepository<BookRental> implements IRentalRepository {
     private BookRentalDAO bookRentalDAO = new BookRentalDAO();
     private PenaltyDAO penaltyDAO = new PenaltyDAO();
     private RentingQueueDAO rentingQueueDAO = new RentingQueueDAO();
 
+    public RentalRepository() {
+        super(BookRental.class, new BookRentalDAO());
+    }
+
+    @Override
+    public List<BookRental> getRentalsByBookId(int id) {
+        String sql = "SELECT * FROM pap.book_rentals WHERE book_id = " + id;
+        return bookRentalDAO.query(sql);
+    }
     @Override
     public List<BookRental> getRentalsByUserId(int id) {
         String sql = "SELECT * FROM pap.book_rentals WHERE user_id = " + id;
         return bookRentalDAO.query(sql);
-    }
-    @Override
-    public List<BookRental> getAll() {
-        return bookRentalDAO.getAll();
-    }
-
-    @Override
-    public BookRental getById(int id) {
-        return bookRentalDAO.read(id);
-    }
-
-    @Override
-    public void create(BookRental entity) {
-        bookRentalDAO.create(entity);
-    }
-
-    @Override
-    public void update(BookRental entity) {
-        bookRentalDAO.update(entity);
-    }
-
-    @Override
-    public void delete(BookRental entity) {
-        bookRentalDAO.delete(entity);
     }
 
     @Override

@@ -66,7 +66,7 @@ create table pap.BOOK_GRADES (
                         Grade_id        serial constraint grade_id_pk primary key,
                         Book_id         integer not null constraint book_id_fk_grade references pap.BOOKS (Book_ID),
                         User_id         integer not null constraint user_id_fk_grade references pap.USERS (Account_ID),
-                        Grade           integer not null check (Grade >= 1 and Grade <= 5),
+                        Grade           numeric(2,1) not null check (Grade >= 1 and Grade <= 5),
                         Date_added      date not null default current_date
 );
 
@@ -197,7 +197,7 @@ values ('f14b30de13f52db28ba5312cef37a02f007d006ed732ff8e445d97ec4726cec91e9e281
 insert into pap.BOOK_GRADES (Book_id, User_id, Grade)
 values (1, 1, 5);
 insert into pap.BOOK_GRADES (Book_id, User_id, Grade)
-values (1, 2, 2);
+values (1, 2, 2.5);
 
 -- Pan Tadeusz
 insert into pap.BOOK_GRADES (Book_id, User_id, Grade)

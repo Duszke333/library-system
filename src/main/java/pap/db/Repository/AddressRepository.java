@@ -2,15 +2,20 @@ package pap.db.Repository;
 
 import pap.db.DAO.EntityDAO.AddressDAO;
 import pap.db.DAO.EntityDAO.UserDAO;
+import pap.db.DAO.GenericDAO;
 import pap.db.Entities.Address;
 import pap.db.Entities.User;
 import pap.db.Repository.Interface.IAddressRepository;
 
 import java.util.List;
 
-public class AddressRepository implements IAddressRepository {
+public class AddressRepository extends GenericRepository<Address> implements IAddressRepository {
     private UserDAO userDAO = new UserDAO();
     private AddressDAO addressDAO = new AddressDAO();
+
+    public AddressRepository() {
+        super(Address.class, new AddressDAO());
+    }
 
     @Override
     public Address getByUser(User user) {
@@ -25,30 +30,5 @@ public class AddressRepository implements IAddressRepository {
         int addressId = user.getAddressId();
         Address address = addressDAO.read(addressId);
         return address;
-    }
-
-    @Override
-    public List<Address> getAll() {
-        return addressDAO.getAll();
-    }
-
-    @Override
-    public Address getById(int id) {
-        return addressDAO.read(id);
-    }
-
-    @Override
-    public void create(Address entity) {
-        addressDAO.create(entity);
-    }
-
-    @Override
-    public void update(Address entity) {
-        addressDAO.update(entity);
-    }
-
-    @Override
-    public void delete(Address entity) {
-        addressDAO.delete(entity);
     }
 }

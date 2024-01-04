@@ -112,6 +112,12 @@ public class BookManagerController implements UpdatableController, Initializable
     }
 
     @FXML
+    protected void viewHistory() {
+        BrowseBookHistoryController.setBookId(book.getBookId());
+        GlobalController.switchVisibleContent(LoadedPages.browseBookHistoryController, LoadedPages.browseBookHistory);
+    }
+
+    @FXML
     protected void deletionConfirmed() {
         deletionStatus.setFill(javafx.scene.paint.Color.RED);
         deletionStatus.setText("Book deleted.");

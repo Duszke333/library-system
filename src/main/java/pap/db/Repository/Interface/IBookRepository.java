@@ -18,9 +18,11 @@ public interface IBookRepository extends IRepository<Book> {
     BookGrade getBookGrade(int bookId);
     List<BookGrade> getAllBookGrades();
     List<BookGrade> getBookGradesByUser(int userId);
+    BookGrade getThisBookGradeByUser(int bookId, int userId);
     void updateBookGrade(BookGrade bookGrade);
     void addBookGrade(BookGrade bookGrade);
     void deleteBookGrade(BookGrade bookGrade);
+    ReadList getReadList(int readListId);
     List<ReadList> getReadListByUser(int userId);
     List<ReadList> getReadListByBook(int bookId);
     void addReadList(ReadList readList);

@@ -13,8 +13,8 @@ import java.sql.Date;
 @NoArgsConstructor
 @Setter
 @Getter
-@Table(name = "book_rentals", schema = "pap", catalog = "pap")
-public class BookRental {
+@Table(name = "book_rentals", schema = "pap", catalog = "postgres")
+public class BookRental implements java.io.Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "rental_id")

@@ -1,12 +1,20 @@
 package pap.db.Entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.sql.Date;
 
 @Entity
-@Table(name = "renting_queue", schema = "pap", catalog = "pap")
-public class RentingQueue {
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@Table(name = "renting_queue", schema = "pap", catalog = "postgres")
+public class RentingQueue implements java.io.Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "queue_id")
@@ -24,43 +32,21 @@ public class RentingQueue {
     @Column(name = "date_to_return")
     private Date dateToReturn;
 
-    public int getQueueId() {
-        return queueId;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof RentingQueue)) return false;
+        RentingQueue rentingQueue = (RentingQueue) o;
+        return getQueueId() == rentingQueue.getQueueId() && getBookId() == rentingQueue.getBookId() && getUserId() == rentingQueue.getUserId() && getDateToRent().equals(rentingQueue.getDateToRent()) && getDateToReturn().equals(rentingQueue.getDateToReturn());
     }
 
-    public void setQueueId(int queueId) {
-        this.queueId = queueId;
-    }
-
-    public int getBookId() {
-        return bookId;
-    }
-
-    public void setBookId(int bookId) {
-        this.bookId = bookId;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    public Date getDateToRent() {
-        return dateToRent;
-    }
-
-    public void setDateToRent(Date dateToRent) {
-        this.dateToRent = dateToRent;
-    }
-
-    public Date getDateToReturn() {
-        return dateToReturn;
-    }
-
-    public void setDateToReturn(Date dateToReturn) {
-        this.dateToReturn = dateToReturn;
+    @Override
+    public int hashCode() {
+        int result = getQueueId();
+        result = 31 * result + getBookId();
+        result = 31 * result + getUserId();
+        result = 31 * result + getDateToRent().hashCode();
+        result = 31 * result + getDateToReturn().hashCode();
+        return result;
     }
 }

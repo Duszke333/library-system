@@ -11,7 +11,8 @@ import javafx.scene.input.MouseEvent;
 
 import pap.db.Entities.Book;
 import pap.db.Repository.BookRepository;
-import pap.helpers.BookViewLoader;
+import pap.helpers.CatalogRecord;
+import pap.helpers.LoadedPages;
 
 import java.net.URL;
 import java.util.Date;
@@ -19,23 +20,17 @@ import java.util.ResourceBundle;
 
 public class BrowseCatalogController implements UpdatableController, Initializable {
     @FXML
-    private TableColumn<Book, String> author;
+    private TableColumn<CatalogRecord, String> author;
     @FXML
-    private TableView<Book> catalog;
+    private TableView<CatalogRecord> catalog;
     @FXML
-    private TableColumn<Book, String> description;
+    private TableColumn<CatalogRecord, String> genre;
     @FXML
-    private TableColumn<Book, String> genre;
+    private TableColumn<CatalogRecord, String> language;
     @FXML
-    private TableColumn<Book, String> language;
+    private TableColumn<CatalogRecord, Double> averageGrade;
     @FXML
-    private TableColumn<Book, Integer> page_count;
-    @FXML
-    private TableColumn<Book, Date> publication_year;
-    @FXML
-    private TableColumn<Book, String> publisher;
-    @FXML
-    private TableColumn<Book, String> title;
+    private TableColumn<CatalogRecord, String> title;
 
     @FXML
     public void getItem(MouseEvent event) {
@@ -47,9 +42,10 @@ public class BrowseCatalogController implements UpdatableController, Initializab
             return;
         }
         int chosenBookID = catalog.getSelectionModel().getSelectedItem().getBookId();
-        Book choosenBook = new BookRepository().getById(chosenBookID);
+        Book chosenBook = new BookRepository().getById(chosenBookID);
 
-        BookViewLoader.load(choosenBook);
+        BookViewController.setBook(chosenBook);
+        GlobalController.switchVisibleContent(LoadedPages.bookViewController, LoadedPages.bookView);
     }
 
 
@@ -57,16 +53,13 @@ public class BrowseCatalogController implements UpdatableController, Initializab
     public void update() {
         catalog.getSelectionModel().clearSelection();
 
-        ObservableList<Book> list = FXCollections.observableArrayList(new BookRepository().getAll());
+        ObservableList<CatalogRecord> list = FXCollections.observableArrayList(CatalogRecord.getAll());
 
-        title.setCellValueFactory(new PropertyValueFactory<Book, String>("title"));
-        author.setCellValueFactory(new PropertyValueFactory<Book, String>("author"));
-        description.setCellValueFactory(new PropertyValueFactory<Book, String>("description"));
-        genre.setCellValueFactory(new PropertyValueFactory<Book, String>("genre"));
-        language.setCellValueFactory(new PropertyValueFactory<Book, String>("language"));
-        page_count.setCellValueFactory(new PropertyValueFactory<Book, Integer>("pageCount"));
-        publication_year.setCellValueFactory(new PropertyValueFactory<Book, Date>("publicationYear"));
-        publisher.setCellValueFactory(new PropertyValueFactory<Book, String>("publisher"));
+        title.setCellValueFactory(new PropertyValueFactory<CatalogRecord, String>("title"));
+        author.setCellValueFactory(new PropertyValueFactory<CatalogRecord, String>("author"));
+        averageGrade.setCellValueFactory(new PropertyValueFactory<CatalogRecord, Double>("averageGrade"));
+        genre.setCellValueFactory(new PropertyValueFactory<CatalogRecord, String>("genre"));
+        language.setCellValueFactory(new PropertyValueFactory<CatalogRecord, String>("language"));
         catalog.setItems(list);
 
         title.setSortType(TableColumn.SortType.ASCENDING);

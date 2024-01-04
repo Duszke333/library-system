@@ -24,12 +24,6 @@
 
         <!-- Konfiguracja mapowania -->
         <mapping resource="mappings.xml" />
-        <mapping class="pap.db.Entities.BookGrade"/>
-        <mapping class="pap.db.Entities.BookRental"/>
-        <mapping class="pap.db.Entities.Penalty"/>
-        <mapping class="pap.db.Entities.ReadList"/>
-        <mapping class="pap.db.Entities.RentingQueue"/>
-        <mapping class="pap.db.Entities.BookWishList"/>
 
     </session-factory>
 </hibernate-configuration>
