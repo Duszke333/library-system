@@ -11,7 +11,7 @@ import javafx.scene.input.MouseEvent;
 
 import pap.db.Entities.Book;
 import pap.db.Repository.BookRepository;
-import pap.helpers.BookViewLoader;
+import pap.helpers.LoadedPages;
 
 import java.net.URL;
 import java.util.Date;
@@ -47,9 +47,10 @@ public class BrowseCatalogController implements UpdatableController, Initializab
             return;
         }
         int chosenBookID = catalog.getSelectionModel().getSelectedItem().getBookId();
-        Book choosenBook = new BookRepository().getById(chosenBookID);
+        Book chosenBook = new BookRepository().getById(chosenBookID);
 
-        BookViewLoader.load(choosenBook);
+        BookViewController.setBook(chosenBook);
+        GlobalController.switchVisibleContent(LoadedPages.bookViewController, LoadedPages.bookView);
     }
 
 
