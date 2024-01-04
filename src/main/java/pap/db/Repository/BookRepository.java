@@ -148,6 +148,16 @@ public class BookRepository implements IBookRepository {
     }
 
     @Override
+    public BookGrade getThisBookGradeByUser(int bookId, int userId) {
+        String sql = "SELECT * FROM pap.book_grades WHERE user_id = " + userId + " AND book_id = " + bookId;
+        List<BookGrade> bookGrades = bookGradeDAO.query(sql);
+        if (bookGrades.size() == 0) {
+            return null;
+        }
+        return bookGrades.get(0);
+    }
+
+    @Override
     public void updateBookGrade(BookGrade bookGrade) {
         bookGradeDAO.update(bookGrade);
     }

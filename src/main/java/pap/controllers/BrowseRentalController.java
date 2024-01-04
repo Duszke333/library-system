@@ -10,7 +10,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import pap.db.Entities.Book;
 import pap.db.Repository.BookRepository;
-import pap.helpers.BookViewLoader;
+import pap.helpers.LoadedPages;
 import pap.helpers.Login;
 import pap.helpers.RentalRecord;
 
@@ -41,9 +41,10 @@ public class BrowseRentalController implements UpdatableController, Initializabl
             return;
         }
         int chosenBookID = rentalCatalog.getSelectionModel().getSelectedItem().getBookId();
-        Book choosenBook = new BookRepository().getById(chosenBookID);
+        Book chosenBook = new BookRepository().getById(chosenBookID);
 
-        BookViewLoader.load(choosenBook);
+        BookViewController.setBook(chosenBook);
+        GlobalController.switchVisibleContent(LoadedPages.bookViewController, LoadedPages.bookView);
     }
     @Override
     public void update() {
