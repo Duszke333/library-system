@@ -95,6 +95,13 @@ create table pap.RENTING_QUEUE (
                         Date_to_return  date not null
 );
 
+create table pap.WISH_LIST (
+                               Wish_id       serial constraint wish_id_pk primary key,
+                               Book_id       integer not null constraint book_id_fk_wish references pap.BOOKS (Book_ID),
+                               User_id       integer not null constraint user_id_fk_wish references pap.USERS (Account_ID),
+                               Date_added    date not null default current_date
+);
+
 create table pap.PENALTIES (
                         Penalty_id      serial constraint penalty_id_pk primary key,
                         User_id         integer not null constraint user_id_fk_penalty references pap.USERS (Account_ID),
@@ -236,3 +243,9 @@ values (1, 1, current_date, current_date, 15);
 -- Bozena
 insert into pap.PENALTIES (User_id, Rental_id, Date_added, Date_paid, Amount)
 values (2, 1, current_date, null, 15);
+
+----------------------------------WISH LIST -----------------------------------
+--User
+INSERT INTO pap.WISH_LIST (User_id, Book_id, Date_added)
+VALUES (1, 4, CURRENT_DATE);
+
