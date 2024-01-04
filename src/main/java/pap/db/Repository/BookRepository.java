@@ -1,5 +1,6 @@
 package pap.db.Repository;
 
+import javafx.util.Pair;
 import pap.db.DAO.EntityDAO.BookDAO;
 import pap.db.DAO.EntityDAO.BookGradeDAO;
 import pap.db.DAO.EntityDAO.BookRentalDAO;
@@ -126,6 +127,27 @@ public class BookRepository extends GenericRepository<Book> implements IBookRepo
         return bookGrades;
     }
 
+    public List<BookGrade> getBookGradesByBook(int bookId) {
+        String sql = "SELECT * FROM pap.book_grades WHERE book_id = " + bookId;
+        List<BookGrade> bookGrades = bookGradeDAO.query(sql);
+        if (bookGrades.size() == 0) {
+            return null;
+        }
+        return bookGrades;
+    }
+
+    public Pair<Integer, Double> getBookGradeCountAndAverageGrade(int bookId) {
+        List<BookGrade> bookGrades = getBookGradesByBook(bookId);
+        if (bookGrades == null) {
+            return null;
+        }
+        int count = bookGrades.size();
+        double sum = 0;
+        for (BookGrade bookGrade : bookGrades) {
+            sum += bookGrade.getGrade();
+        }
+        return new Pair<Integer, Double>(count, Math.round(sum * 100 / count) / 100.0);
+    }
     @Override
     public BookGrade getThisBookGradeByUser(int bookId, int userId) {
         String sql = "SELECT * FROM pap.book_grades WHERE user_id = " + userId + " AND book_id = " + bookId;

@@ -4,6 +4,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.scene.text.Text;
+import javafx.util.Pair;
 import pap.db.Entities.Book;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -44,9 +45,10 @@ public class BookViewController implements UpdatableController, Initializable {
     TextArea descriptionLabel;
     @FXML
     Label isAvailableLabel;
-
     @FXML
     Label dateAddedLabel;
+    @FXML
+    Label grade;
 
     @FXML
     Label orderLabel;
@@ -177,6 +179,12 @@ public class BookViewController implements UpdatableController, Initializable {
         isAvailableLabel.setText("Availability: " + book.getStatus());
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
         dateAddedLabel.setText("Date added: " + dateFormat.format(book.getDateAdded()));
+        Pair<Integer, Double> pair = new BookRepository().getBookGradeCountAndAverageGrade(book.getBookId());
+        if (pair == null) {
+            grade.setText("Grade: 0.0 (this book hasn't been graded yet)");
+            return;
+        }
+        grade.setText("Grade: " + pair.getValue() + " (based on " + pair.getKey() + " grades)");
     }
 
     private void updateGrading() {

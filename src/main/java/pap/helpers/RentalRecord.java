@@ -10,28 +10,18 @@ import pap.db.Repository.UserRepository;
 
 import java.util.List;
 
+@Getter
 public class RentalRecord {
-    @Getter
     private int rentalId;
-    @Getter
     private int bookId;
-    @Getter
     private int userId;
-    @Getter
     private String dateRented;
-    @Getter
     private String dateToReturn;
-    @Getter
     private String dateReturned;
-    @Getter
     private String title;
-    @Getter
     private String author;
-    @Getter
     private String language;
-    @Getter
     private String userFirstName;
-    @Getter
     private String userLastName;
 
     public RentalRecord(BookRental rental) {
