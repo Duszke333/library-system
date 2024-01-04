@@ -146,7 +146,7 @@ public class BookRepository extends GenericRepository<Book> implements IBookRepo
         for (BookGrade bookGrade : bookGrades) {
             sum += bookGrade.getGrade();
         }
-        return new Pair<Integer, Double>(count, Math.round(sum / count) / 100.0);
+        return new Pair<Integer, Double>(count, Math.round(sum * 100 / count) / 100.0);
     }
     @Override
     public BookGrade getThisBookGradeByUser(int bookId, int userId) {
