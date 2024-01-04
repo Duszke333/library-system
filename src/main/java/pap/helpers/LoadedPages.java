@@ -41,6 +41,8 @@ public class LoadedPages {
     public static final UpdatableController browseHistoryController;
     public static final Parent employeeManageParameters;
     public static final UpdatableController employeeManageParametersController;
+    public static final Parent browseBookHistory;
+    public static final UpdatableController browseBookHistoryController;
     
     static {
         try {
@@ -110,6 +112,10 @@ public class LoadedPages {
             var manageParametersLoader = new FXMLLoader(Pap.class.getResource("view/employee-manage-parameters.fxml"));
             employeeManageParameters = manageParametersLoader.load();
             employeeManageParametersController = manageParametersLoader.getController();
+
+            var browseBookHistoryLoader = new FXMLLoader(Pap.class.getResource("view/browse-book-history.fxml"));
+            browseBookHistory = browseBookHistoryLoader.load();
+            browseBookHistoryController = browseBookHistoryLoader.getController();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -12,7 +12,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox alignment="CENTER" spacing="10.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pap.controllers.BookManagerController">
+<VBox alignment="CENTER" spacing="10.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pap.controllers.BookManagerController">
    <children>
       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Update book information" textAlignment="CENTER" wrappingWidth="564.8586883544922">
          <font>
@@ -81,6 +81,11 @@
             <Insets />
          </VBox.margin>
       </GridPane>
+      <VBox>
+         <children>
+            <Button mnemonicParsing="false" onAction="#viewHistory" text="View book rental history" />
+         </children>
+      </VBox>
       <GridPane>
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" maxWidth="187.33331298828125" minWidth="8.6666259765625" prefWidth="113.0" />
