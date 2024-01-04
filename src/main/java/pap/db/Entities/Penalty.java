@@ -13,7 +13,8 @@ import java.sql.Date;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Penalty {
+@Table(name = "penalties", schema = "pap", catalog = "postgres")
+public class Penalty implements java.io.Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "penalty_id")
@@ -36,4 +37,24 @@ public class Penalty {
     @Basic
     @Column(name = "cause")
     private String cause;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Penalty)) return false;
+        Penalty penalty = (Penalty) o;
+        return getPenaltyId() == penalty.getPenaltyId() && getUserId() == penalty.getUserId() && getRentalId() == penalty.getRentalId() && getAmount() == penalty.getAmount() && getDateAdded().equals(penalty.getDateAdded()) && getDatePaid().equals(penalty.getDatePaid()) && getCause().equals(penalty.getCause());
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getPenaltyId();
+        result = 31 * result + getUserId();
+        result = 31 * result + getRentalId();
+        result = 31 * result + getDateAdded().hashCode();
+        result = 31 * result + getDatePaid().hashCode();
+        result = 31 * result + getAmount();
+        result = 31 * result + getCause().hashCode();
+        return result;
+    }
 }

@@ -1,36 +1,17 @@
 package pap.db.Repository;
 
+import pap.db.DAO.GenericDAO;
 import pap.db.Entities.User;
 import pap.db.DAO.EntityDAO.UserDAO;
 import pap.db.Repository.Interface.IUserRepository;
 
 import java.util.List;
 
-public class UserRepository implements IUserRepository {
+public class UserRepository extends GenericRepository<User> implements IUserRepository {
     UserDAO userDAO = new UserDAO();
-    @Override
-    public List<User> getAll() {
-        return userDAO.getAll();
-    }
 
-    @Override
-    public User getById(int id) {
-        return userDAO.read(id);
-    }
-
-    @Override
-    public void create(User entity) {
-        userDAO.create(entity);
-    }
-
-    @Override
-    public void update(User entity) {
-        userDAO.update(entity);
-    }
-
-    @Override
-    public void delete(User entity) {
-        userDAO.delete(entity);
+    public UserRepository() {
+        super(User.class, new UserDAO());
     }
 
     @Override

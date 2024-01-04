@@ -1,12 +1,20 @@
 package pap.db.Entities;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.sql.Date;
 
 @Entity
-@Table(name = "read_list", schema = "pap", catalog = "pap")
-public class ReadList {
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@Table(name = "read_list", schema = "pap", catalog = "postgres")
+public class ReadList implements java.io.Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "read_list_id")
@@ -21,35 +29,20 @@ public class ReadList {
     @Column(name = "date_added")
     private Date dateAdded;
 
-    public int getReadListId() {
-        return readListId;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ReadList)) return false;
+        ReadList readList = (ReadList) o;
+        return getReadListId() == readList.getReadListId() && getUserId() == readList.getUserId() && getBookId() == readList.getBookId() && getDateAdded().equals(readList.getDateAdded());
     }
 
-    public void setReadListId(int readListId) {
-        this.readListId = readListId;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    public int getBookId() {
-        return bookId;
-    }
-
-    public void setBookId(int bookId) {
-        this.bookId = bookId;
-    }
-
-    public Date getDateAdded() {
-        return dateAdded;
-    }
-
-    public void setDateAdded(Date dateAdded) {
-        this.dateAdded = dateAdded;
+    @Override
+    public int hashCode() {
+        int result = getReadListId();
+        result = 31 * result + getUserId();
+        result = 31 * result + getBookId();
+        result = 31 * result + getDateAdded().hashCode();
+        return result;
     }
 }

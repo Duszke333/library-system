@@ -3,6 +3,7 @@ package pap.db.Repository;
 import pap.db.DAO.EntityDAO.AddressDAO;
 import pap.db.DAO.EntityDAO.BranchDAO;
 import pap.db.DAO.EntityDAO.EmployeeDAO;
+import pap.db.DAO.GenericDAO;
 import pap.db.Entities.Address;
 import pap.db.Entities.Branch;
 import pap.db.Entities.Employee;
@@ -10,10 +11,14 @@ import pap.db.Repository.Interface.IBranchRepository;
 
 import java.util.List;
 
-public class BranchRepository implements IBranchRepository {
+public class BranchRepository extends GenericRepository<Branch> implements IBranchRepository {
     BranchDAO branchDAO = new BranchDAO();
     EmployeeDAO employeeDAO = new EmployeeDAO();
     AddressDAO addressDAO = new AddressDAO();
+
+    public BranchRepository() {
+        super(Branch.class, new BranchDAO());
+    }
 
     @Override
     public Branch getByEmployeeId(int employeeId) {

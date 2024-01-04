@@ -41,6 +41,9 @@ public class HelperMethods {
             }
             id = books.get(0).getBookId();
             session.getTransaction().commit();
+        } catch (Exception e) {
+            System.out.println("Error while getting id of book " + book.getTitle());
+            return -1;
         }
         return id;
     }
@@ -59,6 +62,9 @@ public class HelperMethods {
             }
             id = addresses.get(0).getAddressId();
             session.getTransaction().commit();
+        } catch (Exception e) {
+            System.out.println("Error while getting id of address " + address.getStreet() + " " + address.getHouseNumber() + "/" + address.getFlatNumber());
+            return -1;
         }
         return id;
     }
@@ -73,6 +79,9 @@ public class HelperMethods {
             }
             id = users.get(0).getAccountId();
             session.getTransaction().commit();
+        } catch (Exception e) {
+            System.out.println("Error while getting id of user " + user.getEmail());
+            return -1;
         }
         return id;
     }
@@ -87,6 +96,9 @@ public class HelperMethods {
             }
             id = branches.get(0).getBranchId();
             session.getTransaction().commit();
+        } catch (Exception e) {
+            System.out.println("Error while getting id of branch " + branch.getName());
+            return -1;
         }
         return id;
     }
@@ -101,6 +113,9 @@ public class HelperMethods {
             }
             id = employees.get(0).getEmployeeId();
             session.getTransaction().commit();
+        } catch (Exception e) {
+            System.out.println("Error while getting id of employee " + employee.getUsername());
+            return -1;
         }
         return id;
     }
