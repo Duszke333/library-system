@@ -144,14 +144,14 @@ public class BookViewController implements UpdatableController, Initializable {
 
     public void orderButtonClicked(MouseEvent mouseEvent){
         gradeText.setText("Your grade: "+ gradeSlider.getValue());
+        int logged;
+        try {
+            logged = Login.getUserLoggedIn().get();
+        } catch (Exception e) {
+            orderLabel.setText("You need to be logged in to borrow a book");
+            return;
+        }
         if(book.getStatus().equals(Book.BookStatus.Available)){
-            int logged;
-            try {
-                logged = Login.getUserLoggedIn().get();
-            } catch (Exception e) {
-                orderLabel.setText("You need to be logged in to borrow a book");
-                return;
-            }
             book.setStatus(BookStatus.Unavailable);
             new BookRepository().update(book);
             BookRental rent = new BookRental();
