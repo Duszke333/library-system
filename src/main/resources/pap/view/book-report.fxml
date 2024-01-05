@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="520.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pap.controllers.BookReportController">
+    <children>
+        <Label fx:id="reportLabel" layoutX="239.0" layoutY="61.0" text="Choose the type of report" AnchorPane.leftAnchor="239.0" />
+      <ChoiceBox fx:id="reportBox" layoutX="232.0" layoutY="100.0" prefWidth="150.0" />
+      <TextArea fx:id="reportText" layoutX="207.0" layoutY="178.0" prefHeight="200.0" prefWidth="200.0" />
+      <Button fx:id="confirmButton" layoutX="407.0" layoutY="431.0" mnemonicParsing="false" onMouseClicked="#confirmButtonClicked" text="Confrim" />
+      <Button fx:id="cancelButton" layoutX="491.0" layoutY="431.0" mnemonicParsing="false" onMouseClicked="#cancelButtonClicked" text="Cancel" />
+    </children>
+</AnchorPane>
