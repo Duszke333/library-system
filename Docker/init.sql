@@ -70,7 +70,7 @@ create table pap.BOOK_GRADES (
                         Date_added      date not null default current_date
 );
 
-create table pap.WISH_LIST (
+create table pap.WISHLIST (
                                Wish_id       serial constraint wish_id_pk primary key,
                                Book_id       integer not null constraint book_id_fk_wish references pap.BOOKS (Book_ID),
                                User_id       integer not null constraint user_id_fk_wish references pap.USERS (Account_ID),
@@ -105,6 +105,18 @@ create table pap.PENALTIES (
                         Amount          integer not null check (Amount > 0),
                         Cause           varchar(256) not null default 'The deadline for returning the book has been exceeded.'
 );
+
+create table pap.REPORTS (
+                        Report_id      serial constraint report_id_pk primary key ,
+                        Book_id        integer not null constraint book_id_fk_report references pap.BOOKS (Book_ID),
+                        User_id        integer not null constraint user_id_fk_report references pap.USERS (Account_ID),
+                        report_type    varchar(256) not null,
+                        description    TEXT,
+                        report_date    date not null default current_date,
+                        resolved       boolean default false
+
+);
+
 
 --------------------- ADDRESSES ---------------------
 -- Polish library branch address
