@@ -196,6 +196,7 @@ public class BookViewController implements UpdatableController, Initializable {
         publisherLabel.setText("Publisher: " + book.getPublisher());
         descriptionLabel.setText("Description: " + book.getDescription());
         isAvailableLabel.setText("Availability: " + book.getStatus());
+        orderLabel.setText("");
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
         dateAddedLabel.setText("Date added: " + dateFormat.format(book.getDateAdded()));
         Pair<Integer, Double> pair = new BookRepository().getBookGradeCountAndAverageGrade(book.getBookId());
