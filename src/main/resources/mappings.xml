@@ -13,4 +13,5 @@
     <entity class="pap.db.Entities.ReadList"/>
     <entity class="pap.db.Entities.RentingQueue"/>
     <entity class="pap.db.Entities.BookWishList"/>
+    <entity class="pap.db.Entities.BookReport"/>
 </entity-mappings>
