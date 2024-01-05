@@ -53,6 +53,8 @@ public class LoadedPages {
     public static final UpdatableController employeeManageBranchesController;
     public static final Parent branchManager;
     public static final UpdatableController branchManagerController;
+    public static final Parent reportBookView;
+    public static final UpdatableController reportBookViewController;
     
     static {
         try {
@@ -146,6 +148,10 @@ public class LoadedPages {
             var branchManagerLoader = new FXMLLoader(Pap.class.getResource("view/branch-manage.fxml"));
             branchManager = branchManagerLoader.load();
             branchManagerController = branchManagerLoader.getController();
+
+            var reportBookLoader = new FXMLLoader(Pap.class.getResource("view/book-report.fxml"));
+            reportBookView = reportBookLoader.load();
+            reportBookViewController = reportBookLoader.getController();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
