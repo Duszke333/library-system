@@ -28,6 +28,13 @@ public class BookWishList {
     @Basic
     @Column(name = "date_added")
     private Date dateAdded;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof BookWishList)) return false;
+        BookWishList wishList = (BookWishList) o;
+        return getWishListId() == wishList.getWishListId() && getUserId() == wishList.getUserId() && getBookId() == wishList.getBookId() && getDateAdded().equals(wishList.getDateAdded());
+    }
 
 
 }

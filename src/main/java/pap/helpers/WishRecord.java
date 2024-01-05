@@ -25,11 +25,11 @@ public class WishRecord {
     @Getter
     private String language;
 
-    public WishRecord(BookWishList rental) {
-        this.wishId = rental.getWishListId();
-        this.bookId = rental.getBookId();
-        this.userId = rental.getUserId();
-        this.dateAdded = rental.getDateAdded().toString();
+    public WishRecord(BookWishList wishList) {
+        this.wishId = wishList.getWishListId();
+        this.bookId = wishList.getBookId();
+        this.userId = wishList.getUserId();
+        this.dateAdded = wishList.getDateAdded().toString();
 
         Book book = new BookRepository().getById(bookId);
         this.title = book.getTitle();

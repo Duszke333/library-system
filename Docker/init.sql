@@ -70,13 +70,12 @@ create table pap.BOOK_GRADES (
                         Date_added      date not null default current_date
 );
 
-create table pap.READ_LIST (
-                        Read_list_id    serial constraint read_list_id_pk primary key,
-                        User_id         integer not null constraint user_id_fk_read_list references pap.USERS (Account_ID),
-                        Book_id         integer not null constraint book_id_fk_read_list references pap.BOOKS (Book_ID),
-                        Date_added      date not null default current_date
+create table pap.WISH_LIST (
+                               Wish_id       serial constraint wish_id_pk primary key,
+                               Book_id       integer not null constraint book_id_fk_wish references pap.BOOKS (Book_ID),
+                               User_id       integer not null constraint user_id_fk_wish references pap.USERS (Account_ID),
+                               Date_added    date not null default current_date
 );
-
 
 create table pap.BOOK_RENTALS (
                         Rental_id       serial constraint rental_id_pk primary key,
@@ -95,12 +94,7 @@ create table pap.RENTING_QUEUE (
                         Date_to_return  date not null
 );
 
-create table pap.WISH_LIST (
-                               Wish_id       serial constraint wish_id_pk primary key,
-                               Book_id       integer not null constraint book_id_fk_wish references pap.BOOKS (Book_ID),
-                               User_id       integer not null constraint user_id_fk_wish references pap.USERS (Account_ID),
-                               Date_added    date not null default current_date
-);
+
 
 create table pap.PENALTIES (
                         Penalty_id      serial constraint penalty_id_pk primary key,
@@ -203,19 +197,19 @@ values (1, 2, 2.5);
 insert into pap.BOOK_GRADES (Book_id, User_id, Grade)
 values (2, 1, 3);
 
---------------------- Read list ---------------------
+--------------------- Wish list ---------------------
 -- User
-insert into pap.READ_LIST (User_id, Book_id)
+insert into pap.WISH_LIST (User_id, Book_id)
 values (1, 1);
-insert into pap.READ_LIST (User_id, Book_id)
+insert into pap.WISH_LIST (User_id, Book_id)
 values (1, 2);
-insert into pap.READ_LIST (User_id, Book_id)
+insert into pap.WISH_LIST (User_id, Book_id)
 values (1, 5);
 
 -- Bozena
-insert into pap.READ_LIST (User_id, Book_id)
+insert into pap.WISH_LIST (User_id, Book_id)
 values (2, 4);
-insert into pap.READ_LIST (User_id, Book_id)
+insert into pap.WISH_LIST (User_id, Book_id)
 values (2, 3);
 
 --------------------- Book rentals ---------------------
@@ -244,8 +238,4 @@ values (1, 1, current_date, current_date, 15);
 insert into pap.PENALTIES (User_id, Rental_id, Date_added, Date_paid, Amount)
 values (2, 1, current_date, null, 15);
 
-----------------------------------WISH LIST -----------------------------------
---User
-INSERT INTO pap.WISH_LIST (User_id, Book_id, Date_added)
-VALUES (1, 4, CURRENT_DATE);
 
