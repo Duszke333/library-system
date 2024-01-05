@@ -127,12 +127,12 @@ public class BookViewController implements UpdatableController, Initializable {
     public void displayWishStatus() {
         int uid = Login.getUserLoggedIn().orElse(-1);
         wishLabel.setText("");
-        wishButton.setText("Add book to wish list");
+        wishButton.setText("Add a book to the wishlist");
         if (uid == -1){
             return;
         }
-        if(!(new WishRepository().getWishListByUserAndBook(uid, book.getBookId()).isEmpty())){
-            wishButton.setText("Remove from wish list");
+        if(!(new WishRepository().getWishListByUserAndBook(uid, book.getBookId()) == null)){
+            wishButton.setText("Remove a book from the wishlist");
         }
     }
 
@@ -149,7 +149,7 @@ public class BookViewController implements UpdatableController, Initializable {
             try {
                 logged = Login.getUserLoggedIn().get();
             } catch (Exception e) {
-                orderLabel.setText("Musisz być zalogowany, aby wypożyczyć książkę");
+                orderLabel.setText("You need to be logged in to borrow a book");
                 return;
             }
             book.setStatus(BookStatus.Unavailable);
@@ -236,25 +236,24 @@ public class BookViewController implements UpdatableController, Initializable {
     public void wishButtonClicked(MouseEvent mouseEvent){
         int uid = Login.getUserLoggedIn().orElse(-1);
         if (uid == -1){
-            wishButton.setText("Add book to wish list");
-            wishLabel.setText("Musisz być zalogowany, aby dodać do listy życzeń");
+            wishButton.setText("Add a book to the wishlist");
+            wishLabel.setText("Login to add a book to wishlist");
             return;
         }
         BookWishList wish = new BookWishList();
-        WishRepository wish_repo = new WishRepository();
-        List<BookWishList> wishListByUserAndBook = wish_repo.getWishListByUserAndBook(uid, book.getBookId());
-        if (wishListByUserAndBook.isEmpty()) {
+        WishRepository wishRepo = new WishRepository();
+        BookWishList wishListByUserAndBook = wishRepo.getWishListByUserAndBook(uid, book.getBookId());
+        if (wishListByUserAndBook == null) {
             wish.setBookId(book.getBookId());
             wish.setUserId(uid);
             wish.setDateAdded(new java.sql.Date(System.currentTimeMillis()));
             new WishRepository().create(wish);
-            wishButton.setText("Remove from wish list");
-            wishLabel.setText("Book added to wish list successfully!");
+            wishButton.setText("Remove a book from the wishlist");
+            wishLabel.setText("Book added to wishlist");
         }else{
-            BookWishList wish_to_delete = wishListByUserAndBook.get(0);
-            new WishRepository().delete(wish_to_delete);
-            wishLabel.setText("Book removed from wish list successfully");
-            wishButton.setText("Add book to wish list");
+            new WishRepository().delete(wishListByUserAndBook);
+            wishLabel.setText("Book removed from wishlist");
+            wishButton.setText("Add a book to the wishlist");
         }
     }
 
