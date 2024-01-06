@@ -95,9 +95,4 @@ public class RentalRepository extends GenericRepository<BookRental> implements I
         String sql = "SELECT * FROM pap.renting_queues WHERE book_id = " + bookId + " AND user_id = " + userId;
         return rentingQueueDAO.query(sql).get(0);
     }
-
-    public Integer getRentingQueueLength(int BookId) {
-        List<RentingQueue> queue = getRentingQueuesByBookId(BookId);
-        return queue.size();
-    }
 }
