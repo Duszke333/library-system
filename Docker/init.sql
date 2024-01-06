@@ -83,7 +83,8 @@ create table pap.BOOK_RENTALS (
                         User_id         integer not null constraint user_id_fk_rental references pap.USERS (Account_ID),
                         Date_rented     date not null default current_date,
                         Date_to_return  date not null default current_date + interval '1 month',
-                        Date_returned   date
+                        Date_returned   date,
+                        Was_prolonged   bool not null default False
 );
 
 create table pap.RENTING_QUEUE (
