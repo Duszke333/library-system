@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="520.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pap.controllers.BookViewController">
+<AnchorPane prefHeight="520.0" prefWidth="684.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pap.controllers.BookViewController">
    <children>
       <Label fx:id="titleLabel" layoutX="58.0" layoutY="57.0" text="TITLE" AnchorPane.leftAnchor="50.0" />
       <Label fx:id="authorLabel" layoutX="55.0" layoutY="96.0" text="AUTHOR" AnchorPane.leftAnchor="50.0" />
@@ -20,9 +20,13 @@
       <Label fx:id="isAvailableLabel" layoutX="59.0" layoutY="311.0" text="AVAILABLE" AnchorPane.leftAnchor="50.0" />
       <Label fx:id="dateAddedLabel" layoutX="58.0" layoutY="342.0" text="DATE ADDED" AnchorPane.leftAnchor="50.0" />
       <Label fx:id="grade" layoutX="50.0" layoutY="374.0" text="AVERAGE GRADE" />
-      <Button fx:id="orderButton" layoutX="385.0" layoutY="90.0" mnemonicParsing="false" onMouseClicked="#orderButtonClicked" text="ORDER" />
-      <Label fx:id="orderLabel" layoutX="355.0" layoutY="126.0" />
-      <TextArea fx:id="descriptionLabel" editable="false" layoutX="312.0" layoutY="160.0" prefHeight="200.0" prefWidth="200.0" wrapText="true" />
+      <VBox alignment="CENTER" layoutX="355.0" layoutY="90.0">
+         <children>
+            <Button fx:id="actionButton" mnemonicParsing="false" onAction="#orderPressed" text="ORDER" />
+            <Label fx:id="actionLabel" />
+         </children>
+      </VBox>
+      <TextArea fx:id="descriptionLabel" editable="false" layoutX="317.0" layoutY="228.0" prefHeight="200.0" prefWidth="200.0" wrapText="true" />
       <VBox alignment="CENTER" layoutX="47.0" layoutY="411.0" prefHeight="91.0" prefWidth="215.0">
          <children>
             <Text fx:id="gradeText" strokeType="OUTSIDE" strokeWidth="0.0" text="Your grade: 1.0" />
@@ -33,5 +37,11 @@
       </VBox>
       <Button fx:id="wishButton" layoutX="470.0" layoutY="31.0" mnemonicParsing="false" onMouseClicked="#wishButtonClicked" text="Add a book to the wishlist" />
       <Label fx:id="wishLabel" layoutX="470.0" layoutY="65.0" />
+      <VBox alignment="CENTER" layoutX="307.0" layoutY="146.0">
+         <children>
+            <Button fx:id="returnButton" mnemonicParsing="false" onAction="#returnPressed" text="Return book" />
+            <Text fx:id="returnText" strokeType="OUTSIDE" strokeWidth="0.0" text="You must return this book before {date}" />
+         </children>
+      </VBox>
    </children>
 </AnchorPane>
