@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+
+<TableView fx:id="issueCatalog" onMouseClicked="#getItem" tableMenuButtonVisible="true" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pap.controllers.EmployeeIssueController">
+    <columns>
+        <TableColumn fx:id="dateReported" maxWidth="-1.0" minWidth="-1.0" prefWidth="-1.0" text="Date Reported" />
+        <TableColumn fx:id="reportType" maxWidth="-1.0" minWidth="-1.0" prefWidth="-1.0" text="Report Type" />
+        <TableColumn fx:id="userId" maxWidth="-1.0" minWidth="-1.0" prefWidth="-1.0" text="User ID" />
+        <TableColumn fx:id="userFirstName" maxWidth="-1.0" minWidth="-1.0" prefWidth="-1.0" text="First Name" />
+        <TableColumn fx:id="userLastName" maxWidth="-1.0" minWidth="-1.0" prefWidth="-1.0" text="Last Name" />
+        <TableColumn fx:id="bookId" maxWidth="-1.0" minWidth="-1.0" prefWidth="-1.0" text="Book ID" />
+        <TableColumn fx:id="title" maxWidth="-1.0" minWidth="-1.0" prefWidth="-1.0" text="Title" />
+        <TableColumn fx:id="author" maxWidth="-1.0" minWidth="-1.0" prefWidth="-1.0" text="Author" />
+    </columns>
+</TableView>
+
+
