@@ -216,18 +216,20 @@ values (2, 3);
 -- User returned the book
 insert into pap.BOOK_RENTALS (Book_id, User_id, Date_rented, Date_to_return, Date_returned)
 values (1, 1, current_date - interval '1 month', current_date, current_date);
+
 -- User just rented the book
 insert into pap.BOOK_RENTALS (Book_id, User_id, Date_rented, Date_to_return)
 values (2, 1, current_date, current_date + interval '1 month');
+update pap.BOOKS set Status = 'Rented' where Book_id = 2;
 
 --------------------------------- RENTING QUEUE ---------------------------------
 -- User
 insert into pap.RENTING_QUEUE (Book_id, User_id, Date_to_rent, Date_to_return)
-values (3, 1, current_date + interval '1 month', current_date + interval '2 months');
+values (2, 1, current_date + interval '1 month', current_date + interval '2 months');
 
 -- Bozena
 insert into pap.RENTING_QUEUE (Book_id, User_id, Date_to_rent, Date_to_return)
-values (3, 2, current_date + interval '2 months', current_date + interval '3 months');
+values (2, 2, current_date + interval '2 months', current_date + interval '3 months');
 
 --------------------------------- PENALTIES ---------------------------------
 -- User
