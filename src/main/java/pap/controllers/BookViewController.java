@@ -1,27 +1,23 @@
 package pap.controllers;
 
+import javafx.collections.FXCollections;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Slider;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.text.Text;
 import javafx.util.Pair;
-import pap.db.Entities.Book;
+import pap.db.DAO.EntityDAO.UserDAO;
+import pap.db.Entities.*;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.Button;
 import lombok.Setter;
 
 import static pap.db.Entities.Book.*;
 
 
 import javafx.scene.input.MouseEvent;
-import pap.db.Entities.BookGrade;
-import pap.db.Entities.BookRental;
-import pap.db.Entities.BookWishList;
-import pap.db.Repository.BookRepository;
-import pap.db.Repository.RentalRepository;
-import pap.db.Repository.WishRepository;
+import pap.db.Repository.*;
+import pap.helpers.LoadedPages;
 import pap.helpers.Login;
+import pap.helpers.RentalRecord;
 
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -79,6 +75,9 @@ public class BookViewController implements UpdatableController, Initializable {
     @FXML
     Text gradeStatus;
 
+    @FXML
+    Button reportButton;
+
     @Deprecated
     public void displayTitle(String title) {
         titleLabel.setText("Tytuł: " + title);
@@ -134,6 +133,15 @@ public class BookViewController implements UpdatableController, Initializable {
         if(!(new WishRepository().getWishListByUserAndBook(uid, book.getBookId()) == null)){
             wishButton.setText("Remove a book from the wishlist");
         }
+    }
+
+    public void showReportButton(){
+        int uid = Login.getUserLoggedIn().orElse(-1);
+        if (uid == -1 || new RentalRepository().isRentedByUser(uid, book.getBookId())){
+            reportButton.setVisible(false);
+            return;
+        }
+        reportButton.setVisible(true);
     }
 
     public void displayDateAdded(Date dateAdded) {
@@ -258,11 +266,30 @@ public class BookViewController implements UpdatableController, Initializable {
         }
     }
 
+    public void reportButtonClicked(MouseEvent mouseEvent){
+        BookReport existingReport = new ReportRepository().getReportByUserAndBook(Login.getUserLoggedIn().get(), book.getBookId());
+        if (existingReport == null) {
+            BookReportController.setBook(book);
+            BookReportController.setUserId(Login.getUserLoggedIn().get());
+            GlobalController.switchVisibleContent(LoadedPages.reportBookViewController, LoadedPages.reportBookView);
+        } else {
+            Alert alreadyReportedAlert = new Alert(
+                    Alert.AlertType.WARNING,
+                    "You have already reported this book. You report is pending.",
+                    ButtonType.OK
+            );
+            alreadyReportedAlert.setHeaderText("Already Reported");
+            alreadyReportedAlert.showAndWait();
+        }
+
+    }
+
     @Override
     public void update() {
         updateDisplay();
         updateGrading();
         displayWishStatus();
+        showReportButton();
     }
 
     @Override

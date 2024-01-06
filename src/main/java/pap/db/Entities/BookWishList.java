@@ -13,7 +13,7 @@ import java.sql.Date;
 @NoArgsConstructor
 @Setter
 @Getter
-@Table(name = "wish_list", schema = "pap", catalog = "pap")
+@Table(name = "wishlist", schema = "pap", catalog = "pap")
 public class BookWishList {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id

@@ -11,13 +11,13 @@ public class WishRepository implements IBookWishList {
 
     @Override
     public List<BookWishList> getWishListByUserId(int id) {
-        String sql = "SELECT * FROM pap.wish_list WHERE user_id = " + id;
+        String sql = "SELECT * FROM pap.wishlist WHERE user_id = " + id;
         return bookWishListDAO.query(sql);
     }
 
     @Override
     public BookWishList getWishListByUserAndBook(int userId, int bookId) {
-        String sql = "SELECT * FROM pap.wish_list WHERE user_id = " + userId + " AND book_id = " + bookId;
+        String sql = "SELECT * FROM pap.wishlist WHERE user_id = " + userId + " AND book_id = " + bookId;
         List<BookWishList> wishList =  bookWishListDAO.query(sql);
         if (!wishList.isEmpty()){
             return wishList.get(0);
