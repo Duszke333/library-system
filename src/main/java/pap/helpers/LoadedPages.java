@@ -55,6 +55,11 @@ public class LoadedPages {
     public static final UpdatableController branchManagerController;
     public static final Parent reportBookView;
     public static final UpdatableController reportBookViewController;
+    public static final Parent manageIssue;
+    public static final UpdatableController manageIssueController;
+    public static final Parent showIssue;
+    public static final UpdatableController showIssueController;
+
     
     static {
         try {
@@ -152,6 +157,14 @@ public class LoadedPages {
             var reportBookLoader = new FXMLLoader(Pap.class.getResource("view/book-report.fxml"));
             reportBookView = reportBookLoader.load();
             reportBookViewController = reportBookLoader.getController();
+
+            var manageIssueLoader = new FXMLLoader(Pap.class.getResource("view/employee-issue-manage.fxml"));
+            manageIssue = manageIssueLoader.load();
+            manageIssueController = manageIssueLoader.getController();
+
+            var showIssueLoader = new FXMLLoader(Pap.class.getResource("view/employee-show-issue.fxml"));
+            showIssue = showIssueLoader.load();
+            showIssueController = showIssueLoader.getController();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
