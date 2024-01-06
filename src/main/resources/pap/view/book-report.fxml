@@ -13,5 +13,6 @@
       <TextArea fx:id="reportText" layoutX="207.0" layoutY="178.0" prefHeight="200.0" prefWidth="200.0" />
       <Button fx:id="confirmButton" layoutX="407.0" layoutY="431.0" mnemonicParsing="false" onMouseClicked="#confirmButtonClicked" text="Confrim" />
       <Button fx:id="cancelButton" layoutX="491.0" layoutY="431.0" mnemonicParsing="false" onMouseClicked="#cancelButtonClicked" text="Cancel" />
+      <Label layoutX="229.0" layoutY="145.0" text="Explain Book Loss/Damage" />
     </children>
 </AnchorPane>
