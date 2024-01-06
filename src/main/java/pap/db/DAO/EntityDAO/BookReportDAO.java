@@ -10,10 +10,10 @@ import pap.db.Entities.BookReport;
 public class BookReportDAO extends GenericDAO<BookReport> {
 
     public BookReportDAO() {
-        super(BookReport.class, "pap.report");
+        super(BookReport.class, "pap.reports");
     }
 
     public BookReportDAO(SessionFactory factory) {
-        super(BookReport.class, "pap.report", factory);
+        super(BookReport.class, "pap.reports", factory);
     }
 }

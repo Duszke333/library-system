@@ -94,7 +94,7 @@ public class BookReportController implements UpdatableController, Initializable 
             errorAlert.showAndWait();
         }
     }
-
+    @Override
     public void update() {
         reportBox.getItems().clear();
         reportBox.getItems().addAll(BookReport.ReportType.values());
