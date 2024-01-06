@@ -6,10 +6,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import pap.db.Entities.Employee;
 import pap.db.Repository.EmployeeRepository;
+import pap.db.Repository.ReportRepository;
 import pap.helpers.LoadedPages;
 import pap.helpers.Login;
 
@@ -68,14 +70,23 @@ public class EmployeeDashboardController implements UpdatableController {
         var manageParametersItem = new Button("Manage Parameters");
         manageParametersItem.setOnAction(e -> GlobalController.switchVisibleContent(LoadedPages.employeeManageParametersController, LoadedPages.employeeManageParameters));
 
+        var manageIssuesItem = new Button("Issue Management" + " ( " + new ReportRepository().getAll().size() + " )");
+        int test = new ReportRepository().getAll().size();
+        if (test != 0){
+            manageIssuesItem.setTextFill(Paint.valueOf("red"));
+        }
+        manageIssuesItem.setOnAction(e -> GlobalController.switchVisibleContent(LoadedPages.manageIssueController, LoadedPages.manageIssue));
+
         employeeActions.getItems().setAll(List.of(
                 manageCatalogueItem,
                 manageParametersItem,
                 bookCreatorItem,
+                manageIssuesItem,
                 changePassItem,
                 createEmployeeAccountsItem,
                 deactivateAccountItem,
                 signOutItem
+
         ));
     }
 
@@ -96,5 +107,7 @@ public class EmployeeDashboardController implements UpdatableController {
                 empl.isActive(),
                 empl.getDateCreated()
         ));
+        initialize();
+
     }
 }
