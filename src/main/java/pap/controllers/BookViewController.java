@@ -164,7 +164,31 @@ public class BookViewController implements UpdatableController, Initializable {
 
     @FXML
     protected void pickupPressed() {
-        System.out.println("Pickup pressed");
+        // create new rental
+        RentalRepository repo = new RentalRepository();
+        BookRental rental = new BookRental();
+        rental.setBookId(book.getBookId());
+        rental.setUserId(Login.getUserLoggedIn().get());
+        rental.setDateRented(new java.sql.Date(System.currentTimeMillis()));
+        RentingQueue pos = repo.getRentingQueuesByBookId(book.getBookId()).get(0);
+        var date = pos.getDateToReturn();
+        rental.setDateToReturn(date);
+        rental.setWasProlonged(false);
+        repo.create(rental);
+
+        // delete queue entry
+        repo.deleteRentingQueue(pos);
+
+        // update book status
+        if (repo.getRentingQueuesByBookId(book.getBookId()).isEmpty()) {
+            book.setStatus(BookStatus.Rented);
+        } else {
+            book.setStatus(BookStatus.Reserved);
+        }
+        new BookRepository().update(book);
+
+        // inform about operation
+        updateAction();
     }
 
     @FXML
@@ -264,12 +288,10 @@ public class BookViewController implements UpdatableController, Initializable {
         int uid = Login.getUserLoggedIn().orElse(-1);
         if (uid == -1) {                                    // G
             actionButton.setDisable(true);
-            actionLabel.setTextFill(javafx.scene.paint.Color.RED);
             actionLabel.setText("You must be logged in to do that!");
             return;
         }
         actionButton.setDisable(false);
-        actionLabel.setTextFill(Color.WHITE);
 
         if (status.equals(BookStatus.Available)) {      // G
             actionButton.setText("Rent");
