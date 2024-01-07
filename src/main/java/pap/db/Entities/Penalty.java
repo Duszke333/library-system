@@ -1,10 +1,7 @@
 package pap.db.Entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.sql.Date;
 
@@ -40,6 +37,13 @@ public class Penalty implements java.io.Serializable{
     @Basic
     @Column(name = "cause")
     private String cause;
+
+    @Data
+    public static class PenaltyCause {
+        public final static String Lost = "Book has been lost.";
+        public final static String Damaged = "Book has been damaged.";
+        public final static String Late = "The deadline for returning the book has been exceeded.";
+    }
 
     @Override
     public boolean equals(Object o) {
