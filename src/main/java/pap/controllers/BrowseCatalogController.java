@@ -127,21 +127,21 @@ public class BrowseCatalogController implements UpdatableController, Initializab
     }
 
     private void sortCatalogByPopularity(String periodType) {
-        List<Book> bookRentals = new BookRepository().getMostPopular(periodType);
-        ObservableList<CatalogRecord> catalogRecordObservableList = convertToCatalogRecords(bookRentals);
+        List<Book> bookList = new BookRepository().getMostPopular(periodType);
+        ObservableList<CatalogRecord> catalogRecordObservableList = convertToCatalogRecords(bookList);
 
         catalog.setItems(catalogRecordObservableList);
         applySearchFilter(catalogRecordObservableList);
     }
 
-    private ObservableList<CatalogRecord> convertToCatalogRecords(List<Book> bookRentals) {
-        return bookRentals.stream()
-                .map(this::createCatalogRecordFromBookRental)
+    private ObservableList<CatalogRecord> convertToCatalogRecords(List<Book> bookList) {
+        return bookList.stream()
+                .map(this::createCatalogRecordFromBook)
                 .collect(Collectors.toCollection(FXCollections::observableArrayList));
     }
 
-    private CatalogRecord createCatalogRecordFromBookRental(Book bookRental) {
-        return new CatalogRecord(bookRental);
+    private CatalogRecord createCatalogRecordFromBook(Book book) {
+        return new CatalogRecord(book);
     }
 
     @Override
