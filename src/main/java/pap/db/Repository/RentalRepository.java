@@ -34,7 +34,11 @@ public class RentalRepository extends GenericRepository<BookRental> implements I
 
     public BookRental getCurrentBookRental(int id) {
         String sql = "SELECT * FROM pap.book_rentals WHERE book_id = " + id + " AND date_returned IS NULL";
-        return bookRentalDAO.query(sql).get(0);
+        List<BookRental> res = bookRentalDAO.query(sql);
+        if (res == null || res.isEmpty()) {
+            return null;
+        }
+        return res.get(0);
     }
 
     public boolean isRentedByUser(int userId, int bookId){
