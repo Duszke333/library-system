@@ -144,7 +144,7 @@ public class BranchManagerController implements UpdatableController, Initializab
 
     @FXML
     protected void goBack() {
-        GlobalController.switchVisibleContent(LoadedPages.employeeManageBranchesController, LoadedPages.employeeManageBranches);
+        GlobalController.switchVisibleContent(LoadedPages.employeeManageBranches);
     }
 
     @Override

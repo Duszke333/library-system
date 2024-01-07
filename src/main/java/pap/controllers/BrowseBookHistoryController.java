@@ -35,7 +35,7 @@ public class BrowseBookHistoryController implements UpdatableController, Initial
 
     @FXML
     protected void goBack() {
-        GlobalController.switchVisibleContent(LoadedPages.bookManagerController, LoadedPages.bookManager);
+        GlobalController.switchVisibleContent(LoadedPages.bookManager);
     }
 
     @Override

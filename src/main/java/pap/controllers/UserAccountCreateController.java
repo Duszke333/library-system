@@ -45,7 +45,7 @@ public class UserAccountCreateController implements UpdatableController {
 
     @FXML
     private void alreadyAccountButtonPressed() {
-        GlobalController.switchVisibleContent(LoadedPages.loginScreenController, LoadedPages.loginScreen);
+        GlobalController.switchVisibleContent(LoadedPages.loginScreen);
     }
     
     @FXML
