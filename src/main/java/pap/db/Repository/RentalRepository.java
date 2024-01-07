@@ -32,6 +32,21 @@ public class RentalRepository extends GenericRepository<BookRental> implements I
         return bookRentalDAO.query(sql);
     }
 
+    public List<BookRental> getMostPopular(String periodType) {
+        String sql;
+        if (!periodType.equalsIgnoreCase("all_time"))
+        {
+            sql = "SELECT *, COUNT(*) AS rental_count FROM pap.BOOK_RENTALS WHERE Date_rented >= CURRENT_DATE - INTERVAL '1 " + periodType + "' GROUP BY Book_id, rental_id ORDER BY rental_count DESC";
+
+        }else{
+            sql = "SELECT *, COUNT(*) AS rental_count FROM pap.BOOK_RENTALS  GROUP BY Book_id, rental_id ORDER BY rental_count DESC";
+        }
+        return bookRentalDAO.query(sql);
+    }
+
+
+
+
     public boolean isRentedByUser(int userId, int bookId){
         String sql = "SELECT * FROM pap.book_rentals WHERE user_id = " + userId + " AND book_id = " + bookId;
         return bookRentalDAO.query(sql).isEmpty();
