@@ -16,6 +16,7 @@ public class QueueRecord {
     private int queueId;
     private int bookId;
     private int userId;
+    private String date;
     private String title;
     private String author;
     private String language;
@@ -29,6 +30,7 @@ public class QueueRecord {
         this.title = book.getTitle();
         this.author = book.getAuthor();
         this.language = book.getLanguage();
+        this.date = queue.getDateToRent().toString();
         if (book.getStatus().equals(Book.BookStatus.ReadyForPickup) &&
         new RentalRepository().getRentingQueuesByBookId(bookId).get(0).getUserId() == userId) {
             this.ready = true;
