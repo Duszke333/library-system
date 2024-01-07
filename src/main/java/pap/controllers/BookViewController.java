@@ -134,8 +134,10 @@ public class BookViewController implements UpdatableController, Initializable {
         returnDate.setMonth(returnDate.getMonth() + 1);
         queue.setDateToReturn(returnDate);
         repo.createRentingQueue(queue);
-        book.setStatus(BookStatus.Reserved);
-        new BookRepository().update(book);
+        if (!book.getStatus().equals(BookStatus.ReadyForPickup)) {
+            book.setStatus(BookStatus.Reserved);
+            new BookRepository().update(book);
+        }
         actionButton.setDisable(true);
         actionLabel.setText("You have successfully joined the queue. You can pick up the book on " + date);
     }
@@ -160,7 +162,40 @@ public class BookViewController implements UpdatableController, Initializable {
 
     @FXML
     protected void resignPressed() {
-        System.out.println("Resign pressed");
+        RentalRepository repo = new RentalRepository();
+        List<RentingQueue> queue = repo.getRentingQueuesByBookId(book.getBookId());
+        if (queue.size() == 1) {
+            repo.deleteRentingQueue(queue.get(0));
+            if (book.getStatus().equals(BookStatus.ReadyForPickup)) {
+                book.setStatus(BookStatus.Available);
+            } else {
+                book.setStatus(BookStatus.Rented);
+            }
+            new BookRepository().update(book);
+            actionButton.setDisable(true);
+            actionLabel.setText("You have successfully left the queue.");
+            return;
+        }
+        // Shift everyone in queue
+        RentingQueue previous = null;
+        int currentUid = Login.getUserLoggedIn().get();
+        for (RentingQueue entry : queue) {
+            if (entry.getUserId() == currentUid) {
+                previous = entry;
+                continue;
+            }
+            if (previous != null) {
+                int uid = entry.getUserId();
+                previous.setUserId(uid);
+                repo.updateRentingQueue(previous);
+                previous = entry;
+            }
+        }
+        // Delete last entry
+        repo.deleteRentingQueue(previous);
+
+        actionButton.setDisable(true);
+        actionLabel.setText("You have successfully left the queue.");
     }
 
     @FXML
