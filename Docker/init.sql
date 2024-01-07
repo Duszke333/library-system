@@ -212,17 +212,17 @@ values (2, 1, 3);
 
 --------------------- Wish list ---------------------
 -- User
-insert into pap.WISH_LIST (User_id, Book_id)
+insert into pap.WISHLIST (User_id, Book_id)
 values (1, 1);
-insert into pap.WISH_LIST (User_id, Book_id)
+insert into pap.WISHLIST (User_id, Book_id)
 values (1, 2);
-insert into pap.WISH_LIST (User_id, Book_id)
+insert into pap.WISHLIST (User_id, Book_id)
 values (1, 5);
 
 -- Bozena
-insert into pap.WISH_LIST (User_id, Book_id)
+insert into pap.WISHLIST (User_id, Book_id)
 values (2, 4);
-insert into pap.WISH_LIST (User_id, Book_id)
+insert into pap.WISHLIST (User_id, Book_id)
 values (2, 3);
 
 --------------------- Book rentals ---------------------
