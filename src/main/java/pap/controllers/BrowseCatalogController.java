@@ -6,22 +6,22 @@ import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 
-import javafx.scene.layout.AnchorPane;
 import pap.db.Entities.Book;
 import pap.db.Repository.BookRepository;
 import pap.helpers.CatalogRecord;
 import pap.helpers.LoadedPages;
 
 import java.net.URL;
-import java.util.Date;
-import java.util.Locale;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class BrowseCatalogController implements UpdatableController, Initializable {
     @FXML
@@ -38,6 +38,8 @@ public class BrowseCatalogController implements UpdatableController, Initializab
     private TableColumn<CatalogRecord, String> title;
     @FXML
     private TextField searchBar;
+    @FXML
+    private ComboBox<String> sortBox;
 
     @FXML
     public void getItem(MouseEvent event) {
@@ -62,17 +64,22 @@ public class BrowseCatalogController implements UpdatableController, Initializab
 
         ObservableList<CatalogRecord> list = FXCollections.observableArrayList(CatalogRecord.getAll());
 
-        title.setCellValueFactory(new PropertyValueFactory<CatalogRecord, String>("title"));
-        author.setCellValueFactory(new PropertyValueFactory<CatalogRecord, String>("author"));
-        averageGrade.setCellValueFactory(new PropertyValueFactory<CatalogRecord, Double>("averageGrade"));
-        genre.setCellValueFactory(new PropertyValueFactory<CatalogRecord, String>("genre"));
-        language.setCellValueFactory(new PropertyValueFactory<CatalogRecord, String>("language"));
+        title.setCellValueFactory(new PropertyValueFactory<>("title"));
+        author.setCellValueFactory(new PropertyValueFactory<>("author"));
+        averageGrade.setCellValueFactory(new PropertyValueFactory<>("averageGrade"));
+        genre.setCellValueFactory(new PropertyValueFactory<>("genre"));
+        language.setCellValueFactory(new PropertyValueFactory<>("language"));
         catalog.setItems(list);
 
         title.setSortType(TableColumn.SortType.ASCENDING);
         catalog.getSortOrder().add(title);
         catalog.sort();
 
+        applySearchFilter(list);
+        setupSortBox();
+    }
+
+    private void applySearchFilter(ObservableList<CatalogRecord> list) {
         FilteredList<CatalogRecord> filteredList = new FilteredList<>(list, b -> true);
         searchBar.textProperty().addListener((observable, oldValue, newValue) -> {
             filteredList.setPredicate(catalogRecord -> {
@@ -89,7 +96,52 @@ public class BrowseCatalogController implements UpdatableController, Initializab
         SortedList<CatalogRecord> sortedList = new SortedList<>(filteredList);
         sortedList.comparatorProperty().bind(catalog.comparatorProperty());
         catalog.setItems(sortedList);
+    }
+    private void setupSortBox() {
+        ObservableList<String> sortOptions = FXCollections.observableArrayList(
+                "Last Week", "Last Month", "Last Year", "All Time", ""
+        );
+        sortBox.setItems(sortOptions);
+        sortBox.setPromptText("Sort by Popularity");
+        sortBox.setOnAction(event -> {
+            String selectedTimeFrame = sortBox.getSelectionModel().getSelectedItem();
+            if (selectedTimeFrame != null) {
+                switch (selectedTimeFrame) {
+                    case "Last Week":
+                        sortCatalogByPopularity("week");
+                        break;
+                    case "Last Month":
+                        sortCatalogByPopularity("month");
+                        break;
+                    case "Last Year":
+                        sortCatalogByPopularity("year");
+                        break;
+                    case "All Time":
+                        sortCatalogByPopularity("all_time");
+                        break;
+                    default:
+                        update();
+                }
+            }
+        });
+    }
 
+    private void sortCatalogByPopularity(String periodType) {
+        List<Book> bookRentals = new BookRepository().getMostPopular(periodType);
+        ObservableList<CatalogRecord> catalogRecordObservableList = convertToCatalogRecords(bookRentals);
+
+        catalog.setItems(catalogRecordObservableList);
+        applySearchFilter(catalogRecordObservableList);
+    }
+
+    private ObservableList<CatalogRecord> convertToCatalogRecords(List<Book> bookRentals) {
+        return bookRentals.stream()
+                .map(this::createCatalogRecordFromBookRental)
+                .collect(Collectors.toCollection(FXCollections::observableArrayList));
+    }
+
+    private CatalogRecord createCatalogRecordFromBookRental(Book bookRental) {
+        return new CatalogRecord(bookRental);
     }
 
     @Override
@@ -99,7 +151,7 @@ public class BrowseCatalogController implements UpdatableController, Initializab
                 column.setMinWidth(catalog.getWidth() / catalog.getColumns().size());
             });
         });
-        
+        setupSortBox();
         update();
     }
 }
