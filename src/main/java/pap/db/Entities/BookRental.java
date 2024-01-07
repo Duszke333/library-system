@@ -34,4 +34,7 @@ public class BookRental implements java.io.Serializable{
     @Basic
     @Column(name = "date_returned")
     private Date dateReturned;
+    @Basic
+    @Column(name = "was_prolonged")
+    private boolean wasProlonged;
 }

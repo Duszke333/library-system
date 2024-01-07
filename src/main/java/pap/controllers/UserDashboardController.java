@@ -26,7 +26,7 @@ public class UserDashboardController implements UpdatableController {
         var signOutItem = new Button("Sign Out");
         signOutItem.setOnAction(e -> {
             Login.setUserLoggedIn(Optional.empty());
-            GlobalController.switchVisibleContent(LoadedPages.loginScreenController, LoadedPages.loginScreen);
+            GlobalController.switchVisibleContent(LoadedPages.loginScreen);
         });
         
         var deactivateAccountItem = new Button("Deactivate account");
@@ -45,16 +45,16 @@ public class UserDashboardController implements UpdatableController {
         });
         
         var manageItem = new Button("Manage account settings");
-        manageItem.setOnAction(e -> GlobalController.switchVisibleContent(LoadedPages.userAccountManageController, LoadedPages.userAccountManage));
+        manageItem.setOnAction(e -> GlobalController.switchVisibleContent(LoadedPages.userAccountManage));
         
         var browseRentalItem = new Button("Browse rented books");
-        browseRentalItem.setOnAction(e -> GlobalController.switchVisibleContent(LoadedPages.browseRentalController, LoadedPages.browseRental));
+        browseRentalItem.setOnAction(e -> GlobalController.switchVisibleContent(LoadedPages.browseRental));
 
         var browseHistoryItem = new Button("Browse renting history"); 
-        browseHistoryItem.setOnAction(e -> GlobalController.switchVisibleContent(LoadedPages.browseHistoryController, LoadedPages.browseHistory));
+        browseHistoryItem.setOnAction(e -> GlobalController.switchVisibleContent(LoadedPages.browseRentingHistory));
 
         var browseWishListItem = new Button("Browse wishlist");
-        browseWishListItem.setOnAction(e -> GlobalController.switchVisibleContent(LoadedPages.browseWishListController, LoadedPages.browseWishList));
+        browseWishListItem.setOnAction(e -> GlobalController.switchVisibleContent(LoadedPages.browseWishList));
         
         userActions.getItems().setAll(List.of(
                 manageItem,

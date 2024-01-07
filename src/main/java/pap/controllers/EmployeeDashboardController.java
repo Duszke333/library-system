@@ -31,7 +31,7 @@ public class EmployeeDashboardController implements UpdatableController {
         var signOutItem = new Button("Sign Out");
         signOutItem.setOnAction(e -> {
             Login.setEmployeeLoggedIn(Optional.empty());
-            GlobalController.switchVisibleContent(LoadedPages.loginScreenController, LoadedPages.loginScreen);
+            GlobalController.switchVisibleContent(LoadedPages.loginScreen);
         });
 
         var deactivateAccountItem = new Button("Deactivate account");
@@ -45,40 +45,45 @@ public class EmployeeDashboardController implements UpdatableController {
             );
             var result = alert.showAndWait();
             if (result.isPresent() && result.get() == ButtonType.YES) {
-//                Platform.exit(); // TODO Set to inactive and logout
                 EmployeeRepository repo = new EmployeeRepository();
                 Employee emp = repo.getById(Login.getEmployeeLoggedIn().get());
                 emp.setActive(false);
                 repo.update(emp);
+                
+                // Sign out
                 Login.setEmployeeLoggedIn(Optional.empty());
-                GlobalController.switchVisibleContent(LoadedPages.loginScreenController, LoadedPages.loginScreen);
+                GlobalController.switchVisibleContent(LoadedPages.loginScreen);
             }
         });
 
         var changePassItem = new Button("Change password");
-        changePassItem.setOnAction(e -> GlobalController.switchVisibleContent(LoadedPages.employeePasswordChangeController, LoadedPages.employeePasswordChange));
+        changePassItem.setOnAction(e -> GlobalController.switchVisibleContent(LoadedPages.employeePasswordChange));
 
         var manageCatalogueItem = new Button("Manage book catalogue");
-        manageCatalogueItem.setOnAction(e -> GlobalController.switchVisibleContent(LoadedPages.manageCatalogController, LoadedPages.manageCatalog));
+        manageCatalogueItem.setOnAction(e -> GlobalController.switchVisibleContent(LoadedPages.manageCatalog));
 
         var bookCreatorItem = new Button("Add new books");
-        bookCreatorItem.setOnAction(e -> GlobalController.switchVisibleContent(LoadedPages.bookCreatorController, LoadedPages.bookCreator));
+        bookCreatorItem.setOnAction(e -> GlobalController.switchVisibleContent(LoadedPages.bookCreator));
 
         var createEmployeeAccountsItem = new Button("Create new employee accounts");
-        createEmployeeAccountsItem.setOnAction(e -> GlobalController.switchVisibleContent(LoadedPages.employeeAccountCreateController, LoadedPages.employeeAccountCreate));
+        createEmployeeAccountsItem.setOnAction(e -> GlobalController.switchVisibleContent(LoadedPages.employeeAccountCreate));
 
         var manageParametersItem = new Button("Manage Parameters");
-        manageParametersItem.setOnAction(e -> GlobalController.switchVisibleContent(LoadedPages.employeeManageParametersController, LoadedPages.employeeManageParameters));
+        manageParametersItem.setOnAction(e -> GlobalController.switchVisibleContent(LoadedPages.employeeManageParameters));
 
         var manageIssuesItem = new Button("Issue Management" + " ( " + new ReportRepository().getAll().size() + " )");
         int test = new ReportRepository().getAll().size();
-        if (test != 0){
+        if (test != 0) {
             manageIssuesItem.setTextFill(Paint.valueOf("red"));
         }
-        manageIssuesItem.setOnAction(e -> GlobalController.switchVisibleContent(LoadedPages.manageIssueController, LoadedPages.manageIssue));
+        manageIssuesItem.setOnAction(e -> GlobalController.switchVisibleContent(LoadedPages.employeeIssueManage));
+        
+        var manageBranches = new Button("Manage Branches");
+        manageBranches.setOnAction(e -> GlobalController.switchVisibleContent(LoadedPages.employeeManageBranches));
 
         employeeActions.getItems().setAll(List.of(
                 manageCatalogueItem,
+                manageBranches,
                 manageParametersItem,
                 bookCreatorItem,
                 manageIssuesItem,
@@ -86,13 +91,16 @@ public class EmployeeDashboardController implements UpdatableController {
                 createEmployeeAccountsItem,
                 deactivateAccountItem,
                 signOutItem
-
         ));
     }
 
     @Override
     public void update() {
-        var empl = new EmployeeRepository().getById(Login.getEmployeeLoggedIn().get());
+        if (Login.getEmployeeLoggedIn().isEmpty()) {
+            return;
+        }
+        
+        var employee = new EmployeeRepository().getById(Login.getEmployeeLoggedIn().get());
         loginInfo.setWrappingWidth(contentPane.getWidth());
         loginInfo.setFont(Font.font(20));
         loginInfo.setText(String.format(
@@ -103,11 +111,10 @@ public class EmployeeDashboardController implements UpdatableController {
                         Active: %s
                         Created in %s
                         """,
-                empl.getEmployeeId(), empl.getUsername(), empl.getRole(),
-                empl.isActive(),
-                empl.getDateCreated()
+                employee.getEmployeeId(), employee.getUsername(), employee.getRole(),
+                employee.isActive(),
+                employee.getDateCreated()
         ));
         initialize();
-
     }
 }

@@ -44,7 +44,7 @@ public class BrowseRentingHistoryController implements UpdatableController, Init
         Book chosenBook = new BookRepository().getById(chosenBookID);
 
         BookViewController.setBook(chosenBook);
-        GlobalController.switchVisibleContent(LoadedPages.bookViewController, LoadedPages.bookView);
+        GlobalController.switchVisibleContent(LoadedPages.bookView);
     }
     @Override
     public void update() {

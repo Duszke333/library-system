@@ -39,63 +39,61 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane minHeight="480.0" minWidth="640.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pap.controllers.MainViewController">
-   <top>
-      <VBox BorderPane.alignment="CENTER">
-         <children>
-            <MenuBar useSystemMenuBar="true">
-              <menus>
-                  <Menu mnemonicParsing="false" text="File">
-                    <items>
-                        <MenuItem fx:id="menuQuit" onAction="#menuQuitPressed" mnemonicParsing="false" text="Quit" />
-                    </items>
-                  </Menu>
-                <Menu mnemonicParsing="false" text="Help">
-                  <items>
-                    <MenuItem fx:id="menuGotoRepo" onAction="#menuGotoRepoPressed" mnemonicParsing="false" text="Go to repo" />
-                  </items>
-                </Menu>
-              </menus>
-            </MenuBar>
-            <GridPane>
-               <columnConstraints>
-                  <ColumnConstraints halignment="LEFT" hgrow="ALWAYS" percentWidth="30.0" />
-                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" percentWidth="20.0" />
-                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" percentWidth="20.0" />
-                  <ColumnConstraints halignment="RIGHT" hgrow="ALWAYS" percentWidth="30.0" />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-               </rowConstraints>
+<BorderPane minHeight="480.0" minWidth="640.0" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pap.controllers.MainViewController">
+    <top>
+        <VBox BorderPane.alignment="CENTER">
+            <children>
+                <MenuBar useSystemMenuBar="true">
+                    <menus>
+                        <Menu mnemonicParsing="false" text="File">
+                            <items>
+                                <MenuItem fx:id="menuQuit" mnemonicParsing="false" onAction="#menuQuitPressed" text="Quit" />
+                            </items>
+                        </Menu>
+                        <Menu mnemonicParsing="false" text="Help">
+                            <items>
+                                <MenuItem fx:id="menuGotoRepo" mnemonicParsing="false" onAction="#menuGotoRepoPressed" text="Go to repo" />
+                            </items>
+                        </Menu>
+                    </menus>
+                </MenuBar>
+            <HBox alignment="TOP_CENTER" spacing="10.0">
                <children>
-                  <Button fx:id="buttonBack" onAction="#buttonBackPressed" alignment="TOP_LEFT" mnemonicParsing="false" text="Back to main menu" />
-                <Button fx:id="buttonLoginPage" onAction="#buttonLoginPagePressed" mnemonicParsing="false" text="Login Page" GridPane.columnIndex="1" />
-                  <Button fx:id="buttonCatalogue" onAction="#buttonCataloguePressed" mnemonicParsing="false" text="Catalogue" GridPane.columnIndex="2" />
+                          <Button fx:id="buttonLoginPage" minWidth="80.0" mnemonicParsing="false" onAction="#buttonLoginPagePressed" text="Login Page" />
+                          <Button fx:id="buttonCatalogue" minWidth="80.0" mnemonicParsing="false" onAction="#buttonCataloguePressed" text="Catalogue" />
+                          <Button fx:id="buttonBranches" minWidth="80.0" mnemonicParsing="false" onAction="#buttonBranchesPressed" text="Branches" />
                </children>
                <padding>
-                  <Insets bottom="12.0" left="25.0" right="25.0" top="12.0" />
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </padding>
-            </GridPane>
-         </children>
-      </VBox>
-   </top>
-   <center>
-       <fx:include fx:id="userLoginScreen" source="user-login-screen.fxml"/>
-      <StackPane fx:id="contentPane">
+            </HBox>
+            </children>
+        </VBox>
+    </top>
+    <center>
+        <StackPane fx:id="contentPane">
+            <children>
+                <ScrollPane fx:id="scrollPane">
+                    <content>
+                        <Text fx:id="textMainView" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
+                    </content>
+                </ScrollPane>
+            </children>
+        </StackPane>
+    </center>
+   <bottom>
+      <HBox BorderPane.alignment="CENTER">
          <children>
-            <ScrollPane fx:id="scrollPane">
-               <content>
-                  <Text fx:id="textMainView" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" />
-               </content>
-            </ScrollPane>
+                  <Button fx:id="buttonBack" alignment="TOP_LEFT" minWidth="120.0" mnemonicParsing="false" onAction="#buttonBackPressed" text="Back to main menu" />
          </children>
-      </StackPane>
-   </center>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
+      </HBox>
+   </bottom>
 </BorderPane>

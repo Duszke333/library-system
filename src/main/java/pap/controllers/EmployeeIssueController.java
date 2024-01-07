@@ -66,7 +66,7 @@ public class EmployeeIssueController implements UpdatableController, Initializab
         }
         IssueRecord selectedItem = issueCatalog.getSelectionModel().getSelectedItem();
         EmployeeShowIssueController.setSelectedIssueRecord(selectedItem);
-        GlobalController.switchVisibleContent(LoadedPages.showIssueController, LoadedPages.showIssue);
+        GlobalController.switchVisibleContent(LoadedPages.employeeShowIssue);
     }
 
     @Override

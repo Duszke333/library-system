@@ -56,9 +56,11 @@ public class Book implements java.io.Serializable{
 
     @Data
     public static class BookStatus {
-        public static String Available = "Available";
-        public static String Unavailable = "Unavailable";
-        public static String Reserved = "Reserved";
+        public final static String Available = "Available";
+        public final static String Unavailable = "Unavailable";
+        public final static String Reserved = "Reserved";
+        public final static String Rented = "Rented";
+        public final static String ReadyForPickup = "Ready for pickup";
     }
 
     @Override

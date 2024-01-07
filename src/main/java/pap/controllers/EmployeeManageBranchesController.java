@@ -36,13 +36,13 @@ public class EmployeeManageBranchesController implements UpdatableController, In
 
         BranchManagerController.setBranch(new BranchRepository().getById(chosenBranchID));
         BranchManagerController.setCreationMode(false);
-        GlobalController.switchVisibleContent(LoadedPages.branchManagerController, LoadedPages.branchManager);
+        GlobalController.switchVisibleContent(LoadedPages.branchManage);
     }
 
     @FXML
     protected void addPressed() {
         BranchManagerController.setCreationMode(true);
-        GlobalController.switchVisibleContent(LoadedPages.branchManagerController, LoadedPages.branchManager);
+        GlobalController.switchVisibleContent(LoadedPages.branchManage);
     }
 
     @Override

@@ -22,7 +22,7 @@ public class UserLoginScreenController implements UpdatableController {
     private void createAccountButtonPressed() {
         loginEmail.clear();
         loginPassword.clear();
-        GlobalController.switchVisibleContent(LoadedPages.userAccountCreateController, LoadedPages.userAccountCreate);
+        GlobalController.switchVisibleContent(LoadedPages.userAccountCreate);
     }
 
     @FXML
@@ -49,7 +49,7 @@ public class UserLoginScreenController implements UpdatableController {
         }
         else {
             setUserLoggedIn(Optional.of(id));
-            GlobalController.switchVisibleContent(LoadedPages.userDashboardController, LoadedPages.userDashboard);
+            GlobalController.switchVisibleContent(LoadedPages.userDashboard);
         }
     }
 

@@ -42,7 +42,7 @@ public class EmployeeLoginScreenController implements UpdatableController {
         }
         else {
             setEmployeeLoggedIn(Optional.of(id));
-            GlobalController.switchVisibleContent(LoadedPages.employeeDashboardController, LoadedPages.employeeDashboard);
+            GlobalController.switchVisibleContent(LoadedPages.employeeDashboard);
         }
     }
 

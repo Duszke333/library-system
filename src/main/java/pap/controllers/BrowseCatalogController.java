@@ -54,7 +54,7 @@ public class BrowseCatalogController implements UpdatableController, Initializab
         Book chosenBook = new BookRepository().getById(chosenBookID);
 
         BookViewController.setBook(chosenBook);
-        GlobalController.switchVisibleContent(LoadedPages.bookViewController, LoadedPages.bookView);
+        GlobalController.switchVisibleContent(LoadedPages.bookView);
     }
 
 

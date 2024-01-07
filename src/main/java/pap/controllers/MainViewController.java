@@ -2,7 +2,6 @@ package pap.controllers;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
@@ -17,9 +16,6 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
-
-import static pap.helpers.LoadedPages.browseCatalog;
-import static pap.helpers.LoadedPages.loginScreen;
 
 public class MainViewController {
     @FXML
@@ -36,22 +32,22 @@ public class MainViewController {
         
         var welcomeMsg = Files.readString(Path.of("README.md"));
         textMainView.setText(welcomeMsg);
-        textMainView.setFont(Font.font(20));
+        textMainView.setFont(Font.font(22));
         scrollPane.widthProperty().addListener(o -> textMainView.setWrappingWidth(scrollPane.getWidth()));
     }
     
     @FXML
     private void buttonLoginPagePressed() {
         if (Login.getUserLoggedIn().isPresent()) {
-            GlobalController.switchVisibleContent(LoadedPages.userDashboardController, LoadedPages.userDashboard);
+            GlobalController.switchVisibleContent(LoadedPages.userDashboard);
             return;
         } 
-        else if (Login.getEmployeeLoggedIn().isPresent()) {
-            GlobalController.switchVisibleContent(LoadedPages.employeeDashboardController, LoadedPages.employeeDashboard);
+        if (Login.getEmployeeLoggedIn().isPresent()) {
+            GlobalController.switchVisibleContent(LoadedPages.employeeDashboard);
             return;
         }
         
-        GlobalController.switchVisibleContent(LoadedPages.loginScreenController, loginScreen);
+        GlobalController.switchVisibleContent(LoadedPages.loginScreen);
     }
     
     @FXML
@@ -61,7 +57,12 @@ public class MainViewController {
     
     @FXML
     private void buttonCataloguePressed() {
-        GlobalController.switchVisibleContent(LoadedPages.browseCatalogController, browseCatalog);
+        GlobalController.switchVisibleContent(LoadedPages.browseCatalog);
+    }
+    
+    @FXML
+    private void buttonBranchesPressed() {
+        GlobalController.switchVisibleContent(LoadedPages.browseBranches);
     }
     
     @FXML
@@ -73,11 +74,6 @@ public class MainViewController {
         }
     }
 
-    public void setContentPane(Node node) {
-        contentPane.getChildren().clear();
-        contentPane.getChildren().setAll(node);
-    }
-    
     @FXML
     private void menuQuitPressed() {
         Platform.exit();
