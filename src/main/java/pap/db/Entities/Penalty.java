@@ -29,11 +29,14 @@ public class Penalty implements java.io.Serializable{
     @Column(name = "date_added")
     private Date dateAdded;
     @Basic
+    @Column(name = "date_updated")
+    private Date dateUpdated;
+    @Basic
     @Column(name = "date_paid")
     private Date datePaid;
     @Basic
     @Column(name = "amount")
-    private int amount;
+    private double amount;
     @Basic
     @Column(name = "cause")
     private String cause;
@@ -53,7 +56,7 @@ public class Penalty implements java.io.Serializable{
         result = 31 * result + getRentalId();
         result = 31 * result + getDateAdded().hashCode();
         result = 31 * result + getDatePaid().hashCode();
-        result = 31 * result + getAmount();
+        result = 31 * result + (int) getAmount();
         result = 31 * result + getCause().hashCode();
         return result;
     }
