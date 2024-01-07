@@ -48,7 +48,7 @@
             </VBox>
             <VBox alignment="CENTER">
                <children>
-                  <Button fx:id="actionButton" mnemonicParsing="false" onAction="#orderPressed" text="ORDER" />
+                  <Button fx:id="actionButton" mnemonicParsing="false" onAction="#rentPressed" text="ORDER" />
                   <Label fx:id="actionLabel" />
                </children>
             </VBox>
