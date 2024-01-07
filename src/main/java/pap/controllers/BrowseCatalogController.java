@@ -2,13 +2,17 @@ package pap.controllers;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 
+import javafx.scene.layout.AnchorPane;
 import pap.db.Entities.Book;
 import pap.db.Repository.BookRepository;
 import pap.helpers.CatalogRecord;
@@ -16,6 +20,7 @@ import pap.helpers.LoadedPages;
 
 import java.net.URL;
 import java.util.Date;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class BrowseCatalogController implements UpdatableController, Initializable {
@@ -31,6 +36,8 @@ public class BrowseCatalogController implements UpdatableController, Initializab
     private TableColumn<CatalogRecord, Double> averageGrade;
     @FXML
     private TableColumn<CatalogRecord, String> title;
+    @FXML
+    private TextField searchBar;
 
     @FXML
     public void getItem(MouseEvent event) {
@@ -65,6 +72,24 @@ public class BrowseCatalogController implements UpdatableController, Initializab
         title.setSortType(TableColumn.SortType.ASCENDING);
         catalog.getSortOrder().add(title);
         catalog.sort();
+
+        FilteredList<CatalogRecord> filteredList = new FilteredList<>(list, b -> true);
+        searchBar.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredList.setPredicate(catalogRecord -> {
+                if (newValue == null || newValue.trim().isEmpty()) {
+                    return true;
+                }
+                String searchKeyword = newValue.toLowerCase().trim();
+                String title = catalogRecord.getTitle().toLowerCase();
+                String author = catalogRecord.getAuthor().toLowerCase();
+                return title.contains(searchKeyword) || author.contains(searchKeyword);
+            });
+        });
+
+        SortedList<CatalogRecord> sortedList = new SortedList<>(filteredList);
+        sortedList.comparatorProperty().bind(catalog.comparatorProperty());
+        catalog.setItems(sortedList);
+
     }
 
     @Override
