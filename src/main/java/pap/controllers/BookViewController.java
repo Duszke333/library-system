@@ -1,6 +1,7 @@
 package pap.controllers;
 
 import javafx.fxml.Initializable;
+import javafx.scene.control.*;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.scene.paint.Color;
@@ -8,8 +9,6 @@ import javafx.scene.text.Text;
 import javafx.util.Pair;
 import pap.db.Entities.*;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.Button;
 import lombok.Setter;
 
 import static pap.db.Entities.Book.*;
@@ -19,8 +18,11 @@ import javafx.scene.input.MouseEvent;
 import pap.db.Repository.BookRepository;
 import pap.db.Repository.RentalRepository;
 import pap.db.Repository.WishRepository;
+import pap.db.Repository.*;
+import pap.helpers.LoadedPages;
 import pap.helpers.Login;
 import pap.helpers.Parameters;
+import pap.helpers.RentalRecord;
 
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -79,6 +81,9 @@ public class BookViewController implements UpdatableController, Initializable {
 
     @FXML
     Text gradeStatus;
+
+    @FXML
+    Button reportButton;
 
     @Deprecated
     public void displayTitle(String title) {
@@ -140,6 +145,19 @@ public class BookViewController implements UpdatableController, Initializable {
     @FXML
     protected void extendPressed() {
         System.out.println("Extend pressed");
+    }
+    public void showReportButton(){
+        int uid = Login.getUserLoggedIn().orElse(-1);
+        if (uid == -1 || new RentalRepository().isRentedByUser(uid, book.getBookId())){
+            reportButton.setVisible(false);
+            return;
+        }
+        reportButton.setVisible(true);
+    }
+
+    public void displayDateAdded(Date dateAdded) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+        dateAddedLabel.setText("Data dodania: " + dateFormat.format(dateAdded));
     }
 
     @FXML
@@ -339,12 +357,31 @@ public class BookViewController implements UpdatableController, Initializable {
         }
     }
 
+    public void reportButtonClicked(MouseEvent mouseEvent){
+        BookReport existingReport = new ReportRepository().getReportByUserAndBook(Login.getUserLoggedIn().get(), book.getBookId());
+        if (existingReport == null) {
+            BookReportController.setBook(book);
+            BookReportController.setUserId(Login.getUserLoggedIn().get());
+            GlobalController.switchVisibleContent(LoadedPages.reportBookViewController, LoadedPages.reportBookView);
+        } else {
+            Alert alreadyReportedAlert = new Alert(
+                    Alert.AlertType.WARNING,
+                    "You have already reported this book. You report is pending.",
+                    ButtonType.OK
+            );
+            alreadyReportedAlert.setHeaderText("Already Reported");
+            alreadyReportedAlert.showAndWait();
+        }
+
+    }
+
     @Override
     public void update() {
         updateDisplay();
         updateAction();
         updateGrading();
         displayWishStatus();
+        showReportButton();
     }
 
     @Override

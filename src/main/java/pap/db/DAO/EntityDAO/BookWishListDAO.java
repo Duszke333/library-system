@@ -10,10 +10,10 @@ import java.util.List;
 public class BookWishListDAO extends GenericDAO<BookWishList> {
 
     public BookWishListDAO() {
-        super(BookWishList.class, "pap.wish_list");
+        super(BookWishList.class, "pap.wishlist");
     }
 
     public BookWishListDAO(SessionFactory factory) {
-        super(BookWishList.class, "pap.wish_list", factory);
+        super(BookWishList.class, "pap.wishlist", factory);
     }
 }
