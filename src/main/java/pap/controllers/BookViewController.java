@@ -4,7 +4,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.util.Pair;
 import pap.db.Entities.*;
@@ -145,6 +144,7 @@ public class BookViewController implements UpdatableController, Initializable {
     protected void returnPressed() {
         if (book.getStatus().equals(BookStatus.Rented)) {
             book.setStatus(BookStatus.Available);
+            actionButton.setDisable(true);
         } else {
             book.setStatus(BookStatus.ReadyForPickup);
         }
@@ -154,7 +154,8 @@ public class BookViewController implements UpdatableController, Initializable {
         rental.setDateReturned(new java.sql.Date(System.currentTimeMillis()));
         repo.update(rental);
         returnButton.setDisable(true);
-        returnText.setText("You have successfully returned this book.");
+        returnText.setText("");
+        actionLabel.setText("You have successfully returned this book.");
     }
 
     @FXML
@@ -347,7 +348,7 @@ public class BookViewController implements UpdatableController, Initializable {
 
         List<RentingQueue> queue = repo.getRentingQueuesByBookId(book.getBookId());
 
-        if (queue.size() == 0) {
+        if (queue.isEmpty()) {
             actionButton.setText("Reserve");    // G
             actionButton.setOnAction(event -> reservePressed());
             actionLabel.setText("This book is currently rented until" + rental.getDateToReturn() + ". You can reserve it and pick it up on that day.");
@@ -357,7 +358,6 @@ public class BookViewController implements UpdatableController, Initializable {
         // check if user is in queue
         for (RentingQueue userEntry : queue) {
             if (userEntry.getUserId() == uid) {             // G
-                // TODO: check if he can rent the book
                 var pickupDate = userEntry.getDateToRent();
                 actionButton.setText("Leave the queue");
                 actionButton.setOnAction(event -> resignPressed());
