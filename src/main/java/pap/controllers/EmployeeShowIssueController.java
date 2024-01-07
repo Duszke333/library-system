@@ -3,9 +3,10 @@ package pap.controllers;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import lombok.Getter;
 import lombok.Setter;
+import pap.Pap;
 import pap.db.Entities.BookReport;
 import pap.db.Repository.ReportRepository;
 import pap.helpers.IssueRecord;
@@ -42,13 +43,16 @@ public class EmployeeShowIssueController implements UpdatableController, Initial
     private Button confirmButton;
     @FXML
     private Button cancelButton;
+    @FXML
+    private BorderPane contentPane;
+    
     @Setter
     @Getter
-    static IssueRecord selectedIssueRecord =new IssueRecord(new BookReport(1, 1, 1, BookReport.ReportType.LOSS, "", new java.sql.Date(System.currentTimeMillis()), false
-    ));
+    static IssueRecord selectedIssueRecord = new IssueRecord(new BookReport(1, 1, 1, BookReport.ReportType.LOSS, "", new java.sql.Date(System.currentTimeMillis()), false));
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        contentPane.setMaxSize(Pap.getStage().getMinWidth(), Pap.getStage().getMinHeight());
         update();
     }
 
