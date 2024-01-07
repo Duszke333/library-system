@@ -78,6 +78,17 @@ public class RentalRepository extends GenericRepository<BookRental> implements I
         penaltyDAO.delete(entity);
     }
 
+    public void createRentingQueue(RentingQueue entity) {
+        rentingQueueDAO.create(entity);
+    }
+
+    public void updateRentingQueue(RentingQueue entity) {
+        rentingQueueDAO.update(entity);
+    }
+
+    public void deleteRentingQueue(RentingQueue entity) {
+        rentingQueueDAO.delete(entity);
+    }
     @Override
     public RentingQueue getRentingQueueById(int id) {
         return rentingQueueDAO.read(id);
