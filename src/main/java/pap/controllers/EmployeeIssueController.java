@@ -20,6 +20,8 @@ public class EmployeeIssueController implements UpdatableController, Initializab
     @FXML
     private TableView<IssueRecord> issueCatalog;
     @FXML
+    private TableColumn<IssueRecord, Boolean> resolved;
+    @FXML
     private TableColumn<IssueRecord, Date> dateReported;
     @FXML
     private TableColumn<IssueRecord, Integer> userId;
@@ -43,6 +45,7 @@ public class EmployeeIssueController implements UpdatableController, Initializab
         issueCatalog.getSelectionModel().clearSelection();
 
         ObservableList<IssueRecord> list = FXCollections.observableArrayList(IssueRecord.getAll());
+        resolved.setCellValueFactory(new PropertyValueFactory<IssueRecord, Boolean>("resolved"));
         dateReported.setCellValueFactory(new PropertyValueFactory<IssueRecord, Date>("dateReported"));
         reportType.setCellValueFactory(new PropertyValueFactory<IssueRecord, String>("reportType"));
         userId.setCellValueFactory(new PropertyValueFactory<IssueRecord, Integer>("userId"));
@@ -53,6 +56,11 @@ public class EmployeeIssueController implements UpdatableController, Initializab
         bookId.setCellValueFactory(new PropertyValueFactory<IssueRecord, Integer>("bookId"));
         issueCatalog.setItems(list);
 
+        resolved.setSortType(TableColumn.SortType.ASCENDING);
+        issueCatalog.getSortOrder().add(resolved);
+        dateReported.setSortType(TableColumn.SortType.ASCENDING);
+        issueCatalog.getSortOrder().add(dateReported);
+        issueCatalog.sort();
     }
 
     @FXML

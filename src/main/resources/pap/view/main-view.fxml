@@ -64,7 +64,7 @@
                 </MenuBar>
             <HBox alignment="TOP_CENTER" spacing="10.0">
                <children>
-                          <Button fx:id="buttonLoginPage" minWidth="80.0" mnemonicParsing="false" onAction="#buttonLoginPagePressed" text="Login Page" />
+                          <Button fx:id="buttonLoginPage" minWidth="80.0" mnemonicParsing="false" onAction="#buttonLoginPagePressed" text="Account" />
                           <Button fx:id="buttonCatalogue" minWidth="80.0" mnemonicParsing="false" onAction="#buttonCataloguePressed" text="Catalogue" />
                           <Button fx:id="buttonBranches" minWidth="80.0" mnemonicParsing="false" onAction="#buttonBranchesPressed" text="Branches" />
                </children>

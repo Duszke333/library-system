@@ -34,7 +34,8 @@ public class IssueRecord {
     private BookReport.ReportType reportType;
     @Getter
     private Date dateReported;
-
+    @Getter
+    private Boolean resolved;
 
     public IssueRecord(BookReport report) {
         this.reportId = report.getReportId();
@@ -47,6 +48,7 @@ public class IssueRecord {
         this.description = report.getDescription();
         this.reportType = report.getReportType();
         this.dateReported = report.getReportDate();
+        this.resolved = report.isResolved();
     }
 
     public static List<IssueRecord> getAll() {

@@ -1,10 +1,7 @@
 package pap.db.Entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.sql.Date;
 
@@ -29,14 +26,24 @@ public class Penalty implements java.io.Serializable{
     @Column(name = "date_added")
     private Date dateAdded;
     @Basic
+    @Column(name = "date_updated")
+    private Date dateUpdated;
+    @Basic
     @Column(name = "date_paid")
     private Date datePaid;
     @Basic
     @Column(name = "amount")
-    private int amount;
+    private double amount;
     @Basic
     @Column(name = "cause")
     private String cause;
+
+    @Data
+    public static class PenaltyCause {
+        public final static String Lost = "Book has been lost.";
+        public final static String Damaged = "Book has been damaged.";
+        public final static String Late = "The deadline for returning the book has been exceeded.";
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -53,7 +60,7 @@ public class Penalty implements java.io.Serializable{
         result = 31 * result + getRentalId();
         result = 31 * result + getDateAdded().hashCode();
         result = 31 * result + getDatePaid().hashCode();
-        result = 31 * result + getAmount();
+        result = 31 * result + (int) getAmount();
         result = 31 * result + getCause().hashCode();
         return result;
     }
