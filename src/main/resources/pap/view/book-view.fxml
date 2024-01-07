@@ -22,7 +22,7 @@
       <Label fx:id="grade" layoutX="50.0" layoutY="374.0" text="AVERAGE GRADE" />
       <VBox alignment="CENTER" layoutX="355.0" layoutY="90.0">
          <children>
-            <Button fx:id="actionButton" mnemonicParsing="false" onAction="#orderPressed" text="ORDER" />
+            <Button fx:id="actionButton" mnemonicParsing="false" onAction="#rentPressed" text="ORDER" />
             <Label fx:id="actionLabel" />
          </children>
       </VBox>

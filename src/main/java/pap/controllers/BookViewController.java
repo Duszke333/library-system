@@ -4,7 +4,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.util.Pair;
 import pap.db.Entities.*;
@@ -22,11 +21,9 @@ import pap.db.Repository.*;
 import pap.helpers.LoadedPages;
 import pap.helpers.Login;
 import pap.helpers.Parameters;
-import pap.helpers.RentalRecord;
 
 import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -145,7 +142,20 @@ public class BookViewController implements UpdatableController, Initializable {
 
     @FXML
     protected void returnPressed() {
-        System.out.println("Return pressed");
+        if (book.getStatus().equals(BookStatus.Rented)) {
+            book.setStatus(BookStatus.Available);
+            actionButton.setDisable(true);
+        } else {
+            book.setStatus(BookStatus.ReadyForPickup);
+        }
+        new BookRepository().update(book);
+        RentalRepository repo = new RentalRepository();
+        BookRental rental = repo.getCurrentBookRental(book.getBookId());
+        rental.setDateReturned(new java.sql.Date(System.currentTimeMillis()));
+        repo.update(rental);
+        returnButton.setDisable(true);
+        returnText.setText("");
+        actionLabel.setText("You have successfully returned this book.");
     }
 
     @FXML
@@ -154,7 +164,36 @@ public class BookViewController implements UpdatableController, Initializable {
     }
 
     @FXML
-    protected void orderPressed() {
+    protected void pickupPressed() {
+        // create new rental
+        RentalRepository repo = new RentalRepository();
+        BookRental rental = new BookRental();
+        rental.setBookId(book.getBookId());
+        rental.setUserId(Login.getUserLoggedIn().get());
+        rental.setDateRented(new java.sql.Date(System.currentTimeMillis()));
+        RentingQueue pos = repo.getRentingQueuesByBookId(book.getBookId()).get(0);
+        var date = pos.getDateToReturn();
+        rental.setDateToReturn(date);
+        rental.setWasProlonged(false);
+        repo.create(rental);
+
+        // delete queue entry
+        repo.deleteRentingQueue(pos);
+
+        // update book status
+        if (repo.getRentingQueuesByBookId(book.getBookId()).isEmpty()) {
+            book.setStatus(BookStatus.Rented);
+        } else {
+            book.setStatus(BookStatus.Reserved);
+        }
+        new BookRepository().update(book);
+
+        // inform about operation
+        updateAction();
+    }
+
+    @FXML
+    protected void rentPressed() {
         BookRental rental = new BookRental();
         rental.setBookId(book.getBookId());
         rental.setUserId(Login.getUserLoggedIn().get());
@@ -241,7 +280,7 @@ public class BookViewController implements UpdatableController, Initializable {
 
         String status = book.getStatus();
         if (status.equals(BookStatus.Unavailable)) {        // G
-            actionButton.setText("Order");
+            actionButton.setText("Rent");
             actionButton.setDisable(true);
             actionLabel.setText("This book is unavailable.");
             return;
@@ -250,33 +289,49 @@ public class BookViewController implements UpdatableController, Initializable {
         int uid = Login.getUserLoggedIn().orElse(-1);
         if (uid == -1) {                                    // G
             actionButton.setDisable(true);
-            actionLabel.setTextFill(javafx.scene.paint.Color.RED);
             actionLabel.setText("You must be logged in to do that!");
             return;
         }
         actionButton.setDisable(false);
-        actionLabel.setTextFill(Color.WHITE);
 
         if (status.equals(BookStatus.Available)) {      // G
-            actionButton.setText("Order");
-            actionButton.setOnAction(event -> orderPressed());
-            actionLabel.setText("Book is available and can be ordered.");
+            actionButton.setText("Rent");
+            actionButton.setOnAction(event -> rentPressed());
+            actionLabel.setText("Book is available and can be rented.");
             return;
         }
 
         RentalRepository repo = new RentalRepository();
+        if (book.getStatus().equals(BookStatus.ReadyForPickup)) {
+            RentingQueue queue = repo.getRentingQueuesByBookId(book.getBookId()).get(0);
+            if (queue.getUserId() == uid) {
+                actionButton.setText("Leave queue");
+                actionButton.setOnAction(event -> resignPressed());
+                actionLabel.setText("You are first in queue for this book. You can pick it up now.");
+                returnButton.setText("Pick up");
+                returnButton.setOnAction(event -> pickupPressed());
+                returnButton.setVisible(true);
+                returnText.setText("The time has come for you to pick up this book.");
+                returnText.setVisible(true);
+                returnButton.setDisable(false);
+                return;
+            }
+        }
+
         // check if user rented this book
         BookRental rental = repo.getCurrentBookRental(book.getBookId());
-        if (rental.getUserId() == uid) {                // G
+        if (rental != null && rental.getUserId() == uid) {                // G
+            returnButton.setText("Return");
             returnButton.setVisible(true);
+            returnButton.setOnAction(event -> returnPressed());
             var returnDate = rental.getDateToReturn();
             returnText.setText("You are currently renting this book (must be returned on " + returnDate + ")");
             returnText.setVisible(true);
 
+            actionButton.setText("Extend");
+            actionButton.setOnAction(event -> extendPressed());
             // action button setting
             if (status.equals(BookStatus.Rented)) {
-                actionButton.setText("Extend");
-                actionButton.setOnAction(event -> extendPressed());     // G
                 if (rental.isWasProlonged()) {
                     actionButton.setDisable(true);
                     actionLabel.setText("You have already extended your rental");   // G
@@ -293,17 +348,16 @@ public class BookViewController implements UpdatableController, Initializable {
 
         List<RentingQueue> queue = repo.getRentingQueuesByBookId(book.getBookId());
 
-        if (queue.size() == 0) {
+        if (queue.isEmpty()) {
             actionButton.setText("Reserve");    // G
             actionButton.setOnAction(event -> reservePressed());
-            actionLabel.setText("This book is currently rented until" + rental.getDateToReturn() + ". You can reserve it and pick it up on the day after.");
+            actionLabel.setText("This book is currently rented until" + rental.getDateToReturn() + ". You can reserve it and pick it up on that day.");
             return;
         }
 
         // check if user is in queue
         for (RentingQueue userEntry : queue) {
             if (userEntry.getUserId() == uid) {             // G
-                // TODO: check if he can rent the book
                 var pickupDate = userEntry.getDateToRent();
                 actionButton.setText("Leave the queue");
                 actionButton.setOnAction(event -> resignPressed());
@@ -314,12 +368,11 @@ public class BookViewController implements UpdatableController, Initializable {
 
         actionButton.setText("Join the queue");
         actionButton.setOnAction(event -> reservePressed());
+        var lastDate = queue.get(queue.size() - 1).getDateToReturn();
         if (queue.size() < Parameters.getMaxQueueLength()) {
-            var lastDate = queue.get(queue.size() - 1).getDateToReturn();
             actionLabel.setText("This book is reserved until " + lastDate + ". You can join the queue and pick it up on the day after.");
         } else {
             actionButton.setDisable(true);
-            var lastDate = queue.get(queue.size() - 1).getDateToReturn();
             actionLabel.setText("This book is reserved until " + lastDate + ", but the queue is full so you cannot join it.");
         }
     }
