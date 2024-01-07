@@ -231,6 +231,9 @@ values (1, 1, current_date - interval '1 month', current_date, current_date);
 -- User just rented the book
 insert into pap.BOOK_RENTALS (Book_id, User_id, Date_rented, Date_to_return)
 values (2, 1, current_date, current_date + interval '1 month');
+-- User returned the book (within last year)
+insert into pap.BOOK_RENTALS (Book_id, User_id, Date_rented, Date_to_return, Date_returned)
+values (1, 1, current_date - interval '7 month', current_date, current_date);
 
 --------------------------------- RENTING QUEUE ---------------------------------
 -- User
