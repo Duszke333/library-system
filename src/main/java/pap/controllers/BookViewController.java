@@ -85,51 +85,6 @@ public class BookViewController implements UpdatableController, Initializable {
     @FXML
     Button reportButton;
 
-    @Deprecated
-    public void displayTitle(String title) {
-        titleLabel.setText("Tytuł: " + title);
-    }
-
-    @Deprecated
-    public void displayAuthor(String author) {
-        authorLabel.setText("Autor: " + author);
-    }
-
-    @Deprecated
-    public void displayGenre(String genre) {
-        genreLabel.setText("Gatunek: " + genre);
-    }
-
-    @Deprecated
-    public void displayPublicationYear(int publicationYear) {
-        publicationYearLabel.setText("Rok publikacji: " + publicationYear);
-    }
-
-    @Deprecated
-    public void displayLanguage(String language) {
-        languageLabel.setText("Język: " + language);
-    }
-
-    @Deprecated
-    public void displayPageCount(int pageCount) {
-        pageCountLabel.setText("Liczba stron: " + pageCount);
-    }
-
-    @Deprecated
-    public void displayPublisher(String publisher) {
-        publisherLabel.setText("Wydawca: " + publisher);
-    }
-
-    @Deprecated
-    public void displayDescription(String description) {
-        descriptionLabel.setText("Opis: " + description);
-    }
-
-    @Deprecated
-    public void displayAvailability(String status) {
-        isAvailableLabel.setText("Dostępność: " + status);
-    }
-
     public void displayWishStatus() {
         int uid = Login.getUserLoggedIn().orElse(-1);
         wishLabel.setText("");
@@ -142,10 +97,6 @@ public class BookViewController implements UpdatableController, Initializable {
         }
     }
 
-    @FXML
-    protected void extendPressed() {
-        System.out.println("Extend pressed");
-    }
     public void showReportButton(){
         int uid = Login.getUserLoggedIn().orElse(-1);
         if (uid == -1 || new RentalRepository().isRentedByUser(uid, book.getBookId())){
@@ -155,9 +106,9 @@ public class BookViewController implements UpdatableController, Initializable {
         reportButton.setVisible(true);
     }
 
-    public void displayDateAdded(Date dateAdded) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
-        dateAddedLabel.setText("Data dodania: " + dateFormat.format(dateAdded));
+    @FXML
+    protected void extendPressed() {
+        System.out.println("Extend pressed");
     }
 
     @FXML
@@ -177,7 +128,19 @@ public class BookViewController implements UpdatableController, Initializable {
 
     @FXML
     protected void orderPressed() {
-        System.out.println("Order pressed");
+        BookRental rental = new BookRental();
+        rental.setBookId(book.getBookId());
+        rental.setUserId(Login.getUserLoggedIn().get());
+        var date = new java.sql.Date(System.currentTimeMillis());
+        rental.setDateRented(date);
+        date.setMonth(date.getMonth() + 1);
+        rental.setDateToReturn(date);
+        rental.setWasProlonged(false);
+        new RentalRepository().create(rental);
+        book.setStatus(BookStatus.Rented);
+        new BookRepository().update(book);
+        actionButton.setDisable(true);
+        actionLabel.setText("You have successfully ordered this book. It must be returned by " + date);
     }
 
     @FXML
