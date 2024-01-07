@@ -74,6 +74,7 @@ public class EmployeeManageParametersController implements UpdatableController, 
         maxQueueLengthInput.setText(pap.helpers.Parameters.getMaxQueueLength().toString());
         dailyPenaltyInput.setText(pap.helpers.Parameters.getDailyPenalty().toString());
         bookDamagePenaltyInput.setText(pap.helpers.Parameters.getBookDamagePenalty().toString());
+        updateStatus.setVisible(false);
     }
 
     @Override
