@@ -18,9 +18,6 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import static pap.helpers.LoadedPages.browseCatalog;
-import static pap.helpers.LoadedPages.loginScreen;
-
 public class MainViewController {
     @FXML
     private Text textMainView;
@@ -43,15 +40,15 @@ public class MainViewController {
     @FXML
     private void buttonLoginPagePressed() {
         if (Login.getUserLoggedIn().isPresent()) {
-            GlobalController.switchVisibleContent(LoadedPages.userDashboardController, LoadedPages.userDashboard);
+            GlobalController.switchVisibleContent(LoadedPages.userDashboard);
             return;
         } 
-        else if (Login.getEmployeeLoggedIn().isPresent()) {
-            GlobalController.switchVisibleContent(LoadedPages.employeeDashboardController, LoadedPages.employeeDashboard);
+        if (Login.getEmployeeLoggedIn().isPresent()) {
+            GlobalController.switchVisibleContent(LoadedPages.employeeDashboard);
             return;
         }
         
-        GlobalController.switchVisibleContent(LoadedPages.loginScreenController, loginScreen);
+        GlobalController.switchVisibleContent(LoadedPages.loginScreen);
     }
     
     @FXML
@@ -61,7 +58,7 @@ public class MainViewController {
     
     @FXML
     private void buttonCataloguePressed() {
-        GlobalController.switchVisibleContent(LoadedPages.browseCatalogController, browseCatalog);
+        GlobalController.switchVisibleContent(LoadedPages.browseCatalog);
     }
     
     @FXML

@@ -114,7 +114,7 @@ public class BookManagerController implements UpdatableController, Initializable
     @FXML
     protected void viewHistory() {
         BrowseBookHistoryController.setBookId(book.getBookId());
-        GlobalController.switchVisibleContent(LoadedPages.browseBookHistoryController, LoadedPages.browseBookHistory);
+        GlobalController.switchVisibleContent(LoadedPages.browseBookHistory);
     }
 
     @FXML
@@ -137,7 +137,7 @@ public class BookManagerController implements UpdatableController, Initializable
 
     @FXML
     protected void goBack() {
-        GlobalController.switchVisibleContent(LoadedPages.manageCatalogController, LoadedPages.manageCatalog);
+        GlobalController.switchVisibleContent(LoadedPages.manageCatalog);
     }
     
     @Override
