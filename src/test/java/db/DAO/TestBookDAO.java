@@ -22,12 +22,34 @@ public class TestBookDAO extends TestGenericDAO<Book, BookDAO>{
         return new BookDAO(factory);
     }
 
+    @Override
+    protected int getId(Book book) {
+        int id;
+        try (var session = factory.openSession()) {
+            session.beginTransaction();
+            var books = session.createNativeQuery(
+                    "SELECT * FROM pap.books " +
+                            "WHERE title = '" + book.getTitle() + "'" +
+                            "AND author = '" + book.getAuthor() + "' AND isbn = '" + book.getIsbn() + "'"
+                    , Book.class).list();
+            if (books.isEmpty()) {
+                return -1;
+            }
+            id = books.get(0).getBookId();
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            System.out.println("Error while getting id of book " + book.getTitle());
+            return -1;
+        }
+        return id;
+    }
+
     @Test
     public void create() {
         BookDAO bookDAO = createDAO(factory);
         Book book = createEntity();
         bookDAO.create(book);
-        Assertions.assertEquals(HelperMethods.getId(book), book.getBookId());
+        Assertions.assertEquals(getId(book), book.getBookId());
     }
 
     @Test
@@ -37,7 +59,7 @@ public class TestBookDAO extends TestGenericDAO<Book, BookDAO>{
         bookDAO.create(book);
         book.setAuthor("Test2");
         bookDAO.update(book);
-        Book newBook = bookDAO.read(HelperMethods.getId(book));
+        Book newBook = bookDAO.read(getId(book));
         Assertions.assertEquals(book.getAuthor(), newBook.getAuthor());
     }
 
@@ -47,6 +69,6 @@ public class TestBookDAO extends TestGenericDAO<Book, BookDAO>{
         Book book = createEntity();
         bookDAO.create(book);
         bookDAO.delete(book);
-        Assertions.assertNull(bookDAO.read(HelperMethods.getId(book)));
+        Assertions.assertNull(bookDAO.read(getId(book)));
     }
 }

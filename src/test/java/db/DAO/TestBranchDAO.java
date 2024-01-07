@@ -29,12 +29,33 @@ public class TestBranchDAO extends TestGenericDAO<Branch, BranchDAO>{
         return new BranchDAO(factory);
     }
 
+    @Override
+    protected int getId(Branch branch) {
+        int id;
+        try (org.hibernate.Session session = factory.openSession()) {
+            session.beginTransaction();
+            java.util.List<Branch> branches = session.createNativeQuery(
+                    "SELECT * FROM pap.branches " +
+                            "WHERE branch_name = '" + branch.getName() + "'"
+                    , Branch.class).list();
+            if (branches.isEmpty()) {
+                return -1;
+            }
+            id = branches.get(0).getBranchId();
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            System.out.println("Error while getting id of branch " + branch.getName());
+            return -1;
+        }
+        return id;
+    }
+
     @Test
     public void create() {
         BranchDAO branchDAO = createDAO(factory);
         Branch branch = createEntity();
         branchDAO.create(branch);
-        Assertions.assertEquals(HelperMethods.getId(branch), branch.getBranchId());
+        Assertions.assertEquals(getId(branch), branch.getBranchId());
     }
 
     @Test
@@ -44,7 +65,7 @@ public class TestBranchDAO extends TestGenericDAO<Branch, BranchDAO>{
         branchDAO.create(branch);
         branch.setName("Test2");
         branchDAO.update(branch);
-        Branch newBranch = branchDAO.read(HelperMethods.getId(branch));
+        Branch newBranch = branchDAO.read(getId(branch));
         Assertions.assertEquals(branch.getName(), newBranch.getName());
     }
 
@@ -54,6 +75,6 @@ public class TestBranchDAO extends TestGenericDAO<Branch, BranchDAO>{
         Branch branch = createEntity();
         branchDAO.create(branch);
         branchDAO.delete(branch);
-        Assertions.assertNull(branchDAO.read(HelperMethods.getId(branch)));
+        Assertions.assertNull(branchDAO.read(getId(branch)));
     }
 }

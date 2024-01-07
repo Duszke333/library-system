@@ -25,6 +25,27 @@ public class TestEmployeeDAO extends TestGenericDAO<Employee, EmployeeDAO>{
     private BranchDAO branchDAO = new BranchDAO(factory);
 
     @Override
+    protected int getId(Employee employee) {
+        int id;
+        try (org.hibernate.Session session = factory.openSession()) {
+            session.beginTransaction();
+            java.util.List<Employee> employees = session.createNativeQuery(
+                    "SELECT * FROM pap.employees " +
+                            "WHERE username = '" + employee.getUsername() + "'"
+                    , Employee.class).list();
+            if (employees.isEmpty()) {
+                return -1;
+            }
+            id = employees.get(0).getEmployeeId();
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            System.out.println("Error while getting id of employee " + employee.getUsername());
+            return -1;
+        }
+        return id;
+    }
+
+    @Override
     protected Employee createEntity() {
         Address address = RandomEntityGenerator.generateAddress();
         addressDAO.create(address);
@@ -46,7 +67,7 @@ public class TestEmployeeDAO extends TestGenericDAO<Employee, EmployeeDAO>{
         EmployeeDAO employeeDAO = createDAO(factory);
         Employee employee = createEntity();
         employeeDAO.create(employee);
-        Assertions.assertEquals(HelperMethods.getId(employee), employee.getEmployeeId());
+        Assertions.assertEquals(getId(employee), employee.getEmployeeId());
     }
 
     @Test
@@ -56,7 +77,7 @@ public class TestEmployeeDAO extends TestGenericDAO<Employee, EmployeeDAO>{
         employeeDAO.create(employee);
         employee.setUsername("Test2");
         employeeDAO.update(employee);
-        Employee newEmployee = employeeDAO.read(HelperMethods.getId(employee));
+        Employee newEmployee = employeeDAO.read(getId(employee));
         Assertions.assertEquals(employee.getUsername(), newEmployee.getUsername());
     }
 
@@ -66,6 +87,6 @@ public class TestEmployeeDAO extends TestGenericDAO<Employee, EmployeeDAO>{
         Employee employee = createEntity();
         employeeDAO.create(employee);
         employeeDAO.delete(employee);
-        Assertions.assertNull(employeeDAO.read(HelperMethods.getId(employee)));
+        Assertions.assertNull(employeeDAO.read(getId(employee)));
     }
 }

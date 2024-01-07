@@ -12,6 +12,8 @@ import org.junit.jupiter.api.Assertions;
 import pap.db.DAO.EntityDAO.AddressDAO;
 import pap.db.Entities.Address;
 
+import java.util.List;
+
 
 public class TestAddressDAO extends TestGenericDAO<Address, AddressDAO>{
     @Override
@@ -24,12 +26,34 @@ public class TestAddressDAO extends TestGenericDAO<Address, AddressDAO>{
         return new AddressDAO(factory);
     }
 
+    @Override
+    protected int getId(Address address) {
+        int id;
+        try (Session session = factory.openSession()) {
+            session.beginTransaction();
+            List<Address> addresses = session.createNativeQuery(
+                    "SELECT * FROM pap.addresses " +
+                            "WHERE street = '" + address.getStreet() + "'" +
+                            "AND flat_number = '" + address.getFlatNumber() + "' AND house_number = '" + address.getHouseNumber() + "'"
+                    , Address.class).list();
+            if (addresses.isEmpty()) {
+                return -1;
+            }
+            id = addresses.get(0).getAddressId();
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            System.out.println("Error while getting id of address " + address.getStreet());
+            return -1;
+        }
+        return id;
+    }
+
     @Test
     public void create() {
         AddressDAO addressDAO = createDAO(factory);
         Address address = createEntity();
         addressDAO.create(address);
-        Assertions.assertEquals(HelperMethods.getId(address), address.getAddressId());
+        Assertions.assertEquals(getId(address), address.getAddressId());
     }
 
     @Test
@@ -39,7 +63,7 @@ public class TestAddressDAO extends TestGenericDAO<Address, AddressDAO>{
         addressDAO.create(address);
         address.setCity("Test2");
         addressDAO.update(address);
-        Address newAddress = addressDAO.read(HelperMethods.getId(address));
+        Address newAddress = addressDAO.read(getId(address));
         Assertions.assertEquals(address.getCity(), newAddress.getCity());
     }
 
@@ -49,6 +73,6 @@ public class TestAddressDAO extends TestGenericDAO<Address, AddressDAO>{
         Address address = createEntity();
         addressDAO.create(address);
         addressDAO.delete(address);
-        Assertions.assertNull(addressDAO.read(HelperMethods.getId(address)));
+        Assertions.assertNull(addressDAO.read(getId(address)));
     }
 }

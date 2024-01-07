@@ -26,6 +26,27 @@ public class TestUserDAO extends TestGenericDAO<User, UserDAO>{
     }
 
     @Override
+    protected int getId(User user) {
+        int id;
+        try (org.hibernate.Session session = factory.openSession()) {
+            session.beginTransaction();
+            java.util.List<User> users = session.createNativeQuery(
+                    "SELECT * FROM pap.users " +
+                            "WHERE email = '" + user.getEmail() + "'"
+                    , User.class).list();
+            if (users.isEmpty()) {
+                return -1;
+            }
+            id = users.get(0).getAccountId();
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            System.out.println("Error while getting id of user " + user.getEmail());
+            return -1;
+        }
+        return id;
+    }
+
+    @Override
     protected UserDAO createDAO(SessionFactory factory) {
         return new UserDAO(factory);
     }
@@ -35,7 +56,7 @@ public class TestUserDAO extends TestGenericDAO<User, UserDAO>{
         UserDAO userDAO = createDAO(factory);
         User user = createEntity();
         userDAO.create(user);
-        Assertions.assertEquals(HelperMethods.getId(user), user.getAccountId());
+        Assertions.assertEquals(getId(user), user.getAccountId());
     }
 
     @Test
@@ -45,7 +66,7 @@ public class TestUserDAO extends TestGenericDAO<User, UserDAO>{
         userDAO.create(user);
         user.setFirstName("Test2");
         userDAO.update(user);
-        User newUser = userDAO.read(HelperMethods.getId(user));
+        User newUser = userDAO.read(getId(user));
         Assertions.assertEquals(user.getFirstName(), newUser.getFirstName());
     }
 
@@ -55,6 +76,6 @@ public class TestUserDAO extends TestGenericDAO<User, UserDAO>{
         User user = createEntity();
         userDAO.create(user);
         userDAO.delete(user);
-        Assertions.assertNull(userDAO.read(HelperMethods.getId(user)));
+        Assertions.assertNull(userDAO.read(getId(user)));
     }
 }
