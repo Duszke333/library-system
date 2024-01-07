@@ -32,6 +32,11 @@ public class RentalRepository extends GenericRepository<BookRental> implements I
         return bookRentalDAO.query(sql);
     }
 
+    public BookRental getCurrentBookRental(int id) {
+        String sql = "SELECT * FROM pap.book_rentals WHERE book_id = " + id + " AND date_returned IS NULL";
+        return bookRentalDAO.query(sql).get(0);
+    }
+
     public boolean isRentedByUser(int userId, int bookId){
         String sql = "SELECT * FROM pap.book_rentals WHERE user_id = " + userId + " AND book_id = " + bookId;
         return bookRentalDAO.query(sql).isEmpty();
@@ -73,6 +78,17 @@ public class RentalRepository extends GenericRepository<BookRental> implements I
         penaltyDAO.delete(entity);
     }
 
+    public void createRentingQueue(RentingQueue entity) {
+        rentingQueueDAO.create(entity);
+    }
+
+    public void updateRentingQueue(RentingQueue entity) {
+        rentingQueueDAO.update(entity);
+    }
+
+    public void deleteRentingQueue(RentingQueue entity) {
+        rentingQueueDAO.delete(entity);
+    }
     @Override
     public RentingQueue getRentingQueueById(int id) {
         return rentingQueueDAO.read(id);
@@ -85,13 +101,13 @@ public class RentalRepository extends GenericRepository<BookRental> implements I
 
     @Override
     public List<RentingQueue> getRentingQueuesByBookId(int id) {
-        String sql = "SELECT * FROM pap.renting_queues WHERE book_id = " + id;
+        String sql = "SELECT * FROM pap.renting_queue WHERE book_id = " + id;
         return rentingQueueDAO.query(sql);
     }
 
     @Override
     public List<RentingQueue> getRentingQueuesByUserId(int id) {
-        String sql = "SELECT * FROM pap.renting_queues WHERE user_id = " + id;
+        String sql = "SELECT * FROM pap.renting_queue WHERE user_id = " + id;
         return rentingQueueDAO.query(sql);
     }
 }
