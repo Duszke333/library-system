@@ -6,10 +6,7 @@ import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 
@@ -40,6 +37,8 @@ public class BrowseCatalogController implements UpdatableController, Initializab
     private TextField searchBar;
     @FXML
     private ComboBox<String> sortBox;
+    @FXML
+    private Button clearFilters;
 
     @FXML
     public void getItem(MouseEvent event) {
@@ -57,10 +56,16 @@ public class BrowseCatalogController implements UpdatableController, Initializab
         GlobalController.switchVisibleContent(LoadedPages.bookView);
     }
 
+    public void clearFiltersClicked(MouseEvent event) {
+        sortBox.getSelectionModel().clearSelection();
+        update();
+    }
+
 
     @Override
     public void update() {
         catalog.getSelectionModel().clearSelection();
+        clearFilters.setVisible(false);
 
         ObservableList<CatalogRecord> list = FXCollections.observableArrayList(CatalogRecord.getAll());
 
@@ -98,13 +103,15 @@ public class BrowseCatalogController implements UpdatableController, Initializab
     }
     private void setupSortBox() {
         ObservableList<String> sortOptions = FXCollections.observableArrayList(
-                "Last Week", "Last Month", "Last Year", "All Time", ""
+                "Last Week", "Last Month", "Last Year", "All Time"
         );
         sortBox.setItems(sortOptions);
         sortBox.setPromptText("Sort by Popularity");
         sortBox.setOnAction(event -> {
             String selectedTimeFrame = sortBox.getSelectionModel().getSelectedItem();
             if (selectedTimeFrame != null) {
+                clearFilters.setVisible(true);
+                clearFilters.setText(selectedTimeFrame + " X ");
                 switch (selectedTimeFrame) {
                     case "Last Week":
                         sortCatalogByPopularity("week");
@@ -119,7 +126,7 @@ public class BrowseCatalogController implements UpdatableController, Initializab
                         sortCatalogByPopularity("all_time");
                         break;
                     default:
-                        update();
+                        break;
                 }
             }
         });

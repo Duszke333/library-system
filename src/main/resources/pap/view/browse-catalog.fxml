@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -10,6 +11,7 @@
    <TextField fx:id="searchBar" prefHeight="25.0" prefWidth="153.0" promptText="Search Book">
    </TextField>
    <ComboBox fx:id="sortBox" prefHeight="25.0" prefWidth="249.0" promptText="Sort By Popularity" />
+   <Button fx:id="clearFilters" mnemonicParsing="false" onMouseClicked="#clearFiltersClicked" text="Clear Filters X" />
 <TableView fx:id="catalog" onMouseClicked="#getItem" tableMenuButtonVisible="true">
   <columns>
     <TableColumn fx:id="title" maxWidth="-1.0" minWidth="-1.0" prefWidth="-1.0" text="Title" />
