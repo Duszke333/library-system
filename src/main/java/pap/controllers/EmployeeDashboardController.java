@@ -45,11 +45,12 @@ public class EmployeeDashboardController implements UpdatableController {
             );
             var result = alert.showAndWait();
             if (result.isPresent() && result.get() == ButtonType.YES) {
-//                Platform.exit(); // TODO Set to inactive and logout
                 EmployeeRepository repo = new EmployeeRepository();
                 Employee emp = repo.getById(Login.getEmployeeLoggedIn().get());
                 emp.setActive(false);
                 repo.update(emp);
+                
+                // Sign out
                 Login.setEmployeeLoggedIn(Optional.empty());
                 GlobalController.switchVisibleContent(LoadedPages.loginScreen);
             }
@@ -76,9 +77,13 @@ public class EmployeeDashboardController implements UpdatableController {
             manageIssuesItem.setTextFill(Paint.valueOf("red"));
         }
         manageIssuesItem.setOnAction(e -> GlobalController.switchVisibleContent(LoadedPages.employeeIssueManage));
+        
+        var manageBranches = new Button("Manage Branches");
+        manageBranches.setOnAction(e -> GlobalController.switchVisibleContent(LoadedPages.employeeManageBranches));
 
         employeeActions.getItems().setAll(List.of(
                 manageCatalogueItem,
+                manageBranches,
                 manageParametersItem,
                 bookCreatorItem,
                 manageIssuesItem,
