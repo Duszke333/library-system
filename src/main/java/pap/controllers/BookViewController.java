@@ -96,7 +96,7 @@ public class BookViewController implements UpdatableController, Initializable {
 
     public void showReportButton(){
         int uid = Login.getUserLoggedIn().orElse(-1);
-        if (uid == -1 || new RentalRepository().isRentedByUser(uid, book.getBookId())){
+        if (uid == -1 || !new RentalRepository().isRentedByUser(uid, book.getBookId())){
             reportButton.setVisible(false);
             return;
         }
