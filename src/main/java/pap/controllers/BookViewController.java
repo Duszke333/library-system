@@ -121,7 +121,26 @@ public class BookViewController implements UpdatableController, Initializable {
 
     @FXML
     protected void reservePressed() {
-        System.out.println("Reserve pressed");
+        java.sql.Date date;
+        RentalRepository repo = new RentalRepository();
+        if (book.getStatus().equals(BookStatus.Rented)) {
+            date = repo.getCurrentBookRental(book.getBookId()).getDateToReturn();
+        } else {
+            List<RentingQueue> queue = repo.getRentingQueuesByBookId(book.getBookId());
+            date = queue.get(queue.size() - 1).getDateToReturn();
+        }
+        var queue = new RentingQueue();
+        queue.setBookId(book.getBookId());
+        queue.setUserId(Login.getUserLoggedIn().get());
+        queue.setDateToRent(date);
+        java.sql.Date returnDate = (java.sql.Date) date.clone();
+        returnDate.setMonth(returnDate.getMonth() + 1);
+        queue.setDateToReturn(returnDate);
+        repo.createRentingQueue(queue);
+        book.setStatus(BookStatus.Reserved);
+        new BookRepository().update(book);
+        actionButton.setDisable(true);
+        actionLabel.setText("You have successfully joined the queue. You can pick up the book on " + date);
     }
 
     @FXML
