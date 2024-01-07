@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.VBox?>
 
-
 <VBox spacing="20" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pap.controllers.BrowseCatalogController">
    <TextField fx:id="searchBar" prefHeight="25.0" prefWidth="153.0" promptText="Search Book">
    </TextField>
+   <ComboBox fx:id="sortBox" prefHeight="25.0" prefWidth="249.0" promptText="Sort By Popularity" />
 <TableView fx:id="catalog" onMouseClicked="#getItem" tableMenuButtonVisible="true">
   <columns>
     <TableColumn fx:id="title" maxWidth="-1.0" minWidth="-1.0" prefWidth="-1.0" text="Title" />
