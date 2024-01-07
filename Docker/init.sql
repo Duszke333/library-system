@@ -102,8 +102,9 @@ create table pap.PENALTIES (
                         User_id         integer not null constraint user_id_fk_penalty references pap.USERS (Account_ID),
                         Rental_id       integer not null constraint rental_id_fk_penalty references pap.BOOK_RENTALS (Rental_id),
                         Date_added      date not null default current_date,
+                        Date_updated    date not null default current_date,
                         Date_paid       date default null,
-                        Amount          integer not null check (Amount > 0),
+                        Amount          numeric(6,2) not null check (Amount > 0),
                         Cause           varchar(256) not null default 'The deadline for returning the book has been exceeded.'
 );
 
@@ -250,10 +251,10 @@ values (2, 2, current_date + interval '2 months', current_date + interval '3 mon
 --------------------------------- PENALTIES ---------------------------------
 -- User
 insert into pap.PENALTIES (User_id, Rental_id, Date_added, Date_paid, Amount)
-values (1, 1, current_date, current_date, 15);
+values (1, 1, current_date, current_date, 15.75);
 
 -- Bozena
-insert into pap.PENALTIES (User_id, Rental_id, Date_added, Date_paid, Amount)
-values (2, 1, current_date, null, 15);
+insert into pap.PENALTIES (User_id, Rental_id, Date_added, Date_paid, Amount, Cause)
+values (2, 1, current_date, null, 50, 'Book has been lost.');
 
 

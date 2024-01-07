@@ -54,6 +54,15 @@
             <Insets top="-10.0" />
          </VBox.margin>
       </HBox>
+      <TextField fx:id="bookLossPenaltyInput" promptText="Book loss penalty" />
+      <HBox spacing="24.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Book loss penalty" textAlignment="CENTER" />
+         </children>
+         <VBox.margin>
+            <Insets top="-10.0" />
+         </VBox.margin>
+      </HBox>
       <HBox spacing="24.0">
          <children>
             <Button mnemonicParsing="false" onAction="#updateParameters" text="Update values" />

@@ -43,8 +43,8 @@ public class RentalRepository extends GenericRepository<BookRental> implements I
 
     @Override
     public boolean isRentedByUser(int userId, int bookId){
-        String sql = "SELECT * FROM pap.book_rentals WHERE user_id = " + userId + " AND book_id = " + bookId;
-        return bookRentalDAO.query(sql).isEmpty();
+        String sql = "SELECT * FROM pap.book_rentals WHERE user_id = " + userId + " AND book_id = " + bookId + " AND date_returned is null";
+        return !bookRentalDAO.query(sql).isEmpty();
     }
     @Override
     public Penalty getPenaltyById(int id) {

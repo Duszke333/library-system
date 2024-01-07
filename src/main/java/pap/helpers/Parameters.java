@@ -16,6 +16,11 @@ public class Parameters {
     @Getter
     @Setter
     private static Double bookDamagePenalty;
+
+    @Getter
+    @Setter
+    private static Double bookLossPenalty;
+
     private final static String readPath = "parameters.properties";
     private final static String writePath = "src/main/resources/parameters.properties";
 
@@ -26,6 +31,7 @@ public class Parameters {
             maxQueueLength = Integer.parseInt(prop.getProperty("maxQueueLength"));
             dailyPenalty = Double.parseDouble(prop.getProperty("dailyPenalty"));
             bookDamagePenalty = Double.parseDouble(prop.getProperty("bookDamagePenalty"));
+            bookLossPenalty = Double.parseDouble(prop.getProperty("bookLossPenalty"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (NumberFormatException e) {
@@ -39,6 +45,7 @@ public class Parameters {
             prop.setProperty("maxQueueLength", maxQueueLength.toString());
             prop.setProperty("dailyPenalty", dailyPenalty.toString());
             prop.setProperty("bookDamagePenalty", bookDamagePenalty.toString());
+            prop.setProperty("bookLossPenalty", bookLossPenalty.toString());
             var output = new FileOutputStream(writePath);
             prop.store(output, null);
             output.close();
