@@ -1,10 +1,6 @@
 package pap.db.Repository;
 
-import pap.db.DAO.EntityDAO.BookRentalDAO;
-import pap.db.DAO.EntityDAO.PenaltyDAO;
-import pap.db.DAO.EntityDAO.ReadListDAO;
-import pap.db.DAO.EntityDAO.RentingQueueDAO;
-import pap.db.DAO.GenericDAO;
+import pap.db.DAO.EntityDAO.*;
 import pap.db.Entities.BookRental;
 import pap.db.Entities.Penalty;
 import pap.db.Entities.RentingQueue;
@@ -31,21 +27,6 @@ public class RentalRepository extends GenericRepository<BookRental> implements I
         String sql = "SELECT * FROM pap.book_rentals WHERE user_id = " + id;
         return bookRentalDAO.query(sql);
     }
-
-    public List<BookRental> getMostPopular(String periodType) {
-        String sql;
-        if (!periodType.equalsIgnoreCase("all_time"))
-        {
-            sql = "SELECT *, COUNT(*) AS rental_count FROM pap.BOOK_RENTALS WHERE Date_rented >= CURRENT_DATE - INTERVAL '1 " + periodType + "' GROUP BY Book_id, rental_id ORDER BY rental_count DESC";
-
-        }else{
-            sql = "SELECT *, COUNT(*) AS rental_count FROM pap.BOOK_RENTALS  GROUP BY Book_id, rental_id ORDER BY rental_count DESC";
-        }
-        return bookRentalDAO.query(sql);
-    }
-
-
-
 
     public boolean isRentedByUser(int userId, int bookId){
         String sql = "SELECT * FROM pap.book_rentals WHERE user_id = " + userId + " AND book_id = " + bookId;
