@@ -55,11 +55,15 @@ public class UserDashboardController implements UpdatableController {
 
         var browseWishListItem = new Button("Browse wishlist");
         browseWishListItem.setOnAction(e -> GlobalController.switchVisibleContent(LoadedPages.browseWishList));
+
+        var browseQueuesItem = new Button("Browse your reservations");
+        browseQueuesItem.setOnAction(e -> GlobalController.switchVisibleContent(LoadedPages.browseQueues));
         
         userActions.getItems().setAll(List.of(
                 manageItem,
                 browseRentalItem,
                 browseHistoryItem,
+                browseQueuesItem,
                 browseWishListItem,
                 deactivateAccountItem,
                 signOutItem
