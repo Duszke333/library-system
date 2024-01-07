@@ -15,6 +15,7 @@ public interface IBookRepository extends IRepository<Book> {
     List<Book> getByDatePublished(String datePublished);
     List<Book> getAllByLanguage(String language);
     List<Book> getAllAvailable();
+    List<Book> getMostPopular(String periodType);
     BookGrade getBookGrade(int bookId);
     List<BookGrade> getAllBookGrades();
     List<BookGrade> getBookGradesByUser(int userId);

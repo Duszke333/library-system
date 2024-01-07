@@ -101,6 +101,7 @@ public class BookRepository extends GenericRepository<Book> implements IBookRepo
         }
         return books;
     }
+    @Override
     public List<Book> getMostPopular(String periodType) {
         String sql;
         if (!periodType.equalsIgnoreCase("all_time"))
