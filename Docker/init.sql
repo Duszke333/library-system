@@ -14,7 +14,7 @@ create table pap.BOOKS (
                         Language    varchar(64) not null default 'English',
                         Page_count  integer not null check (Page_count > 0),
                         Publisher   varchar(128) not null,
-                        Status      varchar(32) not null default 'Available' check (Status in ('Available', 'Unavailable', 'Rented', 'Reserved')),
+                        Status      varchar(32) not null default 'Available' check (Status in ('Available', 'Unavailable', 'Rented', 'Reserved', 'Ready for pickup')),
                         Description text not null default 'Description will be added soon.',
                         Date_added date not null default current_date,
                         Cover varchar(256) not null default 'resources/images/default_cover.png'
