@@ -62,6 +62,11 @@ public class MainViewController {
     }
     
     @FXML
+    private void buttonBranchesPressed() {
+        GlobalController.switchVisibleContent(LoadedPages.browseBranches);
+    }
+    
+    @FXML
     private void menuGotoRepoPressed() {
         try {
             Desktop.getDesktop().browse(new URL(REPO_URL).toURI());
