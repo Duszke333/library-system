@@ -76,7 +76,6 @@ public class BrowseCatalogController implements UpdatableController, Initializab
         catalog.sort();
 
         applySearchFilter(list);
-        setupSortBox();
     }
 
     private void applySearchFilter(ObservableList<CatalogRecord> list) {
