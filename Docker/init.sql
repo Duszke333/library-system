@@ -17,7 +17,7 @@ create table pap.BOOKS (
                         Status      varchar(32) not null default 'Available' check (Status in ('Available', 'Unavailable', 'Rented', 'Reserved', 'Ready for pickup')),
                         Description text not null default 'Description will be added soon.',
                         Date_added date not null default current_date,
-                        Cover varchar(256) not null default 'resources/images/default_cover.png'
+                        Cover varchar(256) not null default 'images/default_cover.png'
 );
 
 create table pap.ADDRESSES (

@@ -2,7 +2,6 @@ package pap.controllers;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
@@ -33,7 +32,7 @@ public class MainViewController {
         
         var welcomeMsg = Files.readString(Path.of("README.md"));
         textMainView.setText(welcomeMsg);
-        textMainView.setFont(Font.font(20));
+        textMainView.setFont(Font.font(22));
         scrollPane.widthProperty().addListener(o -> textMainView.setWrappingWidth(scrollPane.getWidth()));
     }
     
@@ -75,11 +74,6 @@ public class MainViewController {
         }
     }
 
-    public void setContentPane(Node node) {
-        contentPane.getChildren().clear();
-        contentPane.getChildren().setAll(node);
-    }
-    
     @FXML
     private void menuQuitPressed() {
         Platform.exit();
