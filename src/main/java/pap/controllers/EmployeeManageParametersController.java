@@ -18,6 +18,8 @@ public class EmployeeManageParametersController implements UpdatableController, 
     @FXML
     private TextField bookDamagePenaltyInput;
     @FXML
+    private TextField bookLossPenaltyInput;
+    @FXML
     private Text updateStatus;
 
     @FXML
@@ -27,8 +29,9 @@ public class EmployeeManageParametersController implements UpdatableController, 
         String maxQueueLength = maxQueueLengthInput.getText();
         String dailyPenalty = dailyPenaltyInput.getText();
         String bookDamagePenalty = bookDamagePenaltyInput.getText();
+        String bookLossPenalty = bookLossPenaltyInput.getText();
 
-        if (maxQueueLength.isEmpty() || dailyPenalty.isEmpty() || bookDamagePenalty.isEmpty()) {
+        if (maxQueueLength.isEmpty() || dailyPenalty.isEmpty() || bookDamagePenalty.isEmpty() || bookLossPenalty.isEmpty()) {
             updateStatus.setText("All fields must be filled");
             updateStatus.setVisible(true);
             return;
@@ -37,18 +40,20 @@ public class EmployeeManageParametersController implements UpdatableController, 
         int maxQueueLengthInt;
         double dailyPenaltyDouble;
         double bookDamagePenaltyDouble;
+        double bookLossPenaltyDouble;
 
         try {
             maxQueueLengthInt = Integer.parseInt(maxQueueLength);
             dailyPenaltyDouble = Double.parseDouble(dailyPenalty);
             bookDamagePenaltyDouble = Double.parseDouble(bookDamagePenalty);
+            bookLossPenaltyDouble = Double.parseDouble(bookLossPenalty);
         } catch (NumberFormatException e) {
             updateStatus.setText("All inputs must be numbers");
             updateStatus.setVisible(true);
             return;
         }
 
-        if (maxQueueLengthInt <= 0 || dailyPenaltyDouble <= 0 || bookDamagePenaltyDouble <= 0) {
+        if (maxQueueLengthInt <= 0 || dailyPenaltyDouble <= 0 || bookDamagePenaltyDouble <= 0 || bookLossPenaltyDouble <= 0) {
             updateStatus.setText("All values must be positive");
             updateStatus.setVisible(true);
             return;
@@ -60,9 +65,16 @@ public class EmployeeManageParametersController implements UpdatableController, 
             return;
         }
 
+        if (bookLossPenaltyDouble < bookDamagePenaltyDouble) {
+            updateStatus.setText("Book loss penalty must be greater than daily penalty");
+            updateStatus.setVisible(true);
+            return;
+        }
+
         setMaxQueueLength(maxQueueLengthInt);
         setDailyPenalty(dailyPenaltyDouble);
         setBookDamagePenalty(bookDamagePenaltyDouble);
+        setBookLossPenalty(bookLossPenaltyDouble);
         writeParameters();
         updateStatus.setFill(javafx.scene.paint.Color.GREEN);
         updateStatus.setText("Parameters updated successfully!");
@@ -74,6 +86,7 @@ public class EmployeeManageParametersController implements UpdatableController, 
         maxQueueLengthInput.setText(pap.helpers.Parameters.getMaxQueueLength().toString());
         dailyPenaltyInput.setText(pap.helpers.Parameters.getDailyPenalty().toString());
         bookDamagePenaltyInput.setText(pap.helpers.Parameters.getBookDamagePenalty().toString());
+        bookLossPenaltyInput.setText(pap.helpers.Parameters.getBookLossPenalty().toString());
         updateStatus.setVisible(false);
     }
 
