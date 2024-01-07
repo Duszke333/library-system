@@ -34,7 +34,7 @@ public class BrowseBranchesController implements UpdatableController, Initializa
         int chosenBranchID = branchCatalog.getSelectionModel().getSelectedItem().getBranchId();
 
         BrowseBranchEmployeesController.setBranchId(chosenBranchID);
-        GlobalController.switchVisibleContent(LoadedPages.browseBranchEmployeesController, LoadedPages.browseBranchEmployees);
+        GlobalController.switchVisibleContent(LoadedPages.browseBranchEmployees);
     }
     @Override
     public void update() {

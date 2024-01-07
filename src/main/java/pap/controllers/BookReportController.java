@@ -45,7 +45,7 @@ public class BookReportController implements UpdatableController, Initializable 
         alert.setHeaderText(null);
         var result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.YES) {
-            GlobalController.switchVisibleContent(LoadedPages.userDashboardController, LoadedPages.userDashboard);
+            GlobalController.switchVisibleContent(LoadedPages.userDashboard);
         } else {
             alert.close();
         }
@@ -73,7 +73,7 @@ public class BookReportController implements UpdatableController, Initializable 
                 report.setReportType(reportBox.getValue());
                 report.setReportDate(new java.sql.Date(System.currentTimeMillis()));
                 bookReportDAO.create(report);
-                GlobalController.switchVisibleContent(LoadedPages.userDashboardController, LoadedPages.userDashboard);
+                GlobalController.switchVisibleContent(LoadedPages.userDashboard);
             } else {
                 alert.close();
             }

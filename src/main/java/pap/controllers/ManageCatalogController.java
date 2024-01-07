@@ -48,7 +48,7 @@ public class ManageCatalogController implements UpdatableController, Initializab
         if(index <= -1){
             return;
         }
-        GlobalController.switchVisibleContent(LoadedPages.bookManagerController, LoadedPages.bookManager);
+        GlobalController.switchVisibleContent(LoadedPages.bookManager);
     }
 
     @Override

@@ -36,7 +36,7 @@ public class EmployeeAccountCreateController implements UpdatableController {
     
     @FXML
     protected void createUserButtonPressed() {
-        GlobalController.switchVisibleContent(LoadedPages.userAccountCreateController, LoadedPages.userAccountCreate);
+        GlobalController.switchVisibleContent(LoadedPages.userAccountCreate);
     }
 
     @FXML

@@ -271,7 +271,7 @@ public class BookViewController implements UpdatableController, Initializable {
         if (existingReport == null) {
             BookReportController.setBook(book);
             BookReportController.setUserId(Login.getUserLoggedIn().get());
-            GlobalController.switchVisibleContent(LoadedPages.reportBookViewController, LoadedPages.reportBookView);
+            GlobalController.switchVisibleContent(LoadedPages.bookReport);
         } else {
             Alert alreadyReportedAlert = new Alert(
                     Alert.AlertType.WARNING,

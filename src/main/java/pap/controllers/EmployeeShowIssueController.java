@@ -77,7 +77,7 @@ public class EmployeeShowIssueController implements UpdatableController, Initial
         var result = alert.showAndWait();
 
         if (result.isPresent() && result.get() == ButtonType.YES) {
-            GlobalController.switchVisibleContent(LoadedPages.manageIssueController, LoadedPages.manageIssue);
+            GlobalController.switchVisibleContent(LoadedPages.employeeIssueManage);
         } else {
             alert.close();
         }
@@ -98,7 +98,7 @@ public class EmployeeShowIssueController implements UpdatableController, Initial
         if (result.isPresent() && result.get() == ButtonType.OK) {
             BookReport report = new ReportRepository().getById(selectedIssueRecord.getReportId());
             new ReportRepository().delete(report);
-            GlobalController.switchVisibleContent(LoadedPages.manageIssueController, LoadedPages.manageIssue);
+            GlobalController.switchVisibleContent(LoadedPages.employeeIssueManage);
         }
     }
 }
