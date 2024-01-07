@@ -108,7 +108,15 @@ public class BookViewController implements UpdatableController, Initializable {
 
     @FXML
     protected void extendPressed() {
-        System.out.println("Extend pressed");
+        RentalRepository repo = new RentalRepository();
+        BookRental rental = repo.getCurrentBookRental(book.getBookId());
+        var date = rental.getDateToReturn();
+        date.setMonth(date.getMonth() + 1);
+        rental.setDateToReturn(date);
+        rental.setWasProlonged(true);
+        repo.update(rental);
+        actionButton.setDisable(true);
+        actionLabel.setText("You have successfully extended your rental. It must be returned by " + date);
     }
 
     @FXML
@@ -131,16 +139,17 @@ public class BookViewController implements UpdatableController, Initializable {
         BookRental rental = new BookRental();
         rental.setBookId(book.getBookId());
         rental.setUserId(Login.getUserLoggedIn().get());
-        var date = new java.sql.Date(System.currentTimeMillis());
-        rental.setDateRented(date);
-        date.setMonth(date.getMonth() + 1);
-        rental.setDateToReturn(date);
+        var rentDate = new java.sql.Date(System.currentTimeMillis());
+        rental.setDateRented(rentDate);
+        var returnDate = new java.sql.Date(System.currentTimeMillis());
+        returnDate.setMonth(returnDate.getMonth() + 1);
+        rental.setDateToReturn(returnDate);
         rental.setWasProlonged(false);
         new RentalRepository().create(rental);
         book.setStatus(BookStatus.Rented);
         new BookRepository().update(book);
         actionButton.setDisable(true);
-        actionLabel.setText("You have successfully ordered this book. It must be returned by " + date);
+        actionLabel.setText("You have successfully ordered this book. It must be returned by " + returnDate);
     }
 
     @FXML
