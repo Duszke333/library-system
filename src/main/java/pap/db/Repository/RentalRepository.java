@@ -34,12 +34,26 @@ public class RentalRepository extends GenericRepository<BookRental> implements I
 
     public BookRental getCurrentBookRental(int id) {
         String sql = "SELECT * FROM pap.book_rentals WHERE book_id = " + id + " AND date_returned IS NULL";
-        return bookRentalDAO.query(sql).get(0);
+        List<BookRental> res = bookRentalDAO.query(sql);
+        if (res == null || res.isEmpty()) {
+            return null;
+        }
+        return res.get(0);
     }
 
+    public BookRental getLastBookRental(int id) {
+        String sql = "SELECT * FROM pap.book_rentals WHERE book_id = " + id + " ORDER BY date_rented DESC LIMIT 1";
+        List<BookRental> res = bookRentalDAO.query(sql);
+        if (res == null || res.isEmpty()) {
+            return null;
+        }
+        return res.get(0);
+    }
+
+    @Override
     public boolean isRentedByUser(int userId, int bookId){
-        String sql = "SELECT * FROM pap.book_rentals WHERE user_id = " + userId + " AND book_id = " + bookId;
-        return bookRentalDAO.query(sql).isEmpty();
+        String sql = "SELECT * FROM pap.book_rentals WHERE user_id = " + userId + " AND book_id = " + bookId + " AND date_returned is null";
+        return !bookRentalDAO.query(sql).isEmpty();
     }
     @Override
     public Penalty getPenaltyById(int id) {
@@ -54,6 +68,11 @@ public class RentalRepository extends GenericRepository<BookRental> implements I
     @Override
     public List<Penalty> getPenaltiesByUserId(int id) {
         String sql = "SELECT * FROM pap.penalties WHERE user_id = " + id;
+        return penaltyDAO.query(sql);
+    }
+
+    public List<Penalty> getUnpaidUserPenalties(int id) {
+        String sql = "SELECT * FROM pap.penalties WHERE user_id = " + id + " AND date_paid IS NULL";
         return penaltyDAO.query(sql);
     }
 
@@ -101,7 +120,7 @@ public class RentalRepository extends GenericRepository<BookRental> implements I
 
     @Override
     public List<RentingQueue> getRentingQueuesByBookId(int id) {
-        String sql = "SELECT * FROM pap.renting_queue WHERE book_id = " + id;
+        String sql = "SELECT * FROM pap.renting_queue WHERE book_id = " + id + "ORDER BY date_to_return ASC";
         return rentingQueueDAO.query(sql);
     }
 

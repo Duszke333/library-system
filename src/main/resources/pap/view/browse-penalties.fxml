@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+
+<TableView fx:id="penaltyCatalog" onMouseClicked="#getItem" tableMenuButtonVisible="true" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pap.controllers.BrowsePenaltiesController">
+  <columns>
+      <TableColumn fx:id="paid" maxWidth="-1.0" prefWidth="-1.0" text="Paid?" />
+    <TableColumn fx:id="datePaid" maxWidth="-1.0" minWidth="-1.0" prefWidth="-1.0" text="Date of payment" />
+    <TableColumn fx:id="amount" maxWidth="-1.0" prefWidth="-1.0" text="Amount ($)" />
+    <TableColumn fx:id="dateAdded" maxWidth="-1.0" minWidth="-1.0" prefWidth="-1.0" text="Date of penalty" />
+    <TableColumn fx:id="bookTitle" maxWidth="-1.0" prefWidth="-1.0" text="Book title" />
+      <TableColumn fx:id="bookAuthor" maxWidth="-1.0" prefWidth="-1.0" text="Book author" />
+      <TableColumn fx:id="cause" maxWidth="-1.0" prefWidth="-1.0" text="Cause of penalty" />
+  </columns>
+</TableView>

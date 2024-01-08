@@ -1,48 +1,97 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextArea?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="520.0" prefWidth="684.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pap.controllers.BookViewController">
+<StackPane fx:id="contentPane" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pap.controllers.BookViewController">
    <children>
-      <Label fx:id="titleLabel" layoutX="58.0" layoutY="57.0" text="TITLE" AnchorPane.leftAnchor="50.0" />
-      <Label fx:id="authorLabel" layoutX="55.0" layoutY="96.0" text="AUTHOR" AnchorPane.leftAnchor="50.0" />
-      <Label fx:id="genreLabel" layoutX="55.0" layoutY="134.0" text="GENRE" AnchorPane.leftAnchor="50.0" />
-      <Label fx:id="publicationYearLabel" layoutX="58.0" layoutY="167.0" text="PUBLICATION YEAR" AnchorPane.leftAnchor="50.0" />
-      <Label fx:id="languageLabel" layoutX="59.0" layoutY="207.0" text="LANGUAGE" AnchorPane.leftAnchor="50.0" />
-      <Label fx:id="pageCountLabel" layoutX="56.0" layoutY="243.0" text="PAGE COUNT" AnchorPane.leftAnchor="50.0" />
-      <Label fx:id="publisherLabel" layoutX="58.0" layoutY="277.0" text="PUBLISHER" AnchorPane.leftAnchor="50.0" />
-      <Label fx:id="isAvailableLabel" layoutX="59.0" layoutY="311.0" text="AVAILABLE" AnchorPane.leftAnchor="50.0" />
-      <Label fx:id="dateAddedLabel" layoutX="58.0" layoutY="342.0" text="DATE ADDED" AnchorPane.leftAnchor="50.0" />
-      <Label fx:id="grade" layoutX="50.0" layoutY="374.0" text="AVERAGE GRADE" />
-      <VBox alignment="CENTER" layoutX="355.0" layoutY="90.0">
+      <VBox alignment="CENTER" spacing="20.0">
          <children>
-            <Button fx:id="actionButton" mnemonicParsing="false" onAction="#orderPressed" text="ORDER" />
-            <Label fx:id="actionLabel" />
+            <HBox spacing="40.0">
+               <children>
+                  <VBox spacing="10.0">
+                     <children>
+                        <Label fx:id="titleLabel" text="TITLE" />
+                        <Label fx:id="authorLabel" text="AUTHOR" />
+                        <Label fx:id="genreLabel" text="GENRE" />
+                        <Label fx:id="publicationYearLabel" text="PUBLICATION YEAR" />
+                        <Label fx:id="languageLabel" text="LANGUAGE" />
+                        <Label fx:id="pageCountLabel" text="PAGE COUNT" />
+                        <Label fx:id="publisherLabel" text="PUBLISHER" />
+                        <Label fx:id="isAvailableLabel" text="AVAILABLE" />
+                        <Label fx:id="dateAddedLabel" text="DATE ADDED" />
+                        <Label fx:id="grade" text="AVERAGE GRADE" />
+                     </children>
+                  </VBox>
+                  <Separator prefWidth="200.0" visible="false" HBox.hgrow="ALWAYS" />
+                  <ImageView fx:id="imageView" fitHeight="260.0" fitWidth="520.0" pickOnBounds="true" preserveRatio="true" />
+               </children>
+            </HBox>
+            <HBox alignment="TOP_CENTER">
+               <children>
+                  <TextArea fx:id="descriptionLabel" editable="false" wrapText="true" />
+                  <Separator visible="false" HBox.hgrow="ALWAYS" />
+                  <VBox alignment="CENTER" maxWidth="300.0" spacing="5.0">
+                     <children>
+                        <Text fx:id="gradeText" strokeType="OUTSIDE" strokeWidth="0.0" text="Your grade: 1.0" />
+                        <Slider fx:id="gradeSlider" blockIncrement="0.5" majorTickUnit="1.0" max="5.0" min="1.0" minorTickCount="1" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="1.0" />
+                        <Button fx:id="gradeButton" disable="true" mnemonicParsing="false" onAction="#gradeButtonPressed" text="Submit your grade" />
+                        <Text fx:id="gradeStatus" strokeType="OUTSIDE" strokeWidth="0.0" text="You must be logged in to do that!" />
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
+            <GridPane hgap="20.0" vgap="20.0">
+               <columnConstraints>
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <VBox alignment="TOP_CENTER" GridPane.rowIndex="1">
+                     <children>
+                        <Button fx:id="reportButton" onMouseClicked="#reportButtonClicked" text="Report an issue" />
+                     </children>
+                  </VBox>
+                  <VBox alignment="TOP_CENTER" GridPane.columnIndex="1">
+                     <children>
+                        <Button fx:id="wishButton" mnemonicParsing="false" onMouseClicked="#wishButtonClicked" text="Add a book to the wishlist" />
+                        <Label fx:id="wishLabel" maxWidth="300.0" minHeight="30.0" textAlignment="CENTER" wrapText="true" />
+                     </children>
+                  </VBox>
+                  <VBox alignment="TOP_CENTER">
+                     <children>
+                        <Button fx:id="actionButton" mnemonicParsing="false" onAction="#rentPressed" text="ORDER" />
+                        <Label fx:id="actionLabel" maxWidth="300.0" minHeight="30.0" textAlignment="CENTER" wrapText="true" />
+                     </children>
+                  </VBox>
+                  <VBox alignment="TOP_CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <children>
+                        <Button fx:id="returnButton" mnemonicParsing="false" onAction="#returnPressed" text="Return book" />
+                        <Text fx:id="returnText" strokeType="OUTSIDE" strokeWidth="0.0" text="You must return this book before {date}" textAlignment="CENTER" wrappingWidth="300.0" />
+                     </children>
+                  </VBox>
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </GridPane>
          </children>
       </VBox>
-      <TextArea fx:id="descriptionLabel" editable="false" layoutX="317.0" layoutY="228.0" prefHeight="200.0" prefWidth="200.0" wrapText="true" />
-      <VBox alignment="CENTER" layoutX="47.0" layoutY="411.0" prefHeight="91.0" prefWidth="215.0">
-         <children>
-            <Text fx:id="gradeText" strokeType="OUTSIDE" strokeWidth="0.0" text="Your grade: 1.0" />
-            <Slider fx:id="gradeSlider" blockIncrement="0.5" majorTickUnit="1.0" max="5.0" min="1.0" minorTickCount="1" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="1.0" />
-            <Button fx:id="gradeButton" disable="true" mnemonicParsing="false" onAction="#gradeButtonPressed" text="Submit your grade" />
-            <Text fx:id="gradeStatus" strokeType="OUTSIDE" strokeWidth="0.0" text="You must be logged in to do that!" />
-         </children>
-      </VBox>
-      <Button fx:id="wishButton" layoutX="470.0" layoutY="31.0" mnemonicParsing="false" onMouseClicked="#wishButtonClicked" text="Add a book to the wishlist" />
-      <Label fx:id="wishLabel" layoutX="470.0" layoutY="65.0" />
-      <VBox alignment="CENTER" layoutX="307.0" layoutY="146.0">
-         <children>
-            <Button fx:id="returnButton" mnemonicParsing="false" onAction="#returnPressed" text="Return book" />
-            <Text fx:id="returnText" strokeType="OUTSIDE" strokeWidth="0.0" text="You must return this book before {date}" />
-         </children>
-      </VBox>
-      <Button fx:id="reportButton" layoutX="425.0" layoutY="446.0" onMouseClicked="#reportButtonClicked" prefHeight="25.0" prefWidth="200.0" text="Report an issue" />
    </children>
-</AnchorPane>
+</StackPane>

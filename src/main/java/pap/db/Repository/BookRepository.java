@@ -101,6 +101,17 @@ public class BookRepository extends GenericRepository<Book> implements IBookRepo
         }
         return books;
     }
+    @Override
+    public List<Book> getMostPopular(String periodType) {
+        String sql;
+        if (!periodType.equalsIgnoreCase("all_time"))
+        {
+            sql = "SELECT * FROM pap.BOOKS WHERE book_id in (SELECT book_id FROM pap.BOOK_RENTALS WHERE Date_rented >= CURRENT_DATE - INTERVAL '1 " + periodType + "' GROUP BY Book_id ORDER BY COUNT(*) DESC)";
+        }else{
+            sql = "SELECT * FROM pap.BOOKS WHERE book_id in (SELECT book_id FROM pap.BOOK_RENTALS GROUP BY Book_id ORDER BY COUNT(*) DESC)";
+        }
+        return bookDAO.query(sql);
+    }
 
     @Override
     public BookGrade getBookGrade(int gradeId) {

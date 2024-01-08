@@ -6,6 +6,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import pap.db.Repository.RentalRepository;
 import pap.db.Repository.UserRepository;
 import pap.helpers.LoadedPages;
 import pap.helpers.Login;
@@ -50,16 +51,32 @@ public class UserDashboardController implements UpdatableController {
         var browseRentalItem = new Button("Browse rented books");
         browseRentalItem.setOnAction(e -> GlobalController.switchVisibleContent(LoadedPages.browseRental));
 
+
+        var browsePenaltiesItem = new Button();
+        int unpaidCount = new RentalRepository().getUnpaidUserPenalties(Login.getUserLoggedIn().orElse(0)).size();
+        if (unpaidCount != 0) {
+            browsePenaltiesItem.setText(String.format("Browse penalties (%d)", unpaidCount));
+            browsePenaltiesItem.setTextFill(javafx.scene.paint.Paint.valueOf("red"));
+        } else {
+            browsePenaltiesItem.setText("Browse penalties");
+        }
+        browsePenaltiesItem.setOnAction(e -> GlobalController.switchVisibleContent(LoadedPages.browsePenalties));
+
         var browseHistoryItem = new Button("Browse renting history"); 
         browseHistoryItem.setOnAction(e -> GlobalController.switchVisibleContent(LoadedPages.browseRentingHistory));
 
         var browseWishListItem = new Button("Browse wishlist");
         browseWishListItem.setOnAction(e -> GlobalController.switchVisibleContent(LoadedPages.browseWishList));
+
+        var browseQueuesItem = new Button("Browse your reservations");
+        browseQueuesItem.setOnAction(e -> GlobalController.switchVisibleContent(LoadedPages.browseQueues));
         
         userActions.getItems().setAll(List.of(
                 manageItem,
                 browseRentalItem,
+                browsePenaltiesItem,
                 browseHistoryItem,
+                browseQueuesItem,
                 browseWishListItem,
                 deactivateAccountItem,
                 signOutItem
@@ -68,6 +85,7 @@ public class UserDashboardController implements UpdatableController {
 
     @Override
     public void update() {
+        initialize();
         var user = new UserRepository().getById(Login.getUserLoggedIn().get());
         loginInfo.setWrappingWidth(contentPane.getWidth());
         loginInfo.setFont(Font.font(20));

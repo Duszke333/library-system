@@ -9,6 +9,7 @@ import java.util.List;
 public interface IRentalRepository extends IRepository<BookRental> {
     List<BookRental> getRentalsByBookId(int id);
     List<BookRental> getRentalsByUserId(int id);
+    boolean isRentedByUser(int userId, int bookId);
     Penalty getPenaltyById(int id);
     List<Penalty> getAllPenalties();
     List<Penalty> getPenaltiesByUserId(int id);

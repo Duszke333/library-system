@@ -17,7 +17,7 @@ create table pap.BOOKS (
                         Status      varchar(32) not null default 'Available' check (Status in ('Available', 'Unavailable', 'Rented', 'Reserved', 'Ready for pickup')),
                         Description text not null default 'Description will be added soon.',
                         Date_added date not null default current_date,
-                        Cover varchar(256) not null default 'resources/images/default_cover.png'
+                        Cover varchar(256) not null default 'images/default_cover.png'
 );
 
 create table pap.ADDRESSES (
@@ -102,8 +102,9 @@ create table pap.PENALTIES (
                         User_id         integer not null constraint user_id_fk_penalty references pap.USERS (Account_ID),
                         Rental_id       integer not null constraint rental_id_fk_penalty references pap.BOOK_RENTALS (Rental_id),
                         Date_added      date not null default current_date,
+                        Date_updated    date not null default current_date,
                         Date_paid       date default null,
-                        Amount          integer not null check (Amount > 0),
+                        Amount          numeric(6,2) not null check (Amount > 0),
                         Cause           varchar(256) not null default 'The deadline for returning the book has been exceeded.'
 );
 
@@ -234,6 +235,9 @@ values (1, 1, current_date - interval '1 month', current_date, current_date);
 insert into pap.BOOK_RENTALS (Book_id, User_id, Date_rented, Date_to_return)
 values (2, 1, current_date, current_date + interval '1 month');
 update pap.BOOKS set Status = 'Rented' where Book_id = 2;
+-- User returned the book (within last year)
+insert into pap.BOOK_RENTALS (Book_id, User_id, Date_rented, Date_to_return, Date_returned)
+values (1, 1, current_date - interval '7 month', current_date, current_date);
 
 --------------------------------- RENTING QUEUE ---------------------------------
 -- User
@@ -247,10 +251,10 @@ values (2, 2, current_date + interval '2 months', current_date + interval '3 mon
 --------------------------------- PENALTIES ---------------------------------
 -- User
 insert into pap.PENALTIES (User_id, Rental_id, Date_added, Date_paid, Amount)
-values (1, 1, current_date, current_date, 15);
+values (1, 1, current_date, current_date, 15.75);
 
 -- Bozena
-insert into pap.PENALTIES (User_id, Rental_id, Date_added, Date_paid, Amount)
-values (2, 1, current_date, null, 15);
+insert into pap.PENALTIES (User_id, Rental_id, Date_added, Date_paid, Amount, Cause)
+values (2, 1, current_date, null, 50, 'Book has been lost.');
 
 
