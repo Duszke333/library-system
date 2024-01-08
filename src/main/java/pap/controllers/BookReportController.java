@@ -9,6 +9,7 @@ import pap.db.DAO.EntityDAO.BookReportDAO;
 import pap.db.Entities.Book;
 import pap.db.Entities.BookReport;
 import pap.helpers.LoadedPages;
+import pap.helpers.PenaltyManager;
 
 
 import java.net.URL;
@@ -73,6 +74,7 @@ public class BookReportController implements UpdatableController, Initializable 
                 report.setReportType(reportBox.getValue());
                 report.setReportDate(new java.sql.Date(System.currentTimeMillis()));
                 bookReportDAO.create(report);
+                PenaltyManager.deactivateBook(book.getBookId());
                 GlobalController.switchVisibleContent(LoadedPages.userDashboard);
             } else {
                 alert.close();

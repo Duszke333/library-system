@@ -339,6 +339,7 @@ public class BookViewController implements UpdatableController, Initializable {
 
         int uid = Login.getUserLoggedIn().orElse(-1);
         if (uid == -1) {                                    // G
+            actionButton.setText("Rent");
             actionButton.setDisable(true);
             actionLabel.setText("You must be logged in to do that!");
             return;
@@ -348,10 +349,16 @@ public class BookViewController implements UpdatableController, Initializable {
         if (status.equals(BookStatus.Available)) {      // G
             actionButton.setText("Rent");
             actionButton.setOnAction(event -> rentPressed());
-            actionLabel.setText("Book is available and can be rented.");
+            if (new UserRepository().getById(uid).isHasUnpaidPenalty()) {
+                actionButton.setDisable(true);
+                actionLabel.setText("You cannot rent books until you pay your penalties."); // G
+            } else {
+                actionLabel.setText("Book is available and can be rented.");
+            }
             return;
         }
 
+        // check if user is first in queue
         RentalRepository repo = new RentalRepository();
         if (book.getStatus().equals(BookStatus.ReadyForPickup)) {
             RentingQueue queue = repo.getRentingQueuesByBookId(book.getBookId()).get(0);
@@ -379,9 +386,15 @@ public class BookViewController implements UpdatableController, Initializable {
             returnText.setText("You are currently renting this book (must be returned on " + returnDate + ")");
             returnText.setVisible(true);
 
+            // action button setting
             actionButton.setText("Extend");
             actionButton.setOnAction(event -> extendPressed());
-            // action button setting
+
+            if (new UserRepository().getById(uid).isHasUnpaidPenalty()) {
+                actionButton.setDisable(true);
+                actionLabel.setText("You cannot extend your rental until you pay your penalties."); // G
+                return;
+            }
             if (status.equals(BookStatus.Rented)) {
                 if (rental.isWasProlonged()) {
                     actionButton.setDisable(true);
@@ -397,12 +410,18 @@ public class BookViewController implements UpdatableController, Initializable {
             return;
         }
 
-        List<RentingQueue> queue = repo.getRentingQueuesByBookId(book.getBookId());
+        if (new UserRepository().getById(uid).isHasUnpaidPenalty()) {
+            actionButton.setText("Join the queue");
+            actionButton.setDisable(true);
+            actionLabel.setText("You cannot join queues until you pay your penalties.");
+            return;
+        }
 
+        List<RentingQueue> queue = repo.getRentingQueuesByBookId(book.getBookId());
         if (queue.isEmpty()) {
             actionButton.setText("Reserve");    // G
             actionButton.setOnAction(event -> reservePressed());
-            actionLabel.setText("This book is currently rented until" + rental.getDateToReturn() + ". You can reserve it and pick it up on that day.");
+            actionLabel.setText("This book is currently rented until " + rental.getDateToReturn() + ". You can reserve it and pick it up on that day.");
             return;
         }
 
