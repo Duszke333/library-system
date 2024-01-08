@@ -35,6 +35,9 @@ public class PenaltyManager {
         user.setHasUnpaidPenalty(true);
         userRepo.update(user);
 
+        // delete user from queues
+        removeUserFromQueues(report.getUserId());
+
         // create penalty
         new RentalRepository().createPenalty(penalty);
     }
@@ -56,6 +59,45 @@ public class PenaltyManager {
         List<RentingQueue> queue = repo.getRentingQueuesByBookId(bookId);
         for (RentingQueue q : queue) {
             repo.deleteRentingQueue(q);
+        }
+    }
+
+    public static void removeUserFromQueues(int userId) {
+        RentalRepository repo = new RentalRepository();
+        List<RentingQueue> queue = repo.getRentingQueuesByUserId(userId);
+        for (RentingQueue q : queue) {
+            int bookId = q.getBookId();
+            BookRepository bookRepo = new BookRepository();
+            List<RentingQueue> bookQueue = repo.getRentingQueuesByBookId(bookId);
+            if (bookQueue.size() == 1) {
+                // delete entry
+                repo.deleteRentingQueue(q);
+                // update book status
+                Book book = bookRepo.getById(bookId);
+                if (book.getStatus().equals(Book.BookStatus.ReadyForPickup)) {
+                    book.setStatus(Book.BookStatus.Available);
+                } else {
+                    book.setStatus(Book.BookStatus.Rented);
+                }
+                bookRepo.update(book);
+                continue;
+            }
+            // Shift everyone in queue
+            RentingQueue previous = null;
+            for (RentingQueue entry : bookQueue) {
+                if (entry.getUserId() == userId) {
+                    previous = entry;
+                    continue;
+                }
+                if (previous != null) {
+                    int uid = entry.getUserId();
+                    previous.setUserId(uid);
+                    repo.updateRentingQueue(previous);
+                    previous = entry;
+                }
+            }
+            // Delete last entry
+            repo.deleteRentingQueue(previous);
         }
     }
 }
