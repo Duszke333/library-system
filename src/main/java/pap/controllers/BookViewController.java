@@ -4,8 +4,12 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.util.Pair;
+import pap.Pap;
 import pap.db.Entities.*;
 import javafx.fxml.FXML;
 import lombok.Setter;
@@ -58,6 +62,10 @@ public class BookViewController implements UpdatableController, Initializable {
     Button returnButton;
     @FXML
     Text returnText;
+    @FXML
+    ImageView imageView;
+    @FXML
+    StackPane contentPane;
 
     @Setter
     static Book book = new Book(0, "isbn", "title", "author", "genre", 0, "language", 0, "publisher", BookStatus.Available, "description", new java.sql.Date(System.currentTimeMillis()), "cover");
@@ -274,7 +282,15 @@ public class BookViewController implements UpdatableController, Initializable {
         isAvailableLabel.setText("Availability: " + book.getStatus());
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
         dateAddedLabel.setText("Date added: " + dateFormat.format(book.getDateAdded()));
-        Pair<Integer, Double> pair = new BookRepository().getBookGradeCountAndAverageGrade(book.getBookId());
+        
+        var repo = new BookRepository();
+        if (repo.getById(book.getBookId()) != null) {
+            String coverPath = repo.getById(book.getBookId()).getCover();
+            var image = new Image(String.valueOf(Pap.class.getResource(coverPath)));
+            imageView.setImage(image);
+        }
+
+        Pair<Integer, Double> pair = repo.getBookGradeCountAndAverageGrade(book.getBookId());
         if (pair == null) {
             grade.setText("Grade: 0.0 (this book hasn't been graded yet)");
             return;
@@ -466,6 +482,7 @@ public class BookViewController implements UpdatableController, Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         gradeSlider.valueProperty().addListener((observableValue, number, t1) -> gradeText.setText("Your grade: "+ Math.round(gradeSlider.getValue() * 2) / 2.0));
+        contentPane.setMaxSize(Pap.getStage().getMinWidth(), Pap.getStage().getMinHeight());
         update();
     }
 }

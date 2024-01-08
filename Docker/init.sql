@@ -17,7 +17,7 @@ create table pap.BOOKS (
                         Status      varchar(32) not null default 'Available' check (Status in ('Available', 'Unavailable', 'Rented', 'Reserved', 'Ready for pickup')),
                         Description text not null default 'Description will be added soon.',
                         Date_added date not null default current_date,
-                        Cover varchar(256) not null default 'resources/images/default_cover.png'
+                        Cover varchar(256) not null default 'images/default_cover.png'
 );
 
 create table pap.ADDRESSES (
@@ -235,6 +235,9 @@ values (1, 1, current_date - interval '1 month', current_date, current_date);
 insert into pap.BOOK_RENTALS (Book_id, User_id, Date_rented, Date_to_return)
 values (2, 1, current_date, current_date + interval '1 month');
 update pap.BOOKS set Status = 'Rented' where Book_id = 2;
+-- User returned the book (within last year)
+insert into pap.BOOK_RENTALS (Book_id, User_id, Date_rented, Date_to_return, Date_returned)
+values (1, 1, current_date - interval '7 month', current_date, current_date);
 
 --------------------------------- RENTING QUEUE ---------------------------------
 -- User
