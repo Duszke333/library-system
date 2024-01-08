@@ -3,7 +3,7 @@ package pap.helpers;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NonNull;
-import lombok.Setter;
+import pap.controllers.GlobalController;
 import pap.db.Entities.Employee;
 import pap.db.Entities.User;
 import pap.db.Repository.EmployeeRepository;
@@ -15,14 +15,22 @@ public class Login {
     private Login() {}
     
     @Getter
-    @Setter
     @NonNull
     private static Optional<Integer> userLoggedIn = Optional.empty();
+    
+    public static void setUserLoggedIn(@NonNull Optional<Integer> user) {
+        userLoggedIn = user;
+        GlobalController.getParent().update();
+    }
 
     @Getter
-    @Setter
     @NonNull
     private static Optional<Integer> employeeLoggedIn = Optional.empty();
+    
+    public static void setEmployeeLoggedIn(@NonNull Optional<Integer> employee) {
+        employeeLoggedIn = employee;
+        GlobalController.getParent().update();
+    }
     
     @Data
     public static class LoginTry {
