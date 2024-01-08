@@ -32,8 +32,8 @@ public class RentalRepository extends GenericRepository<BookRental> implements I
         return bookRentalDAO.query(sql);
     }
 
-    public List<BookRental> getAllCurrentRentals() {
-        String sql = "SELECT * FROM pap.book_rentals WHERE date_returned IS NULL";
+    public List<BookRental> getAllExceededRentals() {
+        String sql = "SELECT * FROM pap.book_rentals WHERE date_returned IS NULL AND date_to_return > NOW()";
         return bookRentalDAO.query(sql);
     }
 
@@ -85,6 +85,15 @@ public class RentalRepository extends GenericRepository<BookRental> implements I
     public List<Penalty> getPenaltiesByBookId(int id) {
         String sql = "SELECT * FROM pap.penalties WHERE book_id = " + id;
         return penaltyDAO.query(sql);
+    }
+
+    public Penalty getPenaltyByRentalId(int id) {
+        String sql = "SELECT * FROM pap.penalties WHERE rental_id = " + id + " AND date_paid IS NULL";
+        List<Penalty> res = penaltyDAO.query(sql);
+        if (res == null || res.isEmpty()) {
+            return null;
+        }
+        return res.get(0);
     }
 
     @Override
