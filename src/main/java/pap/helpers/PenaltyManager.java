@@ -6,6 +6,7 @@ import pap.db.Repository.RentalRepository;
 import pap.db.Repository.ReportRepository;
 import pap.db.Repository.UserRepository;
 
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 public class PenaltyManager {
@@ -98,6 +99,52 @@ public class PenaltyManager {
             }
             // Delete last entry
             repo.deleteRentingQueue(previous);
+        }
+    }
+
+    public static void checkLateReturns() {
+        RentalRepository repo = new RentalRepository();
+        List<BookRental> rentals = repo.getAllExceededRentals();
+        for (BookRental rental : rentals) {
+            Penalty penalty = repo.getPenaltyByRentalId(rental.getRentalId());
+            if (penalty == null) {
+                // create penalty
+                int uid = rental.getUserId();
+                penalty = new Penalty();
+                penalty.setUserId(uid);
+                penalty.setRentalId(rental.getRentalId());
+                penalty.setCause(Penalty.PenaltyCause.Late);
+                penalty.setDateAdded(new java.sql.Date(System.currentTimeMillis()));
+                penalty.setDateUpdated(new java.sql.Date(System.currentTimeMillis()));
+
+                java.sql.Date date = new java.sql.Date(System.currentTimeMillis());
+                long diff = ChronoUnit.DAYS.between(rental.getDateToReturn().toLocalDate(), date.toLocalDate());
+
+                penalty.setAmount(diff * Parameters.getDailyPenalty());
+                repo.createPenalty(penalty);
+
+                // update user status
+                UserRepository userRepo = new UserRepository();
+                User user = userRepo.getById(uid);
+                user.setHasUnpaidPenalty(true);
+                userRepo.update(user);
+
+                // delete user from queues
+                removeUserFromQueues(uid);
+
+            } else {
+                java.sql.Date date = new java.sql.Date(System.currentTimeMillis());
+                // Check how many days have passed since last update
+                int currentDayOfTheYear = date.toLocalDate().getDayOfYear();
+                int lastUpdateDayOfTheYear = penalty.getDateUpdated().toLocalDate().getDayOfYear();
+                if (lastUpdateDayOfTheYear < currentDayOfTheYear) {
+                    // Update penalty accordingly
+                    long diff = ChronoUnit.DAYS.between(penalty.getDateUpdated().toLocalDate(), date.toLocalDate());
+                    penalty.setAmount(penalty.getAmount() + diff * Parameters.getDailyPenalty());
+                    penalty.setDateUpdated(date);
+                    repo.updatePenalty(penalty);
+                }
+            }
         }
     }
 }
