@@ -5,7 +5,7 @@ services:
       context: ./Docker
       dockerfile: db.Dockerfile
     volumes:
-      - ./var/pgdata:/var/lib/postgresql/data
+      - ./var/pgdata
     ports:
       - "5432:5432"
     environment:
@@ -17,7 +17,7 @@ services:
         context: ./Docker
         dockerfile: db.Dockerfile
     volumes:
-        - ./var/test_pgdata:/var/lib/postgresql/data
+        - ./var/test_pgdata
     ports:
         - "5433:5432"
     environment:
