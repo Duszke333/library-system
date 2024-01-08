@@ -6,6 +6,8 @@ import pap.db.Repository.RentalRepository;
 import pap.db.Repository.ReportRepository;
 import pap.db.Repository.UserRepository;
 
+import java.util.List;
+
 public class PenaltyManager {
     public static void createReportPenalty(int reportId) {
         ReportRepository reportRepo = new ReportRepository();
@@ -15,20 +17,8 @@ public class PenaltyManager {
         var date = new java.sql.Date(System.currentTimeMillis());
         penalty.setDateAdded(date);
         penalty.setDateUpdated(date);
-
-        // Update book status to unavailable (will be fixed when penalty is paid)
-        int bookId = report.getBookId();
-        BookRepository bookRepo = new BookRepository();
-        var book = bookRepo.getById(bookId);
-        book.setStatus(Book.BookStatus.Unavailable);
-        bookRepo.update(book);
-
-        // End current rental
-        RentalRepository repo = new RentalRepository();
-        BookRental currentRental = repo.getCurrentBookRental(bookId);
-        penalty.setRentalId(currentRental.getRentalId());
-        currentRental.setDateReturned(date);
-        repo.update(currentRental);
+        BookRental rental = new RentalRepository().getLastBookRental(report.getBookId());
+        penalty.setRentalId(rental.getRentalId());
 
         // Set penalty amount
         if (report.getReportType().equals(BookReport.ReportType.LOSS)) {
@@ -46,6 +36,26 @@ public class PenaltyManager {
         userRepo.update(user);
 
         // create penalty
-        repo.createPenalty(penalty);
+        new RentalRepository().createPenalty(penalty);
+    }
+
+    public static void deactivateBook(int bookId) {
+        // set book status to unavailable
+        BookRepository bookRepo = new BookRepository();
+        Book book = bookRepo.getById(bookId);
+        book.setStatus(Book.BookStatus.Unavailable);
+        bookRepo.update(book);
+
+        // end current rental
+        RentalRepository repo = new RentalRepository();
+        BookRental currentRental = repo.getCurrentBookRental(bookId);
+        currentRental.setDateReturned(new java.sql.Date(System.currentTimeMillis()));
+        repo.update(currentRental);
+
+        // delete queue for this book
+        List<RentingQueue> queue = repo.getRentingQueuesByBookId(bookId);
+        for (RentingQueue q : queue) {
+            repo.deleteRentingQueue(q);
+        }
     }
 }

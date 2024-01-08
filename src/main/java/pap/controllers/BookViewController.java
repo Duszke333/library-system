@@ -421,7 +421,7 @@ public class BookViewController implements UpdatableController, Initializable {
         if (queue.isEmpty()) {
             actionButton.setText("Reserve");    // G
             actionButton.setOnAction(event -> reservePressed());
-            actionLabel.setText("This book is currently rented until" + rental.getDateToReturn() + ". You can reserve it and pick it up on that day.");
+            actionLabel.setText("This book is currently rented until " + rental.getDateToReturn() + ". You can reserve it and pick it up on that day.");
             return;
         }
 
