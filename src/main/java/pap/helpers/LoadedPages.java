@@ -44,4 +44,5 @@ public class LoadedPages {
     public static final Page userDashboard = makePage("view/user-dashboard.fxml");
     public static final Page userLoginScreen = makePage("view/user-login-screen.fxml");
     public static final Page browseQueues = makePage("view/browse-queues.fxml");
+    public static final Page browsePenalties = makePage("view/browse-penalties.fxml");
 }
