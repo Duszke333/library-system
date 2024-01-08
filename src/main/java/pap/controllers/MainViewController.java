@@ -19,6 +19,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.stream.Stream;
 
 public class MainViewController implements UpdatableController {
     @FXML
@@ -34,42 +35,49 @@ public class MainViewController implements UpdatableController {
 
     public void initialize() throws IOException {
         GlobalController.setParent(this);
-        
-        var welcomeMsg = Files.readString(Path.of("README.md"));
-        textMainView.setText(welcomeMsg);
-        textMainView.setFont(Font.font(22));
-        scrollPane.widthProperty().addListener(o -> textMainView.setWrappingWidth(scrollPane.getWidth()));
+
+        // Find appropriate README.md to display in the main menu
+        try (Stream<Path> readmes = Files.find(Path.of("./"), 50, (path, attr) -> path.toString().matches(".*README.md.*"))) {
+            var welcomeMsg = readmes.findFirst();
+            if (welcomeMsg.isPresent()) {
+                textMainView.setText(Files.readString(welcomeMsg.get()));
+            } else {
+                textMainView.setText("No viable README.md to display has been found.");
+            }
+            textMainView.setFont(Font.font(22));
+            scrollPane.widthProperty().addListener(o -> textMainView.setWrappingWidth(scrollPane.getWidth()));
+        }
     }
-    
+
     @FXML
     private void buttonLoginPagePressed() {
         if (Login.getUserLoggedIn().isPresent()) {
             GlobalController.switchVisibleContent(LoadedPages.userDashboard);
             return;
-        } 
+        }
         if (Login.getEmployeeLoggedIn().isPresent()) {
             GlobalController.switchVisibleContent(LoadedPages.employeeDashboard);
             return;
         }
-        
+
         GlobalController.switchVisibleContent(LoadedPages.loginScreen);
     }
-    
+
     @FXML
     private void buttonBackPressed() {
         contentPane.getChildren().setAll(scrollPane);
     }
-    
+
     @FXML
     private void buttonCataloguePressed() {
         GlobalController.switchVisibleContent(LoadedPages.browseCatalog);
     }
-    
+
     @FXML
     private void buttonBranchesPressed() {
         GlobalController.switchVisibleContent(LoadedPages.browseBranches);
     }
-    
+
     @FXML
     private void menuGotoRepoPressed() {
         try {
@@ -90,13 +98,11 @@ public class MainViewController implements UpdatableController {
             var repo = new UserRepository();
             var username = repo.getById(Login.getUserLoggedIn().get()).getFirstName();
             buttonLoginPage.setText(username.toUpperCase() + " Dashboard");
-        }
-        else if (Login.getEmployeeLoggedIn().isPresent()) {
+        } else if (Login.getEmployeeLoggedIn().isPresent()) {
             var repo = new EmployeeRepository();
             var username = repo.getById(Login.getEmployeeLoggedIn().get()).getUsername();
             buttonLoginPage.setText(username.toUpperCase() + " Dashboard");
-        }
-        else {
+        } else {
             buttonLoginPage.setText("Account");
         }
     }
