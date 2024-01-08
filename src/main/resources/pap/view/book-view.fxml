@@ -15,7 +15,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-
 <StackPane fx:id="contentPane" xmlns="http://javafx.com/javafx/21.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pap.controllers.BookViewController">
    <children>
       <VBox alignment="CENTER" spacing="20.0">
@@ -72,19 +71,19 @@
                   <VBox alignment="TOP_CENTER" GridPane.columnIndex="1">
                      <children>
                         <Button fx:id="wishButton" mnemonicParsing="false" onMouseClicked="#wishButtonClicked" text="Add a book to the wishlist" />
-                        <Label fx:id="wishLabel" />
+                        <Label fx:id="wishLabel" maxWidth="300.0" minHeight="30.0" textAlignment="CENTER" wrapText="true" />
                      </children>
                   </VBox>
                   <VBox alignment="TOP_CENTER">
                      <children>
                         <Button fx:id="actionButton" mnemonicParsing="false" onAction="#rentPressed" text="ORDER" />
-                        <Label fx:id="actionLabel" />
+                        <Label fx:id="actionLabel" maxWidth="300.0" minHeight="30.0" textAlignment="CENTER" wrapText="true" />
                      </children>
                   </VBox>
                   <VBox alignment="TOP_CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <children>
                         <Button fx:id="returnButton" mnemonicParsing="false" onAction="#returnPressed" text="Return book" />
-                        <Text fx:id="returnText" strokeType="OUTSIDE" strokeWidth="0.0" text="You must return this book before {date}" />
+                        <Text fx:id="returnText" strokeType="OUTSIDE" strokeWidth="0.0" text="You must return this book before {date}" textAlignment="CENTER" wrappingWidth="300.0" />
                      </children>
                   </VBox>
                </children>
