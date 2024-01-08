@@ -2,11 +2,14 @@ package pap.controllers;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import lombok.Getter;
+import pap.db.Repository.EmployeeRepository;
+import pap.db.Repository.UserRepository;
 import pap.helpers.LoadedPages;
 import pap.helpers.Login;
 
@@ -17,7 +20,9 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public class MainViewController {
+public class MainViewController implements UpdatableController {
+    @FXML
+    private Button buttonLoginPage;
     @FXML
     private Text textMainView;
     @Getter
@@ -77,5 +82,22 @@ public class MainViewController {
     @FXML
     private void menuQuitPressed() {
         Platform.exit();
+    }
+
+    @Override
+    public void update() {
+        if (Login.getUserLoggedIn().isPresent()) {
+            var repo = new UserRepository();
+            var username = repo.getById(Login.getUserLoggedIn().get()).getFirstName();
+            buttonLoginPage.setText(username.toUpperCase() + " Dashboard");
+        }
+        else if (Login.getEmployeeLoggedIn().isPresent()) {
+            var repo = new EmployeeRepository();
+            var username = repo.getById(Login.getEmployeeLoggedIn().get()).getUsername();
+            buttonLoginPage.setText(username.toUpperCase() + " Dashboard");
+        }
+        else {
+            buttonLoginPage.setText("Account");
+        }
     }
 }
