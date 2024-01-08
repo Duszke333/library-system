@@ -7,10 +7,8 @@ import os
 
 
 def run_db_cmd(package_manager: str):
-    if package_manager == "dnf":
+    if package_manager in ("dnf", "apt"):
         return ["sudo", "docker-compose", "up", "--build"]
-    elif package_manager == "apt":
-        return ["sudo", "docker", "compose", "up", "--build"]
     else:
         return ["docker", "compose", "up", "--build"]
 
@@ -77,7 +75,6 @@ def main(argv):
                     "sudo",
                     package_manager,
                     "install",
-                    "docker",
                     "docker-compose",
                     "bellsoft-java17-full",
                 ]
@@ -88,7 +85,7 @@ def main(argv):
 
             # Database in the background
             sp.Popen(run_db_cmd(package_manager))
-            
+
             # Copy init.sql file
             os.system("sudo docker cp ./Docker/init.sql pap2023z-z17_db:/docker-entrypoint-initdb.d/init.sql")
             # Run init.sql file

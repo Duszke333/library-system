@@ -9,10 +9,9 @@ Aby uruchomić aplikację należy mieć zainstalowane następujące programy:
 - JavaFX (przykładowa instalacja: https://openjfx.io/openjfx-docs/)
 
 Aplikację uruchamia się w następujący sposób:
-- należy uruchomić Dockera
-- należy ściągnąć zawartość repozytorium (git fetch https://gitlab-stud.elka.pw.edu.pl/papuga/pap2023z-z17/)
-- należy przejść do katalogu, do którego ściągnięto zawartość repozytorium, a następnie uruchomić skrypt (./pap_install.sh)
-- skrypt zbuduje bazę w dockerze, a następnie uruchomi aplikację
+- należy ściągnąć zawartość repozytorium (git clone https://gitlab-stud.elka.pw.edu.pl/papuga/pap2023z-z17/)
+- należy przejść do katalogu, do którego ściągnięto zawartość repozytorium, a następnie uruchomić skrypt komendą `python3 pap.py --install`
+- skrypt zbuduje bazę w dockerze, zainstaluję liberica17, a następnie uruchomi aplikację
 
 # Członkowie zespołu
 - Jabłoński Piotr
