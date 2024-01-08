@@ -11,7 +11,7 @@ public class RandomEntityGenerator {
         book.setIsbn(HelperMethods.getRandomString(10));
         book.setAuthor(HelperMethods.getRandomString(10));
         book.setGenre(HelperMethods.getRandomString(10));
-        book.setDateAdded((Date) HelperMethods.getRandomDate());
+        book.setDateAdded(new Date(HelperMethods.getRandomDate().getTime()));
         book.setPublicationYear(HelperMethods.getRandomInt(0, 1000));
         book.setPublisher(HelperMethods.getRandomString(10));
         book.setPageCount(HelperMethods.getRandomInt(0, 1000));
@@ -61,7 +61,7 @@ public class RandomEntityGenerator {
         employee.setPasswordSalt(HelperMethods.getRandomString(10));
         employee.setActive(true);
         employee.setUserID(user.getAccountId());
-        employee.setDateCreated((Date) HelperMethods.getRandomDate());
+        employee.setDateCreated(new Date(HelperMethods.getRandomDate().getTime()));
         employee.setRole(HelperMethods.getRandomString(10));
         return employee;
     }
