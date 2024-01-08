@@ -6,9 +6,6 @@ import warnings
 import os
 
 
-REPO_LOCATION = "~/pap2023z-z17"
-
-
 def run_db_cmd(package_manager: str):
     if package_manager == "dnf":
         return ["sudo", "docker-compose", "up", "--build"]
@@ -59,9 +56,6 @@ def main(argv):
             # Build everything from the ground up
             sp.run(run_db_cmd(package_manager))
         elif opt in ("-i", "--install"):
-            if not os.path.exists(REPO_LOCATION):
-                os.system(f"git clone https://gitlab-stud.elka.pw.edu.pl/papuga/pap2023z-z17 {REPO_LOCATION}")
-            
             if package_manager == "apt":
                 # Add Liberica repositories
                 os.system(
