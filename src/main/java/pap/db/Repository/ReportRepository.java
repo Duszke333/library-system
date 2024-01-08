@@ -13,6 +13,11 @@ public class ReportRepository implements IBookReport {
         return bookReportDAO.getAll();
     }
 
+    public List<BookReport> getUnresolved() {
+        var sql = "SELECT * FROM pap.reports WHERE resolved = false";
+        return bookReportDAO.query(sql);
+    }
+
     @Override
     public BookReport getById(int id) {
         return bookReportDAO.read(id);

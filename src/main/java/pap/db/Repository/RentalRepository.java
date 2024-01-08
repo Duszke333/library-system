@@ -62,6 +62,11 @@ public class RentalRepository extends GenericRepository<BookRental> implements I
         return penaltyDAO.query(sql);
     }
 
+    public List<Penalty> getUnpaidUserPenalties(int id) {
+        String sql = "SELECT * FROM pap.penalties WHERE user_id = " + id + " AND date_paid IS NULL";
+        return penaltyDAO.query(sql);
+    }
+
     @Override
     public List<Penalty> getPenaltiesByBookId(int id) {
         String sql = "SELECT * FROM pap.penalties WHERE book_id = " + id;
