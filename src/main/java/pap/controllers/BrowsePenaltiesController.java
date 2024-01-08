@@ -4,12 +4,18 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import pap.db.Entities.Book;
+import pap.db.Entities.Penalty;
+import pap.db.Entities.User;
 import pap.db.Repository.BookRepository;
+import pap.db.Repository.RentalRepository;
+import pap.db.Repository.UserRepository;
 import pap.helpers.LoadedPages;
 import pap.helpers.Login;
 import pap.helpers.PenaltyRecord;
@@ -45,11 +51,38 @@ public class BrowsePenaltiesController implements UpdatableController, Initializ
         if(index <= -1){
             return;
         }
-        int chosenBookID = penaltyCatalog.getSelectionModel().getSelectedItem().getBookId();
-        Book chosenBook = new BookRepository().getById(chosenBookID);
+        if (penaltyCatalog.getSelectionModel().getSelectedItem().getPaid()) return;
+        int penaltyId = penaltyCatalog.getSelectionModel().getSelectedItem().getPenaltyId();
+        Alert alert = new Alert(
+                Alert.AlertType.CONFIRMATION,
+                "Do you wish to pay for this penalty?",
+                ButtonType.YES,
+                ButtonType.NO
+        );
+        var result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.YES) {
+            // Update penalty status
+            RentalRepository rentalRepo = new RentalRepository();
+            Penalty penalty = rentalRepo.getPenaltyById(penaltyId);
+            penalty.setDatePaid(new java.sql.Date(System.currentTimeMillis()));
+            rentalRepo.updatePenalty(penalty);
 
-        BookViewController.setBook(chosenBook);
-        GlobalController.switchVisibleContent(LoadedPages.bookView);
+            // Update book status
+            BookRepository bookRepo = new BookRepository();
+            Book book = bookRepo.getById(penaltyCatalog.getSelectionModel().getSelectedItem().getBookId());
+            book.setStatus(Book.BookStatus.Available);
+            bookRepo.update(book);
+
+            // Update user status
+            int userId = penaltyCatalog.getSelectionModel().getSelectedItem().getUserId();
+            if (rentalRepo.getUnpaidUserPenalties(userId).isEmpty()) {
+                UserRepository userRepo = new UserRepository();
+                User user = userRepo.getById(userId);
+                user.setHasUnpaidPenalty(false);
+                userRepo.update(user);
+            }
+            update();
+        }
     }
     @Override
     public void update() {
