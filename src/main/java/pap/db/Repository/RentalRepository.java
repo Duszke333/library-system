@@ -33,7 +33,7 @@ public class RentalRepository extends GenericRepository<BookRental> implements I
     }
 
     public List<BookRental> getAllExceededRentals() {
-        String sql = "SELECT * FROM pap.book_rentals WHERE date_returned IS NULL AND date_to_return > NOW()";
+        String sql = "SELECT * FROM pap.book_rentals WHERE date_returned IS NULL AND date_to_return < NOW()";
         return bookRentalDAO.query(sql);
     }
 
