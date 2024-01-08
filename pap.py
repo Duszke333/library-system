@@ -6,9 +6,14 @@ import warnings
 import os
 
 
+REPO_LOCATION = "~/pap2023z-z17"
+
+
 def run_db_cmd(package_manager: str):
     if package_manager == "dnf":
-        return ["docker-compose", "up", "--build"]
+        return ["sudo", "docker-compose", "up", "--build"]
+    elif package_manager == "apt":
+        return ["sudo", "docker", "compose", "up", "--build"]
     else:
         return ["docker", "compose", "up", "--build"]
 
@@ -22,6 +27,8 @@ def main(argv):
         package_manager = "apt"
     elif os.path.exists("/usr/bin/dnf"):
         package_manager = "dnf"
+    else:
+        package_manager = "windows"
 
     for opt, _ in opts:
         if opt in ("-h", "--help"):
@@ -52,6 +59,9 @@ def main(argv):
             # Build everything from the ground up
             sp.run(run_db_cmd(package_manager))
         elif opt in ("-i", "--install"):
+            if not os.path.exists(REPO_LOCATION):
+                os.system(f"git clone https://gitlab-stud.elka.pw.edu.pl/papuga/pap2023z-z17 {REPO_LOCATION}")
+            
             if package_manager == "apt":
                 # Add Liberica repositories
                 os.system(
@@ -75,7 +85,6 @@ def main(argv):
                     "install",
                     "docker",
                     "docker-compose",
-                    "postgresql",
                     "bellsoft-java17-full",
                 ]
             )
@@ -83,15 +92,17 @@ def main(argv):
             # Start docker temporarily
             sp.run(["sudo", "systemctl", "start", "docker.service"])
 
-            # Run init.sql
-            sp.run(["psql", "-U", "postgres", "-a" "-f" "./Docker/init.sql"])
-
             # Database in the background
             sp.Popen(run_db_cmd(package_manager))
+            
+            # Copy init.sql file
+            os.system("sudo docker cp ./Docker/init.sql pap2023z-z17_db:/docker-entrypoint-initdb.d/init.sql")
+            # Run init.sql file
+            os.system("sudo docker exec pap2023z-z17_db psql -U postgres -f docker-entrypoint-initdb.d/init.sql")
 
             # Run the app
             liberica = (
-                "/usr/lib/jvm/bellsoft-java17-full.x86-64"
+                "/usr/lib/jvm/bellsoft-java17-full.x86_64/bin/java"
                 if package_manager == "dnf"
                 else "/usr/lib/jvm/bellsoft-java17-full-amd64/bin/java"
             )
