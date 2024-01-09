@@ -11,6 +11,7 @@ import pap.db.Repository.BookRepository;
 import pap.helpers.ConstraintChecker;
 import pap.helpers.LoadedPages;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -44,6 +45,8 @@ public class BookManagerController implements UpdatableController, Initializable
     private Button confirmDeletion;
     @FXML
     private Button cancelDeletion;
+    @FXML
+    private TextField coverInput;
 
     @FXML
     protected void updateInformation() {
@@ -58,6 +61,7 @@ public class BookManagerController implements UpdatableController, Initializable
         String pageCount = pageCountInput.getText();
         String publisher = publisherInput.getText();
         String description = descriptionInput.getText();
+        String cover = coverInput.getText();
 
         if (isbn.isEmpty() || title.isEmpty() || author.isEmpty() || genre.isEmpty() || publicationYear.isEmpty()
                 || language.isEmpty() || pageCount.isEmpty() || publisher.isEmpty()) {
@@ -77,6 +81,19 @@ public class BookManagerController implements UpdatableController, Initializable
             return;
         }
 
+        if (!cover.isEmpty()) {
+            File f = new File(Book.CoverData.CoverPath + cover);
+            if (!f.exists() || f.isDirectory()) {
+                updateStatus.setText("Cover file does not exist!");
+                updateStatus.setVisible(true);
+                return;
+            } else {
+                cover = Book.CoverData.CoverFolder + cover;
+            }
+        } else {
+            cover = Book.CoverData.DefaultCover;
+        }
+
         book.setIsbn(isbn);
         book.setTitle(title);
         book.setAuthor(author);
@@ -87,6 +104,7 @@ public class BookManagerController implements UpdatableController, Initializable
         book.setPublisher(publisher);
         if (description.isEmpty()) description = "Description will be added soon.";
         book.setDescription(description);
+        book.setCover(cover);
 
         BookRepository bookRepo = new BookRepository();
         int error = ConstraintChecker.checkBook(book);
@@ -142,7 +160,6 @@ public class BookManagerController implements UpdatableController, Initializable
     
     @Override
     public void update() {
-        // TODO: Book by ID
         book = new BookRepository().getById(ManageCatalogController.chosenBookID);
         isbnInput.setText(book.getIsbn());
         titleInput.setText(book.getTitle());
@@ -153,8 +170,7 @@ public class BookManagerController implements UpdatableController, Initializable
         pageCountInput.setText(String.valueOf(book.getPageCount()));
         publisherInput.setText(book.getPublisher());
         descriptionInput.setText(book.getDescription());
-
-        // TODO: Add cover image and status fields to the form
+        coverInput.setText(book.getCover().substring("images/".length()));
     }
 
     @Override
