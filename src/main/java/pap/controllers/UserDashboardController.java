@@ -6,10 +6,12 @@ import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import pap.db.Entities.BookRental;
 import pap.db.Repository.RentalRepository;
 import pap.db.Repository.UserRepository;
 import pap.helpers.LoadedPages;
 import pap.helpers.Login;
+import pap.helpers.PenaltyManager;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,7 +23,50 @@ public class UserDashboardController implements UpdatableController {
     private Text loginInfo;
     @FXML
     private VBox contentPane;
-    
+
+    @FXML
+    private void checkDeactivation() {
+        int uid = Login.getUserLoggedIn().get();
+        var user = new UserRepository().getById(uid);
+        if (user.isHasUnpaidPenalty()) {
+            Alert alert = new Alert(
+                    Alert.AlertType.WARNING,
+                    "You have unpaid penalties. You cannot deactivate your account until you pay them.",
+                    ButtonType.OK
+            );
+            alert.showAndWait();
+            return;
+        }
+        List<BookRental> currentRentals = new RentalRepository().getUserCurrentRentals(uid);
+        if (!currentRentals.isEmpty()) {
+            Alert alert = new Alert(
+                    Alert.AlertType.WARNING,
+                    "You have active rentals. You cannot deactivate your account until you return all books.",
+                    ButtonType.OK
+            );
+            alert.showAndWait();
+            return;
+        }
+        Alert alert = new Alert(
+                Alert.AlertType.CONFIRMATION,
+                "Are you positive?",
+                ButtonType.YES,
+                ButtonType.NO,
+                ButtonType.CANCEL
+        );
+        var result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.YES) {
+            // Deactivate user account
+            user.setActive(false);
+            new UserRepository().update(user);
+            // remove user from queues
+            PenaltyManager.removeUserFromQueues(uid);
+            // sign out
+            Login.setUserLoggedIn(Optional.empty());
+            GlobalController.switchVisibleContent(LoadedPages.loginScreen);
+        }
+    }
+
     @FXML
     private void initialize() {
         var signOutItem = new Button("Sign Out");
@@ -29,21 +74,9 @@ public class UserDashboardController implements UpdatableController {
             Login.setUserLoggedIn(Optional.empty());
             GlobalController.switchVisibleContent(LoadedPages.loginScreen);
         });
-        
+
         var deactivateAccountItem = new Button("Deactivate account");
-        deactivateAccountItem.setOnAction(e -> {
-            Alert alert = new Alert(
-                    Alert.AlertType.CONFIRMATION,
-                    "Are you positive?",
-                    ButtonType.YES,
-                    ButtonType.NO,
-                    ButtonType.CANCEL
-            );
-            var result = alert.showAndWait();
-            if (result.isPresent() && result.get() == ButtonType.YES) {
-                Platform.exit();
-            }
-        });
+        deactivateAccountItem.setOnAction(e -> checkDeactivation());
         
         var manageItem = new Button("Manage account settings");
         manageItem.setOnAction(e -> GlobalController.switchVisibleContent(LoadedPages.userAccountManage));
