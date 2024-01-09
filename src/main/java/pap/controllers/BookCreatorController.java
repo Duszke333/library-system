@@ -81,7 +81,7 @@ public class BookCreatorController implements UpdatableController {
         if (!cover.isEmpty()) {
             File f = new File(Book.CoverData.CoverPath + cover);
             if (f.exists() && !f.isDirectory()) {
-                book.setCover("images/" + cover);
+                book.setCover(Book.CoverData.CoverFolder + cover);
             } else {
                 book.setCover(Book.CoverData.DefaultCover);
             }

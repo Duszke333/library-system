@@ -66,6 +66,7 @@ public class Book implements java.io.Serializable{
     public static class CoverData {
         public final static String DefaultCover = "images/default_cover.png";
         public final static String CoverPath = "src/main/resources/pap/images/";
+        public final static String CoverFolder = "images/";
     }
 
     @Override
