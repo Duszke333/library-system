@@ -11,6 +11,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import pap.db.Entities.Book;
+import pap.db.Entities.BookRental;
 import pap.db.Entities.Penalty;
 import pap.db.Entities.User;
 import pap.db.Repository.BookRepository;
@@ -19,7 +20,6 @@ import pap.db.Repository.UserRepository;
 import pap.helpers.LoadedPages;
 import pap.helpers.Login;
 import pap.helpers.PenaltyRecord;
-import pap.helpers.QueueRecord;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -42,17 +42,7 @@ public class BrowsePenaltiesController implements UpdatableController, Initializ
     @FXML
     private TableColumn<PenaltyRecord, String> cause;
 
-    @FXML
-    public void getItem(MouseEvent event) {
-        if (penaltyCatalog.getSelectionModel().getSelectedItem() == null) {
-            return;
-        }
-        int index = penaltyCatalog.getSelectionModel().getSelectedIndex();
-        if(index <= -1){
-            return;
-        }
-        if (penaltyCatalog.getSelectionModel().getSelectedItem().getPaid()) return;
-        int penaltyId = penaltyCatalog.getSelectionModel().getSelectedItem().getPenaltyId();
+    private void damagePenalty(int penaltyId) {
         Alert alert = new Alert(
                 Alert.AlertType.CONFIRMATION,
                 "Do you wish to pay for this penalty?",
@@ -82,6 +72,44 @@ public class BrowsePenaltiesController implements UpdatableController, Initializ
                 userRepo.update(user);
             }
             update();
+        }
+    }
+
+    @FXML
+    public void getItem(MouseEvent event) {
+        if (penaltyCatalog.getSelectionModel().getSelectedItem() == null) {
+            return;
+        }
+        int index = penaltyCatalog.getSelectionModel().getSelectedIndex();
+        if(index <= -1){
+            return;
+        }
+        if (penaltyCatalog.getSelectionModel().getSelectedItem().getPaid()) return;
+        int penaltyId = penaltyCatalog.getSelectionModel().getSelectedItem().getPenaltyId();
+        String cause = penaltyCatalog.getSelectionModel().getSelectedItem().getCause();
+        if(!cause.equals(Penalty.PenaltyCause.Late)) {
+            damagePenalty(penaltyId);
+            return;
+        }
+
+        // Check if book has been returned
+        BookRental curr = new RentalRepository().getCurrentBookRental(penaltyCatalog.getSelectionModel().getSelectedItem().getBookId());
+        if (curr == null || curr.getUserId() != penaltyCatalog.getSelectionModel().getSelectedItem().getUserId()) {
+            damagePenalty(penaltyId);
+            return;
+        }
+
+        Alert alert = new Alert(
+                Alert.AlertType.CONFIRMATION,
+                "Do you wish to return this book now?",
+                ButtonType.YES,
+                ButtonType.NO
+        );
+        var result = alert.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.YES) {
+            Book book = new BookRepository().getById(penaltyCatalog.getSelectionModel().getSelectedItem().getBookId());
+            BookViewController.setBook(book);
+            GlobalController.switchVisibleContent(LoadedPages.bookView);
         }
     }
     @Override
