@@ -62,6 +62,11 @@ public class Book implements java.io.Serializable{
         public final static String Rented = "Rented";
         public final static String ReadyForPickup = "Ready for pickup";
     }
+    @Data
+    public static class CoverData {
+        public final static String DefaultCover = "images/default_cover.png";
+        public final static String CoverPath = "src/main/resources/pap/images/";
+    }
 
     @Override
     public boolean equals(Object o) {

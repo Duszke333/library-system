@@ -8,6 +8,8 @@ import javafx.scene.text.Text;
 import pap.db.Repository.BookRepository;
 import pap.helpers.ConstraintChecker;
 
+import java.io.File;
+
 public class BookCreatorController implements UpdatableController {
     @FXML
     private TextField bookISBN;
@@ -29,6 +31,8 @@ public class BookCreatorController implements UpdatableController {
     private TextArea bookDescription;
     @FXML
     private Text statusMessage;
+    @FXML
+    private TextField bookCover;
 
     @FXML
     protected void addBook() {
@@ -41,10 +45,11 @@ public class BookCreatorController implements UpdatableController {
         String pages = bookPageCount.getText();
         String publisher = bookPublisher.getText();
         String description = bookDescription.getText();
+        String cover = bookCover.getText();
 
         if (isbn.isEmpty() || title.isEmpty() || author.isEmpty() || genre.isEmpty() || publication.isEmpty()
                 || language.isEmpty() || pages.isEmpty() || publisher.isEmpty()) {
-            statusMessage.setText("All fields except Description must be filled!");
+            statusMessage.setText("All fields except Description and Book cover must be filled!");
             statusMessage.setVisible(true);
             return;
         }
@@ -72,9 +77,17 @@ public class BookCreatorController implements UpdatableController {
         book.setDescription(description);
         book.setDateAdded(new java.sql.Date(System.currentTimeMillis()));
 
-        // TODO: Add cover image and status fields to the form
         book.setStatus("Available");
-        book.setCover("resources/images/default_cover.png");
+        if (!cover.isEmpty()) {
+            File f = new File(Book.CoverData.CoverPath + cover);
+            if (f.exists() && !f.isDirectory()) {
+                book.setCover("images/" + cover);
+            } else {
+                book.setCover(Book.CoverData.DefaultCover);
+            }
+        } else {
+            book.setCover(Book.CoverData.DefaultCover);
+        }
 
         BookRepository bookRepo = new BookRepository();
         int error = ConstraintChecker.checkBook(book);
@@ -86,6 +99,7 @@ public class BookCreatorController implements UpdatableController {
         bookRepo.create(book);
         statusMessage.setText("Book added!");
         statusMessage.setFill(javafx.scene.paint.Color.GREEN);
+        update();
         statusMessage.setVisible(true);
     }
 
@@ -100,6 +114,7 @@ public class BookCreatorController implements UpdatableController {
         bookLanguage.clear();
         bookPageCount.clear();
         bookPublisher.clear();
+        bookCover.clear();
         bookDescription.clear();
     }
 }
