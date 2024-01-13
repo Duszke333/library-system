@@ -53,6 +53,7 @@
             <Insets />
          </VBox.margin>
       </TextField>
+      <TextField fx:id="coverInput" promptText="Book cover filename with extension (in resources/images/ directory)" />
       <TextArea fx:id="descriptionInput" promptText="Description" wrapText="true">
          <VBox.margin>
             <Insets />

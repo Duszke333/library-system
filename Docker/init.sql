@@ -144,6 +144,11 @@ insert into pap.USERS (Password_hash, Password_salt, First_name, Last_name, Emai
 values ('6bac816d909c11c50e83ef7cf13fe8eaeca1e9b832728ed43b6f7bc2dddac7a4130d55382299914301230a6e3016cb3c98b7b594c0f27ea93ba8e7ef6c08509d',
         '36ed02a4341da3f2e3c47af1b365431c', 'Bożena', 'Wiącek', 'bozenka33@poczta.onet.pl', 3);
 
+-- Credentials: user1@user.user
+insert into pap.USERS (Password_hash, Password_salt, First_name, Last_name, Email, Address_ID)
+values ('7eb3a4cc3e9527219291dbb4fdd9c26041e0498135b6087276f7708d29e397c3fbf155c4c5a670803f035f7c82dcad325182859ba0e06fc6b76be48e972c6ffa',
+        '96702cb6850a3dfdc8b08363d805a88d', 'user', 'user', 'user1@user.user', 3);
+
 -- This account is deactivated, so you cannot log in with it
 -- Credentials: deactivated@deactivated.deactivated, user
 insert into pap.USERS (Password_hash, Password_salt, First_name, Last_name, Email, Address_ID, Active)
@@ -155,8 +160,8 @@ insert into pap.BOOKS (ISBN, Title, Author, Genre, Publication_year, Language, P
 values ('000-00-000-0000-0', 'The Bible', 'The Saints', 'Fantasy', 0, 'English', 1200, 'God himself', default, default, default);
 
 -- Pan Tadeusz
-insert into pap.BOOKS (ISBN, Title, Author, Genre, Publication_year, Language, Page_count, Publisher, Status, Description, Date_added)
-values ('978-83-246-8865-8', 'Pan Tadeusz', 'Adam Mickiewicz', 'Poem', 1834, 'Polish', 400, 'Czytelnik', default, 'Pan Tadeusz to epopeja narodowa, napisana przez Adama Mickiewicza w latach 1832-1834 we Francji i w Szwajcarii. Utwór ten jest uważany za ostatni wielki poemat epicki w literaturze polskiej, a zarazem za jedno z największych osiągnięć literatury polskiej.', current_date);
+insert into pap.BOOKS (ISBN, Title, Author, Genre, Publication_year, Language, Page_count, Publisher, Status, Description, Date_added, Cover)
+values ('978-83-246-8865-8', 'Pan Tadeusz', 'Adam Mickiewicz', 'Poem', 1834, 'Polish', 400, 'Czytelnik', default, 'Pan Tadeusz to epopeja narodowa, napisana przez Adama Mickiewicza w latach 1832-1834 we Francji i w Szwajcarii. Utwór ten jest uważany za ostatni wielki poemat epicki w literaturze polskiej, a zarazem za jedno z największych osiągnięć literatury polskiej.', current_date, 'images/PanTadeusz.jpeg');
 
 -- Dziady Cz. II
 insert into pap.BOOKS (ISBN, Title, Author, Genre, Publication_year, Language, Page_count, Publisher, Status, Description, Date_added)
@@ -235,26 +240,39 @@ values (1, 1, current_date - interval '1 month', current_date, current_date);
 insert into pap.BOOK_RENTALS (Book_id, User_id, Date_rented, Date_to_return)
 values (2, 1, current_date, current_date + interval '1 month');
 update pap.BOOKS set Status = 'Rented' where Book_id = 2;
--- User returned the book (within last year)
+
+-- User returned the book
 insert into pap.BOOK_RENTALS (Book_id, User_id, Date_rented, Date_to_return, Date_returned)
-values (1, 1, current_date - interval '7 month', current_date, current_date);
+values (1, 1, current_date - interval '1 month', current_date, current_date);
+
+-- Bozena just rented the book
+insert into pap.BOOK_RENTALS (Book_id, User_id, Date_rented, Date_to_return)
+values (3, 2, current_date, current_date + interval '1 month');
+update pap.BOOKS set Status = 'Rented' where Book_id = 3;
 
 --------------------------------- RENTING QUEUE ---------------------------------
--- User
-insert into pap.RENTING_QUEUE (Book_id, User_id, Date_to_rent, Date_to_return)
-values (2, 1, current_date + interval '1 month', current_date + interval '2 months');
-
 -- Bozena
 insert into pap.RENTING_QUEUE (Book_id, User_id, Date_to_rent, Date_to_return)
-values (2, 2, current_date + interval '2 months', current_date + interval '3 months');
+values (2, 2, current_date + interval '1 month', current_date + interval '2 months');
 
---------------------------------- PENALTIES ---------------------------------
 -- User
-insert into pap.PENALTIES (User_id, Rental_id, Date_added, Date_paid, Amount)
-values (1, 1, current_date, current_date, 15.75);
+insert into pap.RENTING_QUEUE (Book_id, User_id, Date_to_rent, Date_to_return)
+values (2, 1, current_date + interval '2 months', current_date + interval '3 months');
 
--- Bozena
-insert into pap.PENALTIES (User_id, Rental_id, Date_added, Date_paid, Amount, Cause)
-values (2, 1, current_date, null, 50, 'Book has been lost.');
+--------------------------------- PENALTIES + REPORTS ---------------------------------
+-- User1 lost the book
+insert into pap.BOOK_RENTALS (Book_id, User_id, Date_rented, Date_to_return, Date_returned)
+values (4, 3, current_date - interval '1 month', current_date, current_date);
+update pap.BOOKS set Status = 'Unavailable' where Book_id = 4;
 
+insert into pap.REPORTS (Book_id, User_id, report_type, description, report_date, resolved)
+values (4, 3, 'LOSS', 'I lost the book', current_date, true);
 
+insert into pap.PENALTIES (User_id, Rental_id, Date_added, Amount, cause)
+values (3, 5, current_date, 50.0, 'Book has been lost.');
+update pap.USERS set Has_unpaid_penalty = True where Account_ID = 3;
+
+-- User1 has exceeded the deadline for returning the book
+insert into pap.BOOK_RENTALS (Book_id, User_id, Date_rented, Date_to_return)
+values (5, 3, current_date - interval '1 month', current_date - interval '1 day');
+update pap.BOOKS set Status = 'Rented' where Book_id = 5;

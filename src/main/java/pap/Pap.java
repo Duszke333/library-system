@@ -25,6 +25,7 @@ public class Pap extends Application {
         
         new Thread(SessionFactoryMaker::getSessionFactory).start();
         new Thread(pap.helpers.Parameters::readParameters).start();
+        new Thread(pap.helpers.PenaltyManager::checkLateReturns).start();
         
         var fxmlLoader = new FXMLLoader(getClass().getResource("view/main-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), MIN_WIDTH, MIN_HEIGHT);
