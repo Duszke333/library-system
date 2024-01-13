@@ -1,11 +1,7 @@
-package db.DAO;
+package pap.db.DAO;
 
-import db.RandomEntityGenerator;
-import db.TestSessionFactoryMaker;
-import db.HelperMethods;
+import pap.db.RandomEntityGenerator;
 import org.hibernate.SessionFactory;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import pap.db.DAO.EntityDAO.BookDAO;

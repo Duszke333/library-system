@@ -1,4 +1,4 @@
-package db;
+package pap.db;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;

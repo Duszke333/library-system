@@ -21,36 +21,50 @@ public class BranchRepository extends GenericRepository<Branch> implements IBran
     }
 
     @Override
-    public Branch getByEmployeeId(int employeeId) {
+    public Branch getByEmployeeId(int employeeId) throws NullPointerException {
         Employee employee = employeeDAO.read(employeeId);
         Branch branch = branchDAO.read(employee.getBranchId());
+        if (branch == null) {
+            throw new NullPointerException("Branch with id " + employee.getBranchId() + " not found");
+        }
         return branch;
     }
 
     @Override
-    public Branch getByEmployee(Employee employee) {
+    public Branch getByEmployee(Employee employee) throws NullPointerException {
         Branch branch = branchDAO.read(employee.getBranchId());
+        if (branch == null) {
+            throw new NullPointerException("Branch with id " + employee.getBranchId() + " not found");
+        }
         return branch;
     }
 
     @Override
-    public Branch getByAddressId(int addressId) {
+    public Branch getByAddressId(int addressId) throws NullPointerException {
         String sql = "SELECT * FROM pap.branches WHERE address_id = " + addressId;
-        return branchDAO.query(sql).get(0);
+        List<Branch> branch = branchDAO.query(sql);
+        if (branch.size() == 0) {
+            throw new NullPointerException("Branch with address id " + addressId + " not found");
+        }
+        return branch.get(0);
     }
 
     @Override
-    public Branch getByAddress(Address address) {
+    public Branch getByAddress(Address address) throws NullPointerException {
         String sql = "SELECT * FROM pap.branches WHERE address_id = " + address.getAddressId();
-        return branchDAO.query(sql).get(0);
+        List<Branch> branch = branchDAO.query(sql);
+        if (branch.size() == 0) {
+            throw new NullPointerException("Branch with address id " + address.getAddressId() + " not found");
+        }
+        return branch.get(0);
     }
 
     @Override
-    public Branch getByBranchName(String name) {
+    public Branch getByBranchName(String name) throws NullPointerException {
         String sql = "SELECT * FROM pap.branches WHERE branch_name = '" + name + "'";
         List<Branch> branches = branchDAO.query(sql);
         if (branches.size() == 0) {
-            return null;
+            throw new NullPointerException("Branch with name " + name + " not found");
         }
         return branches.get(0);
     }

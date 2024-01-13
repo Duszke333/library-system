@@ -5,6 +5,9 @@ import pap.db.Entities.User;
 import pap.db.DAO.EntityDAO.UserDAO;
 import pap.db.Repository.Interface.IUserRepository;
 
+import java.sql.PreparedStatement;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class UserRepository extends GenericRepository<User> implements IUserRepository {
@@ -15,34 +18,42 @@ public class UserRepository extends GenericRepository<User> implements IUserRepo
     }
 
     @Override
-    public User getByEmail(String email) {
+    public User getByEmail(String email) throws NullPointerException {
         String sql = "SELECT * FROM pap.users WHERE email = '" + email + "'";
         List<User> users = userDAO.query(sql);
         if (users.size() == 0) {
-            return null;
+            throw new NullPointerException("User with email " + email + " not found");
         }
         return users.get(0);
     }
 
     @Override
-    public User getByUsername(String username) {
+    public User getByUsername(String username) throws NullPointerException {
         String sql = "SELECT * FROM pap.users WHERE username = '" + username + "'";
         List<User> users = userDAO.query(sql);
         if (users.size() == 0) {
-            return null;
+            throw new NullPointerException("User with username " + username + " not found");
         }
         return users.get(0);
     }
 
     @Override
-    public List<User> getAllActive() {
+    public List<User> getAllActive() throws NullPointerException {
         String sql = "SELECT * FROM pap.users WHERE active = true";
-        return userDAO.query(sql);
+        List<User> users = userDAO.query(sql);
+        if (users.size() == 0) {
+            throw new NullPointerException("No active users found");
+        }
+        return users;
     }
 
     @Override
-    public List<User> getAllInactive() {
+    public List<User> getAllInactive() throws NullPointerException {
         String sql = "SELECT * FROM pap.users WHERE active = false";
-        return userDAO.query(sql);
+        List<User> users =  userDAO.query(sql);
+        if (users.size() == 0) {
+            throw new NullPointerException("No inactive users found");
+        }
+        return users;
     }
 }

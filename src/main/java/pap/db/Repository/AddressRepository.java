@@ -18,17 +18,26 @@ public class AddressRepository extends GenericRepository<Address> implements IAd
     }
 
     @Override
-    public Address getByUser(User user) {
+    public Address getByUser(User user) throws NullPointerException {
         int addressId = user.getAddressId();
         Address address = addressDAO.read(addressId);
+        if (address == null) {
+            throw new NullPointerException("Address with id " + addressId + " not found");
+        }
         return address;
     }
 
     @Override
-    public Address getByUserId(int userId) {
+    public Address getByUserId(int userId) throws NullPointerException {
         User user = userDAO.read(userId);
+        if (user == null) {
+            throw new NullPointerException("User with id " + userId + " not found");
+        }
         int addressId = user.getAddressId();
         Address address = addressDAO.read(addressId);
+        if (address == null) {
+            throw new NullPointerException("Address with id " + addressId + " not found");
+        }
         return address;
     }
 }

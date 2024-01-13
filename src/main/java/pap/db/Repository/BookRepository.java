@@ -23,71 +23,71 @@ public class BookRepository extends GenericRepository<Book> implements IBookRepo
     }
 
     @Override
-    public Book getByTitle(String title) {
+    public Book getByTitle(String title) throws NullPointerException {
         String sql = "SELECT * FROM pap.books WHERE title = '" + title + "'";
         List<Book> books = bookDAO.query(sql);
         if (books.size() == 0) {
-            return null;
+            throw new NullPointerException("Book with title " + title + " not found");
         }
         return books.get(0);
     }
 
     @Override
-    public Book getByISBN(String ISBN) {
+    public Book getByISBN(String ISBN) throws NullPointerException {
         String sql = "SELECT * FROM pap.books WHERE ISBN = '" + ISBN + "'";
         List<Book> books = bookDAO.query(sql);
         if (books.size() == 0) {
-            return null;
+            throw new NullPointerException("Book with ISBN " + ISBN + " not found");
         }
         return books.get(0);
     }
 
     @Override
-    public List<Book> getByAuthor(String author) {
+    public List<Book> getByAuthor(String author) throws NullPointerException {
         String sql = "SELECT * FROM pap.books WHERE author = '" + author + "'";
         List<Book> books = bookDAO.query(sql);
         if (books.size() == 0) {
-            return null;
+            throw new NullPointerException("Book with author " + author + " not found");
         }
         return books;
     }
 
     @Override
-    public List<Book> getByGenre(String genre) {
+    public List<Book> getByGenre(String genre) throws NullPointerException {
         String sql = "SELECT * FROM pap.books WHERE genre = '" + genre + "'";
         List<Book> books = bookDAO.query(sql);
         if (books.size() == 0) {
-            return null;
+            throw new NullPointerException("Book with genre " + genre + " not found");
         }
         return books;
     }
 
     @Override
-    public List<Book> getByDateAdded(String dateAdded) {
+    public List<Book> getByDateAdded(String dateAdded) throws NullPointerException {
         String sql = "SELECT * FROM pap.books WHERE date_added = '" + dateAdded + "'";
         List<Book> books = bookDAO.query(sql);
         if (books.size() == 0) {
-            return null;
+            throw new NullPointerException("Book with date added " + dateAdded + " not found");
         }
         return books;
     }
 
     @Override
-    public List<Book> getByDatePublished(String datePublished) {
+    public List<Book> getByDatePublished(String datePublished) throws NullPointerException {
         String sql = "SELECT * FROM pap.books WHERE date_published = '" + datePublished + "'";
         List<Book> books = bookDAO.query(sql);
         if (books.size() == 0) {
-            return null;
+            throw new NullPointerException("Book with date published " + datePublished + " not found");
         }
         return books;
     }
 
     @Override
-    public List<Book> getAllByLanguage(String language) {
+    public List<Book> getAllByLanguage(String language) throws NullPointerException {
         String sql = "SELECT * FROM pap.books WHERE language = '" + language + "'";
         List<Book> books = bookDAO.query(sql);
         if (books.size() == 0) {
-            return null;
+            throw new NullPointerException("Book with language " + language + " not found");
         }
         return books;
     }
@@ -102,7 +102,7 @@ public class BookRepository extends GenericRepository<Book> implements IBookRepo
         return books;
     }
     @Override
-    public List<Book> getMostPopular(String periodType) {
+    public List<Book> getMostPopular(String periodType) throws NullPointerException {
         String sql;
         if (!periodType.equalsIgnoreCase("all_time"))
         {
@@ -110,15 +110,19 @@ public class BookRepository extends GenericRepository<Book> implements IBookRepo
         }else{
             sql = "SELECT * FROM pap.BOOKS WHERE book_id in (SELECT book_id FROM pap.BOOK_RENTALS GROUP BY Book_id ORDER BY COUNT(*) DESC)";
         }
-        return bookDAO.query(sql);
+        List<Book> list = bookDAO.query(sql);
+        if (list.size() == 0) {
+            throw new NullPointerException("No books found");
+        }
+        return list;
     }
 
     @Override
-    public BookGrade getBookGrade(int gradeId) {
+    public BookGrade getBookGrade(int gradeId) throws NullPointerException {
         String sql = "SELECT * FROM pap.book_grades WHERE grade_id = " + gradeId;
         List<BookGrade> bookGrades = bookGradeDAO.query(sql);
         if (bookGrades.size() == 0) {
-            return null;
+            throw new NullPointerException("Grade with id " + gradeId + " not found");
         }
         return bookGrades.get(0);
     }
@@ -129,28 +133,28 @@ public class BookRepository extends GenericRepository<Book> implements IBookRepo
     }
 
     @Override
-    public List<BookGrade> getBookGradesByUser(int userId) {
+    public List<BookGrade> getBookGradesByUser(int userId) throws NullPointerException {
         String sql = "SELECT * FROM pap.book_grades WHERE user_id = " + userId;
         List<BookGrade> bookGrades = bookGradeDAO.query(sql);
         if (bookGrades.size() == 0) {
-            return null;
+            throw new NullPointerException("User with id " + userId + " not found");
         }
         return bookGrades;
     }
 
-    public List<BookGrade> getBookGradesByBook(int bookId) {
+    public List<BookGrade> getBookGradesByBook(int bookId) throws NullPointerException {
         String sql = "SELECT * FROM pap.book_grades WHERE book_id = " + bookId;
         List<BookGrade> bookGrades = bookGradeDAO.query(sql);
         if (bookGrades.size() == 0) {
-            return null;
+            throw new NullPointerException("Book with id " + bookId + " not found");
         }
         return bookGrades;
     }
 
-    public Pair<Integer, Double> getBookGradeCountAndAverageGrade(int bookId) {
+    public Pair<Integer, Double> getBookGradeCountAndAverageGrade(int bookId) throws NullPointerException {
         List<BookGrade> bookGrades = getBookGradesByBook(bookId);
         if (bookGrades == null) {
-            return null;
+            throw new NullPointerException("Book with id " + bookId + " not found");
         }
         int count = bookGrades.size();
         double sum = 0;
@@ -185,31 +189,31 @@ public class BookRepository extends GenericRepository<Book> implements IBookRepo
     }
 
     @Override
-    public ReadList getReadList(int readListId) {
+    public ReadList getReadList(int readListId) throws NullPointerException {
         String sql = "SELECT * FROM pap.read_lists WHERE read_list_id = " + readListId;
         List<ReadList> readLists = readListDAO.query(sql);
         if (readLists.size() == 0) {
-            return null;
+            throw new NullPointerException("Read list with id " + readListId + " not found");
         }
         return readLists.get(0);
     }
 
     @Override
-    public List<ReadList> getReadListByUser(int userId) {
+    public List<ReadList> getReadListByUser(int userId) throws NullPointerException {
         String sql = "SELECT * FROM pap.read_lists WHERE user_id = " + userId;
         List<ReadList> readLists = readListDAO.query(sql);
         if (readLists.size() == 0) {
-            return null;
+            throw new NullPointerException("Read list with user id " + userId + " not found");
         }
         return readLists;
     }
 
     @Override
-    public List<ReadList> getReadListByBook(int bookId) {
+    public List<ReadList> getReadListByBook(int bookId) throws NullPointerException {
         String sql = "SELECT * FROM pap.read_lists WHERE book_id = " + bookId;
         List<ReadList> readLists = readListDAO.query(sql);
         if (readLists.size() == 0) {
-            return null;
+            throw new NullPointerException("Read list with book id " + bookId + " not found");
         }
         return readLists;
     }

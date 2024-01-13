@@ -1,4 +1,4 @@
-package db;
+package pap.db;
 
 import pap.db.Entities.*;
 
