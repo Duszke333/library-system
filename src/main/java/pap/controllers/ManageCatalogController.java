@@ -21,6 +21,9 @@ import java.util.Date;
 import java.util.ResourceBundle;
 
 public class ManageCatalogController implements UpdatableController, Initializable {
+    /**
+     * A controller class for manage-catalog page.
+     */
     public static Integer chosenBookID = 1;
     @FXML
     private TableColumn<Book, String> author;
@@ -43,6 +46,9 @@ public class ManageCatalogController implements UpdatableController, Initializab
     
     @FXML
     protected void manageItem(MouseEvent click) throws IOException {
+        /*
+            A method that switches to book-manager page which allows to edit information about the book the employee has chosen.
+         */
         int index = catalog.getSelectionModel().getSelectedIndex();
         chosenBookID = catalog.getSelectionModel().getSelectedItem().getBookId();
         if(index <= -1){

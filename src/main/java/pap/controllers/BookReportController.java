@@ -16,7 +16,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class BookReportController implements UpdatableController, Initializable {
-
+    /**
+     * A controller class for book-report page.
+     */
     @FXML
     private Button cancelButton;
     @FXML
@@ -37,6 +39,9 @@ public class BookReportController implements UpdatableController, Initializable 
     }
     @FXML
     void cancelButtonClicked(MouseEvent event) {
+        /*
+            A method that asks the user if he wants to cancel the report and returns to the previous page if so.
+         */
         Alert alert = new Alert(
                 Alert.AlertType.CONFIRMATION,
                 "Are you certain you wish to cancel? Any unsaved changes will be discarded.",
@@ -54,9 +59,13 @@ public class BookReportController implements UpdatableController, Initializable 
 
     @FXML
     void confirmButtonClicked(MouseEvent event) {
+        /*
+            A method that asks the user if he wants to confirm the report and reports the book if so.
+         */
         boolean isReportBoxFilled = reportBox.getValue() != null;
         boolean isReportTextFilled = !reportText.getText().trim().isEmpty();
         if (isReportBoxFilled && isReportTextFilled) {
+            // ask user if he is sure he wants to report the book
             Alert alert = new Alert(
                     Alert.AlertType.WARNING,
                     "This action is irreversible and may result in penalties or fines.",
@@ -66,6 +75,7 @@ public class BookReportController implements UpdatableController, Initializable 
             alert.setHeaderText("Warning: Irreversible Action!");
             var result = alert.showAndWait();
             if (result.isPresent() && result.get() == ButtonType.OK) {
+                // create new report and add it to the database
                 BookReport report = new BookReport();
                 BookReportDAO bookReportDAO = new BookReportDAO();
                 report.setBookId(book.getBookId());
@@ -74,12 +84,17 @@ public class BookReportController implements UpdatableController, Initializable 
                 report.setReportType(reportBox.getValue());
                 report.setReportDate(new java.sql.Date(System.currentTimeMillis()));
                 bookReportDAO.create(report);
+
+                // deactivate the book
                 PenaltyManager.deactivateBook(book.getBookId());
+
+                // go to the user dashboard
                 GlobalController.switchVisibleContent(LoadedPages.userDashboard);
             } else {
                 alert.close();
             }
         } else {
+            // if there are some values missing, show an error message
             String errorMessage = "";
             if (!isReportBoxFilled) {
                 errorMessage += "Please select a report type.\n";

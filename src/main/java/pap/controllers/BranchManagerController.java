@@ -18,6 +18,9 @@ import java.util.ResourceBundle;
 
 
 public class BranchManagerController implements UpdatableController, Initializable {
+    /**
+     * A controller class for branch-manager page.
+     */
     @Setter
     private static Branch branch;
     private static Address addr;
@@ -47,8 +50,13 @@ public class BranchManagerController implements UpdatableController, Initializab
 
     @FXML
     private void create() {
+        /*
+          A method that creates a new branch.
+         */
+
         operationStatus.setFill(javafx.scene.paint.Color.RED);
 
+        // get every value from the text fields
         String name = nameInput.getText();
         String country = countryInput.getText();
         String city = cityInput.getText();
@@ -57,18 +65,21 @@ public class BranchManagerController implements UpdatableController, Initializab
         String houseNumber = houseNumberInput.getText();
         String flatNumber = flatNumberInput.getText();
 
+        // check if any field required is empty
         if (name.isEmpty() || country.isEmpty() || city.isEmpty() || street.isEmpty() || postalCode.isEmpty() || houseNumber.isEmpty()) {
-            operationStatus.setText("All fields must be filled!");
+            operationStatus.setText("All fields except flat number must be filled!");
             operationStatus.setVisible(true);
             return;
         }
 
+        // check if branch name is too long
         if (name.length() > 128) {
             operationStatus.setText("Name too long!");
             operationStatus.setVisible(true);
             return;
         }
 
+        // create an address object
         Address addr = new Address();
         addr.setCountry(country);
         addr.setCity(city);
@@ -77,6 +88,7 @@ public class BranchManagerController implements UpdatableController, Initializab
         addr.setHouseNumber(houseNumber);
         addr.setFlatNumber(flatNumber);
 
+        // check if address is valid, if it is, save it to database
         int error = ConstraintChecker.checkAddress(addr);
         if (error != -1) {
             operationStatus.setText("Error: " + ConstraintChecker.AddressErrors.values()[error].toString());
@@ -85,11 +97,13 @@ public class BranchManagerController implements UpdatableController, Initializab
         }
         new AddressRepository().create(addr);
 
+        // create a branch object and save it to database
         Branch branch = new Branch();
         branch.setName(name);
         branch.setAddressId(addr.getAddressId());
         new BranchRepository().create(branch);
 
+        // inform the employee about success
         operationStatus.setFill(javafx.scene.paint.Color.GREEN);
         operationStatus.setText("Branch created successfully!");
         operationStatus.setVisible(true);
@@ -97,7 +111,13 @@ public class BranchManagerController implements UpdatableController, Initializab
 
     @FXML
     protected void updateBranch() {
+        /*
+            A method that updates the branch information.
+         */
+
         operationStatus.setFill(javafx.scene.paint.Color.RED);
+
+        // get every value from the text fields
         String name = nameInput.getText();
         String country = countryInput.getText();
         String city = cityInput.getText();
@@ -106,18 +126,21 @@ public class BranchManagerController implements UpdatableController, Initializab
         String houseNumber = houseNumberInput.getText();
         String flatNumber = flatNumberInput.getText();
 
+        // check if any field required is empty
         if (name.isEmpty() || country.isEmpty() || city.isEmpty() || street.isEmpty() || postalCode.isEmpty() || houseNumber.isEmpty()) {
-            operationStatus.setText("All fields must be filled!");
+            operationStatus.setText("All fields except flat number must be filled!");
             operationStatus.setVisible(true);
             return;
         }
 
+        // check if branch name is too long
         if (name.length() > 128) {
             operationStatus.setText("Name too long!");
             operationStatus.setVisible(true);
             return;
         }
 
+        // update the address object
         addr.setCountry(country);
         addr.setCity(city);
         addr.setStreet(street);
@@ -125,6 +148,7 @@ public class BranchManagerController implements UpdatableController, Initializab
         addr.setHouseNumber(houseNumber);
         addr.setFlatNumber(flatNumber);
 
+        // check if address is valid, if it is, save it to database
         int error = ConstraintChecker.checkAddress(addr);
         if (error != -1) {
             operationStatus.setText("Error: " + ConstraintChecker.AddressErrors.values()[error].toString());
@@ -134,9 +158,11 @@ public class BranchManagerController implements UpdatableController, Initializab
 
         new AddressRepository().update(addr);
 
+        // update the branch name
         branch.setName(name);
         new BranchRepository().update(branch);
 
+        // inform the employee about success
         operationStatus.setText("Branch updated successfully!");
         operationStatus.setFill(javafx.scene.paint.Color.GREEN);
         operationStatus.setVisible(true);

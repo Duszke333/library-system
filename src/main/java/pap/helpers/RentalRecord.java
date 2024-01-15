@@ -12,6 +12,9 @@ import java.util.List;
 
 @Getter
 public class RentalRecord {
+    /**
+     * A class that represents a record of the TableView in browse-rental page.
+     */
     private int rentalId;
     private int bookId;
     private int userId;

@@ -11,6 +11,9 @@ import pap.helpers.ConstraintChecker;
 import java.io.File;
 
 public class BookCreatorController implements UpdatableController {
+    /**
+     * A controller class for book-creator page.
+     */
     @FXML
     private TextField bookISBN;
     @FXML
@@ -36,6 +39,11 @@ public class BookCreatorController implements UpdatableController {
 
     @FXML
     protected void addBook() {
+        /*
+          A method that adds a book to the database.
+         */
+
+        // get every value from the text fields
         String isbn = bookISBN.getText();
         String title = bookTitle.getText();
         String author = bookAuthor.getText();
@@ -47,12 +55,15 @@ public class BookCreatorController implements UpdatableController {
         String description = bookDescription.getText();
         String cover = bookCover.getText();
 
+        // check if every required field is filled
         if (isbn.isEmpty() || title.isEmpty() || author.isEmpty() || genre.isEmpty() || publication.isEmpty()
                 || language.isEmpty() || pages.isEmpty() || publisher.isEmpty()) {
             statusMessage.setText("All fields except Description and Book cover must be filled!");
             statusMessage.setVisible(true);
             return;
         }
+
+        // check if publication year and page count are integers
         int publicationYear;
         int pageCount;
         try {
@@ -64,6 +75,7 @@ public class BookCreatorController implements UpdatableController {
             return;
         }
 
+        // create a book object
         Book book = new Book();
         book.setIsbn(isbn);
         book.setTitle(title);
@@ -76,8 +88,9 @@ public class BookCreatorController implements UpdatableController {
         if (description.isEmpty()) description = "Description will be added soon.";
         book.setDescription(description);
         book.setDateAdded(new java.sql.Date(System.currentTimeMillis()));
+        book.setStatus(Book.BookStatus.Available);
 
-        book.setStatus("Available");
+        // set the book cover
         if (!cover.isEmpty()) {
             File f = new File(Book.CoverData.CoverPath + cover);
             if (f.exists() && !f.isDirectory()) {
@@ -89,14 +102,19 @@ public class BookCreatorController implements UpdatableController {
             book.setCover(Book.CoverData.DefaultCover);
         }
 
-        BookRepository bookRepo = new BookRepository();
+        // check if the book is valid
         int error = ConstraintChecker.checkBook(book);
         if (error != -1) {
             statusMessage.setText("Error: " + ConstraintChecker.BookErrors.values()[error].toString());
             statusMessage.setVisible(true);
             return;
         }
+
+        // add the book to the database
+        BookRepository bookRepo = new BookRepository();
         bookRepo.create(book);
+
+        // inform about success
         statusMessage.setText("Book added!");
         statusMessage.setFill(javafx.scene.paint.Color.GREEN);
         update();

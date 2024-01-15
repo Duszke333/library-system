@@ -15,7 +15,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class BrowseBookHistoryController implements UpdatableController, Initializable {
-
+    /**
+     * A controller class for browse-book-history page.
+     */
     @Setter
     static private int bookId=0;
     @FXML

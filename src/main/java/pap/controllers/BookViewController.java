@@ -32,6 +32,9 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class BookViewController implements UpdatableController, Initializable {
+    /**
+     * A controller class for book-view page.
+     */
     @FXML
     Label titleLabel;
     @FXML
@@ -91,6 +94,9 @@ public class BookViewController implements UpdatableController, Initializable {
     Button reportButton;
 
     public void displayWishStatus() {
+        /*
+            A method that displays the status of the book in the wishlist.
+         */
         int uid = Login.getUserLoggedIn().orElse(-1);
         wishLabel.setText("");
         wishButton.setText("Add a book to the wishlist");
@@ -103,6 +109,9 @@ public class BookViewController implements UpdatableController, Initializable {
     }
 
     public void showReportButton(){
+        /*
+            A method that shows the report button if the book is rented by the user.
+         */
         int uid = Login.getUserLoggedIn().orElse(-1);
         if (uid == -1 || !new RentalRepository().isRentedByUser(uid, book.getBookId())){
             reportButton.setVisible(false);
@@ -113,6 +122,10 @@ public class BookViewController implements UpdatableController, Initializable {
 
     @FXML
     protected void extendPressed() {
+        /*
+            A method that extends the rental of the book by one month.
+         */
+        // update rental
         RentalRepository repo = new RentalRepository();
         BookRental rental = repo.getCurrentBookRental(book.getBookId());
         var date = rental.getDateToReturn();
@@ -120,20 +133,28 @@ public class BookViewController implements UpdatableController, Initializable {
         rental.setDateToReturn(date);
         rental.setWasProlonged(true);
         repo.update(rental);
+
+        // inform user about success
         actionButton.setDisable(true);
         actionLabel.setText("You have successfully extended your rental. It must be returned by " + date);
     }
 
     @FXML
     protected void reservePressed() {
+        /*
+            A method that adds the user to the queue for the book.
+         */
         java.sql.Date date;
         RentalRepository repo = new RentalRepository();
+        // check if book has eny queue entries and get the last return date
         if (book.getStatus().equals(BookStatus.Rented)) {
             date = repo.getCurrentBookRental(book.getBookId()).getDateToReturn();
         } else {
             List<RentingQueue> queue = repo.getRentingQueuesByBookId(book.getBookId());
             date = queue.get(queue.size() - 1).getDateToReturn();
         }
+
+        // create new queue entry
         var queue = new RentingQueue();
         queue.setBookId(book.getBookId());
         queue.setUserId(Login.getUserLoggedIn().get());
@@ -142,16 +163,25 @@ public class BookViewController implements UpdatableController, Initializable {
         returnDate.setMonth(returnDate.getMonth() + 1);
         queue.setDateToReturn(returnDate);
         repo.createRentingQueue(queue);
+
+        // update book status if it's needed
         if (!book.getStatus().equals(BookStatus.ReadyForPickup)) {
             book.setStatus(BookStatus.Reserved);
             new BookRepository().update(book);
         }
+
+        // inform user about success
         actionButton.setDisable(true);
         actionLabel.setText("You have successfully joined the queue. You can pick up the book on " + date);
     }
 
     @FXML
     protected void returnPressed() {
+        /*
+            A method that returns the book.
+         */
+
+        // update book status
         if (book.getStatus().equals(BookStatus.Rented)) {
             book.setStatus(BookStatus.Available);
             actionButton.setDisable(true);
@@ -159,10 +189,14 @@ public class BookViewController implements UpdatableController, Initializable {
             book.setStatus(BookStatus.ReadyForPickup);
         }
         new BookRepository().update(book);
+
+        // update rental to returned
         RentalRepository repo = new RentalRepository();
         BookRental rental = repo.getCurrentBookRental(book.getBookId());
         rental.setDateReturned(new java.sql.Date(System.currentTimeMillis()));
         repo.update(rental);
+
+        // inform user about success
         returnButton.setDisable(true);
         returnText.setText("");
         actionLabel.setText("You have successfully returned this book.");
@@ -170,9 +204,15 @@ public class BookViewController implements UpdatableController, Initializable {
 
     @FXML
     protected void resignPressed() {
+        /*
+            A method that removes the user from the queue.
+         */
+
+        // get the queue for the book
         RentalRepository repo = new RentalRepository();
         List<RentingQueue> queue = repo.getRentingQueuesByBookId(book.getBookId());
         if (queue.size() == 1) {
+            // if the user is the only one in the queue, just remove his entry and update book status
             repo.deleteRentingQueue(queue.get(0));
             if (book.getStatus().equals(BookStatus.ReadyForPickup)) {
                 book.setStatus(BookStatus.Available);
@@ -184,7 +224,8 @@ public class BookViewController implements UpdatableController, Initializable {
             actionLabel.setText("You have successfully left the queue.");
             return;
         }
-        // Shift everyone in queue
+
+        // Shift everyone behind the user in queue
         RentingQueue previous = null;
         int currentUid = Login.getUserLoggedIn().get();
         for (RentingQueue entry : queue) {
@@ -202,12 +243,17 @@ public class BookViewController implements UpdatableController, Initializable {
         // Delete last entry
         repo.deleteRentingQueue(previous);
 
+        // inform user about success
         actionButton.setDisable(true);
         actionLabel.setText("You have successfully left the queue.");
     }
 
     @FXML
     protected void pickupPressed() {
+        /*
+            A method that picks up the book.
+         */
+
         // create new rental
         RentalRepository repo = new RentalRepository();
         BookRental rental = new BookRental();
@@ -237,6 +283,11 @@ public class BookViewController implements UpdatableController, Initializable {
 
     @FXML
     protected void rentPressed() {
+        /*
+            A method that rents the book.
+         */
+
+        // create new rental
         BookRental rental = new BookRental();
         rental.setBookId(book.getBookId());
         rental.setUserId(Login.getUserLoggedIn().get());
@@ -247,14 +298,23 @@ public class BookViewController implements UpdatableController, Initializable {
         rental.setDateToReturn(returnDate);
         rental.setWasProlonged(false);
         new RentalRepository().create(rental);
+
+        // update book status
         book.setStatus(BookStatus.Rented);
         new BookRepository().update(book);
+
+        // inform user about success
         actionButton.setDisable(true);
         actionLabel.setText("You have successfully ordered this book. It must be returned by " + returnDate);
     }
 
     @FXML
     protected void gradeButtonPressed() {
+        /*
+            A method that grades the book.
+         */
+
+        // create new grade
         int uid = Login.getUserLoggedIn().get();
         int bookId = book.getBookId();
         double gradeValue = gradeSlider.getValue();
@@ -265,12 +325,16 @@ public class BookViewController implements UpdatableController, Initializable {
         grade.setDateAdded(new java.sql.Date(System.currentTimeMillis()));
         new BookRepository().addBookGrade(grade);
 
+        // inform user about success
         gradeButton.setDisable(true);
         gradeStatus.setText("You have already graded this book!");
         gradeSlider.setDisable(true);
     }
 
     private void updateDisplay() {
+        /*
+            A method that updates the display of the book information.
+         */
         titleLabel.setText("Title: " + book.getTitle());
         authorLabel.setText("Author: " + book.getAuthor());
         genreLabel.setText("Genre: " + book.getGenre());
@@ -282,7 +346,8 @@ public class BookViewController implements UpdatableController, Initializable {
         isAvailableLabel.setText("Availability: " + book.getStatus());
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
         dateAddedLabel.setText("Date added: " + dateFormat.format(book.getDateAdded()));
-        
+
+        // display cover image
         var repo = new BookRepository();
         if (repo.getById(book.getBookId()) != null) {
             String coverPath = repo.getById(book.getBookId()).getCover();
@@ -290,6 +355,7 @@ public class BookViewController implements UpdatableController, Initializable {
             imageView.setImage(image);
         }
 
+        // display grade
         Pair<Integer, Double> pair = repo.getBookGradeCountAndAverageGrade(book.getBookId());
         if (pair == null) {
             grade.setText("Grade: 0.0 (this book hasn't been graded yet)");
@@ -299,6 +365,11 @@ public class BookViewController implements UpdatableController, Initializable {
     }
 
     private void updateGrading() {
+        /*
+            A method that updates the grading display.
+         */
+
+        // check if user is logged in
         int uid = Login.getUserLoggedIn().orElse(-1);
         if (uid == -1) {
             gradeButton.setDisable(true);
@@ -308,6 +379,8 @@ public class BookViewController implements UpdatableController, Initializable {
             gradeText.setText("Your grade: 1.0");
             return;
         }
+
+        // check if user has already graded this book
         var grade = new BookRepository().getThisBookGradeByUser(book.getBookId(), uid);
         if (grade != null) {
             gradeButton.setDisable(true);
@@ -318,6 +391,7 @@ public class BookViewController implements UpdatableController, Initializable {
             return;
         }
 
+        // set the grade slider to default position
         gradeButton.setDisable(false);
         gradeStatus.setText("");
         gradeSlider.setDisable(false);
@@ -326,9 +400,13 @@ public class BookViewController implements UpdatableController, Initializable {
     }
 
     private void updateAction() {
+        /*
+            A method that updates the action button and label as well as the return button.
+         */
         returnButton.setVisible(false);
         returnText.setVisible(false);
 
+        // first, check if the book is unavailable
         String status = book.getStatus();
         if (status.equals(BookStatus.Unavailable)) {        // G
             actionButton.setText("Rent");
@@ -337,6 +415,7 @@ public class BookViewController implements UpdatableController, Initializable {
             return;
         }
 
+        // check if user is logged in
         int uid = Login.getUserLoggedIn().orElse(-1);
         if (uid == -1) {                                    // G
             actionButton.setText("Rent");
@@ -344,12 +423,15 @@ public class BookViewController implements UpdatableController, Initializable {
             actionLabel.setText("You must be logged in to do that!");
             return;
         }
+
         actionButton.setDisable(false);
 
+        // check if book is available
         if (status.equals(BookStatus.Available)) {      // G
             actionButton.setText("Rent");
             actionButton.setOnAction(event -> rentPressed());
             if (new UserRepository().getById(uid).isHasUnpaidPenalty()) {
+                // if user has unpaid penalties he cannot rent books
                 actionButton.setDisable(true);
                 actionLabel.setText("You cannot rent books until you pay your penalties."); // G
             } else {
@@ -358,7 +440,7 @@ public class BookViewController implements UpdatableController, Initializable {
             return;
         }
 
-        // check if user is first in queue
+        // check if the book is ready for pickup and user is first in queue
         RentalRepository repo = new RentalRepository();
         if (book.getStatus().equals(BookStatus.ReadyForPickup)) {
             RentingQueue queue = repo.getRentingQueuesByBookId(book.getBookId()).get(0);
@@ -379,6 +461,7 @@ public class BookViewController implements UpdatableController, Initializable {
         // check if user rented this book
         BookRental rental = repo.getCurrentBookRental(book.getBookId());
         if (rental != null && rental.getUserId() == uid) {                // G
+            // set return button
             returnButton.setText("Return");
             returnButton.setVisible(true);
             returnButton.setOnAction(event -> returnPressed());
@@ -390,12 +473,16 @@ public class BookViewController implements UpdatableController, Initializable {
             actionButton.setText("Extend");
             actionButton.setOnAction(event -> extendPressed());
 
+            // check if user has unpaid penalties, he cannot extend a rental if he has
             if (new UserRepository().getById(uid).isHasUnpaidPenalty()) {
                 actionButton.setDisable(true);
                 actionLabel.setText("You cannot extend your rental until you pay your penalties."); // G
                 return;
             }
+
+            // check if book rental can be extended
             if (status.equals(BookStatus.Rented)) {
+                // check if the rental has already been extented
                 if (rental.isWasProlonged()) {
                     actionButton.setDisable(true);
                     actionLabel.setText("You have already extended your rental");   // G
@@ -410,6 +497,7 @@ public class BookViewController implements UpdatableController, Initializable {
             return;
         }
 
+        // check if user has an unpaid penalty, he cannot join the queue if he has
         if (new UserRepository().getById(uid).isHasUnpaidPenalty()) {
             actionButton.setText("Join the queue");
             actionButton.setDisable(true);
@@ -417,6 +505,7 @@ public class BookViewController implements UpdatableController, Initializable {
             return;
         }
 
+        // check if there is anyone in queue for this book
         List<RentingQueue> queue = repo.getRentingQueuesByBookId(book.getBookId());
         if (queue.isEmpty()) {
             actionButton.setText("Reserve");    // G
@@ -439,6 +528,7 @@ public class BookViewController implements UpdatableController, Initializable {
         actionButton.setText("Join the queue");
         actionButton.setOnAction(event -> reservePressed());
         var lastDate = queue.get(queue.size() - 1).getDateToReturn();
+        // check if queue is full
         if (queue.size() < Parameters.getMaxQueueLength()) {
             actionLabel.setText("This book is reserved until " + lastDate + ". You can join the queue and pick it up on the day after.");
         } else {
@@ -448,14 +538,23 @@ public class BookViewController implements UpdatableController, Initializable {
     }
 
     public void wishButtonClicked(MouseEvent mouseEvent){
+        /*
+            A method that adds the book to the wishlist.
+         */
+
+        // check if user is logged in
         int uid = Login.getUserLoggedIn().orElse(-1);
         if (uid == -1){
             wishButton.setText("Add a book to the wishlist");
             wishLabel.setText("Login to add a book to wishlist");
             return;
         }
+
+        // check if the book is already in the wishlist
         BookWishList wish = new BookWishList();
         WishRepository wishRepo = new WishRepository();
+
+        // check if the wish already exists, if not create it, if yes delete it
         BookWishList wishListByUserAndBook = wishRepo.getWishListByUserAndBook(uid, book.getBookId());
         if (wishListByUserAndBook == null) {
             wish.setBookId(book.getBookId());
@@ -472,12 +571,18 @@ public class BookViewController implements UpdatableController, Initializable {
     }
 
     public void reportButtonClicked(MouseEvent mouseEvent){
+        /*
+            A method that reports the book.
+         */
+
+        // check if user has already reported the book
         BookReport existingReport = new ReportRepository().getReportByUserAndBook(Login.getUserLoggedIn().get(), book.getBookId());
         if (existingReport == null) {
             BookReportController.setBook(book);
             BookReportController.setUserId(Login.getUserLoggedIn().get());
             GlobalController.switchVisibleContent(LoadedPages.bookReport);
         } else {
+            // inform user about the status of his report
             Alert alreadyReportedAlert = new Alert(
                     Alert.AlertType.WARNING,
                     "You have already reported this book. You report is pending.",

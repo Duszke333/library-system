@@ -17,6 +17,9 @@ import java.util.List;
 import java.util.Optional;
 
 public class UserDashboardController implements UpdatableController {
+    /**
+     * A controller class for user-dashboard page.
+     */
     @FXML
     private ListView<Button> userActions;
     @FXML
@@ -26,8 +29,13 @@ public class UserDashboardController implements UpdatableController {
 
     @FXML
     private void checkDeactivation() {
+        /*
+            A method that runs the account deactivation process.
+         */
         int uid = Login.getUserLoggedIn().get();
         var user = new UserRepository().getById(uid);
+
+        // check if user has unpaid penalties
         if (user.isHasUnpaidPenalty()) {
             Alert alert = new Alert(
                     Alert.AlertType.WARNING,
@@ -37,6 +45,8 @@ public class UserDashboardController implements UpdatableController {
             alert.showAndWait();
             return;
         }
+
+        // check if user has active rentals
         List<BookRental> currentRentals = new RentalRepository().getUserCurrentRentals(uid);
         if (!currentRentals.isEmpty()) {
             Alert alert = new Alert(
@@ -47,6 +57,8 @@ public class UserDashboardController implements UpdatableController {
             alert.showAndWait();
             return;
         }
+
+        // ask if the user is certain that they want to deactivate their account
         Alert alert = new Alert(
                 Alert.AlertType.CONFIRMATION,
                 "Are you positive?",
@@ -69,6 +81,9 @@ public class UserDashboardController implements UpdatableController {
 
     @FXML
     private void initialize() {
+        /*
+            A method that initializes the page by setting up all the needed buttons.
+         */
         var signOutItem = new Button("Sign Out");
         signOutItem.setOnAction(e -> {
             Login.setUserLoggedIn(Optional.empty());

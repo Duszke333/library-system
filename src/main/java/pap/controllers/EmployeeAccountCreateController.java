@@ -15,6 +15,9 @@ import pap.helpers.LoadedPages;
 import pap.helpers.PasswordHasher;
 
 public class EmployeeAccountCreateController implements UpdatableController {
+    /**
+     * A controller class for employee-account-create page.
+     */
     @FXML
     private TextField userEmailInput;
     @FXML
@@ -41,6 +44,11 @@ public class EmployeeAccountCreateController implements UpdatableController {
 
     @FXML
     protected void createEmployeeAccountPressed() {
+        /*
+            A method that creates a new employee account.
+         */
+
+        // Get all the input data.
         String userEmail = userEmailInput.getText();
         String userPassword = userPasswordInput.getText();
         String employeeUsername = employeeUsernameInput.getText();
@@ -49,6 +57,7 @@ public class EmployeeAccountCreateController implements UpdatableController {
         String role = roleInput.getText();
         String branch = branchNameInput.getText();
 
+        // Check if all the fields are filled
         if (userEmail.isEmpty() || userPassword.isEmpty() || employeeUsername.isEmpty() || employeePassword.isEmpty()
             || employeePasswordConf.isEmpty() || role.isEmpty() || branch.isEmpty()) {
             operationStatus.setText("All fields must be filled!");
@@ -56,6 +65,7 @@ public class EmployeeAccountCreateController implements UpdatableController {
             return;
         }
 
+        // Check if the user account credentials are valid
         int uid = tryLoginUser(userEmail, userPassword);
         if (uid == LoginTry.IncorrectPassword) {
             operationStatus.setText("Wrong user email or password!");
@@ -63,6 +73,7 @@ public class EmployeeAccountCreateController implements UpdatableController {
             return;
         }
 
+        // Check if the employee account passwords match
         if (!employeePassword.equals(employeePasswordConf)) {
             passUnmatched.setText("Passwords do not match!");
             passUnmatched.setVisible(true);
@@ -70,19 +81,23 @@ public class EmployeeAccountCreateController implements UpdatableController {
         }
         passUnmatched.setVisible(false);
 
+        // Create the employee account
         Employee emp = new Employee();
 
+        // create salt and hash the password
         String passwordSalt = PasswordHasher.generateSalt();
         emp.setPasswordSalt(passwordSalt);
 
         String passwordHash = PasswordHasher.hashPassword(employeePassword, passwordSalt);
         emp.setPasswordHash(passwordHash);
 
+        // fill all the account data
         emp.setUsername(employeeUsername);
         emp.setRole(role);
         emp.setDateCreated(new java.sql.Date(System.currentTimeMillis()));
         emp.setUserID(uid);
 
+        // check if the branch exists
         Branch br = new BranchRepository().getByBranchName(branch);
         if (br == null) {
             operationStatus.setText("Branch under given name not found!");
@@ -92,6 +107,7 @@ public class EmployeeAccountCreateController implements UpdatableController {
 
         emp.setBranchId(br.getBranchId());
 
+        // check if the employee account data is valid, and create the account if it is
         EmployeeRepository empRepo = new EmployeeRepository();
         int error = ConstraintChecker.checkEmployee(emp, empRepo);
         if (error != -1) {
@@ -100,6 +116,8 @@ public class EmployeeAccountCreateController implements UpdatableController {
             return;
         }
         empRepo.create(emp);
+
+        // inform the employee about success
         operationStatus.setText("Account created!");
         operationStatus.setFill(javafx.scene.paint.Color.GREEN);
         operationStatus.setVisible(true);

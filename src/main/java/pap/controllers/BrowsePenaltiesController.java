@@ -25,6 +25,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class BrowsePenaltiesController implements UpdatableController, Initializable {
+    /**
+     * A controller class for browse-penalties page.
+     */
     @FXML
     private TableView<PenaltyRecord> penaltyCatalog;
     @FXML
@@ -43,6 +46,11 @@ public class BrowsePenaltiesController implements UpdatableController, Initializ
     private TableColumn<PenaltyRecord, String> cause;
 
     private void damagePenalty(int penaltyId) {
+        /*
+            A method that lets the user "pay" for the penalty.
+         */
+
+        // Check if user wants to pay for the penalty
         Alert alert = new Alert(
                 Alert.AlertType.CONFIRMATION,
                 "Do you wish to pay for this penalty?",
@@ -77,6 +85,9 @@ public class BrowsePenaltiesController implements UpdatableController, Initializ
 
     @FXML
     public void getItem(MouseEvent event) {
+        /*
+            A method that lets the user "pay" for the penalty.
+         */
         if (penaltyCatalog.getSelectionModel().getSelectedItem() == null) {
             return;
         }
@@ -84,7 +95,11 @@ public class BrowsePenaltiesController implements UpdatableController, Initializ
         if(index <= -1){
             return;
         }
+
+        // check if penalty is paid
         if (penaltyCatalog.getSelectionModel().getSelectedItem().getPaid()) return;
+
+        // check if penalty is not because of rental overextension
         int penaltyId = penaltyCatalog.getSelectionModel().getSelectedItem().getPenaltyId();
         String cause = penaltyCatalog.getSelectionModel().getSelectedItem().getCause();
         if(!cause.equals(Penalty.PenaltyCause.Late)) {
@@ -99,6 +114,7 @@ public class BrowsePenaltiesController implements UpdatableController, Initializ
             return;
         }
 
+        // Ask user if he wants to return the book
         Alert alert = new Alert(
                 Alert.AlertType.CONFIRMATION,
                 "Do you wish to return this book now?",
@@ -107,6 +123,7 @@ public class BrowsePenaltiesController implements UpdatableController, Initializ
         );
         var result = alert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.YES) {
+            // if user does want to return the book, switch to book-view page
             Book book = new BookRepository().getById(penaltyCatalog.getSelectionModel().getSelectedItem().getBookId());
             BookViewController.setBook(book);
             GlobalController.switchVisibleContent(LoadedPages.bookView);

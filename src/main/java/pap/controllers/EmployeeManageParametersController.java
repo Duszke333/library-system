@@ -11,6 +11,9 @@ import java.util.ResourceBundle;
 import static pap.helpers.Parameters.*;
 
 public class EmployeeManageParametersController implements UpdatableController, Initializable {
+    /**
+     * A controller class for employee-manage-parameters page.
+     */
     @FXML
     private TextField maxQueueLengthInput;
     @FXML
@@ -24,19 +27,26 @@ public class EmployeeManageParametersController implements UpdatableController, 
 
     @FXML
     protected void updateParameters() {
+        /*
+            A method that updates the system parameters.
+         */
         updateStatus.setFill(javafx.scene.paint.Color.RED);
         updateStatus.setVisible(false);
+
+        // Get the input data
         String maxQueueLength = maxQueueLengthInput.getText();
         String dailyPenalty = dailyPenaltyInput.getText();
         String bookDamagePenalty = bookDamagePenaltyInput.getText();
         String bookLossPenalty = bookLossPenaltyInput.getText();
 
+        // Check if all the fields are filled
         if (maxQueueLength.isEmpty() || dailyPenalty.isEmpty() || bookDamagePenalty.isEmpty() || bookLossPenalty.isEmpty()) {
             updateStatus.setText("All fields must be filled");
             updateStatus.setVisible(true);
             return;
         }
 
+        // Check if all the fields are numbers
         int maxQueueLengthInt;
         double dailyPenaltyDouble;
         double bookDamagePenaltyDouble;
@@ -53,29 +63,35 @@ public class EmployeeManageParametersController implements UpdatableController, 
             return;
         }
 
+        // Check if all the fields are positive
         if (maxQueueLengthInt <= 0 || dailyPenaltyDouble <= 0 || bookDamagePenaltyDouble <= 0 || bookLossPenaltyDouble <= 0) {
             updateStatus.setText("All values must be positive");
             updateStatus.setVisible(true);
             return;
         }
 
+        // Check if the parameters have logical values
         if (bookDamagePenaltyDouble < dailyPenaltyDouble) {
             updateStatus.setText("Book damage penalty must be greater than daily penalty");
             updateStatus.setVisible(true);
             return;
         }
 
+        // Check if the parameters have logical values
         if (bookLossPenaltyDouble < bookDamagePenaltyDouble) {
             updateStatus.setText("Book loss penalty must be greater than daily penalty");
             updateStatus.setVisible(true);
             return;
         }
 
+        // Update the parameters
         setMaxQueueLength(maxQueueLengthInt);
         setDailyPenalty(dailyPenaltyDouble);
         setBookDamagePenalty(bookDamagePenaltyDouble);
         setBookLossPenalty(bookLossPenaltyDouble);
         writeParameters();
+
+        // inform the employee about success
         updateStatus.setFill(javafx.scene.paint.Color.GREEN);
         updateStatus.setText("Parameters updated successfully!");
         updateStatus.setVisible(true);

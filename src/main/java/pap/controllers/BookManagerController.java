@@ -16,6 +16,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class BookManagerController implements UpdatableController, Initializable {
+    /**
+     * A controller class for book-manager page.
+     */
     private Book book;
     @FXML
     private TextField isbnInput;
@@ -50,8 +53,13 @@ public class BookManagerController implements UpdatableController, Initializable
 
     @FXML
     protected void updateInformation() {
+        /*
+          A method that updates a book in the database.
+         */
         updateStatus.setFill(javafx.scene.paint.Color.RED);
         updateStatus.setVisible(false);
+
+        // get every value from the text fields
         String isbn = isbnInput.getText();
         String title = titleInput.getText();
         String author = authorInput.getText();
@@ -63,6 +71,7 @@ public class BookManagerController implements UpdatableController, Initializable
         String description = descriptionInput.getText();
         String cover = coverInput.getText();
 
+        // check if every required field is filled
         if (isbn.isEmpty() || title.isEmpty() || author.isEmpty() || genre.isEmpty() || publicationYear.isEmpty()
                 || language.isEmpty() || pageCount.isEmpty() || publisher.isEmpty()) {
             updateStatus.setText("All fields except Description must be filled!");
@@ -70,6 +79,7 @@ public class BookManagerController implements UpdatableController, Initializable
             return;
         }
 
+        // check if publication year and page count are integers
         Integer year;
         Integer pages;
         try {
@@ -81,6 +91,7 @@ public class BookManagerController implements UpdatableController, Initializable
             return;
         }
 
+        // check if cover file exists and set it if so
         if (!cover.isEmpty()) {
             File f = new File(Book.CoverData.CoverPath + cover);
             if (!f.exists() || f.isDirectory()) {
@@ -94,6 +105,7 @@ public class BookManagerController implements UpdatableController, Initializable
             cover = Book.CoverData.DefaultCover;
         }
 
+        // create a book object and set its values
         book.setIsbn(isbn);
         book.setTitle(title);
         book.setAuthor(author);
@@ -106,14 +118,19 @@ public class BookManagerController implements UpdatableController, Initializable
         book.setDescription(description);
         book.setCover(cover);
 
-        BookRepository bookRepo = new BookRepository();
+        // check if the book is valid
         int error = ConstraintChecker.checkBook(book);
         if (error != -1) {
             updateStatus.setText("Error: " + ConstraintChecker.BookErrors.values()[error].toString());
             updateStatus.setVisible(true);
             return;
         }
+
+        // update the book in the database
+        BookRepository bookRepo = new BookRepository();
         bookRepo.update(book);
+
+        // inform about a success
         updateStatus.setText("Book updated successfully!");
         updateStatus.setFill(javafx.scene.paint.Color.GREEN);
         updateStatus.setVisible(true);
@@ -121,6 +138,9 @@ public class BookManagerController implements UpdatableController, Initializable
 
     @FXML
     protected void deleteBook() {
+        /*
+          A method that asks the employee if he really wants to delete the book.
+         */
         deletionStatus.setFill(javafx.scene.paint.Color.WHITE);
         deletionStatus.setText("Are you sure you want to delete this book?");
         deletionStatus.setVisible(true);
@@ -131,12 +151,18 @@ public class BookManagerController implements UpdatableController, Initializable
 
     @FXML
     protected void viewHistory() {
+        /*
+            A method that switches the visible content to browse-book-history page.
+        */
         BrowseBookHistoryController.setBookId(book.getBookId());
         GlobalController.switchVisibleContent(LoadedPages.browseBookHistory);
     }
 
     @FXML
     protected void deletionConfirmed() {
+        /*
+          A method that deletes the book from the database.
+         */
         deletionStatus.setFill(javafx.scene.paint.Color.RED);
         deletionStatus.setText("Book deleted.");
         confirmDeletion.setVisible(false);
@@ -146,6 +172,9 @@ public class BookManagerController implements UpdatableController, Initializable
 
     @FXML
     protected void deletionCancelled() {
+        /*
+          A method that cancels the book deletion.
+         */
         deletionStatus.setFill(javafx.scene.paint.Color.GREEN);
         deletionStatus.setText("Book deletion cancelled.");
         deletionButton.setDisable(false);
@@ -155,6 +184,9 @@ public class BookManagerController implements UpdatableController, Initializable
 
     @FXML
     protected void goBack() {
+        /*
+            A method that switches the visible content to manage-catalog page.
+        */
         GlobalController.switchVisibleContent(LoadedPages.manageCatalog);
     }
     

@@ -18,7 +18,9 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class EmployeeShowIssueController implements UpdatableController, Initializable {
-
+    /**
+     * A controller class for employee-show-issue page.
+     */
     @FXML
     private Label dateReported;
     @FXML
@@ -69,6 +71,7 @@ public class EmployeeShowIssueController implements UpdatableController, Initial
         author.setText("Author: " + selectedIssueRecord.getAuthor());
         descriptionLabel.setText("Description: " + selectedIssueRecord.getDescription());
 
+        // If the issue has been resolved, disable the confirm button and change the text of the cancel button
         if (selectedIssueRecord.getResolved()) {
             confirmButton.setText("This issue has been resolved.");
             confirmButton.setDisable(true);
@@ -84,6 +87,11 @@ public class EmployeeShowIssueController implements UpdatableController, Initial
 
     @FXML
     void cancelButtonClicked() {
+        /*
+            A method that switches to employee-issue-manage page which allows to manage issues.
+         */
+
+        // ask the employee if he is certain that he doesn't want to resolve the issue
         Alert alert = new Alert(
                 Alert.AlertType.WARNING,
                 "Are you sure you want to cancel? The issue won't be resolved.",
@@ -103,6 +111,11 @@ public class EmployeeShowIssueController implements UpdatableController, Initial
 
     @FXML
     void confirmButtonClicked() {
+        /*
+            A method that marks the issue as resolved and creates a penalty for the user.
+         */
+
+        // ask the employee if he is certain that he wants to resolve the issue
         Alert alert = new Alert(
                 Alert.AlertType.WARNING,
                 "This action is irreversible and will mark this issue as resolved.",

@@ -9,6 +9,9 @@ import java.util.List;
 
 @Getter
 public class CatalogRecord {
+    /**
+     * A class that represents a record of the TableView in browse-catalog page.
+     */
     private int bookId;
     private String title;
     private String author;

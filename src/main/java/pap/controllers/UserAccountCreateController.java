@@ -16,6 +16,9 @@ import java.util.Arrays;
 
 
 public class UserAccountCreateController implements UpdatableController {
+    /**
+     * A controller class for user-account-create page.
+     */
     @FXML
     private TextField nameInput;
     @FXML
@@ -50,8 +53,12 @@ public class UserAccountCreateController implements UpdatableController {
     
     @FXML
     private void createAccountButtonPressed() {
+        /*
+            A method that creates a new user account.
+         */
         operationStatus.setFill(javafx.scene.paint.Color.RED);
 
+        // Get all the input data.
         String name = nameInput.getText();
         String surname = surnameInput.getText();
         String email = emailInput.getText();
@@ -64,6 +71,7 @@ public class UserAccountCreateController implements UpdatableController {
         String password = passwordInput.getText();
         String passwordConfirm = passwordConfirmation.getText();
 
+        // Check if all the fields are filled
         if (name.isEmpty() || email.isEmpty() || country.isEmpty() || city.isEmpty()
                 || street.isEmpty() || postalCode.isEmpty() || houseNumber.isEmpty()
                 || password.isEmpty() || passwordConfirm.isEmpty()) {
@@ -72,6 +80,7 @@ public class UserAccountCreateController implements UpdatableController {
             return;
         }
 
+        // Check if the passwords match
         if (!password.equals(passwordConfirm)) {
             passUnmatched.setVisible(true);
             return;
@@ -79,6 +88,7 @@ public class UserAccountCreateController implements UpdatableController {
 
         passUnmatched.setVisible(false);
 
+        // Create the address
         Address addr = new Address();
         addr.setCountry(country);
         addr.setCity(city);
@@ -87,14 +97,15 @@ public class UserAccountCreateController implements UpdatableController {
         addr.setHouseNumber(houseNumber);
         addr.setFlatNumber(flatNumber);
 
+        // Check if the address is valid
         int error = ConstraintChecker.checkAddress(addr);
         if (error != -1) {
             operationStatus.setText("Error: " + ConstraintChecker.AddressErrors.values()[error].toString());
             operationStatus.setVisible(true);
             return;
         }
-        new AddressRepository().create(addr);
 
+        // Create the user object
         User usr = new User();
         usr.setFirstName(name);
         usr.setLastName(surname);
@@ -103,6 +114,7 @@ public class UserAccountCreateController implements UpdatableController {
         usr.setActive(true);
         usr.setDateCreated(new java.sql.Date(System.currentTimeMillis()));
 
+        // create salt and hash the password
         String stringSalt = PasswordHasher.generateSalt();
         usr.setPasswordSalt(stringSalt);
 
@@ -110,6 +122,7 @@ public class UserAccountCreateController implements UpdatableController {
         usr.setPasswordHash(hashedPassword);
         usr.setAddressId(addr.getAddressId());
 
+        // Check if the user is valid
         UserRepository userRepo = new UserRepository();
         error = ConstraintChecker.checkUser(usr, userRepo);
         if (error != -1) {
@@ -117,8 +130,12 @@ public class UserAccountCreateController implements UpdatableController {
             operationStatus.setVisible(true);
             return;
         }
+
+        // Create the address and the user account in the database
+        new AddressRepository().create(addr);
         userRepo.create(usr);
 
+        // inform the user about success
         operationStatus.setFill(javafx.scene.paint.Color.GREEN);
         operationStatus.setText("Account created!");
         operationStatus.setVisible(true);

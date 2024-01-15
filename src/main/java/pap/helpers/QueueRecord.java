@@ -13,6 +13,9 @@ import java.util.List;
 
 @Getter
 public class QueueRecord {
+    /**
+     * A class that represents a record of the TableView in browse-queues page.
+     */
     private int queueId;
     private int bookId;
     private int userId;

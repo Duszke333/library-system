@@ -9,20 +9,17 @@ import pap.db.Repository.WishRepository;
 import java.util.List;
 
 
+@Getter
 public class WishRecord {
-    @Getter
+    /**
+     * A class that represents a record of the TableView in browse-wish-list page.
+     */
     private int wishId;
-    @Getter
     private int bookId;
-    @Getter
     private int userId;
-    @Getter
     private String dateAdded;
-    @Getter
     private String title;
-    @Getter
     private String author;
-    @Getter
     private String language;
 
     public WishRecord(BookWishList wishList) {
