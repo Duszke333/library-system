@@ -11,6 +11,9 @@ import java.util.Optional;
 import static pap.helpers.Login.*;
 
 public class EmployeeLoginScreenController implements UpdatableController {
+    /**
+     * A controller class for employee-login-screen page.
+     */
     @FXML
     private TextField loginUsername;
     @FXML
@@ -20,9 +23,15 @@ public class EmployeeLoginScreenController implements UpdatableController {
 
     @FXML
     protected void loginButtonPressed() {
+        /*
+            A method that tries to log in the user.
+         */
+
+        // Get the input data
         String username = loginUsername.getText();
         String password = loginPassword.getText();
 
+        // Try to log in the user
         var id = tryLoginEmployee(username, password);
         if (id == LoginTry.EmptyCredentials) {
             loginStatus.setText("All fields must be filled");

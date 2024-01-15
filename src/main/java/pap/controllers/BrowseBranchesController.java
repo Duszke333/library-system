@@ -15,6 +15,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class BrowseBranchesController implements UpdatableController, Initializable {
+    /*
+        A controller class for browse-branches page.
+     */
     @FXML
     private TableView<BranchRecord> branchCatalog;
     @FXML
@@ -24,6 +27,9 @@ public class BrowseBranchesController implements UpdatableController, Initializa
 
     @FXML
     public void getItem(MouseEvent event) {
+        /*
+            A method that switches to browse-branch-employees page which shows details about the branch employees.
+         */
         if (branchCatalog.getSelectionModel().getSelectedItem() == null) {
             return;
         }

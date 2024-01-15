@@ -21,6 +21,9 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 public class BrowseCatalogController implements UpdatableController, Initializable {
+    /**
+     * A controller class for browse-catalog page.
+     */
     @FXML
     private TableColumn<CatalogRecord, String> author;
     @FXML
@@ -42,6 +45,9 @@ public class BrowseCatalogController implements UpdatableController, Initializab
 
     @FXML
     public void getItem(MouseEvent event) {
+        /*
+            A method that switches to book-view page which shows details about the book.
+         */
         if (catalog.getSelectionModel().getSelectedItem() == null) {
             return;
         }
@@ -57,6 +63,9 @@ public class BrowseCatalogController implements UpdatableController, Initializab
     }
 
     public void clearFiltersClicked(MouseEvent event) {
+        /*
+            A method that clears the filters and returns to the default view.
+         */
         sortBox.getSelectionModel().clearSelection();
         update();
     }
@@ -84,6 +93,9 @@ public class BrowseCatalogController implements UpdatableController, Initializab
     }
 
     private void applySearchFilter(ObservableList<CatalogRecord> list) {
+        /*
+            A method that applies a search filter to the catalog.
+         */
         FilteredList<CatalogRecord> filteredList = new FilteredList<>(list, b -> true);
         searchBar.textProperty().addListener((observable, oldValue, newValue) -> {
             filteredList.setPredicate(catalogRecord -> {
@@ -102,6 +114,9 @@ public class BrowseCatalogController implements UpdatableController, Initializab
         catalog.setItems(sortedList);
     }
     private void setupSortBox() {
+        /*
+            A method that sets up the sort box.
+         */
         ObservableList<String> sortOptions = FXCollections.observableArrayList(
                 "Last Week", "Last Month", "Last Year", "All Time"
         );
@@ -133,6 +148,9 @@ public class BrowseCatalogController implements UpdatableController, Initializab
     }
 
     private void sortCatalogByPopularity(String periodType) {
+        /*
+            A method that sorts the catalog by popularity in a given time period.
+         */
         List<Book> bookList = new BookRepository().getMostPopular(periodType);
         ObservableList<CatalogRecord> catalogRecordObservableList = convertToCatalogRecords(bookList);
 
@@ -141,6 +159,9 @@ public class BrowseCatalogController implements UpdatableController, Initializab
     }
 
     private ObservableList<CatalogRecord> convertToCatalogRecords(List<Book> bookList) {
+       /*
+            A method that converts a list of books to a list of catalog records.
+        */
         return bookList.stream()
                 .map(this::createCatalogRecordFromBook)
                 .collect(Collectors.toCollection(FXCollections::observableArrayList));

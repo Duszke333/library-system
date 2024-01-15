@@ -14,6 +14,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class BrowseBranchEmployeesController implements UpdatableController, Initializable {
+    /**
+     * A controller class for browse-branch-employees page.
+     */
     @Setter
     private static int branchId=0;
     @FXML

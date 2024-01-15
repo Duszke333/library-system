@@ -10,6 +10,9 @@ import java.util.List;
 
 @Getter
 public class BranchRecord {
+    /**
+     * A class that represents a record of the TableView in browse-branches page.
+     */
     private int branchId;
     private String name;
     private String address;

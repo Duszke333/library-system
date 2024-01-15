@@ -10,7 +10,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import pap.db.Entities.Book;
 import pap.db.Repository.BookRepository;
-import pap.helpers.BookViewLoader;
+import pap.helpers.LoadedPages;
 import pap.helpers.Login;
 import pap.helpers.WishRecord;
 
@@ -18,6 +18,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class BrowseWishListController implements UpdatableController, Initializable {
+    /**
+     * A controller class for browse-wish-list page.
+     */
     @FXML
     private TableView<WishRecord> wishCatalog;
     @FXML
@@ -28,6 +31,9 @@ public class BrowseWishListController implements UpdatableController, Initializa
     private TableColumn<WishRecord, String> bookAuthor;
     @FXML
     public void getItem(MouseEvent event) {
+        /*
+            A method that switches to book-view page which shows details about the book the user has added to wish list.
+         */
         if (wishCatalog.getSelectionModel().getSelectedItem() == null) {
             return;
         }
@@ -36,9 +42,10 @@ public class BrowseWishListController implements UpdatableController, Initializa
             return;
         }
         int chosenBookID = wishCatalog.getSelectionModel().getSelectedItem().getBookId();
-        Book choosenBook = new BookRepository().getById(chosenBookID);
+        Book chosenBook = new BookRepository().getById(chosenBookID);
 
-        BookViewLoader.load(choosenBook);
+        BookViewController.setBook(chosenBook);
+        GlobalController.switchVisibleContent(LoadedPages.bookView);
     }
     @Override
     public void update() {

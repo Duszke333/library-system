@@ -17,6 +17,9 @@ import java.util.List;
 
 @Getter
 public class PenaltyRecord {
+    /**
+     * A class that represents a record of the TableView in browse-penalties page.
+     */
     private int penaltyId;
     private int userId;
     private int rentalId;

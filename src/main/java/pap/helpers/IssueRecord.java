@@ -12,29 +12,22 @@ import java.util.Date;
 import java.util.List;
 
 
+@Getter
 public class IssueRecord {
-    @Getter
+    /**
+     * A class that represents a record of the TableView in employee-issue-manage page.
+     */
     private int reportId;
-    @Getter
     private int bookId;
-    @Getter
     private int userId;
-    @Getter
     private String title;
-    @Getter
     private String author;
-    @Getter
     private String description;
-    @Getter
     private String userFirstName;
-    @Getter
     private String userLastName;
-    @Getter
     @Enumerated(EnumType.STRING)
     private BookReport.ReportType reportType;
-    @Getter
     private Date dateReported;
-    @Getter
     private Boolean resolved;
 
     public IssueRecord(BookReport report) {

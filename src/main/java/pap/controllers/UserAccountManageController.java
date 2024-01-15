@@ -20,6 +20,9 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class UserAccountManageController implements UpdatableController, Initializable {
+    /**
+     * A controller class for user-account-manage page.
+     */
     private User user;
     private Address address;
     @FXML
@@ -54,46 +57,59 @@ public class UserAccountManageController implements UpdatableController, Initial
     private Button cancelDeactivation;
     @FXML
     protected void changePassword() {
+        /*
+            A method that changes the user's password.
+         */
         passUnmatched.setFill(javafx.scene.paint.Color.RED);
         passUnmatched.setVisible(false);
+
+        // Get the input data
         String password = passwordInput.getText();
         String newPassword = newPasswordInput.getText();
         String newPasswordConfirm = newPasswordConfirmation.getText();
 
+        // Check if all the fields are filled
         if (password.isEmpty() || newPassword.isEmpty() || newPasswordConfirm.isEmpty()) {
             passUnmatched.setText("All fields must be filled!");
             passUnmatched.setVisible(true);
             return;
         }
 
+        // Check if the password is correct
         if (!PasswordHasher.hashPassword(password, user.getPasswordSalt()).equals(user.getPasswordHash())) {
             passUnmatched.setText("Wrong password!");
             passUnmatched.setVisible(true);
             return;
         }
 
+        // Check if the new passwords match
         if (!newPassword.equals(newPasswordConfirm)) {
             passUnmatched.setText("New passwords do not match!");
             passUnmatched.setVisible(true);
             return;
         }
 
+        // Check if the new password is the same as the old one
         if (password.equals(newPassword)) {
             passUnmatched.setText("New password cannot be the same as old one!");
             passUnmatched.setVisible(true);
             return;
         }
 
+        // Change the password
         String salt = PasswordHasher.generateSalt();
         String hashedPassword = PasswordHasher.hashPassword(newPassword, salt);
         user.setPasswordHash(hashedPassword);
         user.setPasswordSalt(salt);
 
         new UserRepository().update(user);
+
+        // Clear the input fields
         passwordInput.clear();
         newPasswordInput.clear();
         newPasswordConfirmation.clear();
 
+        // Show the success message
         passUnmatched.setText("Password changed successfully!");
         passUnmatched.setFill(javafx.scene.paint.Color.GREEN);
         passUnmatched.setVisible(true);
@@ -101,8 +117,13 @@ public class UserAccountManageController implements UpdatableController, Initial
 
     @FXML
     protected void updateAddress() {
+        /*
+            A method that updates the user's address.
+         */
         updateStatus.setFill(javafx.scene.paint.Color.RED);
         updateStatus.setVisible(false);
+
+        // Get the input data
         String country = countryInput.getText();
         String city = cityInput.getText();
         String street = streetInput.getText();
@@ -110,12 +131,14 @@ public class UserAccountManageController implements UpdatableController, Initial
         String houseNumber = houseNumberInput.getText();
         String flatNumber = flatNumberInput.getText();
 
+        // Check if all the required fields are filled
         if (country.isEmpty() || city.isEmpty() || street.isEmpty() || postalCode.isEmpty() || houseNumber.isEmpty()) {
-            updateStatus.setText("All fields must be filled!");
+            updateStatus.setText("All fields except flat number must be filled!");
             updateStatus.setVisible(true);
             return;
         }
 
+        // Update the address object
         address.setCountry(country);
         address.setCity(city);
         address.setStreet(street);
@@ -123,6 +146,7 @@ public class UserAccountManageController implements UpdatableController, Initial
         address.setHouseNumber(houseNumber);
         address.setFlatNumber(flatNumber);
 
+        // Check if the address is correct
         int error = ConstraintChecker.checkAddress(address);
         if (error != -1) {
             updateStatus.setText("Error: " + ConstraintChecker.AddressErrors.values()[error].toString());
@@ -130,15 +154,19 @@ public class UserAccountManageController implements UpdatableController, Initial
             return;
         }
 
+        // Update the address
         new AddressRepository().update(address);
 
+        // Show the success message
         updateStatus.setText("Address updated successfully!");
         updateStatus.setFill(javafx.scene.paint.Color.GREEN);
         updateStatus.setVisible(true);
     }
 
+    @Deprecated
     @FXML
     protected void deactivateAccount() {
+
         deactivationStatus.setFill(javafx.scene.paint.Color.WHITE);
         deactivationStatus.setText("Are you sure? Please confirm.");
         deactivationStatus.setVisible(true);
@@ -147,6 +175,7 @@ public class UserAccountManageController implements UpdatableController, Initial
         cancelDeactivation.setVisible(true);
     }
 
+    @Deprecated
     @FXML
     protected void deactivationConfirmed() {
         deactivationStatus.setFill(javafx.scene.paint.Color.RED);
@@ -156,9 +185,9 @@ public class UserAccountManageController implements UpdatableController, Initial
         cancelDeactivation.setVisible(false);
         user.setActive(false);
         new UserRepository().update(user);
-        // TODO: Logout user
     }
 
+    @Deprecated
     @FXML
     protected void deactivationCanceled() {
         deactivationStatus.setFill(javafx.scene.paint.Color.GREEN);

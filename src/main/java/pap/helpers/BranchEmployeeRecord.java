@@ -9,6 +9,9 @@ import java.util.List;
 
 @Getter
 public class BranchEmployeeRecord {
+    /**
+     * A class that represents a record of the TableView in browse-branch-employees page.
+     */
     private int employeeId;
     private String firstName;
     private String lastName;

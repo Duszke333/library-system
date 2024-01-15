@@ -16,7 +16,9 @@ import java.util.Date;
 import java.util.ResourceBundle;
 
 public class EmployeeIssueController implements UpdatableController, Initializable {
-
+    /**
+     * A controller class for employee-issue page.
+     */
     @FXML
     private TableView<IssueRecord> issueCatalog;
     @FXML
@@ -65,6 +67,9 @@ public class EmployeeIssueController implements UpdatableController, Initializab
 
     @FXML
     public void getItem(MouseEvent event) {
+        /*
+            A method that switches to employee-show-issue page which shows details about the issue.
+         */
         if (issueCatalog.getSelectionModel().getSelectedItem() == null) {
             return;
         }

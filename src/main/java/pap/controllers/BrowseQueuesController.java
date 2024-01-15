@@ -18,6 +18,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class BrowseQueuesController implements UpdatableController, Initializable {
+    /**
+     * A controller class for browse-queues page.
+     */
     @FXML
     private TableView<QueueRecord> queueCatalog;
     @FXML
@@ -33,6 +36,9 @@ public class BrowseQueuesController implements UpdatableController, Initializabl
 
     @FXML
     public void getItem(MouseEvent event) {
+        /*
+            A method that switches to book-view page which shows details about the book the user is in queue for.
+         */
         if (queueCatalog.getSelectionModel().getSelectedItem() == null) {
             return;
         }

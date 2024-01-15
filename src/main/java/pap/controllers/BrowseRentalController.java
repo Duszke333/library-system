@@ -18,6 +18,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class BrowseRentalController implements UpdatableController, Initializable {
+    /**
+     * A controller class for browse-rental page.
+     */
     @FXML
     private TableView<RentalRecord> rentalCatalog;
     @FXML
@@ -33,6 +36,9 @@ public class BrowseRentalController implements UpdatableController, Initializabl
 
     @FXML
     public void getItem(MouseEvent event) {
+        /*
+            A method that switches to book-view page which shows details about the book the user is currently renting.
+         */
         if (rentalCatalog.getSelectionModel().getSelectedItem() == null) {
             return;
         }

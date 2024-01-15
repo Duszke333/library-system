@@ -13,6 +13,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class EmployeePasswordChangeController implements UpdatableController, Initializable {
+    /**
+     * A controller class for employee-password-change page.
+     */
     private Employee employee;
     @FXML
     private PasswordField passwordInput;
@@ -24,46 +27,59 @@ public class EmployeePasswordChangeController implements UpdatableController, In
     private Text passUnmatched;
     @FXML
     protected void changePassword() {
+        /*
+            A method that changes the employee's password.
+         */
         passUnmatched.setFill(javafx.scene.paint.Color.RED);
         passUnmatched.setVisible(false);
+
+        // Get the input data
         String password = passwordInput.getText();
         String newPassword = newPasswordInput.getText();
         String newPasswordConfirm = newPasswordConfirmation.getText();
 
+        // Check if all the fields are filled
         if (password.isEmpty() || newPassword.isEmpty() || newPasswordConfirm.isEmpty()) {
             passUnmatched.setText("All fields must be filled!");
             passUnmatched.setVisible(true);
             return;
         }
 
+        // Check if the password is correct
         if (!PasswordHasher.hashPassword(password, employee.getPasswordSalt()).equals(employee.getPasswordHash())) {
             passUnmatched.setText("Wrong password!");
             passUnmatched.setVisible(true);
             return;
         }
 
+        // Check if the new passwords match
         if (!newPassword.equals(newPasswordConfirm)) {
             passUnmatched.setText("New passwords do not match!");
             passUnmatched.setVisible(true);
             return;
         }
 
+        // Check if the new password is the same as the old one
         if (password.equals(newPassword)) {
             passUnmatched.setText("New password cannot be the same as old one!");
             passUnmatched.setVisible(true);
             return;
         }
 
+        // Change the password
         String salt = PasswordHasher.generateSalt();
         String hashedPassword = PasswordHasher.hashPassword(newPassword, salt);
         employee.setPasswordHash(hashedPassword);
         employee.setPasswordSalt(salt);
 
         new EmployeeRepository().update(employee);
+
+        // Clear the input fields
         passwordInput.clear();
         newPasswordInput.clear();
         newPasswordConfirmation.clear();
 
+        // Show the success message
         passUnmatched.setText("Password changed successfully!");
         passUnmatched.setFill(javafx.scene.paint.Color.GREEN);
         passUnmatched.setVisible(true);
