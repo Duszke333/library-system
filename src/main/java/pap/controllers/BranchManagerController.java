@@ -89,9 +89,10 @@ public class BranchManagerController implements UpdatableController, Initializab
         addr.setFlatNumber(flatNumber);
 
         // check if address is valid, if it is, save it to database
-        int error = ConstraintChecker.checkAddress(addr);
-        if (error != -1) {
-            operationStatus.setText("Error: " + ConstraintChecker.AddressErrors.values()[error].toString());
+        try {
+            ConstraintChecker.checkAddress(addr);
+        } catch (IllegalArgumentException e) {
+            operationStatus.setText("Error: " + e.getMessage());
             operationStatus.setVisible(true);
             return;
         }
@@ -149,9 +150,10 @@ public class BranchManagerController implements UpdatableController, Initializab
         addr.setFlatNumber(flatNumber);
 
         // check if address is valid, if it is, save it to database
-        int error = ConstraintChecker.checkAddress(addr);
-        if (error != -1) {
-            operationStatus.setText("Error: " + ConstraintChecker.AddressErrors.values()[error].toString());
+        try {
+            ConstraintChecker.checkAddress(addr);
+        } catch (IllegalArgumentException e) {
+            operationStatus.setText("Error: " + e.getMessage());
             operationStatus.setVisible(true);
             return;
         }

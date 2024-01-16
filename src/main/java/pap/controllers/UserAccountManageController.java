@@ -147,9 +147,10 @@ public class UserAccountManageController implements UpdatableController, Initial
         address.setFlatNumber(flatNumber);
 
         // Check if the address is correct
-        int error = ConstraintChecker.checkAddress(address);
-        if (error != -1) {
-            updateStatus.setText("Error: " + ConstraintChecker.AddressErrors.values()[error].toString());
+        try {
+            ConstraintChecker.checkAddress(address);
+        } catch (IllegalArgumentException e) {
+            updateStatus.setText("Error: " + e.getMessage());
             updateStatus.setVisible(true);
             return;
         }

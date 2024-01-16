@@ -10,66 +10,59 @@ import pap.db.Repository.UserRepository;
 import java.time.Year;
 
 public class ConstraintChecker {
-    public enum BookErrors {
-        ISBN_TOO_LONG, TITLE_TOO_LONG, AUTHOR_TOO_LONG,
-        GENRE_TOO_LONG, PUBLISHER_TOO_LONG, LANGUAGE_TOO_LONG,
-        WRONG_STATUS, WRONG_PUBLICATION_YEAR, WRONG_PAGE_COUNT
-    }
-
-    public static int checkBook(Book book) {
-        if (book.getIsbn().length() > 32) return BookErrors.ISBN_TOO_LONG.ordinal();
-        if (book.getTitle().length() > 128) return BookErrors.TITLE_TOO_LONG.ordinal();
-        if (book.getAuthor().length() > 128) return BookErrors.AUTHOR_TOO_LONG.ordinal();
-        if (book.getGenre().length() > 128) return BookErrors.GENRE_TOO_LONG.ordinal();
-        if (book.getPublisher().length() > 128) return BookErrors.PUBLISHER_TOO_LONG.ordinal();
-        if (book.getLanguage().length() > 128) return BookErrors.LANGUAGE_TOO_LONG.ordinal();
-        if (!book.getStatus().equals("Available") && !book.getStatus().equals("Unavailable") && !book.getStatus().equals("Reserved")) {
-            return BookErrors.WRONG_STATUS.ordinal();
+    /**
+     * A class that checks if the given data is valid before the program tries to put it into the database.
+     */
+    public static void checkBook(Book book) throws IllegalArgumentException {
+        /*
+            A method that checks if the given book data is valid.
+         */
+        if (book.getIsbn().length() > 32) throw new IllegalArgumentException("ISBN too long");
+        if (book.getTitle().length() > 128) throw new IllegalArgumentException("Title too long");
+        if (book.getAuthor().length() > 128) throw new IllegalArgumentException("Author name too long");
+        if (book.getGenre().length() > 128) throw new IllegalArgumentException("Genre name too long");
+        if (book.getPublisher().length() > 128) throw new IllegalArgumentException("Publisher name too long");
+        if (book.getLanguage().length() > 128) throw new IllegalArgumentException("Language name too long");
+        if (!book.getStatus().equals(Book.BookStatus.Available) && !book.getStatus().equals(Book.BookStatus.Unavailable)
+                && !book.getStatus().equals(Book.BookStatus.Rented) && !book.getStatus().equals(Book.BookStatus.Reserved)
+                && !book.getStatus().equals(Book.BookStatus.ReadyForPickup)) {
+            throw new IllegalArgumentException("Invalid book status");
         }
-        if (book.getPublicationYear() > Year.now().getValue()) return BookErrors.WRONG_PUBLICATION_YEAR.ordinal();
-        if (book.getPageCount() <= 0) return BookErrors.WRONG_PAGE_COUNT.ordinal();
-        return -1;
+        if (book.getPublicationYear() > Year.now().getValue()) throw new IllegalArgumentException("Invalid publication year");
+        if (book.getPageCount() <= 0) throw new IllegalArgumentException("Invalid page count");
+        if (book.getCover().length() > 256) throw new IllegalArgumentException("Cover path too long");
     }
 
-    public enum AddressErrors {
-        COUNTRY_TOO_LONG, POSTAL_CODE_TOO_LONG, CITY_TOO_LONG,
-        STREET_TOO_LONG, HOUSE_NUMBER_TOO_LONG, FLAT_NUMBER_TOO_LONG
+    public static void checkAddress(Address address) throws IllegalArgumentException {
+        /*
+            A method that checks if the given address data is valid.
+         */
+        if (address.getCountry().length() > 64) throw new IllegalArgumentException("Country name too long");
+        if (address.getPostalCode().length() > 16) throw new IllegalArgumentException("Postal code too long");
+        if (address.getCity().length() > 64) throw new IllegalArgumentException("City name too long");
+        if (address.getStreet().length() > 64) throw new IllegalArgumentException("Street name too long");
+        if (address.getHouseNumber().length() > 16) throw new IllegalArgumentException("House number too long");
+        if (address.getFlatNumber().length() > 16) throw new IllegalArgumentException("Flat number too long");
     }
 
-    public static int checkAddress(Address address) {
-        if (address.getCountry().length() > 64) return AddressErrors.COUNTRY_TOO_LONG.ordinal();
-        if (address.getPostalCode().length() > 16) return AddressErrors.POSTAL_CODE_TOO_LONG.ordinal();
-        if (address.getCity().length() > 64) return AddressErrors.CITY_TOO_LONG.ordinal();
-        if (address.getStreet().length() > 64) return AddressErrors.STREET_TOO_LONG.ordinal();
-        if (address.getHouseNumber().length() > 16) return AddressErrors.HOUSE_NUMBER_TOO_LONG.ordinal();
-        if (address.getFlatNumber().length() > 16) return AddressErrors.FLAT_NUMBER_TOO_LONG.ordinal();
-        return -1;
+    public static void checkUser(User user, UserRepository userRepo) throws IllegalArgumentException {
+        /*
+            A method that checks if the given user data is valid.
+         */
+        if (user.getFirstName().length() > 64) throw new IllegalArgumentException("Name too long");
+        if (user.getLastName().length() > 64) throw new IllegalArgumentException("Surname too long");
+        if (user.getEmail().length() > 64) throw new IllegalArgumentException("Email too long");
+        if (!user.getEmail().matches(".*@.*\\..*")) throw new IllegalArgumentException("Invalid email");
+        if (userRepo.getByEmail(user.getEmail()) != null) throw new IllegalArgumentException("Email already in use");
     }
 
-    public enum UserErrors {
-        NAME_TOO_LONG, SURNAME_TOO_LONG, EMAIL_TOO_LONG,
-        EMAIL_ALREADY_USED, EMAIL_INVALID
-    }
-
-    public static int checkUser(User user, UserRepository userRepo) {
-        if (user.getFirstName().length() > 64) return UserErrors.NAME_TOO_LONG.ordinal();
-        if (user.getLastName().length() > 64) return UserErrors.SURNAME_TOO_LONG.ordinal();
-        if (user.getEmail().length() > 64) return UserErrors.EMAIL_TOO_LONG.ordinal();
-        if (!user.getEmail().matches(".*@.*\\..*")) return UserErrors.EMAIL_INVALID.ordinal();
-        if (userRepo.getByEmail(user.getEmail()) != null) return UserErrors.EMAIL_ALREADY_USED.ordinal();
-        return -1;
-    }
-
-    public enum EmployeeErrors {
-        USERNAME_TOO_LONG, ROLE_TOO_LONG,
-        USERNAME_ALREADY_USED, USER_ACCOUNT_ALREADY_IN_USE
-    }
-
-    public static int checkEmployee(Employee emp, EmployeeRepository empRepo) {
-        if (emp.getUsername().length() > 128) return EmployeeErrors.USERNAME_TOO_LONG.ordinal();
-        if (emp.getRole().length() > 64) return EmployeeErrors.ROLE_TOO_LONG.ordinal();
-        if (empRepo.getByUsername(emp.getUsername()) != null) return EmployeeErrors.USERNAME_ALREADY_USED.ordinal();
-        if (empRepo.getByUserID(emp.getUserID()) != null) return EmployeeErrors.USER_ACCOUNT_ALREADY_IN_USE.ordinal();
-        return -1;
+    public static void checkEmployee(Employee emp, EmployeeRepository empRepo) throws IllegalArgumentException {
+        /*
+            A method that checks if the given employee data is valid.
+         */
+        if (emp.getUsername().length() > 128) throw new IllegalArgumentException("Username too long");
+        if (emp.getRole().length() > 64) throw new IllegalArgumentException("Role name too long");
+        if (empRepo.getByUsername(emp.getUsername()) != null) throw new IllegalArgumentException("Username already in use");
+        if (empRepo.getByUserID(emp.getUserID()) != null) throw new IllegalArgumentException("User account already in use");
     }
 }

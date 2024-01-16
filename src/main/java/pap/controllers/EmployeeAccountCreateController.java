@@ -109,9 +109,10 @@ public class EmployeeAccountCreateController implements UpdatableController {
 
         // check if the employee account data is valid, and create the account if it is
         EmployeeRepository empRepo = new EmployeeRepository();
-        int error = ConstraintChecker.checkEmployee(emp, empRepo);
-        if (error != -1) {
-            operationStatus.setText("Error: " + ConstraintChecker.EmployeeErrors.values()[error].toString());
+        try {
+            ConstraintChecker.checkEmployee(emp, empRepo);
+        } catch (IllegalArgumentException e) {
+            operationStatus.setText("Error: " + e.getMessage());
             operationStatus.setVisible(true);
             return;
         }

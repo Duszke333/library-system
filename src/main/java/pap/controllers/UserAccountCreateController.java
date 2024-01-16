@@ -98,9 +98,10 @@ public class UserAccountCreateController implements UpdatableController {
         addr.setFlatNumber(flatNumber);
 
         // Check if the address is valid
-        int error = ConstraintChecker.checkAddress(addr);
-        if (error != -1) {
-            operationStatus.setText("Error: " + ConstraintChecker.AddressErrors.values()[error].toString());
+        try {
+            ConstraintChecker.checkAddress(addr);
+        } catch (IllegalArgumentException e) {
+            operationStatus.setText("Error: " + e.getMessage());
             operationStatus.setVisible(true);
             return;
         }
@@ -124,9 +125,10 @@ public class UserAccountCreateController implements UpdatableController {
 
         // Check if the user is valid
         UserRepository userRepo = new UserRepository();
-        error = ConstraintChecker.checkUser(usr, userRepo);
-        if (error != -1) {
-            operationStatus.setText("Error: " + ConstraintChecker.UserErrors.values()[error].toString());
+        try {
+            ConstraintChecker.checkUser(usr, userRepo);
+        } catch (IllegalArgumentException e) {
+            operationStatus.setText("Error: " + e.getMessage());
             operationStatus.setVisible(true);
             return;
         }
