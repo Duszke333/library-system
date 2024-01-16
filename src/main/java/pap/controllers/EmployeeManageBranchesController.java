@@ -17,7 +17,8 @@ import java.util.ResourceBundle;
 
 public class EmployeeManageBranchesController implements UpdatableController, Initializable {
     /**
-     * A controller class for employee-manage-branches page.
+     * A controller class for employee-manage-branches page that allows an employee
+     * to view all the library branches and edit them if needed.
      */
     @FXML
     private TableView<BranchRecord> branchCatalog;
@@ -26,11 +27,11 @@ public class EmployeeManageBranchesController implements UpdatableController, In
     @FXML
     private TableColumn<BranchRecord, String> address;
 
+    /**
+     * A method that switches to branch-manage page which allows to edit information about the branch the employee has chosen.
+     */
     @FXML
     public void getItem(MouseEvent event) {
-        /*
-            A method that switches to branch-manage page which allows to edit information about the branch the employee has chosen.
-         */
         if (branchCatalog.getSelectionModel().getSelectedItem() == null) {
             return;
         }
@@ -45,11 +46,11 @@ public class EmployeeManageBranchesController implements UpdatableController, In
         GlobalController.switchVisibleContent(LoadedPages.branchManage);
     }
 
+    /**
+     * A method that switches to branch-manage page which allows to create a new branch.
+     */
     @FXML
     protected void addPressed() {
-        /*
-            A method that switches to branch-manage page which allows to create a new branch.
-         */
         BranchManagerController.setCreationMode(true);
         GlobalController.switchVisibleContent(LoadedPages.branchManage);
     }

@@ -21,7 +21,8 @@ import java.util.ResourceBundle;
 
 public class UserAccountManageController implements UpdatableController, Initializable {
     /**
-     * A controller class for user-account-manage page.
+     * A controller class for user-account-manage page which allows a user
+     * to change information about his account.
      */
     private User user;
     private Address address;
@@ -47,19 +48,12 @@ public class UserAccountManageController implements UpdatableController, Initial
     private Text passUnmatched;
     @FXML
     private Text updateStatus;
-    @FXML
-    private Text deactivationStatus;
-    @FXML
-    private Button deactivationButton;
-    @FXML
-    private Button confirmDeactivation;
-    @FXML
-    private Button cancelDeactivation;
+
+    /**
+     * A method that changes the user's password.
+     */
     @FXML
     protected void changePassword() {
-        /*
-            A method that changes the user's password.
-         */
         passUnmatched.setFill(javafx.scene.paint.Color.RED);
         passUnmatched.setVisible(false);
 
@@ -115,11 +109,11 @@ public class UserAccountManageController implements UpdatableController, Initial
         passUnmatched.setVisible(true);
     }
 
+    /**
+     * A method that updates the user's address.
+     */
     @FXML
     protected void updateAddress() {
-        /*
-            A method that updates the user's address.
-         */
         updateStatus.setFill(javafx.scene.paint.Color.RED);
         updateStatus.setVisible(false);
 
@@ -162,40 +156,6 @@ public class UserAccountManageController implements UpdatableController, Initial
         updateStatus.setText("Address updated successfully!");
         updateStatus.setFill(javafx.scene.paint.Color.GREEN);
         updateStatus.setVisible(true);
-    }
-
-    @Deprecated
-    @FXML
-    protected void deactivateAccount() {
-
-        deactivationStatus.setFill(javafx.scene.paint.Color.WHITE);
-        deactivationStatus.setText("Are you sure? Please confirm.");
-        deactivationStatus.setVisible(true);
-        deactivationButton.setDisable(true);
-        confirmDeactivation.setVisible(true);
-        cancelDeactivation.setVisible(true);
-    }
-
-    @Deprecated
-    @FXML
-    protected void deactivationConfirmed() {
-        deactivationStatus.setFill(javafx.scene.paint.Color.RED);
-        deactivationStatus.setText("Account deactivated.");
-        deactivationButton.setDisable(false);
-        confirmDeactivation.setVisible(false);
-        cancelDeactivation.setVisible(false);
-        user.setActive(false);
-        new UserRepository().update(user);
-    }
-
-    @Deprecated
-    @FXML
-    protected void deactivationCanceled() {
-        deactivationStatus.setFill(javafx.scene.paint.Color.GREEN);
-        deactivationStatus.setText("Deactivation cancelled.");
-        deactivationButton.setDisable(false);
-        confirmDeactivation.setVisible(false);
-        cancelDeactivation.setVisible(false);
     }
 
     @Override

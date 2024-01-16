@@ -17,7 +17,8 @@ import java.util.ResourceBundle;
 
 public class EmployeeIssueController implements UpdatableController, Initializable {
     /**
-     * A controller class for employee-issue page.
+     * A controller class for employee-issue page which allows an employee
+     * to view all the reported issues and resolve the unresolved ones.
      */
     @FXML
     private TableView<IssueRecord> issueCatalog;
@@ -65,11 +66,12 @@ public class EmployeeIssueController implements UpdatableController, Initializab
         issueCatalog.sort();
     }
 
+    /**
+     * A method that switches to employee-show-issue page which shows details about the issue
+     * and allows to resolve it.
+     */
     @FXML
     public void getItem(MouseEvent event) {
-        /*
-            A method that switches to employee-show-issue page which shows details about the issue.
-         */
         if (issueCatalog.getSelectionModel().getSelectedItem() == null) {
             return;
         }

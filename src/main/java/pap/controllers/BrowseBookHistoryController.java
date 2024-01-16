@@ -16,7 +16,7 @@ import java.util.ResourceBundle;
 
 public class BrowseBookHistoryController implements UpdatableController, Initializable {
     /**
-     * A controller class for browse-book-history page.
+     * A controller class for browse-book-history page which allows an employee to view renting history of a selected book.
      */
     @Setter
     static private int bookId=0;

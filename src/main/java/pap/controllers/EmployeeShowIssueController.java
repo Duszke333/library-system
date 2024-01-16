@@ -19,7 +19,8 @@ import java.util.ResourceBundle;
 
 public class EmployeeShowIssueController implements UpdatableController, Initializable {
     /**
-     * A controller class for employee-show-issue page.
+     * A controller class for employee-show-issue page which allows an employee
+     * to see the details about chosen issue and resolve it if needed.
      */
     @FXML
     private Label dateReported;
@@ -85,12 +86,11 @@ public class EmployeeShowIssueController implements UpdatableController, Initial
         }
     }
 
+    /**
+     * A method that switches to employee-issue-manage page which views all the issues.
+     */
     @FXML
     void cancelButtonClicked() {
-        /*
-            A method that switches to employee-issue-manage page which allows to manage issues.
-         */
-
         // ask the employee if he is certain that he doesn't want to resolve the issue
         Alert alert = new Alert(
                 Alert.AlertType.WARNING,
@@ -109,12 +109,11 @@ public class EmployeeShowIssueController implements UpdatableController, Initial
     }
 
 
+    /**
+     * A method that marks the issue as resolved and creates a penalty for the user.
+     */
     @FXML
     void confirmButtonClicked() {
-        /*
-            A method that marks the issue as resolved and creates a penalty for the user.
-         */
-
         // ask the employee if he is certain that he wants to resolve the issue
         Alert alert = new Alert(
                 Alert.AlertType.WARNING,

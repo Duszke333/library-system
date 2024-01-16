@@ -18,7 +18,8 @@ import java.util.Optional;
 
 public class UserDashboardController implements UpdatableController {
     /**
-     * A controller class for user-dashboard page.
+     * A controller class for user-dashboard page which allows a user
+     * to perform all the actions he has access to.
      */
     @FXML
     private ListView<Button> userActions;
@@ -27,11 +28,11 @@ public class UserDashboardController implements UpdatableController {
     @FXML
     private VBox contentPane;
 
+    /**
+     * A method that runs the account deactivation process.
+     */
     @FXML
     private void checkDeactivation() {
-        /*
-            A method that runs the account deactivation process.
-         */
         int uid = Login.getUserLoggedIn().get();
         var user = new UserRepository().getById(uid);
 
@@ -79,11 +80,11 @@ public class UserDashboardController implements UpdatableController {
         }
     }
 
+    /**
+     * A method that initializes the page by setting up all the needed buttons.
+     */
     @FXML
     private void initialize() {
-        /*
-            A method that initializes the page by setting up all the needed buttons.
-         */
         var signOutItem = new Button("Sign Out");
         signOutItem.setOnAction(e -> {
             Login.setUserLoggedIn(Optional.empty());

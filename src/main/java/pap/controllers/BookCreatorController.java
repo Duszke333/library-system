@@ -12,7 +12,7 @@ import java.io.File;
 
 public class BookCreatorController implements UpdatableController {
     /**
-     * A controller class for book-creator page.
+     * A controller class for book-creator page which allows an employee to add a book to the database.
      */
     @FXML
     private TextField bookISBN;
@@ -37,12 +37,11 @@ public class BookCreatorController implements UpdatableController {
     @FXML
     private TextField bookCover;
 
+    /**
+     * A method that adds a book to the database.
+     */
     @FXML
     protected void addBook() {
-        /*
-          A method that adds a book to the database.
-         */
-
         // get every value from the text fields
         String isbn = bookISBN.getText();
         String title = bookTitle.getText();

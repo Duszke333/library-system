@@ -26,7 +26,8 @@ import java.util.ResourceBundle;
 
 public class BrowsePenaltiesController implements UpdatableController, Initializable {
     /**
-     * A controller class for browse-penalties page.
+     * A controller class for browse-penalties page which allows a user to see the list of his penalties
+     * and "pay" for them.
      */
     @FXML
     private TableView<PenaltyRecord> penaltyCatalog;
@@ -45,11 +46,10 @@ public class BrowsePenaltiesController implements UpdatableController, Initializ
     @FXML
     private TableColumn<PenaltyRecord, String> cause;
 
+    /**
+     * A method that lets the user "pay" for the damage penalty.
+     */
     private void damagePenalty(int penaltyId) {
-        /*
-            A method that lets the user "pay" for the penalty.
-         */
-
         // Check if user wants to pay for the penalty
         Alert alert = new Alert(
                 Alert.AlertType.CONFIRMATION,
@@ -83,11 +83,11 @@ public class BrowsePenaltiesController implements UpdatableController, Initializ
         }
     }
 
+    /**
+     * A method that lets the user "pay" for the rental overextending penalty.
+     */
     @FXML
     public void getItem(MouseEvent event) {
-        /*
-            A method that lets the user "pay" for the penalty.
-         */
         if (penaltyCatalog.getSelectionModel().getSelectedItem() == null) {
             return;
         }

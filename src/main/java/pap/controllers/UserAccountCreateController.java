@@ -17,7 +17,7 @@ import java.util.Arrays;
 
 public class UserAccountCreateController implements UpdatableController {
     /**
-     * A controller class for user-account-create page.
+     * A controller class for user-account-create page that allows a user to create an account.
      */
     @FXML
     private TextField nameInput;
@@ -50,12 +50,12 @@ public class UserAccountCreateController implements UpdatableController {
     private void alreadyAccountButtonPressed() {
         GlobalController.switchVisibleContent(LoadedPages.loginScreen);
     }
-    
+
+    /**
+     * A method that creates a new user account.
+     */
     @FXML
     private void createAccountButtonPressed() {
-        /*
-            A method that creates a new user account.
-         */
         operationStatus.setFill(javafx.scene.paint.Color.RED);
 
         // Get all the input data.

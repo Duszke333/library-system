@@ -15,7 +15,8 @@ import java.util.ResourceBundle;
 
 public class BrowseBranchEmployeesController implements UpdatableController, Initializable {
     /**
-     * A controller class for browse-branch-employees page.
+     * A controller class for browse-branch-employees page which allows a user
+     * to see details about employees of the selected branch.
      */
     @Setter
     private static int branchId=0;
@@ -27,6 +28,7 @@ public class BrowseBranchEmployeesController implements UpdatableController, Ini
     private TableColumn<BranchEmployeeRecord, String> lastName;
     @FXML
     private TableColumn<BranchEmployeeRecord, String> role;
+
     @Override
     public void update() {
         branchEmployeeCatalog.getSelectionModel().clearSelection();

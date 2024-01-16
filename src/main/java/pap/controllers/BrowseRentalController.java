@@ -19,7 +19,7 @@ import java.util.ResourceBundle;
 
 public class BrowseRentalController implements UpdatableController, Initializable {
     /**
-     * A controller class for browse-rental page.
+     * A controller class for browse-rental page which allows a user to view all his current book rentals.
      */
     @FXML
     private TableView<RentalRecord> rentalCatalog;
@@ -34,11 +34,11 @@ public class BrowseRentalController implements UpdatableController, Initializabl
     @FXML
     private TableColumn<RentalRecord, String> dateRented;
 
+    /**
+     * A method that switches to book-view page which shows details about the book the user is currently renting.
+     */
     @FXML
     public void getItem(MouseEvent event) {
-        /*
-            A method that switches to book-view page which shows details about the book the user is currently renting.
-         */
         if (rentalCatalog.getSelectionModel().getSelectedItem() == null) {
             return;
         }
