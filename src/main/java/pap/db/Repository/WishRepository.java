@@ -10,23 +10,20 @@ public class WishRepository implements IBookWishList {
     private BookWishListDAO bookWishListDAO = new BookWishListDAO();
 
     @Override
-    public List<BookWishList> getWishListByUserId(int id) throws NullPointerException {
+    public List<BookWishList> getWishListByUserId(int id) {
         String sql = "SELECT * FROM pap.wishlist WHERE user_id = " + id;
-        List<BookWishList> list = bookWishListDAO.query(sql);
-        if (list.isEmpty()) {
-            throw new NullPointerException("Wish list for user with id " + id + " not found");
-        }
-        return list;
+        return bookWishListDAO.query(sql);
     }
 
     @Override
-    public BookWishList getWishListByUserAndBook(int userId, int bookId) throws NullPointerException {
+    public BookWishList getWishListByUserAndBook(int userId, int bookId) {
         String sql = "SELECT * FROM pap.wishlist WHERE user_id = " + userId + " AND book_id = " + bookId;
         List<BookWishList> wishList =  bookWishListDAO.query(sql);
-        if (wishList.isEmpty()) {
-            throw new NullPointerException("Wish list for user with id " + userId + " and book with id " + bookId + " not found");
+        if (!wishList.isEmpty()){
+            return wishList.get(0);
+        }else{
+            return  null;
         }
-        return wishList.get(0);
     }
 
     @Override
