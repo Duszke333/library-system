@@ -32,27 +32,18 @@ public class EmployeeLoginScreenController implements UpdatableController {
         String password = loginPassword.getText();
 
         // Try to log in the user
-        var id = tryLoginEmployee(username, password);
-        if (id == LoginTry.EmptyCredentials) {
-            loginStatus.setText("All fields must be filled");
+        int id;
+        try {
+            id = tryLoginEmployee(username, password);
+        } catch (IllegalArgumentException e) {
+            loginStatus.setText("Error: " + e.getMessage());
             loginStatus.setVisible(true);
+            return;
         }
-        else if (id == LoginTry.IncorrectPassword) {
-            loginStatus.setText("Wrong password");
-            loginStatus.setVisible(true);
-        }
-        else if (id == LoginTry.NoUser) {
-            loginStatus.setText("No such user in database");
-            loginStatus.setVisible(true);
-        }
-        else if (id == LoginTry.Deactivated) {
-            loginStatus.setText("This account is deactivated");
-            loginStatus.setVisible(true);
-        }
-        else {
-            setEmployeeLoggedIn(Optional.of(id));
-            GlobalController.switchVisibleContent(LoadedPages.employeeDashboard);
-        }
+
+        // Log the employee in and switch to user-dashboard page
+        setEmployeeLoggedIn(Optional.of(id));
+        GlobalController.switchVisibleContent(LoadedPages.employeeDashboard);
     }
 
     @Override

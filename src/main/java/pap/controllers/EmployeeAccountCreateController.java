@@ -66,9 +66,11 @@ public class EmployeeAccountCreateController implements UpdatableController {
         }
 
         // Check if the user account credentials are valid
-        int uid = tryLoginUser(userEmail, userPassword);
-        if (uid == LoginTry.IncorrectPassword) {
-            operationStatus.setText("Wrong user email or password!");
+        int uid;
+        try {
+          uid = tryLoginUser(userEmail, userPassword);
+        } catch (IllegalArgumentException e) {
+            operationStatus.setText("Error: " + e.getMessage());
             operationStatus.setVisible(true);
             return;
         }

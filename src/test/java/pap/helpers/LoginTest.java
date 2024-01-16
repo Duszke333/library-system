@@ -2,15 +2,20 @@ package pap.helpers;
 
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 class LoginTest {
     @Test
     void testTryLoginUserEmptyCredentials() {
         String email = "SomeEmail@gmail.com";
         String password = "test";
         String empty = "";
-        assert Login.tryLoginUser(email, empty) == Login.LoginTry.EmptyCredentials;
-        assert Login.tryLoginUser(empty, password) == Login.LoginTry.EmptyCredentials;
-        assert Login.tryLoginUser(empty, empty) == Login.LoginTry.EmptyCredentials;
+        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> Login.tryLoginUser(email, empty));
+        assert e.getMessage().equals("Empty credentials");
+        e = assertThrows(IllegalArgumentException.class, () -> Login.tryLoginUser(empty, password));
+        assert e.getMessage().equals("Empty credentials");
+        e = assertThrows(IllegalArgumentException.class, () -> Login.tryLoginUser(empty, empty));
+        assert e.getMessage().equals("Empty credentials");
     }
 
     @Test
@@ -18,8 +23,11 @@ class LoginTest {
         String username = "SomeUserName";
         String password = "test";
         String empty = "";
-        assert Login.tryLoginEmployee(username, empty) == Login.LoginTry.EmptyCredentials;
-        assert Login.tryLoginEmployee(empty, password) == Login.LoginTry.EmptyCredentials;
-        assert Login.tryLoginEmployee(empty, empty) == Login.LoginTry.EmptyCredentials;
+        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> Login.tryLoginEmployee(username, empty));
+        assert e.getMessage().equals("Empty credentials");
+        e = assertThrows(IllegalArgumentException.class, () -> Login.tryLoginEmployee(empty, password));
+        assert e.getMessage().equals("Empty credentials");
+        e = assertThrows(IllegalArgumentException.class, () -> Login.tryLoginEmployee(empty, empty));
+        assert e.getMessage().equals("Empty credentials");
     }
 }
