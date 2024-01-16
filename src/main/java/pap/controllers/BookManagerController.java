@@ -119,9 +119,10 @@ public class BookManagerController implements UpdatableController, Initializable
         book.setCover(cover);
 
         // check if the book is valid
-        int error = ConstraintChecker.checkBook(book);
-        if (error != -1) {
-            updateStatus.setText("Error: " + ConstraintChecker.BookErrors.values()[error].toString());
+        try {
+            ConstraintChecker.checkBook(book);
+        } catch (IllegalArgumentException e) {
+            updateStatus.setText("Error: " + e.getMessage());
             updateStatus.setVisible(true);
             return;
         }

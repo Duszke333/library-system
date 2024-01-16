@@ -66,9 +66,11 @@ public class EmployeeAccountCreateController implements UpdatableController {
         }
 
         // Check if the user account credentials are valid
-        int uid = tryLoginUser(userEmail, userPassword);
-        if (uid == LoginTry.IncorrectPassword) {
-            operationStatus.setText("Wrong user email or password!");
+        int uid;
+        try {
+          uid = tryLoginUser(userEmail, userPassword);
+        } catch (IllegalArgumentException e) {
+            operationStatus.setText("Error: " + e.getMessage());
             operationStatus.setVisible(true);
             return;
         }
@@ -109,9 +111,10 @@ public class EmployeeAccountCreateController implements UpdatableController {
 
         // check if the employee account data is valid, and create the account if it is
         EmployeeRepository empRepo = new EmployeeRepository();
-        int error = ConstraintChecker.checkEmployee(emp, empRepo);
-        if (error != -1) {
-            operationStatus.setText("Error: " + ConstraintChecker.EmployeeErrors.values()[error].toString());
+        try {
+            ConstraintChecker.checkEmployee(emp, empRepo);
+        } catch (IllegalArgumentException e) {
+            operationStatus.setText("Error: " + e.getMessage());
             operationStatus.setVisible(true);
             return;
         }
