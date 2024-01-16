@@ -5,9 +5,23 @@ import javafx.scene.Parent;
 import pap.Pap;
 import pap.controllers.UpdatableController;
 
+/**
+ * Helper class representing all .fxml pages loaded into cache. Private 
+ * constructor and public access to internal Page class.
+ */
 public class LoadedPages {
     private LoadedPages() {}
+
+    /**
+     * @param node JavaFX node that represents the actual graphical interface
+     * @param controller Controller of the node, implementing UpdatableController
+     */
     public record Page(Parent node, UpdatableController controller) {}
+
+    /**
+     * @param fxmlFilepath .fxml file to be loaded
+     * @return Page
+     */
     private static Page makePage(String fxmlFilepath) {
         try {
             var loader = new FXMLLoader(Pap.class.getResource(fxmlFilepath));

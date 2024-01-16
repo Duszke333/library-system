@@ -1,6 +1,5 @@
 package pap.helpers;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.NonNull;
 import pap.controllers.GlobalController;
@@ -11,10 +10,10 @@ import pap.db.Repository.UserRepository;
 
 import java.util.Optional;
 
+/**
+ * Helper class that lets users and employees log into their accounts.
+ */
 public class Login {
-    /**
-     * A helper class that lets users and employees log into their accounts.
-     */
     private Login() {}
     
     @Getter
@@ -34,11 +33,14 @@ public class Login {
         employeeLoggedIn = employee;
         GlobalController.getParent().update();
     }
-    
+
+    /**
+     * @param email Email of the user
+     * @param password Credentials of the user
+     * @return id of logged-in user
+     * @throws IllegalArgumentException upon incorrect login options
+     */
     public static int tryLoginUser(String email, String password) throws IllegalArgumentException {
-        /*
-            A method that tries to log in the user.
-         */
         if (email.isBlank() || password.isBlank()) throw new IllegalArgumentException("Empty credentials");
 
         User user = new UserRepository().getByEmail(email);
@@ -53,10 +55,13 @@ public class Login {
         return user.getAccountId();
     }
 
+    /**
+     * @param username Username of the employee
+     * @param password Credentials of the employee
+     * @return id of logged-in employee
+     * @throws IllegalArgumentException upon incorrect login options
+     */
     public static int tryLoginEmployee(String username, String password) throws IllegalArgumentException {
-        /*
-            A method that tries to log in the employee.
-         */
         if (username.isBlank() || password.isBlank()) throw new IllegalArgumentException("Empty credentials");
 
         Employee emp = new EmployeeRepository().getByUsername(username);
