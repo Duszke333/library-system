@@ -13,13 +13,9 @@ public class ReportRepository implements IBookReport {
         return bookReportDAO.getAll();
     }
 
-    public List<BookReport> getUnresolved() throws NullPointerException {
+    public List<BookReport> getUnresolved() {
         var sql = "SELECT * FROM pap.reports WHERE resolved = false";
-        List<BookReport> list = bookReportDAO.query(sql);
-        if (list.isEmpty()) {
-            throw new NullPointerException("No unresolved reports found");
-        }
-        return list;
+        return bookReportDAO.query(sql);
     }
 
     @Override
@@ -43,12 +39,13 @@ public class ReportRepository implements IBookReport {
     }
 
     @Override
-    public BookReport getReportByUserAndBook(int userId, int bookId) throws NullPointerException {
+    public BookReport getReportByUserAndBook(int userId, int bookId) {
         String sql = "SELECT * FROM pap.reports WHERE user_id = " + userId + " AND book_id = " + bookId;
         List<BookReport> reports =  bookReportDAO.query(sql);
-        if (reports.isEmpty()) {
-            throw new NullPointerException("Report for user with id " + userId + " and book with id " + bookId + " not found");
+        if (!reports.isEmpty()){
+            return reports.get(0);
+        }else{
+            return  null;
         }
-        return reports.get(0);
     }
 }

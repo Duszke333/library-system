@@ -1,9 +1,11 @@
-package pap.db;
+package db;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import pap.db.Entities.*;
 
 import java.util.Date;
+import java.util.List;
 
 public class HelperMethods {
     private static SessionFactory factory = TestSessionFactoryMaker.getSessionFactory();
