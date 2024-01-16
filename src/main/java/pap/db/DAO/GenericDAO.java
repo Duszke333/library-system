@@ -16,7 +16,7 @@ import java.util.List;
  *     Generic DAO implementation
  *     This class is used implement methods for other entities
  *     It uses session factory to connect to the database
- *     It handles transactions
+ *     In case of an error, it prints the error message and rolls back the transaction
  */
 public class GenericDAO<T> implements DAO<T>{
     /**
@@ -143,34 +143,6 @@ public class GenericDAO<T> implements DAO<T>{
             list = session.createNativeQuery(query, type).list();
         } catch (Exception e) {
             session.getTransaction().rollback();
-            System.out.println(e.getMessage());
-        }
-        return list;
-    }
-
-    @Override
-    public List<T> query(String sql, Object... params) {
-        List<T> list = new ArrayList<T>();
-        try (Connection connection = SessionFactoryMaker.getConnection()) {
-            PreparedStatement statement = connection.prepareStatement(sql);
-            for (int i = 0; i < params.length; i++) {
-                statement.setObject(i + 1, params[i]);
-            }
-            try (ResultSet resultSet = statement.executeQuery()) {
-                while (resultSet.next()) {
-                    T t = type.getConstructor().newInstance();
-                    List<Object> values = new ArrayList<Object>();
-                    for (int i = 0; i < resultSet.getMetaData().getColumnCount(); i++) {
-                        values.add(resultSet.getObject(i + 1));
-                    }
-                    for (int i = 0; i < values.size(); i++) {
-                        t.getClass().getDeclaredFields()[i].setAccessible(true);
-                        t.getClass().getDeclaredFields()[i].set(t, values.get(i));
-                    }
-                    list.add(t);
-                }
-            }
-        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
         return list;

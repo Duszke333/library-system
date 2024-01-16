@@ -20,11 +20,4 @@ class AddressRepositoryTest {
         Address address = addressRepository.getById(1);
         Assertions.assertNotNull(address);
     }
-
-    @Test
-    void getNull() {
-        Assertions.assertThrows(NullPointerException.class, () -> {
-            addressRepository.getById(-1);
-        });
-    }
 }

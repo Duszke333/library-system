@@ -42,11 +42,4 @@ class BookRepositoryTest {
         ReadList readLists = bookRepository.getReadList(1);
         Assertions.assertNotNull(readLists);
     }
-
-    @Test
-    void getNullReadList() {
-        Assertions.assertThrows(NullPointerException.class, () -> {
-            bookRepository.getReadList(-1);
-        });
-    }
 }

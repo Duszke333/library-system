@@ -26,28 +26,20 @@ public class GenericRepository<T> implements IRepository<T> {
 
     /**
      * @return List of all entities
-     * @throws NullPointerException If no entities are found
      */
     @Override
-    public List<T> getAll() throws NullPointerException {
+    public List<T> getAll() {
         List<T> list = tdao.getAll();
-        if (list.isEmpty()) {
-            throw new NullPointerException("No " + type.getSimpleName() + "s found");
-        }
         return list;
     }
 
     /**
      * @param id Id of the entity
      * @return Entity with the given id
-     * @throws NullPointerException If no entity is found
      */
     @Override
-    public T getById(int id) throws NullPointerException {
+    public T getById(int id) {
         T t = tdao.read(id);
-        if (t == null) {
-            throw new NullPointerException(type.getSimpleName() + " with id " + id + " not found");
-        }
         return t;
     }
 
@@ -69,10 +61,9 @@ public class GenericRepository<T> implements IRepository<T> {
 
     /**
      * @param entity Entity to be deleted
-     * @throws NullPointerException If no entity is found
      */
     @Override
-    public void delete(T entity) throws NullPointerException {
+    public void delete(T entity) {
         tdao.delete(entity);
     }
 }
