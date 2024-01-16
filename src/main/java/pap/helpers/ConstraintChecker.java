@@ -13,10 +13,13 @@ public class ConstraintChecker {
     /**
      * A class that checks if the given data is valid before the program tries to put it into the database.
      */
+
+    /**
+     * A method that checks if the given book data is valid.
+     * @param book the book object to be checked
+     * @throws IllegalArgumentException upon encounter of an incorrect value of any field
+     */
     public static void checkBook(Book book) throws IllegalArgumentException {
-        /*
-            A method that checks if the given book data is valid.
-         */
         if (book.getIsbn().length() > 32) throw new IllegalArgumentException("ISBN too long");
         if (book.getTitle().length() > 128) throw new IllegalArgumentException("Title too long");
         if (book.getAuthor().length() > 128) throw new IllegalArgumentException("Author name too long");
@@ -33,10 +36,12 @@ public class ConstraintChecker {
         if (book.getCover().length() > 256) throw new IllegalArgumentException("Cover path too long");
     }
 
+    /**
+     * A method that checks if the given address data is valid.
+     * @param address the address object to be checked
+     * @throws IllegalArgumentException upon encounter of an incorrect value of any field
+     */
     public static void checkAddress(Address address) throws IllegalArgumentException {
-        /*
-            A method that checks if the given address data is valid.
-         */
         if (address.getCountry().length() > 64) throw new IllegalArgumentException("Country name too long");
         if (address.getPostalCode().length() > 16) throw new IllegalArgumentException("Postal code too long");
         if (address.getCity().length() > 64) throw new IllegalArgumentException("City name too long");
@@ -45,10 +50,13 @@ public class ConstraintChecker {
         if (address.getFlatNumber().length() > 16) throw new IllegalArgumentException("Flat number too long");
     }
 
+    /**
+     * A method that checks if the given user data is valid.
+     * @param user the user object to be checked
+     * @param userRepo the user repository object used to check if the email is already in use
+     * @throws IllegalArgumentException upon encounter of an incorrect value of any field
+     */
     public static void checkUser(User user, UserRepository userRepo) throws IllegalArgumentException {
-        /*
-            A method that checks if the given user data is valid.
-         */
         if (user.getFirstName().length() > 64) throw new IllegalArgumentException("Name too long");
         if (user.getLastName().length() > 64) throw new IllegalArgumentException("Surname too long");
         if (user.getEmail().length() > 64) throw new IllegalArgumentException("Email too long");
@@ -56,10 +64,13 @@ public class ConstraintChecker {
         if (userRepo.getByEmail(user.getEmail()) != null) throw new IllegalArgumentException("Email already in use");
     }
 
+    /**
+     * A method that checks if the given employee data is valid.
+     * @param emp the employee object to be checked
+     * @param empRepo the employee repository object used to check if the username or tied user account is already in use
+     * @throws IllegalArgumentException upon encounter of an incorrect value of any field
+     */
     public static void checkEmployee(Employee emp, EmployeeRepository empRepo) throws IllegalArgumentException {
-        /*
-            A method that checks if the given employee data is valid.
-         */
         if (emp.getUsername().length() > 128) throw new IllegalArgumentException("Username too long");
         if (emp.getRole().length() > 64) throw new IllegalArgumentException("Role name too long");
         if (empRepo.getByUsername(emp.getUsername()) != null) throw new IllegalArgumentException("Username already in use");

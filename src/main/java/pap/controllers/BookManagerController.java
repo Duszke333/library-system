@@ -10,6 +10,7 @@ import pap.db.Entities.Book;
 import pap.db.Repository.BookRepository;
 import pap.helpers.ConstraintChecker;
 import pap.helpers.LoadedPages;
+import pap.helpers.PenaltyManager;
 
 import java.io.File;
 import java.net.URL;
@@ -17,7 +18,8 @@ import java.util.ResourceBundle;
 
 public class BookManagerController implements UpdatableController, Initializable {
     /**
-     * A controller class for book-manager page.
+     * A controller class for book-manager page which allows an employee
+     * to change information about the book or remove it from the database.
      */
     private Book book;
     @FXML
@@ -51,11 +53,11 @@ public class BookManagerController implements UpdatableController, Initializable
     @FXML
     private TextField coverInput;
 
+    /**
+     * A method that updates a book in the database.
+     */
     @FXML
     protected void updateInformation() {
-        /*
-          A method that updates a book in the database.
-         */
         updateStatus.setFill(javafx.scene.paint.Color.RED);
         updateStatus.setVisible(false);
 
@@ -105,7 +107,7 @@ public class BookManagerController implements UpdatableController, Initializable
             cover = Book.CoverData.DefaultCover;
         }
 
-        // create a book object and set its values
+        // update the book object
         book.setIsbn(isbn);
         book.setTitle(title);
         book.setAuthor(author);
@@ -118,7 +120,7 @@ public class BookManagerController implements UpdatableController, Initializable
         book.setDescription(description);
         book.setCover(cover);
 
-        // check if the book is valid
+        // check if the updated book is valid
         try {
             ConstraintChecker.checkBook(book);
         } catch (IllegalArgumentException e) {
@@ -137,11 +139,11 @@ public class BookManagerController implements UpdatableController, Initializable
         updateStatus.setVisible(true);
     }
 
+    /**
+     * A method that deletes the book from the database.
+     */
     @FXML
     protected void deleteBook() {
-        /*
-          A method that asks the employee if he really wants to delete the book.
-         */
         deletionStatus.setFill(javafx.scene.paint.Color.WHITE);
         deletionStatus.setText("Are you sure you want to delete this book?");
         deletionStatus.setVisible(true);
@@ -150,32 +152,38 @@ public class BookManagerController implements UpdatableController, Initializable
         cancelDeletion.setVisible(true);
     }
 
+    /**
+     * A method that switches the visible content to browse-book-history page.
+     */
     @FXML
     protected void viewHistory() {
-        /*
-            A method that switches the visible content to browse-book-history page.
-        */
         BrowseBookHistoryController.setBookId(book.getBookId());
         GlobalController.switchVisibleContent(LoadedPages.browseBookHistory);
     }
 
+    /**
+     * A method that deletes the book from the database.
+     */
     @FXML
     protected void deletionConfirmed() {
-        /*
-          A method that deletes the book from the database.
-         */
+        // first end all rentals and queues for the book
+        PenaltyManager.deactivateBook(book.getBookId());
+
+        // then delete the book
+        new BookRepository().delete(book);
+
+        // inform about a success
         deletionStatus.setFill(javafx.scene.paint.Color.RED);
         deletionStatus.setText("Book deleted.");
         confirmDeletion.setVisible(false);
         cancelDeletion.setVisible(false);
-        new BookRepository().delete(book);
     }
 
+    /**
+     * A method that cancels the book deletion.
+     */
     @FXML
     protected void deletionCancelled() {
-        /*
-          A method that cancels the book deletion.
-         */
         deletionStatus.setFill(javafx.scene.paint.Color.GREEN);
         deletionStatus.setText("Book deletion cancelled.");
         deletionButton.setDisable(false);
@@ -183,11 +191,11 @@ public class BookManagerController implements UpdatableController, Initializable
         cancelDeletion.setVisible(false);
     }
 
+    /**
+     * A method that switches the visible content to manage-catalog page.
+     */
     @FXML
     protected void goBack() {
-        /*
-            A method that switches the visible content to manage-catalog page.
-        */
         GlobalController.switchVisibleContent(LoadedPages.manageCatalog);
     }
     

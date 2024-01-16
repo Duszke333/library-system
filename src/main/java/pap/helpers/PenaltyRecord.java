@@ -32,6 +32,10 @@ public class PenaltyRecord {
     private Double amount;
     private String cause;
 
+    /**
+     * Constructor for the PenaltyRecord class.
+     * @param penalty Penalty object that is used to create the record.
+     */
     public PenaltyRecord(Penalty penalty) {
         this.penaltyId = penalty.getPenaltyId();
         this.userId = penalty.getUserId();
@@ -42,6 +46,8 @@ public class PenaltyRecord {
         this.bookId = book.getBookId();
         this.title = book.getTitle();
         this.author = book.getAuthor();
+
+        // set payment status and date
         if (penalty.getDatePaid() != null) {
             this.paid = true;
             this.datePaid = penalty.getDatePaid().toString();
@@ -53,8 +59,16 @@ public class PenaltyRecord {
         this.cause = penalty.getCause();
     }
 
+    /**
+     * A method that returns a list of PenaltyRecords from all penalties put on user.
+     * @param userId id of the user whose penalties are searched for
+     * @return list of all penalties
+     */
     public static List<PenaltyRecord> getUserPenalties(int userId) {
+        // get all the user penalties
         List<Penalty> penalties = new RentalRepository().getPenaltiesByUserId(userId);
+
+        // create a list of records from the penalties
         List<PenaltyRecord> records = new java.util.ArrayList<>();
         for (Penalty penalty : penalties) {
             records.add(new PenaltyRecord(penalty));

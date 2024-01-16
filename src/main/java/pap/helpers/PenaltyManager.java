@@ -13,12 +13,12 @@ public class PenaltyManager {
     /**
      * A class that manages every operation related to penalties.
      */
-    public static void createReportPenalty(int reportId) {
-        /*
-          A method that creates a penalty for a user that has reported a book as lost or damaged.
-          param reportId - id of the report that caused the penalty
-         */
 
+    /**
+     * A method that creates a penalty for a user that has reported a book as lost or damaged.
+     * @param reportId id of the report that caused the penalty
+     */
+    public static void createReportPenalty(int reportId) {
         // extract the report from database
         ReportRepository reportRepo = new ReportRepository();
         BookReport report = reportRepo.getById(reportId);
@@ -54,12 +54,11 @@ public class PenaltyManager {
         new RentalRepository().createPenalty(penalty);
     }
 
+    /**
+     * A method that creates a penalty for a user that has not returned a book on time.
+     * @param bookId id of the book that has to be marked as unavailable
+     */
     public static void deactivateBook(int bookId) {
-        /*
-            A method that sets the books status to 'Unavailable', ends current rental and removes the queue for it.
-            param bookId - id of the book to deactivate
-         */
-
         // set book status to unavailable
         BookRepository bookRepo = new BookRepository();
         Book book = bookRepo.getById(bookId);
@@ -79,17 +78,23 @@ public class PenaltyManager {
         }
     }
 
+    /**
+     * A method that creates a penalty for a user that has not returned a book on time.
+     * @param userId id of the user that has to be removed from all queues
+     */
     public static void removeUserFromQueues(int userId) {
-        /*
-            A method that removes a user from all queues.
-            param userId - id of the user to remove
-         */
+        // get all the queues for this user
         RentalRepository repo = new RentalRepository();
         List<RentingQueue> queue = repo.getRentingQueuesByUserId(userId);
+
+        // search through all the queues the user is in
         for (RentingQueue q : queue) {
+            // get the full queue for a book
             int bookId = q.getBookId();
             BookRepository bookRepo = new BookRepository();
             List<RentingQueue> bookQueue = repo.getRentingQueuesByBookId(bookId);
+
+            // check if the user is the only one in queue
             if (bookQueue.size() == 1) {
                 // delete entry
                 repo.deleteRentingQueue(q);
@@ -122,16 +127,20 @@ public class PenaltyManager {
         }
     }
 
+    /**
+     * A method that checks if there are any late returns and creates penalties for them.
+     */
     public static void checkLateReturns() {
-        /*
-            A method that checks if there are any late returns and creates penalties for them.
-         */
+        // get all the rentals that have exceeded the return date
         RentalRepository repo = new RentalRepository();
         List<BookRental> rentals = repo.getAllExceededRentals();
+
+        // create penalty for each rental
         for (BookRental rental : rentals) {
+            // check if penalty already exists
             Penalty penalty = repo.getPenaltyByRentalId(rental.getRentalId());
             if (penalty == null) {
-                // create penalty
+                // create a new penalty
                 int uid = rental.getUserId();
                 penalty = new Penalty();
                 penalty.setUserId(uid);
@@ -157,6 +166,7 @@ public class PenaltyManager {
                 removeUserFromQueues(uid);
 
             } else {
+                // update penalties that already exist
                 java.sql.Date date = new java.sql.Date(System.currentTimeMillis());
                 // Check how many days have passed since last update
                 int currentDayOfTheYear = date.toLocalDate().getDayOfYear();

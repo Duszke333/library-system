@@ -20,7 +20,7 @@ import java.util.Optional;
 
 public class EmployeeDashboardController implements UpdatableController {
     /**
-     * A controller class for employee-dashboard page.
+     * A controller class for employee-dashboard page which allows an employee to access all the actions he can perform.
      */
     @FXML
     private ListView<Button> employeeActions;
@@ -29,11 +29,11 @@ public class EmployeeDashboardController implements UpdatableController {
     @FXML
     private VBox contentPane;
 
+    /**
+     * A method that initializes the page by creating all the necessery buttons.
+     */
     @FXML
     private void initialize() {
-        /*
-            A method that initializes the page by creating all the necessery buttons.
-         */
         var signOutItem = new Button("Sign Out");
         signOutItem.setOnAction(e -> {
             Login.setEmployeeLoggedIn(Optional.empty());

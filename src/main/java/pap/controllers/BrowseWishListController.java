@@ -19,7 +19,7 @@ import java.util.ResourceBundle;
 
 public class BrowseWishListController implements UpdatableController, Initializable {
     /**
-     * A controller class for browse-wish-list page.
+     * A controller class for browse-wish-list page which allows a user to view all the books he added to his wishlist.
      */
     @FXML
     private TableView<WishRecord> wishCatalog;
@@ -29,11 +29,12 @@ public class BrowseWishListController implements UpdatableController, Initializa
     private TableColumn<WishRecord, String> bookTitle;
     @FXML
     private TableColumn<WishRecord, String> bookAuthor;
+
+    /**
+     * A method that switches to book-view page which shows details about the book the user has added to wish list.
+     */
     @FXML
     public void getItem(MouseEvent event) {
-        /*
-            A method that switches to book-view page which shows details about the book the user has added to wish list.
-         */
         if (wishCatalog.getSelectionModel().getSelectedItem() == null) {
             return;
         }

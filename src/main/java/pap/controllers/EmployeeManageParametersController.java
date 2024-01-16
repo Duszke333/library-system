@@ -12,7 +12,8 @@ import static pap.helpers.Parameters.*;
 
 public class EmployeeManageParametersController implements UpdatableController, Initializable {
     /**
-     * A controller class for employee-manage-parameters page.
+     * A controller class for employee-manage-parameters page which allows an employee
+     * to change values of the system parameters.
      */
     @FXML
     private TextField maxQueueLengthInput;
@@ -25,11 +26,11 @@ public class EmployeeManageParametersController implements UpdatableController, 
     @FXML
     private Text updateStatus;
 
+    /**
+     * A method that updates the system parameters.
+     */
     @FXML
     protected void updateParameters() {
-        /*
-            A method that updates the system parameters.
-         */
         updateStatus.setFill(javafx.scene.paint.Color.RED);
         updateStatus.setVisible(false);
 

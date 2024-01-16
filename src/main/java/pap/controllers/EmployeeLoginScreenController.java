@@ -12,7 +12,7 @@ import static pap.helpers.Login.*;
 
 public class EmployeeLoginScreenController implements UpdatableController {
     /**
-     * A controller class for employee-login-screen page.
+     * A controller class for employee-login-screen page which allows an employee to log into his account.
      */
     @FXML
     private TextField loginUsername;
@@ -21,17 +21,16 @@ public class EmployeeLoginScreenController implements UpdatableController {
     @FXML
     private Text loginStatus;
 
+    /**
+     * A method that tries to log in the employee.
+     */
     @FXML
     protected void loginButtonPressed() {
-        /*
-            A method that tries to log in the user.
-         */
-
         // Get the input data
         String username = loginUsername.getText();
         String password = loginPassword.getText();
 
-        // Try to log in the user
+        // Try to log in the employee
         int id;
         try {
             id = tryLoginEmployee(username, password);

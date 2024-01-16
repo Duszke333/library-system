@@ -33,7 +33,7 @@ import java.util.ResourceBundle;
 
 public class BookViewController implements UpdatableController, Initializable {
     /**
-     * A controller class for book-view page.
+     * A controller class for book-view page which shows all the details about the selected book.
      */
     @FXML
     Label titleLabel;
@@ -93,10 +93,10 @@ public class BookViewController implements UpdatableController, Initializable {
     @FXML
     Button reportButton;
 
+    /**
+     * A method that displays the status of the book in the wishlist.
+     */
     public void displayWishStatus() {
-        /*
-            A method that displays the status of the book in the wishlist.
-         */
         int uid = Login.getUserLoggedIn().orElse(-1);
         wishLabel.setText("");
         wishButton.setText("Add a book to the wishlist");
@@ -108,10 +108,10 @@ public class BookViewController implements UpdatableController, Initializable {
         }
     }
 
+    /**
+     * A method that shows the report button if the book is rented by the user.
+     */
     public void showReportButton(){
-        /*
-            A method that shows the report button if the book is rented by the user.
-         */
         int uid = Login.getUserLoggedIn().orElse(-1);
         if (uid == -1 || !new RentalRepository().isRentedByUser(uid, book.getBookId())){
             reportButton.setVisible(false);
@@ -120,11 +120,11 @@ public class BookViewController implements UpdatableController, Initializable {
         reportButton.setVisible(true);
     }
 
+    /**
+     * A method that extends the rental of the book by one month.
+     */
     @FXML
     protected void extendPressed() {
-        /*
-            A method that extends the rental of the book by one month.
-         */
         // update rental
         RentalRepository repo = new RentalRepository();
         BookRental rental = repo.getCurrentBookRental(book.getBookId());
@@ -139,11 +139,11 @@ public class BookViewController implements UpdatableController, Initializable {
         actionLabel.setText("You have successfully extended your rental. It must be returned by " + date);
     }
 
+    /**
+     * A method that adds the user to the queue for the book.
+     */
     @FXML
     protected void reservePressed() {
-        /*
-            A method that adds the user to the queue for the book.
-         */
         java.sql.Date date;
         RentalRepository repo = new RentalRepository();
         // check if book has eny queue entries and get the last return date
@@ -175,12 +175,11 @@ public class BookViewController implements UpdatableController, Initializable {
         actionLabel.setText("You have successfully joined the queue. You can pick up the book on " + date);
     }
 
+    /**
+     * A method that ends the rental and returns the book.
+     */
     @FXML
     protected void returnPressed() {
-        /*
-            A method that returns the book.
-         */
-
         // update book status
         if (book.getStatus().equals(BookStatus.Rented)) {
             book.setStatus(BookStatus.Available);
@@ -202,12 +201,11 @@ public class BookViewController implements UpdatableController, Initializable {
         actionLabel.setText("You have successfully returned this book.");
     }
 
+    /**
+     * A method that removes the user from the queue.
+     */
     @FXML
     protected void resignPressed() {
-        /*
-            A method that removes the user from the queue.
-         */
-
         // get the queue for the book
         RentalRepository repo = new RentalRepository();
         List<RentingQueue> queue = repo.getRentingQueuesByBookId(book.getBookId());
@@ -248,12 +246,11 @@ public class BookViewController implements UpdatableController, Initializable {
         actionLabel.setText("You have successfully left the queue.");
     }
 
+    /**
+     * A method that lets the first user in queue rent the book.
+     */
     @FXML
     protected void pickupPressed() {
-        /*
-            A method that picks up the book.
-         */
-
         // create new rental
         RentalRepository repo = new RentalRepository();
         BookRental rental = new BookRental();
@@ -281,12 +278,11 @@ public class BookViewController implements UpdatableController, Initializable {
         updateAction();
     }
 
+    /**
+     * A method that lets the user rent the book.
+     */
     @FXML
     protected void rentPressed() {
-        /*
-            A method that rents the book.
-         */
-
         // create new rental
         BookRental rental = new BookRental();
         rental.setBookId(book.getBookId());
@@ -308,12 +304,11 @@ public class BookViewController implements UpdatableController, Initializable {
         actionLabel.setText("You have successfully ordered this book. It must be returned by " + returnDate);
     }
 
+    /**
+     * A method that lets the user grade the book.
+     */
     @FXML
     protected void gradeButtonPressed() {
-        /*
-            A method that grades the book.
-         */
-
         // create new grade
         int uid = Login.getUserLoggedIn().get();
         int bookId = book.getBookId();
@@ -331,10 +326,10 @@ public class BookViewController implements UpdatableController, Initializable {
         gradeSlider.setDisable(true);
     }
 
+    /**
+     * A method that updates the display of the book information.
+     */
     private void updateDisplay() {
-        /*
-            A method that updates the display of the book information.
-         */
         titleLabel.setText("Title: " + book.getTitle());
         authorLabel.setText("Author: " + book.getAuthor());
         genreLabel.setText("Genre: " + book.getGenre());
@@ -364,11 +359,10 @@ public class BookViewController implements UpdatableController, Initializable {
         grade.setText("Grade: " + pair.getValue() + " (based on " + pair.getKey() + " grades)");
     }
 
+    /**
+     * A method that updates the grading display.
+     */
     private void updateGrading() {
-        /*
-            A method that updates the grading display.
-         */
-
         // check if user is logged in
         int uid = Login.getUserLoggedIn().orElse(-1);
         if (uid == -1) {
@@ -399,10 +393,10 @@ public class BookViewController implements UpdatableController, Initializable {
         gradeText.setText("Your grade: 1.0");
     }
 
+    /**
+     * A method that updates the action button and label.
+     */
     private void updateAction() {
-        /*
-            A method that updates the action button and label as well as the return button.
-         */
         returnButton.setVisible(false);
         returnText.setVisible(false);
 
@@ -537,11 +531,10 @@ public class BookViewController implements UpdatableController, Initializable {
         }
     }
 
+    /**
+     * A method that adds the book to the users wishlist or removes it from it if it's already in.
+     */
     public void wishButtonClicked(MouseEvent mouseEvent){
-        /*
-            A method that adds the book to the wishlist.
-         */
-
         // check if user is logged in
         int uid = Login.getUserLoggedIn().orElse(-1);
         if (uid == -1){
@@ -570,11 +563,10 @@ public class BookViewController implements UpdatableController, Initializable {
         }
     }
 
+    /**
+     * A method that allows the user to report the book.
+     */
     public void reportButtonClicked(MouseEvent mouseEvent){
-        /*
-            A method that reports the book.
-         */
-
         // check if user has already reported the book
         BookReport existingReport = new ReportRepository().getReportByUserAndBook(Login.getUserLoggedIn().get(), book.getBookId());
         if (existingReport == null) {

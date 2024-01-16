@@ -27,6 +27,10 @@ public class RentalRecord {
     private String userFirstName;
     private String userLastName;
 
+    /**
+     * Constructor for the RentalRecord class.
+     * @param rental BookRental object that is used to create the record.
+     */
     public RentalRecord(BookRental rental) {
         this.rentalId = rental.getRentalId();
         this.bookId = rental.getBookId();
@@ -46,8 +50,16 @@ public class RentalRecord {
         this.userLastName = user.getLastName();
     }
 
+    /**
+     * A method that returns a list of RentalRecords from all current rentals of the user.
+     * @param userId id of the user whose rentals are searched for
+     * @return list of all rentals
+     */
     public static List<RentalRecord> getCurrentlyRented(int userId) {
+        // get all the rentals
         List<BookRental> raw = new RentalRepository().getRentalsByUserId(userId);
+
+        // create a list of records from the rentals
         List<RentalRecord> records = new java.util.ArrayList<>();
         for (BookRental rental : raw) {
             RentalRecord record = new RentalRecord(rental);

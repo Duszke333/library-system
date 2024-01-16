@@ -16,7 +16,8 @@ import pap.helpers.PasswordHasher;
 
 public class EmployeeAccountCreateController implements UpdatableController {
     /**
-     * A controller class for employee-account-create page.
+     * A controller class for employee-account-create page which allows an employee
+     * to create an account for another employee.
      */
     @FXML
     private TextField userEmailInput;
@@ -42,12 +43,11 @@ public class EmployeeAccountCreateController implements UpdatableController {
         GlobalController.switchVisibleContent(LoadedPages.userAccountCreate);
     }
 
+    /**
+     * A method that creates a new employee account.
+     */
     @FXML
     protected void createEmployeeAccountPressed() {
-        /*
-            A method that creates a new employee account.
-         */
-
         // Get all the input data.
         String userEmail = userEmailInput.getText();
         String userPassword = userPasswordInput.getText();

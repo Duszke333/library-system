@@ -17,7 +17,7 @@ import java.util.ResourceBundle;
 
 public class BookReportController implements UpdatableController, Initializable {
     /**
-     * A controller class for book-report page.
+     * A controller class for book-report page which allows a user to report an issue with a book.
      */
     @FXML
     private Button cancelButton;
@@ -37,11 +37,13 @@ public class BookReportController implements UpdatableController, Initializable 
     public void initialize(URL url, ResourceBundle resourceBundle) {
         update();
     }
+
+    /**
+     * A method that asks the user if he is certain that he wants to cancel issue reporting
+     * and returns to the previous page if so.
+     */
     @FXML
     void cancelButtonClicked(MouseEvent event) {
-        /*
-            A method that asks the user if he wants to cancel the report and returns to the previous page if so.
-         */
         Alert alert = new Alert(
                 Alert.AlertType.CONFIRMATION,
                 "Are you certain you wish to cancel? Any unsaved changes will be discarded.",
@@ -57,11 +59,11 @@ public class BookReportController implements UpdatableController, Initializable 
         }
     }
 
+    /**
+     * A method that asks the user if he wants to confirm the report and reports the book if so.
+     */
     @FXML
     void confirmButtonClicked(MouseEvent event) {
-        /*
-            A method that asks the user if he wants to confirm the report and reports the book if so.
-         */
         boolean isReportBoxFilled = reportBox.getValue() != null;
         boolean isReportTextFilled = !reportText.getText().trim().isEmpty();
         if (isReportBoxFilled && isReportTextFilled) {

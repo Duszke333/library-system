@@ -19,7 +19,8 @@ import java.util.ResourceBundle;
 
 public class BranchManagerController implements UpdatableController, Initializable {
     /**
-     * A controller class for branch-manager page.
+     * A controller class for branch-manager page which allows an employee
+     * to edit information about a selected branch or create a new one.
      */
     @Setter
     private static Branch branch;
@@ -48,12 +49,11 @@ public class BranchManagerController implements UpdatableController, Initializab
     @Setter
     private static Boolean creationMode;
 
+    /**
+     * A method that creates a new branch.
+     */
     @FXML
     private void create() {
-        /*
-          A method that creates a new branch.
-         */
-
         operationStatus.setFill(javafx.scene.paint.Color.RED);
 
         // get every value from the text fields
@@ -110,12 +110,11 @@ public class BranchManagerController implements UpdatableController, Initializab
         operationStatus.setVisible(true);
     }
 
+    /**
+     * A method that updates information about a branch.
+     */
     @FXML
     protected void updateBranch() {
-        /*
-            A method that updates the branch information.
-         */
-
         operationStatus.setFill(javafx.scene.paint.Color.RED);
 
         // get every value from the text fields

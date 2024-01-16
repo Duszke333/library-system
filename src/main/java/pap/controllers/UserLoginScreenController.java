@@ -12,7 +12,7 @@ import static pap.helpers.Login.*;
 
 public class UserLoginScreenController implements UpdatableController {
     /**
-     * A controller class for user-login-screen page.
+     * A controller class for user-login-screen page which allows a user to log into his account.
      */
     @FXML
     private TextField loginEmail;
@@ -21,22 +21,21 @@ public class UserLoginScreenController implements UpdatableController {
     @FXML
     private Text loginStatus;
 
+    /**
+     * A method that switches to user-account-create page which allows to create an account.
+     */
     @FXML
     private void createAccountButtonPressed() {
-        /*
-            A method that switches to user-account-create page which allows to create an account.
-         */
         loginEmail.clear();
         loginPassword.clear();
         GlobalController.switchVisibleContent(LoadedPages.userAccountCreate);
     }
 
+    /**
+     * A method that tries to log in the user.
+     */
     @FXML
     private void loginButtonPressed() {
-        /*
-            A method that tries to log in the user.
-         */
-
         // Get the input data
         String email = loginEmail.getText().strip();
         String password = loginPassword.getText().strip();

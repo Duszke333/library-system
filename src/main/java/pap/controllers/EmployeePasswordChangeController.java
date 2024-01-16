@@ -14,7 +14,7 @@ import java.util.ResourceBundle;
 
 public class EmployeePasswordChangeController implements UpdatableController, Initializable {
     /**
-     * A controller class for employee-password-change page.
+     * A controller class for employee-password-change page that allows an employee to change his password.
      */
     private Employee employee;
     @FXML
@@ -25,11 +25,12 @@ public class EmployeePasswordChangeController implements UpdatableController, In
     private PasswordField newPasswordConfirmation;
     @FXML
     private Text passUnmatched;
+
+    /**
+     * A method that changes the employee's password.
+     */
     @FXML
     protected void changePassword() {
-        /*
-            A method that changes the employee's password.
-         */
         passUnmatched.setFill(javafx.scene.paint.Color.RED);
         passUnmatched.setVisible(false);
 
