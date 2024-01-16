@@ -30,6 +30,10 @@ public class IssueRecord {
     private Date dateReported;
     private Boolean resolved;
 
+    /**
+     * Constructor for the IssueRecord class.
+     * @param report BookReport object that is used to create the record.
+     */
     public IssueRecord(BookReport report) {
         this.reportId = report.getReportId();
         this.bookId = report.getBookId();
@@ -44,8 +48,15 @@ public class IssueRecord {
         this.resolved = report.isResolved();
     }
 
+    /**
+     * A method that returns a list of all book reports.
+     * @return list of all book reports
+     */
     public static List<IssueRecord> getAll() {
+        // get all the book reports
         List<BookReport> reports = new ReportRepository().getAll();
+
+        // create a list of records from the book reports
         List<IssueRecord> records = new java.util.ArrayList<>();
         for (BookReport report : reports) {
             records.add(new IssueRecord(report));

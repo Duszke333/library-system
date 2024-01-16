@@ -22,6 +22,10 @@ public class WishRecord {
     private String author;
     private String language;
 
+    /**
+     * Constructor for the WishRecord class.
+     * @param wishList BookWishList object that is used to create the record.
+     */
     public WishRecord(BookWishList wishList) {
         this.wishId = wishList.getWishListId();
         this.bookId = wishList.getBookId();
@@ -34,6 +38,11 @@ public class WishRecord {
         this.language = book.getLanguage();
     }
 
+    /**
+     * A method that returns a list of WishRecords from all books in the user's wish list.
+     * @param userId id of the user whose wish list is searched for
+     * @return list of all books in the user's wish list
+     */
     public static List<WishRecord> getWishList(int userId) {
         List<BookWishList> raw = new WishRepository().getWishListByUserId(userId);
         List<WishRecord> records = new java.util.ArrayList<>();

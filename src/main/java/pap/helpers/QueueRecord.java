@@ -25,6 +25,10 @@ public class QueueRecord {
     private String language;
     private Boolean ready;
 
+    /**
+     * Constructor for the QueueRecord class.
+     * @param queue RentingQueue object that is used to create the record.
+     */
     public QueueRecord(RentingQueue queue) {
         this.queueId = queue.getQueueId();
         this.bookId = queue.getBookId();
@@ -42,6 +46,11 @@ public class QueueRecord {
         }
     }
 
+    /**
+     * A method that returns a list of QueueRecords from queues that the user is currently in.
+     * @param userId id of the user whose queues are searched for
+     * @return list of all renting queues
+     */
     public static List<QueueRecord> getUserQueues(int userId) {
         List<RentingQueue> raw = new RentalRepository().getRentingQueuesByUserId(userId);
         List<QueueRecord> records = new java.util.ArrayList<>();

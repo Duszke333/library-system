@@ -9,10 +9,12 @@ public class PasswordHasher {
     /**
      * A class that hashes passwords.
      */
+
+    /**
+     * A method that generates a random password salt.
+     * @return String containing random password salt
+     */
     public static String generateSalt() {
-        /*
-          A method that generates a random password salt.
-         */
         byte[] salt = new byte[16];
         new SecureRandom().nextBytes(salt);
 
@@ -22,10 +24,14 @@ public class PasswordHasher {
         }
         return sb.toString();
     }
+
+    /**
+     * A method that hashes a password using SHA-512.
+     * @param password password to be hashed
+     * @param salt salt to be used in the hashing process
+     * @return String containing hashed password
+     */
     public static String hashPassword(String password, String salt) {
-        /*
-          A method that hashes a password using SHA-512.
-         */
         byte[] rawSalt = salt.getBytes(StandardCharsets.UTF_8);
 
         // hash the password
