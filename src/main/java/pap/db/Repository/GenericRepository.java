@@ -14,14 +14,23 @@ public class GenericRepository<T> implements IRepository<T> {
         this.tdao = tdao;
     }
 
+    /**
+     * @return List of all entities
+     */
     @Override
     public List<T> getAll() {
-        return tdao.getAll();
+        List<T> list = tdao.getAll();
+        return list;
     }
 
+    /**
+     * @param id Id of the entity
+     * @return Entity with the given id
+     */
     @Override
     public T getById(int id) {
-        return tdao.read(id);
+        T t = tdao.read(id);
+        return t;
     }
 
     @Override
@@ -34,6 +43,9 @@ public class GenericRepository<T> implements IRepository<T> {
         tdao.update(entity);
     }
 
+    /**
+     * @param entity Entity to be deleted
+     */
     @Override
     public void delete(T entity) {
         tdao.delete(entity);

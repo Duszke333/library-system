@@ -3,6 +3,11 @@ package pap.db.DAO;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * @param <T> Entity class
+ *     Base DAO interface
+ *     It provides methods that other DAOs need to implement
+ */
 public interface DAO<T> {
     void create(T t);
     T read(int id);
