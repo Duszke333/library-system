@@ -1,15 +1,8 @@
 package pap.db.DAO;
 
 import java.io.Serializable;
-import java.sql.PreparedStatement;
 import java.util.List;
 
-/**
- * @param <T> Entity class
- *     Base DAO interface
- *     It provides methods that other DAOs need to implement
- *     It uses session factory to connect to the database
- */
 public interface DAO<T> {
     void create(T t);
     T read(int id);
@@ -17,5 +10,4 @@ public interface DAO<T> {
     void delete(T t);
     List<T> getAll();
     List<T> query(String sql);
-    List<T> query(String sql, Object... params);
 }

@@ -16,80 +16,60 @@ public class EmployeeRepository extends GenericRepository<Employee> implements I
     }
 
     @Override
-    public List<Employee> getByBranchId(int branchId) throws NullPointerException {
+    public List<Employee> getByBranchId(int branchId) {
         String sql = "SELECT * FROM pap.employees WHERE branch_id = " + branchId;
-        List<Employee> res = employeeDAO.query(sql);
-        if (res.size() == 0) {
-            throw new NullPointerException("No employees found for branch with id " + branchId);
-        }
-        return res;
+        return employeeDAO.query(sql);
     }
 
-    public List<Employee> getByBranch(Branch branch) throws NullPointerException {
+    public List<Employee> getByBranch(Branch branch) {
         String sql = "SELECT * FROM pap.employees WHERE branch_id = " + branch.getBranchId();
-        List<Employee> res = employeeDAO.query(sql);
-        if (res.size() == 0) {
-            throw new NullPointerException("No employees found for branch with id " + branch.getBranchId());
-        }
-        return res;
+        return employeeDAO.query(sql);
     }
 
     @Override
-    public List<Employee> getAllActive() throws NullPointerException {
+    public List<Employee> getAllActive() {
         String sql = "SELECT * FROM pap.employees WHERE active = true";
-        List<Employee> res = employeeDAO.query(sql);
-        if (res.size() == 0) {
-            throw new NullPointerException("No active employees found");
-        }
-        return res;
+        return employeeDAO.query(sql);
     }
 
     @Override
-    public List<Employee> getAllInactive() throws NullPointerException {
+    public List<Employee> getAllInactive() {
         String sql = "SELECT * FROM pap.employees WHERE active = false";
-        List<Employee> res = employeeDAO.query(sql);
-        if (res.size() == 0) {
-            throw new NullPointerException("No inactive employees found");
-        }
-        return res;
+        return employeeDAO.query(sql);
     }
 
     @Override
-    public List<Employee> getByRole(String role) throws NullPointerException {
+    public List<Employee> getByRole(String role) {
         String sql = "SELECT * FROM pap.employees WHERE role = '" + role + "'";
-        List<Employee> res = employeeDAO.query(sql);
-        if (res.size() == 0) {
-            throw new NullPointerException("No employees found with role " + role);
-        }
-        return res;
+        return employeeDAO.query(sql);
     }
 
     @Override
-    public Employee getByEmail(String email) throws NullPointerException {
+    public Employee getByEmail(String email) {
         String sql = "SELECT * FROM pap.employees WHERE email = '" + email + "'";
         List<Employee> employees = employeeDAO.query(sql);
         if (employees.size() == 0) {
-            throw new NullPointerException("Employee with email " + email + " not found");
+            return null;
         }
         return employees.get(0);
     }
 
     @Override
-    public Employee getByUsername(String username) throws NullPointerException {
+    public Employee getByUsername(String username) {
         String sql = "SELECT * FROM pap.employees WHERE username = '" + username + "'";
         List<Employee> employees = employeeDAO.query(sql);
         if (employees.size() == 0) {
-            throw new NullPointerException("Employee with username " + username + " not found");
+            return null;
         }
         return employees.get(0);
     }
 
     @Override
-    public Employee getByUserID(int userID) throws NullPointerException {
+    public Employee getByUserID(int userID) {
         String sql = "SELECT * FROM pap.employees WHERE user_id = '" + userID + "'";
         List<Employee> employees = employeeDAO.query(sql);
         if (employees.size() == 0) {
-            throw new NullPointerException("Employee with user id " + userID + " not found");
+            return null;
         }
         return employees.get(0);
     }

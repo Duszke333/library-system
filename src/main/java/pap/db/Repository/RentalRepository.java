@@ -22,72 +22,52 @@ public class RentalRepository extends GenericRepository<BookRental> implements I
     }
 
     @Override
-    public List<BookRental> getRentalsByBookId(int id) throws NullPointerException {
+    public List<BookRental> getRentalsByBookId(int id) {
         String sql = "SELECT * FROM pap.book_rentals WHERE book_id = " + id;
-        List<BookRental> list = bookRentalDAO.query(sql);
-        if (list.size() == 0) {
-            throw new NullPointerException("Rentals for book with id " + id + " not found");
-        }
-        return list;
+        return bookRentalDAO.query(sql);
     }
     @Override
-    public List<BookRental> getRentalsByUserId(int id) throws NullPointerException {
+    public List<BookRental> getRentalsByUserId(int id) {
         String sql = "SELECT * FROM pap.book_rentals WHERE user_id = " + id;
-        List<BookRental> list = bookRentalDAO.query(sql);
-        if (list.size() == 0) {
-            throw new NullPointerException("Rentals for user with id " + id + " not found");
-        }
-        return list;
+        return bookRentalDAO.query(sql);
     }
 
-    public List<BookRental> getAllExceededRentals() throws NullPointerException {
+    public List<BookRental> getAllExceededRentals() {
         String sql = "SELECT * FROM pap.book_rentals WHERE date_returned IS NULL AND date_to_return < NOW()";
-        List<BookRental> list = bookRentalDAO.query(sql);
-        if (list.size() == 0) {
-            throw new NullPointerException("No exceeded rentals found");
-        }
-        return list;
+        return bookRentalDAO.query(sql);
     }
 
-    public BookRental getCurrentBookRental(int id) throws NullPointerException {
+    public BookRental getCurrentBookRental(int id) {
         String sql = "SELECT * FROM pap.book_rentals WHERE book_id = " + id + " AND date_returned IS NULL";
         List<BookRental> res = bookRentalDAO.query(sql);
         if (res == null || res.isEmpty()) {
-            throw new NullPointerException("No rentals found for book with id " + id);
+            return null;
         }
         return res.get(0);
     }
 
-    public List<BookRental> getUserCurrentRentals(int id) throws NullPointerException {
+    public List<BookRental> getUserCurrentRentals(int id) {
         String sql = "SELECT * FROM pap.book_rentals WHERE user_id = " + id + " AND date_returned IS NULL";
-        List<BookRental> res = bookRentalDAO.query(sql);
-        if (res == null || res.isEmpty()) {
-            throw new NullPointerException("No rentals found for user with id " + id);
-        }
-        return res;
+        return bookRentalDAO.query(sql);
     }
 
-    public BookRental getLastBookRental(int id) throws NullPointerException {
+    public BookRental getLastBookRental(int id) {
         String sql = "SELECT * FROM pap.book_rentals WHERE book_id = " + id + " ORDER BY date_rented DESC LIMIT 1";
         List<BookRental> res = bookRentalDAO.query(sql);
         if (res == null || res.isEmpty()) {
-            throw new NullPointerException("No rentals found for book with id " + id);
+            return null;
         }
         return res.get(0);
     }
 
     @Override
-    public boolean isRentedByUser(int userId, int bookId) {
+    public boolean isRentedByUser(int userId, int bookId){
         String sql = "SELECT * FROM pap.book_rentals WHERE user_id = " + userId + " AND book_id = " + bookId + " AND date_returned is null";
         return !bookRentalDAO.query(sql).isEmpty();
     }
     @Override
-    public Penalty getPenaltyById(int id) throws NullPointerException {
-        Penalty res =  penaltyDAO.read(id);
-        if (res == null) {
-            throw new NullPointerException("Penalty with id " + id + " not found");
-        }
-        return res;
+    public Penalty getPenaltyById(int id) {
+        return penaltyDAO.read(id);
     }
 
     @Override
@@ -96,39 +76,27 @@ public class RentalRepository extends GenericRepository<BookRental> implements I
     }
 
     @Override
-    public List<Penalty> getPenaltiesByUserId(int id) throws NullPointerException {
+    public List<Penalty> getPenaltiesByUserId(int id) {
         String sql = "SELECT * FROM pap.penalties WHERE user_id = " + id;
-        List<Penalty> res = penaltyDAO.query(sql);
-        if (res == null || res.isEmpty()) {
-            throw new NullPointerException("No penalties found for user with id " + id);
-        }
-        return res;
+        return penaltyDAO.query(sql);
     }
 
-    public List<Penalty> getUnpaidUserPenalties(int id) throws NullPointerException {
+    public List<Penalty> getUnpaidUserPenalties(int id) {
         String sql = "SELECT * FROM pap.penalties WHERE user_id = " + id + " AND date_paid IS NULL";
-        List<Penalty> res = penaltyDAO.query(sql);
-        if (res == null || res.isEmpty()) {
-            throw new NullPointerException("No penalties found for user with id " + id);
-        }
-        return res;
+        return penaltyDAO.query(sql);
     }
 
     @Override
-    public List<Penalty> getPenaltiesByBookId(int id) throws NullPointerException {
+    public List<Penalty> getPenaltiesByBookId(int id) {
         String sql = "SELECT * FROM pap.penalties WHERE book_id = " + id;
-        List<Penalty> res = penaltyDAO.query(sql);
-        if (res == null || res.isEmpty()) {
-            throw new NullPointerException("No penalties found for book with id " + id);
-        }
-        return res;
+        return penaltyDAO.query(sql);
     }
 
-    public Penalty getPenaltyByRentalId(int id) throws NullPointerException {
+    public Penalty getPenaltyByRentalId(int id) {
         String sql = "SELECT * FROM pap.penalties WHERE rental_id = " + id + " AND date_paid IS NULL";
         List<Penalty> res = penaltyDAO.query(sql);
         if (res == null || res.isEmpty()) {
-            throw new NullPointerException("No penalties found for rental with id " + id);
+            return null;
         }
         return res.get(0);
     }
@@ -170,22 +138,14 @@ public class RentalRepository extends GenericRepository<BookRental> implements I
     }
 
     @Override
-    public List<RentingQueue> getRentingQueuesByBookId(int id) throws NullPointerException {
+    public List<RentingQueue> getRentingQueuesByBookId(int id) {
         String sql = "SELECT * FROM pap.renting_queue WHERE book_id = " + id + "ORDER BY date_to_return ASC";
-        List<RentingQueue> list = rentingQueueDAO.query(sql);
-        if (list.size() == 0) {
-            throw new NullPointerException("Renting queues for book with id " + id + " not found");
-        }
-        return list;
+        return rentingQueueDAO.query(sql);
     }
 
     @Override
-    public List<RentingQueue> getRentingQueuesByUserId(int id) throws NullPointerException {
+    public List<RentingQueue> getRentingQueuesByUserId(int id) {
         String sql = "SELECT * FROM pap.renting_queue WHERE user_id = " + id;
-        List<RentingQueue> list = rentingQueueDAO.query(sql);
-        if (list.size() == 0) {
-            throw new NullPointerException("Renting queues for user with id " + id + " not found");
-        }
-        return list;
+        return rentingQueueDAO.query(sql);
     }
 }
