@@ -35,43 +35,45 @@ public class Login {
     }
 
     /**
+     * A function that tries to log in the user.
      * @param email Email of the user
      * @param password Credentials of the user
      * @return id of logged-in user
-     * @throws IllegalArgumentException upon incorrect login options
+     * @throws InvalidCredentialsException upon incorrect login options
      */
-    public static int tryLoginUser(String email, String password) throws IllegalArgumentException {
-        if (email.isBlank() || password.isBlank()) throw new IllegalArgumentException("Empty credentials");
+    public static int tryLoginUser(String email, String password) throws InvalidCredentialsException {
+        if (email.isBlank() || password.isBlank()) throw new InvalidCredentialsException("Empty credentials");
 
         User user = new UserRepository().getByEmail(email);
-        if (user == null) throw new IllegalArgumentException("No such user in database");
+        if (user == null) throw new InvalidCredentialsException("No such user in database");
 
         String salt = user.getPasswordSalt();
         String hashedPassword = user.getPasswordHash();
-        if (!hashedPassword.equals(PasswordHasher.hashPassword(password, salt))) throw new IllegalArgumentException("Wrong password");
+        if (!hashedPassword.equals(PasswordHasher.hashPassword(password, salt))) throw new InvalidCredentialsException("Wrong password");
 
-        if (!user.isActive()) throw new IllegalArgumentException("This account is deactivated, please create a new one");
+        if (!user.isActive()) throw new InvalidCredentialsException("This account is deactivated, please create a new one");
         
         return user.getAccountId();
     }
 
     /**
+     * A function that tries to log in the employee.
      * @param username Username of the employee
      * @param password Credentials of the employee
      * @return id of logged-in employee
-     * @throws IllegalArgumentException upon incorrect login options
+     * @throws InvalidCredentialsException upon incorrect login options
      */
-    public static int tryLoginEmployee(String username, String password) throws IllegalArgumentException {
-        if (username.isBlank() || password.isBlank()) throw new IllegalArgumentException("Empty credentials");
+    public static int tryLoginEmployee(String username, String password) throws InvalidCredentialsException {
+        if (username.isBlank() || password.isBlank()) throw new InvalidCredentialsException("Empty credentials");
 
         Employee emp = new EmployeeRepository().getByUsername(username);
-        if (emp == null) throw new IllegalArgumentException("No such employee in database");
+        if (emp == null) throw new InvalidCredentialsException("No such employee in database");
 
         String salt = emp.getPasswordSalt();
         String hashedPassword = emp.getPasswordHash();
-        if (!hashedPassword.equals(PasswordHasher.hashPassword(password, salt))) throw new IllegalArgumentException("Wrong password");
+        if (!hashedPassword.equals(PasswordHasher.hashPassword(password, salt))) throw new InvalidCredentialsException("Wrong password");
 
-        if (!emp.isActive()) throw new IllegalArgumentException("This account is deactivated");
+        if (!emp.isActive()) throw new InvalidCredentialsException("This account is deactivated");
 
         return emp.getEmployeeId();
     }

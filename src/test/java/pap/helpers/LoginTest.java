@@ -10,11 +10,11 @@ class LoginTest {
         String email = "SomeEmail@gmail.com";
         String password = "test";
         String empty = "";
-        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> Login.tryLoginUser(email, empty));
+        InvalidCredentialsException e = assertThrows(InvalidCredentialsException.class, () -> Login.tryLoginUser(email, empty));
         assert e.getMessage().equals("Empty credentials");
-        e = assertThrows(IllegalArgumentException.class, () -> Login.tryLoginUser(empty, password));
+        e = assertThrows(InvalidCredentialsException.class, () -> Login.tryLoginUser(empty, password));
         assert e.getMessage().equals("Empty credentials");
-        e = assertThrows(IllegalArgumentException.class, () -> Login.tryLoginUser(empty, empty));
+        e = assertThrows(InvalidCredentialsException.class, () -> Login.tryLoginUser(empty, empty));
         assert e.getMessage().equals("Empty credentials");
     }
 
@@ -23,11 +23,11 @@ class LoginTest {
         String username = "SomeUserName";
         String password = "test";
         String empty = "";
-        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> Login.tryLoginEmployee(username, empty));
+        InvalidCredentialsException e = assertThrows(InvalidCredentialsException.class, () -> Login.tryLoginEmployee(username, empty));
         assert e.getMessage().equals("Empty credentials");
-        e = assertThrows(IllegalArgumentException.class, () -> Login.tryLoginEmployee(empty, password));
+        e = assertThrows(InvalidCredentialsException.class, () -> Login.tryLoginEmployee(empty, password));
         assert e.getMessage().equals("Empty credentials");
-        e = assertThrows(IllegalArgumentException.class, () -> Login.tryLoginEmployee(empty, empty));
+        e = assertThrows(InvalidCredentialsException.class, () -> Login.tryLoginEmployee(empty, empty));
         assert e.getMessage().equals("Empty credentials");
     }
 }

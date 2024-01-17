@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import pap.helpers.InvalidCredentialsException;
 import pap.helpers.LoadedPages;
 
 import java.util.Optional;
@@ -44,7 +45,7 @@ public class UserLoginScreenController implements UpdatableController {
         int id;
         try {
             id = tryLoginUser(email, password);
-        } catch (IllegalArgumentException e) {
+        } catch (InvalidCredentialsException e) {
             loginStatus.setText("Error: " + e.getMessage());
             loginStatus.setVisible(true);
             return;
