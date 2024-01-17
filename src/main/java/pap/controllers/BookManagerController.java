@@ -82,8 +82,8 @@ public class BookManagerController implements UpdatableController, Initializable
         }
 
         // check if publication year and page count are integers
-        Integer year;
-        Integer pages;
+        int year;
+        int pages;
         try {
             year = Integer.parseInt(publicationYear);
             pages = Integer.parseInt(pageCount);
@@ -162,15 +162,13 @@ public class BookManagerController implements UpdatableController, Initializable
     }
 
     /**
-     * A method that deletes the book from the database.
+     * A method that "deletes" the book from the database
+     * (it will be set to unavailable as it must stay in the database for integrity purposes).
      */
     @FXML
     protected void deletionConfirmed() {
-        // first end all rentals and queues for the book
+        // "delete" the book by ending all rentals and queues for the book
         PenaltyManager.deactivateBook(book.getBookId());
-
-        // then delete the book
-        new BookRepository().delete(book);
 
         // inform about a success
         deletionStatus.setFill(javafx.scene.paint.Color.RED);
