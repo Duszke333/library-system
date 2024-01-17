@@ -10,9 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import static pap.helpers.Login.*;
 
-import pap.helpers.ConstraintChecker;
-import pap.helpers.LoadedPages;
-import pap.helpers.PasswordHasher;
+import pap.helpers.*;
 
 public class EmployeeAccountCreateController implements UpdatableController {
     /**
@@ -69,7 +67,7 @@ public class EmployeeAccountCreateController implements UpdatableController {
         int uid;
         try {
           uid = tryLoginUser(userEmail, userPassword);
-        } catch (IllegalArgumentException e) {
+        } catch (InvalidCredentialsException e) {
             operationStatus.setText("Error: " + e.getMessage());
             operationStatus.setVisible(true);
             return;
@@ -113,7 +111,7 @@ public class EmployeeAccountCreateController implements UpdatableController {
         EmployeeRepository empRepo = new EmployeeRepository();
         try {
             ConstraintChecker.checkEmployee(emp, empRepo);
-        } catch (IllegalArgumentException e) {
+        } catch (ConstraintViolationException e) {
             operationStatus.setText("Error: " + e.getMessage());
             operationStatus.setVisible(true);
             return;

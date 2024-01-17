@@ -7,6 +7,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import pap.db.Repository.BookRepository;
 import pap.helpers.ConstraintChecker;
+import pap.helpers.ConstraintViolationException;
 
 import java.io.File;
 
@@ -104,7 +105,7 @@ public class BookCreatorController implements UpdatableController {
         // check if the book is valid
         try {
             ConstraintChecker.checkBook(book);
-        } catch (IllegalArgumentException e) {
+        } catch (ConstraintViolationException e) {
             statusMessage.setText("Error: " + e.getMessage());
             statusMessage.setVisible(true);
             return;

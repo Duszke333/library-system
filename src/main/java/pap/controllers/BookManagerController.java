@@ -9,6 +9,7 @@ import javafx.scene.text.Text;
 import pap.db.Entities.Book;
 import pap.db.Repository.BookRepository;
 import pap.helpers.ConstraintChecker;
+import pap.helpers.ConstraintViolationException;
 import pap.helpers.LoadedPages;
 import pap.helpers.PenaltyManager;
 
@@ -123,7 +124,7 @@ public class BookManagerController implements UpdatableController, Initializable
         // check if the updated book is valid
         try {
             ConstraintChecker.checkBook(book);
-        } catch (IllegalArgumentException e) {
+        } catch (ConstraintViolationException e) {
             updateStatus.setText("Error: " + e.getMessage());
             updateStatus.setVisible(true);
             return;
