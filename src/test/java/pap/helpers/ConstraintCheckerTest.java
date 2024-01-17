@@ -44,7 +44,7 @@ class ConstraintCheckerTest {
         book.setStatus("Available");
         book.setCover(Book.CoverData.DefaultCover);
 
-        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> ConstraintChecker.checkBook(book));
+        ConstraintViolationException e = assertThrows(ConstraintViolationException.class, () -> ConstraintChecker.checkBook(book));
         assertTrue(e.getMessage().contains("ISBN too long"));
     }
 
@@ -62,7 +62,7 @@ class ConstraintCheckerTest {
         book.setStatus("Available");
         book.setCover(Book.CoverData.DefaultCover);
 
-        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> ConstraintChecker.checkBook(book));
+        ConstraintViolationException e = assertThrows(ConstraintViolationException.class, () -> ConstraintChecker.checkBook(book));
         assertTrue(e.getMessage().contains("Title too long"));
     }
 
@@ -80,7 +80,7 @@ class ConstraintCheckerTest {
         book.setStatus("Available");
         book.setCover(Book.CoverData.DefaultCover);
 
-        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> ConstraintChecker.checkBook(book));
+        ConstraintViolationException e = assertThrows(ConstraintViolationException.class, () -> ConstraintChecker.checkBook(book));
         assertTrue(e.getMessage().contains("Author name too long"));
     }
 
@@ -98,7 +98,7 @@ class ConstraintCheckerTest {
         book.setStatus("Available");
         book.setCover(Book.CoverData.DefaultCover);
 
-        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> ConstraintChecker.checkBook(book));
+        ConstraintViolationException e = assertThrows(ConstraintViolationException.class, () -> ConstraintChecker.checkBook(book));
         assertTrue(e.getMessage().contains("Genre name too long"));
     }
 
@@ -116,7 +116,7 @@ class ConstraintCheckerTest {
         book.setStatus("Available");
         book.setCover(Book.CoverData.DefaultCover);
 
-        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> ConstraintChecker.checkBook(book));
+        ConstraintViolationException e = assertThrows(ConstraintViolationException.class, () -> ConstraintChecker.checkBook(book));
         assertTrue(e.getMessage().contains("Invalid publication year"));
     }
 
@@ -134,7 +134,7 @@ class ConstraintCheckerTest {
         book.setStatus("Available");
         book.setCover(Book.CoverData.DefaultCover);
 
-        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> ConstraintChecker.checkBook(book));
+        ConstraintViolationException e = assertThrows(ConstraintViolationException.class, () -> ConstraintChecker.checkBook(book));
         assertTrue(e.getMessage().contains("Language name too long"));
     }
 
@@ -152,10 +152,10 @@ class ConstraintCheckerTest {
         book.setStatus("Available");
         book.setCover(Book.CoverData.DefaultCover);
 
-        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> ConstraintChecker.checkBook(book));
+        ConstraintViolationException e = assertThrows(ConstraintViolationException.class, () -> ConstraintChecker.checkBook(book));
         assertTrue(e.getMessage().contains("Invalid page count"));
         book.setPageCount(-3);
-        e = assertThrows(IllegalArgumentException.class, () -> ConstraintChecker.checkBook(book));
+        e = assertThrows(ConstraintViolationException.class, () -> ConstraintChecker.checkBook(book));
         assertTrue(e.getMessage().contains("Invalid page count"));
     }
 
@@ -173,7 +173,7 @@ class ConstraintCheckerTest {
         book.setStatus("Available");
         book.setCover(Book.CoverData.DefaultCover);
 
-        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> ConstraintChecker.checkBook(book));
+        ConstraintViolationException e = assertThrows(ConstraintViolationException.class, () -> ConstraintChecker.checkBook(book));
         assertTrue(e.getMessage().contains("Publisher name too long"));
     }
 
@@ -191,7 +191,7 @@ class ConstraintCheckerTest {
         book.setStatus("Unrecognized status");
         book.setCover(Book.CoverData.DefaultCover);
 
-        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> ConstraintChecker.checkBook(book));
+        ConstraintViolationException e = assertThrows(ConstraintViolationException.class, () -> ConstraintChecker.checkBook(book));
         assertTrue(e.getMessage().contains("Invalid book status"));
     }
 
@@ -209,7 +209,7 @@ class ConstraintCheckerTest {
         book.setStatus("Available");
         book.setCover(">256_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
 
-        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> ConstraintChecker.checkBook(book));
+        ConstraintViolationException e = assertThrows(ConstraintViolationException.class, () -> ConstraintChecker.checkBook(book));
         assertTrue(e.getMessage().contains("Cover path too long"));
     }
 
@@ -236,7 +236,7 @@ class ConstraintCheckerTest {
         address.setHouseNumber("12");
         address.setFlatNumber("12");
 
-        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> ConstraintChecker.checkAddress(address));
+        ConstraintViolationException e = assertThrows(ConstraintViolationException.class, () -> ConstraintChecker.checkAddress(address));
         assertTrue(e.getMessage().contains("Country name too long"));
     }
 
@@ -250,7 +250,7 @@ class ConstraintCheckerTest {
         address.setHouseNumber("12");
         address.setFlatNumber("12");
 
-        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> ConstraintChecker.checkAddress(address));
+        ConstraintViolationException e = assertThrows(ConstraintViolationException.class, () -> ConstraintChecker.checkAddress(address));
         assertTrue(e.getMessage().contains("Postal code too long"));
     }
 
@@ -264,7 +264,7 @@ class ConstraintCheckerTest {
         address.setHouseNumber("12");
         address.setFlatNumber("12");
 
-        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> ConstraintChecker.checkAddress(address));
+        ConstraintViolationException e = assertThrows(ConstraintViolationException.class, () -> ConstraintChecker.checkAddress(address));
         assertTrue(e.getMessage().contains("City name too long"));
     }
 
@@ -278,7 +278,7 @@ class ConstraintCheckerTest {
         address.setHouseNumber("12");
         address.setFlatNumber("12");
 
-        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> ConstraintChecker.checkAddress(address));
+        ConstraintViolationException e = assertThrows(ConstraintViolationException.class, () -> ConstraintChecker.checkAddress(address));
         assertTrue(e.getMessage().contains("Street name too long"));
     }
 
@@ -292,7 +292,7 @@ class ConstraintCheckerTest {
         address.setHouseNumber(">16_xxxxxxxxxxxxxxxx");
         address.setFlatNumber("12");
 
-        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> ConstraintChecker.checkAddress(address));
+        ConstraintViolationException e = assertThrows(ConstraintViolationException.class, () -> ConstraintChecker.checkAddress(address));
         assertTrue(e.getMessage().contains("House number too long"));
     }
 
@@ -306,7 +306,7 @@ class ConstraintCheckerTest {
         address.setHouseNumber("12");
         address.setFlatNumber(">16_xxxxxxxxxxxxxxxx");
 
-        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> ConstraintChecker.checkAddress(address));
+        ConstraintViolationException e = assertThrows(ConstraintViolationException.class, () -> ConstraintChecker.checkAddress(address));
         assertTrue(e.getMessage().contains("Flat number too long"));
     }
 
@@ -333,7 +333,7 @@ class ConstraintCheckerTest {
         UserRepository userRepo = mock(UserRepository.class);
         when(userRepo.getByEmail("test@test.test")).thenReturn(null);
 
-        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> ConstraintChecker.checkUser(user, userRepo));
+        ConstraintViolationException e = assertThrows(ConstraintViolationException.class, () -> ConstraintChecker.checkUser(user, userRepo));
         assertTrue(e.getMessage().contains("Name too long"));
     }
 
@@ -347,7 +347,7 @@ class ConstraintCheckerTest {
         UserRepository userRepo = mock(UserRepository.class);
         when(userRepo.getByEmail("test@test.test")).thenReturn(null);
 
-        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> ConstraintChecker.checkUser(user, userRepo));
+        ConstraintViolationException e = assertThrows(ConstraintViolationException.class, () -> ConstraintChecker.checkUser(user, userRepo));
         assertTrue(e.getMessage().contains("Surname too long"));
     }
 
@@ -361,7 +361,7 @@ class ConstraintCheckerTest {
         UserRepository userRepo = mock(UserRepository.class);
         when(userRepo.getByEmail("test@test.test")).thenReturn(null);
 
-        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> ConstraintChecker.checkUser(user, userRepo));
+        ConstraintViolationException e = assertThrows(ConstraintViolationException.class, () -> ConstraintChecker.checkUser(user, userRepo));
         assertTrue(e.getMessage().contains("Email too long"));
     }
 
@@ -375,15 +375,15 @@ class ConstraintCheckerTest {
         UserRepository userRepo = mock(UserRepository.class);
         when(userRepo.getByEmail("test@test.test")).thenReturn(null);
 
-        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> ConstraintChecker.checkUser(user, userRepo));
+        ConstraintViolationException e = assertThrows(ConstraintViolationException.class, () -> ConstraintChecker.checkUser(user, userRepo));
         assertTrue(e.getMessage().contains("Invalid email"));
 
         user.setEmail("test@test");
-        e = assertThrows(IllegalArgumentException.class, () -> ConstraintChecker.checkUser(user, userRepo));
+        e = assertThrows(ConstraintViolationException.class, () -> ConstraintChecker.checkUser(user, userRepo));
         assertTrue(e.getMessage().contains("Invalid email"));
 
         user.setEmail("test");
-        e = assertThrows(IllegalArgumentException.class, () -> ConstraintChecker.checkUser(user, userRepo));
+        e = assertThrows(ConstraintViolationException.class, () -> ConstraintChecker.checkUser(user, userRepo));
         assertTrue(e.getMessage().contains("Invalid email"));
     }
 
@@ -397,7 +397,7 @@ class ConstraintCheckerTest {
         UserRepository userRepo = mock(UserRepository.class);
         when(userRepo.getByEmail("test@test.test")).thenReturn(user);
 
-        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> ConstraintChecker.checkUser(user, userRepo));
+        ConstraintViolationException e = assertThrows(ConstraintViolationException.class, () -> ConstraintChecker.checkUser(user, userRepo));
         assertTrue(e.getMessage().contains("Email already in use"));
     }
 
@@ -426,7 +426,7 @@ class ConstraintCheckerTest {
         when(empRepo.getByUsername("Test username")).thenReturn(null);
         when(empRepo.getByUserID(1)).thenReturn(null);
 
-        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> ConstraintChecker.checkEmployee(emp, empRepo));
+        ConstraintViolationException e = assertThrows(ConstraintViolationException.class, () -> ConstraintChecker.checkEmployee(emp, empRepo));
         assertTrue(e.getMessage().contains("Username too long"));
     }
 
@@ -441,7 +441,7 @@ class ConstraintCheckerTest {
         when(empRepo.getByUsername("Test username")).thenReturn(null);
         when(empRepo.getByUserID(1)).thenReturn(null);
 
-        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> ConstraintChecker.checkEmployee(emp, empRepo));
+        ConstraintViolationException e = assertThrows(ConstraintViolationException.class, () -> ConstraintChecker.checkEmployee(emp, empRepo));
         assertTrue(e.getMessage().contains("Role name too long"));
     }
 
@@ -456,7 +456,7 @@ class ConstraintCheckerTest {
         when(empRepo.getByUsername("Test username")).thenReturn(emp);
         when(empRepo.getByUserID(1)).thenReturn(null);
 
-        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> ConstraintChecker.checkEmployee(emp, empRepo));
+        ConstraintViolationException e = assertThrows(ConstraintViolationException.class, () -> ConstraintChecker.checkEmployee(emp, empRepo));
         assertTrue(e.getMessage().contains("Username already in use"));
     }
 
@@ -471,7 +471,7 @@ class ConstraintCheckerTest {
         when(empRepo.getByUsername("Test username")).thenReturn(null);
         when(empRepo.getByUserID(1)).thenReturn(emp);
 
-        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> ConstraintChecker.checkEmployee(emp, empRepo));
+        ConstraintViolationException e = assertThrows(ConstraintViolationException.class, () -> ConstraintChecker.checkEmployee(emp, empRepo));
         assertTrue(e.getMessage().contains("User account already in use"));
     }
 }

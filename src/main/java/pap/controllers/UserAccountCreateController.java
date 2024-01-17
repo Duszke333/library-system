@@ -9,6 +9,7 @@ import pap.db.Entities.User;
 import pap.db.Repository.AddressRepository;
 import pap.db.Repository.UserRepository;
 import pap.helpers.ConstraintChecker;
+import pap.helpers.ConstraintViolationException;
 import pap.helpers.LoadedPages;
 import pap.helpers.PasswordHasher;
 
@@ -100,7 +101,7 @@ public class UserAccountCreateController implements UpdatableController {
         // Check if the address is valid
         try {
             ConstraintChecker.checkAddress(addr);
-        } catch (IllegalArgumentException e) {
+        } catch (ConstraintViolationException e) {
             operationStatus.setText("Error: " + e.getMessage());
             operationStatus.setVisible(true);
             return;
@@ -127,7 +128,7 @@ public class UserAccountCreateController implements UpdatableController {
         UserRepository userRepo = new UserRepository();
         try {
             ConstraintChecker.checkUser(usr, userRepo);
-        } catch (IllegalArgumentException e) {
+        } catch (ConstraintViolationException e) {
             operationStatus.setText("Error: " + e.getMessage());
             operationStatus.setVisible(true);
             return;

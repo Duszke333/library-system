@@ -11,6 +11,7 @@ import pap.db.Entities.Branch;
 import pap.db.Repository.AddressRepository;
 import pap.db.Repository.BranchRepository;
 import pap.helpers.ConstraintChecker;
+import pap.helpers.ConstraintViolationException;
 import pap.helpers.LoadedPages;
 
 import java.net.URL;
@@ -91,7 +92,7 @@ public class BranchManagerController implements UpdatableController, Initializab
         // check if address is valid, if it is, save it to database
         try {
             ConstraintChecker.checkAddress(addr);
-        } catch (IllegalArgumentException e) {
+        } catch (ConstraintViolationException e) {
             operationStatus.setText("Error: " + e.getMessage());
             operationStatus.setVisible(true);
             return;
@@ -151,7 +152,7 @@ public class BranchManagerController implements UpdatableController, Initializab
         // check if address is valid, if it is, save it to database
         try {
             ConstraintChecker.checkAddress(addr);
-        } catch (IllegalArgumentException e) {
+        } catch (ConstraintViolationException e) {
             operationStatus.setText("Error: " + e.getMessage());
             operationStatus.setVisible(true);
             return;

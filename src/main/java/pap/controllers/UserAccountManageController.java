@@ -10,10 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
-import pap.helpers.ConstraintChecker;
-import pap.helpers.LoadedPages;
-import pap.helpers.Login;
-import pap.helpers.PasswordHasher;
+import pap.helpers.*;
 
 import java.net.URL;
 import java.util.Optional;
@@ -143,7 +140,7 @@ public class UserAccountManageController implements UpdatableController, Initial
         // Check if the address is correct
         try {
             ConstraintChecker.checkAddress(address);
-        } catch (IllegalArgumentException e) {
+        } catch (ConstraintViolationException e) {
             updateStatus.setText("Error: " + e.getMessage());
             updateStatus.setVisible(true);
             return;
