@@ -34,24 +34,24 @@ We plan to create an application that will support both readers (the CLIENT part
 - [X] Ability to browse the book catalog, details about books such as author, year of publication, number of pages, type of cover, awards won… - CLIENT
 - [X] Filtering the preview by name, year, author… - CLIENT
 - [X] Managing books, editing books, deleting, adding book records - EMPLOYEE
-- [ ] Creating a loan queue, setting a general limit, a specific limit per book - EMPLOYEE
+- [X] Creating a loan queue, setting a general limit, a specific limit per book - EMPLOYEE
 - [X] Displaying books: Cover/Detailed description with details – from the book catalog level, the user can select the book they are interested in and check additional information about it – ISBN, status, date added, detailed description - CLIENT
 - [X] Creating an employee account, deactivating or editing it
-- [ ] Statistics loans (most frequently borrowed books in a given period of time) - CLIENT
+- [X] Statistics loans (most frequently borrowed books in a given period of time) - CLIENT
 - [X] Checking the loan history of specific books - EMPLOYEE
 - [X] Each user will have access to the loan history, including: with the option of sorting by loan length - CLIENT
-- [ ] Checking the status of books (if and until when they are loaned/reserved/available for loan) - EMPLOYEE
+- [X] Checking the status of books (if and until when they are loaned/reserved/available for loan) - EMPLOYEE
 - [X] Viewing employees, other branches of our library - CLIENT
 - [X] Defining a penalty for exceeding the limit of returning a book to the library - EMPLOYEE
-- [ ] Managing member accounts (including blocking in the event of exceeding the loan deadline) - EMPLOYEE
-- [ ] It will be possible to order a book, i.e. if the book is not available, it will be possible to express a desire to borrow and join the loan queue - CLIENT
-- [ ] Possibility to pay penalties for exceeding the book return deadline - CLIENT
-- [ ] Possibility to extend the loan, at most once, if the customer has already settled the loans and there are no waiting loans - CLIENT
+- [X] Managing member accounts (including blocking in the event of exceeding the loan deadline) - EMPLOYEE
+- [X] It will be possible to order a book, i.e. if the book is not available, it will be possible to express a desire to borrow and join the loan queue - CLIENT
+- [X] Possibility to pay penalties for exceeding the book return deadline - CLIENT
+- [X] Possibility to extend the loan, at most once, if the customer has already settled the loans and there are no waiting loans - CLIENT
 - [X] Creating, deleting or editing a library account - CLIENT
 - [X] Viewing currently borrowed items - CLIENT
-- [ ] Ability to create a list of items you want to read - CLIENT
+- [X] Ability to create a list of items you want to read - CLIENT
 - [X] Ability to rate borrowed books - CLIENT
-- [ ] Ability to report damage or loss of a book - CLIENT
+- [X] Ability to report damage or loss of a book - CLIENT
 
 ## Database
 
@@ -105,24 +105,24 @@ Planujemy stworzyć aplikację, która będzie obsługiwała zarówno czytelnik�
 - [X] Możliwość przeglądania katalogu książek, szczegółów dotyczących książek takich jak autor, rok wydania książki, ilość stron, rodzaj okładki, wygrane nagrody… - CLIENT
 - [X] Filtrowanie podglądu według nazwy, roku, autora… - CLIENT
 - [X] Zarządzanie książkami, edycja książek, usuwanie, dodawanie rekordów książek - EMPLOYEE
-- [ ] Tworzenie kolejki wypożyczeń, ustawienie ogólnego limitu, konkretny limit per książka - EMPLOYEE
+- [X] Tworzenie kolejki wypożyczeń, ustawienie ogólnego limitu, konkretny limit per książka - EMPLOYEE
 - [X] Wyświetlanie książek: Okładka/Szczegółowy opis z detalami – użytkownik z poziomu katalogu książek ma możliwość wybrania interesującej go książki oraz sprawdzanie dodatkowych informacji o niej – ISBN, status, data dodania, szczegółowy opis - CLIENT
 - [X] Stworzenie konta pracowniczego, dezaktywacja lub jego edycja
-- [ ] Statystyka wypożyczeń (najczęściej wypożyczane książki w danym okresie czasu) - CLIENT
+- [X] Statystyka wypożyczeń (najczęściej wypożyczane książki w danym okresie czasu) - CLIENT
 - [X] Sprawdzenie historii wypożyczeń konkretnych książek - EMPLOYEE
 - [X] Dla każdego użytkownika dostępna będzie historia wypożyczeń m. in. z możliwością sortowania wg długości wypożyczenia - CLIENT
-- [ ] Sprawdzanie stanu książek (czy i do kiedy są wypożyczone/zarezerwowane / dostępne do wypożyczenia) - EMPLOYEE
+- [X] Sprawdzanie stanu książek (czy i do kiedy są wypożyczone/zarezerwowane / dostępne do wypożyczenia) - EMPLOYEE
 - [X] Podgląd pracowników, innych placówek naszej biblioteki - CLIENT
 - [X] Definiowanie kary za przekroczenie limitu oddania książki do biblioteki - EMPLOYEE
-- [ ] Zarządzanie kontami członkowskimi (m. in. blokada w przypadku przekroczenia terminu wypożyczenia) - EMPLOYEE
-- [ ] Możliwe będzie zamówienie książki, tj. w przypadku, gdy książka nie będzie dostępna, możliwe będzie wyrażenie chęci wypożyczenia i dopisania się do kolejki wypożyczeń - CLIENT
-- [ ] Możliwość uregulowania kar za przekroczenie terminu oddania książki - CLIENT
-- [ ] Możliwość przedłużenia wypożyczenia, najwyżej jeden raz, jeżeli klient do tej pory się uregulował z wypożyczeniami, i nie ma oczekujących na wypożyczenie - CLIENT
+- [X] Zarządzanie kontami członkowskimi (m. in. blokada w przypadku przekroczenia terminu wypożyczenia) - EMPLOYEE
+- [X] Możliwe będzie zamówienie książki, tj. w przypadku, gdy książka nie będzie dostępna, możliwe będzie wyrażenie chęci wypożyczenia i dopisania się do kolejki wypożyczeń - CLIENT
+- [X] Możliwość uregulowania kar za przekroczenie terminu oddania książki - CLIENT
+- [X] Możliwość przedłużenia wypożyczenia, najwyżej jeden raz, jeżeli klient do tej pory się uregulował z wypożyczeniami, i nie ma oczekujących na wypożyczenie - CLIENT
 - [X] Stworzenie konta bibliotecznego, usunięcie go lub jego edycja - CLIENT
 - [X] Podgląd wypożyczonych obecnie pozycji - CLIENT
-- [ ] Możliwość tworzenia listy pozycji, które chce się przeczytać - CLIENT
+- [X] Możliwość tworzenia listy pozycji, które chce się przeczytać - CLIENT
 - [X] Możliwość oceniania wypożyczonych książek - CLIENT
-- [ ] Możliwość zgłoszenia uszkodzenia lub zgubienia książki - CLIENT
+- [X] Możliwość zgłoszenia uszkodzenia lub zgubienia książki - CLIENT
 
 ## Baza danych
 
